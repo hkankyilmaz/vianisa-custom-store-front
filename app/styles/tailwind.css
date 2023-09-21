@@ -2,14 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @layer components {
   .res-margine {
     @apply my-16 lg:mx-[25px] xl:mx-[100px] 2xl:mx-[200px];
   }
+}
+
+/*
+----------------------------------------- 
+Home Page Banner
+-----------------------------------------
+*/
+
+.homepage-banner {
+  --header-announcemed-height: 121px;
+  /* height: var(--header-announcemed-height); */
 }
 
 /*
