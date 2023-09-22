@@ -5,6 +5,7 @@ import {Image, Money} from '@shopify/hydrogen';
 
 import HomePageBanner from '~/components/HomePageBanner/Index';
 import FeaturedCollection from '~/components/Featured Collections/Index';
+import CollectionList from '~/components/Cllection List/Index';
 
 export const meta = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -28,6 +29,7 @@ export default function Homepage() {
     <div className="home">
       <HomePageBanner />
       <FeaturedCollection data={data.featuredCollection} />
+      <CollectionList />
       {/* <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} /> */}
     </div>

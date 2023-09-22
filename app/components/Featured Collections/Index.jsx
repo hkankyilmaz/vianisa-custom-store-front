@@ -1,20 +1,76 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
+import {BsChevronRight, BsChevronLeft} from 'react-icons/bs';
+import gsap from 'gsap';
 
 function FeaturedCollection({data}) {
+  const [panigate, setPanigate] = useState(0);
+  const [width, setWidth] = useState(0);
+  const refOne = useRef();
+  const refTwo = useRef();
+
+  const handleClick = (j) => {
+    if (j == 'right') {
+      setWidth((prev) => prev + refOne.current.offsetWidth);
+      setPanigate((prev) => prev + 1);
+      const Iwidth = width + refOne.current.offsetWidth;
+      console.log(width, Iwidth);
+      document.documentElement.style.setProperty('--x', `${-Iwidth}px`);
+    }
+
+    if (j == 'left') {
+      setWidth((prev) => prev - refOne.current.offsetWidth);
+      setPanigate((prev) => prev - 1);
+      const Iwidth = width - refOne.current.offsetWidth;
+      console.log(width, Iwidth);
+      document.documentElement.style.setProperty('--x', `${-Iwidth}px`);
+    }
+  };
+
+  // const handleClick = (j) => {
+  //   console.log(refTwo.current.offsetWidth);
+  //   if (j == 'right') {
+  //     gsap.to(refTwo.current, {
+  //       x: `+=${-refOne.current.offsetWidth}`,
+  //     });
+  //     setPanigate((prev) => prev + 1);
+  //   }
+
+  //   if (j == 'left') {
+  //     gsap.to(refTwo.current, {
+  //       x: `+=${refOne.current.offsetWidth}`,
+  //     });
+  //     setPanigate((prev) => prev - 1);
+  //   }
+  // };
+
   return (
-    <section className="flex flex-col justify-center items-center my-5">
+    <section className="flex flex-col justify-center items-center my-5 relative">
       <div className="text-xl text-center uppercase mb-5 w-[95%] sm:w-[80%]">
         {data.collection.title}
       </div>
-      <div className="w-[85%] overflow-x-scroll whitespace-nowrap relative">
-        {data?.collection?.products?.nodes?.map((product, idx) => (
-          <Item key={idx} product={product} />
-        ))}
-        <button className="left-[-2em] top-[-50%] translate-y-[-60%] absolute">
-          left
+      <div
+        ref={refOne}
+        className="w-[85%] overflow-x-scroll whitespace-nowrap slider__featuredCol"
+      >
+        <div className="product-wrapper__featuredCol" ref={refTwo}>
+          {data?.collection?.products?.nodes?.map((product, idx) => (
+            <Item key={idx} product={product} />
+          ))}
+        </div>
+
+        <button
+          style={{display: panigate == 0 ? 'none' : 'initial'}}
+          onClick={() => handleClick('left')}
+          className="left-16 slider-btn__featuredCol"
+        >
+          <BsChevronLeft />
         </button>
-        <button className="right-0 top-[-50%] translate-y-[-60%] absolute">
-          Right
+        <button
+          style={{display: panigate == 4 ? 'none' : 'initial'}}
+          onClick={() => handleClick('right')}
+          className="right-20 slider-btn__featuredCol"
+        >
+          <BsChevronRight />
         </button>
       </div>
     </section>
@@ -24,7 +80,6 @@ function FeaturedCollection({data}) {
 export default FeaturedCollection;
 
 function Item({product}) {
-  console.log(product);
   return (
     <div className="inline-block w-[25%] pr-5 align-top">
       <div>Sale</div>
