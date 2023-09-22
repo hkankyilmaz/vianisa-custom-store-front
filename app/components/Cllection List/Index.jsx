@@ -23,11 +23,9 @@ function CollectionList() {
         <Item width="50%" title={'ESSENTIALS'} photo={photo1} />
         <Item width="50%" title={'ESSENTIALS'} photo={photo1} />
       </div>
-      <div className="w-full flex max-md:flex-wrap [&>div:last-child]:md:hidden [&>div:nth-child(odd)]:max-md:pl-2 [&>div:nth-child(odd)]:max-md:pr-1 [&>div:nth-child(even)]:max-md:pl-1 [&>div:nth-child(even)]:max-md:pr-2">
-        <Item width="33%" title={'SIGNED RINGS'} photo={photo} />
-        <Item width="33%" title={'FASHION RINGS'} photo={photo} />{' '}
-        <Item width="33%" title={'MOISSANITE RINGS'} photo={photo} />
-        <Item width="33%" title={'MOISSANITE RINGS'} photo={photo} />
+      <div className="w-full flex max-md:flex-wrap [&>div:nth-child(odd)]:max-md:pl-2 [&>div:nth-child(odd)]:max-md:pr-1 [&>div:nth-child(even)]:max-md:pl-1 [&>div:nth-child(even)]:max-md:pr-2">
+        <Item width="50%" title={'SIGNED RINGS'} photo={photo1} />
+        <Item width="50%" title={'FASHION RINGS'} photo={photo1} />
       </div>
     </div>
   );
