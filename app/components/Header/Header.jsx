@@ -1,3 +1,4 @@
+import React from 'react';
 import {Await, NavLink, useMatches} from '@remix-run/react';
 import {Suspense, useState} from 'react';
 
@@ -8,6 +9,7 @@ import {AiOutlineShoppingCart} from 'react-icons/ai';
 import MegaMenu from './MegaMenu';
 
 export function Header({header, isLoggedIn, cart}) {
+  const ref = React.useRef();
   const [megaMenu, setMegaMenu] = useState({isOpen: false, title: 'none'});
   const {shop, menu} = header;
   return (
@@ -19,14 +21,24 @@ export function Header({header, isLoggedIn, cart}) {
         <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
       </div>
       <div className="relative font-montserratMedium uppercase border-solid border-gray-300 border-y-[1px] w-full flex justify-center py-1">
-        <HeaderMenu setMegaMenu={setMegaMenu} menu={menu} viewport="desktop" />
-        <MegaMenu setMegaMenu={setMegaMenu} megaMenu={megaMenu} menu={menu} />
+        <HeaderMenu
+          startAnimate={ref?.current?.startAnimate}
+          setMegaMenu={setMegaMenu}
+          menu={menu}
+          viewport="desktop"
+        />
+        <MegaMenu
+          ref={ref}
+          setMegaMenu={setMegaMenu}
+          megaMenu={megaMenu}
+          menu={menu}
+        />
       </div>
     </header>
   );
 }
 
-export function HeaderMenu({menu, viewport, setMegaMenu}) {
+export function HeaderMenu({menu, viewport, setMegaMenu, startAnimate}) {
   const [root] = useMatches();
   //console.log(root);
   const publicStoreDomain = root?.data?.publicStoreDomain;
@@ -63,7 +75,10 @@ export function HeaderMenu({menu, viewport, setMegaMenu}) {
             : item.url;
         return (
           <NavLink
-            onMouseEnter={() => setMegaMenu({isOpen: true, title: item.title})}
+            onMouseEnter={() => {
+              setMegaMenu({isOpen: true, title: item.title});
+              startAnimate();
+            }}
             className="header-menu-item"
             end
             key={item.id}

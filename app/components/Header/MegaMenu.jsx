@@ -1,12 +1,52 @@
-import React from 'react';
+import React, {forwardRef, useImperativeHandle} from 'react';
 import gsap from 'gsap';
+import useIsomorphicLayoutEffect from '~/utils';
 
-function MegaMenu({menu, megaMenu, setMegaMenu}) {
-  const ref = React.useRef();
+const MegaMenu = forwardRef((props, ref) => {
+  const [out, setOut] = React.useState(false);
+  const refOne = React.useRef();
   const refTwo = React.useRef();
-  const timeLineRef = React.useRef();
-  timeLineRef.current = gsap.timeline({paused: true});
-  const navElement = menu.items.filter((item) => item.title === megaMenu.title);
+  const tl = React.useRef();
+  const tl_ = React.useRef();
+
+  const [ctx] = React.useState(() => gsap.context(() => {}));
+
+  useIsomorphicLayoutEffect(() => {
+    ctx.add('megaMenuAni', () => {
+      tl.current = gsap
+        .timeline()
+        .to(refOne.current, {autoAlpha: 1, duration: 0.2})
+        .to(refTwo.current, {display: 'grid'}, '<')
+        .set(refTwo.current, {autoAlpha: 0}, '<')
+        .from(refTwo.current, {y: 7, autoAlpha: 0, duration: 0.4}, '<');
+    });
+
+    ctx.add('removeMegamenu', () => {
+      tl_.current = gsap
+        .timeline()
+        .set(refOne.current, {autoAlpha: 1})
+        .to(refOne.current, {autoAlpha: 0});
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        startAnimate: () => {
+          ctx.megaMenuAni();
+          setOut(false);
+        },
+      };
+    },
+    [],
+  );
+
+  const navElement = props.menu.items.filter(
+    (item) => item.title === props.megaMenu.title,
+  );
   if (typeof window !== 'undefined') {
     document.documentElement.style.setProperty(
       '--mega-menu-column',
@@ -14,20 +54,17 @@ function MegaMenu({menu, megaMenu, setMegaMenu}) {
     );
   }
 
-  timeLineRef.current
-    .set(refTwo.current, {display: 'none'})
-    .to(ref.current, {height: 450})
-    .to(refTwo.current, {display: 'grid'})
-    .to(refTwo.current, {x: -100});
-
-  // if (!megaMenu.isOpen) return undefined;
+  //if (!props.megaMenu.isOpen) return undefined;
   return (
     <div
-      ref={ref}
+      ref={refOne}
       onMouseLeave={() => {
-        timeLineRef.current.play();
-        //setMegaMenu({...megaMenu, isOpen: false});
-        document.documentElement.style.setProperty('--mega-menu-height', '0px');
+        if (out == false) {
+          setOut(true);
+          props.setMegaMenu({...props.megaMenu, isOpen: false});
+          console.log('deneme');
+          ctx.removeMegamenu();
+        }
       }}
       className={`w-full py-14 absolute top-[100%] flex justify-center bg-white mega-menu`}
     >
@@ -48,6 +85,6 @@ function MegaMenu({menu, megaMenu, setMegaMenu}) {
       </div>
     </div>
   );
-}
+});
 
 export default MegaMenu;
