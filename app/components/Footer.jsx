@@ -216,32 +216,12 @@ export function Footer({menu}) {
 
       <nav>
         <p>CONTACT INFO</p>
-        <ul>
-          <li>
-            <NavLink end prefetch="intent" style={activeLinkStyle}>
-              Vianisa
-            </NavLink>
-          </li>
-          <li>
-            <NavLink end prefetch="intent" style={activeLinkStyle}>
-              98 Cuttermill Road Suite #466
-            </NavLink>
-          </li>
-          <li>
-            <NavLink end prefetch="intent" style={activeLinkStyle}>
-              Great Neck, NY 11021
-            </NavLink>
-          </li>
-          <li>
-            <NavLink end prefetch="intent" style={activeLinkStyle}>
-              PHONE: +1 (323) 545 65 45
-            </NavLink>
-          </li>
-          <li>
-            <NavLink end prefetch="intent" style={activeLinkStyle}>
-              EMAIL: hello@vianisa.com
-            </NavLink>
-          </li>
+        <ul className="text-[gray]">
+          <li>Vianisa</li>
+          <li>98 Cuttermill Road Suite #466</li>
+          <li>Great Neck, NY 11021</li>
+          <li>PHONE: +1 (323) 545 65 45</li>
+          <li>EMAIL: hello@vianisa.com</li>
         </ul>
       </nav>
     </footer>

@@ -4,6 +4,7 @@
 
 :root {
   --x: 0;
+  --mega-menu-column: 2;
 }
 
 @layer components {
@@ -68,4 +69,13 @@ Footer
 
 .footer li {
   @apply text-xs;
+}
+
+/*
+----------------------------------------- 
+Header
+-----------------------------------------
+*/
+.grid-column-number {
+  grid-template-columns: repeat(var(--mega-menu-column), minmax(0, 1fr));
 }

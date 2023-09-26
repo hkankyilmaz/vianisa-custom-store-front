@@ -206,6 +206,9 @@ const MENU_FRAGMENT = `#graphql
     ...MenuItem
     items {
       ...ChildMenuItem
+      items {
+        ...MenuItem
+      }
     }
   }
   fragment Menu on Menu {

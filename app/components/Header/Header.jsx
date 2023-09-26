@@ -8,7 +8,7 @@ import {AiOutlineShoppingCart} from 'react-icons/ai';
 import MegaMenu from './MegaMenu';
 
 export function Header({header, isLoggedIn, cart}) {
-  const [whichNav, setWhichNav] = useState('Hakan');
+  const [megaMenu, setMegaMenu] = useState({isOpen: false, title: 'none'});
   const {shop, menu} = header;
   return (
     <header className="header relative flex flex-col justify-center items-center">
@@ -18,15 +18,15 @@ export function Header({header, isLoggedIn, cart}) {
         </NavLink>
         <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
       </div>
-      <div className="font-montserratMedium uppercase border-solid border-gray-300 border-y-[1px] w-full flex justify-center py-1">
-        <HeaderMenu setWhichNav={setWhichNav} menu={menu} viewport="desktop" />
+      <div className="relative font-montserratMedium uppercase border-solid border-gray-300 border-y-[1px] w-full flex justify-center py-1">
+        <HeaderMenu setMegaMenu={setMegaMenu} menu={menu} viewport="desktop" />
+        <MegaMenu setMegaMenu={setMegaMenu} megaMenu={megaMenu} menu={menu} />
       </div>
-      <MegaMenu whichNav={whichNav} menu={menu} />
     </header>
   );
 }
 
-export function HeaderMenu({menu, viewport, setWhichNav}) {
+export function HeaderMenu({menu, viewport, setMegaMenu}) {
   const [root] = useMatches();
   //console.log(root);
   const publicStoreDomain = root?.data?.publicStoreDomain;
@@ -63,7 +63,7 @@ export function HeaderMenu({menu, viewport, setWhichNav}) {
             : item.url;
         return (
           <NavLink
-            onMouseEnter={() => setWhichNav(item.title)}
+            onMouseEnter={() => setMegaMenu({isOpen: true, title: item.title})}
             className="header-menu-item"
             end
             key={item.id}
