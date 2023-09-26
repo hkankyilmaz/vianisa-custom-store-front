@@ -42,7 +42,7 @@ Featured Collection
 }
 .product-wrapper__featuredCol {
   transform: translateX(var(--x));
-  transition: transform 0.3s ease-in;
+  transition: transform 0.5s ease-out;
 }
 
 .slider_featuredCol {
@@ -52,4 +52,20 @@ Featured Collection
 
 .slider-btn__featuredCol {
   @apply top-[50%] translate-y-[-60%] border p-4 rounded-full hover:bg-slate-100 absolute;
+}
+/*
+----------------------------------------- 
+Footer
+-----------------------------------------
+*/
+
+.footer {
+  @apply border-t grid gap-x-2 gap-y-4 sm:grid-cols-2 sm:grid-rows-3 lg:grid-cols-4 lg:grid-rows-2 xl:grid-cols-5 xl:grid-rows-1 py-20 px-10;
+}
+.footer p {
+  @apply mb-3;
+}
+
+.footer li {
+  @apply text-xs;
 }

@@ -3,90 +3,254 @@ import {useMatches, NavLink} from '@remix-run/react';
 export function Footer({menu}) {
   return (
     <footer className="footer">
-      <FooterMenu menu={menu} />
+      <nav>
+        <p>SERVİCES</p>
+        <ul>
+          <li>
+            <NavLink
+              end
+              to={'/pages/jewelry-care'}
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              JEWELRY CARE
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/pages/ring-size-conversion-chart'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              RİNG SİZE CONVERSİON CHART
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/pages/lifetime-warranty'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              LİFETİME WARRANTY
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/pages/custom-made'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              CUSTOM ORDERS
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/pages/financing-options-with-affirm-and-shoppay'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              FINANCING WITH AFFIRM AND SHOPPAY
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+      <nav>
+        <p>EDUCATİON</p>
+        <ul>
+          <li>
+            <NavLink
+              to={'/pages/wedding-ring-guide'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              WEDDING RING GUIDE
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/pages/engagement-ring-guide'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              ENGAGEMENT RING GUIDE
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/pages/birthstone-jewelry-guide'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              BIRTHSTONE JEWELRY GUIDE
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/pages/how-to-measure-your-ring-size'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              HOW TO MEASURE YOUR RING SIZE
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/pages/lab-grown-vs-natural-diamonds'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              LAB-GROWN VS. NATURAL DIAMONDS
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/pages/moissanite-vs-diamond'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              MOISSANITE VS. DIAMOND
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+      <nav>
+        <p>ABOUT US</p>
+        <ul>
+          <li>
+            <NavLink
+              to={'/pages/our-brand'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              OUR BRAND
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/pages/our-values'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              OUR VALUES
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/pages/conflict-free-diamonds'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              CONFLICT FREE DIAMONDS
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/pages/contact-us'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              CONTACT US
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+      <nav>
+        <p>POLICIES</p>
+        <ul>
+          <li>
+            <NavLink
+              to={'/pages/shipping-and-returns'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              FREE SHIPPING
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/policies/refund-policy'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              RETURN & EXCHANGE POLICY
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/policies/terms-of-service'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              TERMS OF SERVICE
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to={'/policies/privacy-policy'}
+              end
+              prefetch="intent"
+              style={activeLinkStyle}
+            >
+              PRIVACY POLICY
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+
+      <nav>
+        <p>CONTACT INFO</p>
+        <ul>
+          <li>
+            <NavLink end prefetch="intent" style={activeLinkStyle}>
+              Vianisa
+            </NavLink>
+          </li>
+          <li>
+            <NavLink end prefetch="intent" style={activeLinkStyle}>
+              98 Cuttermill Road Suite #466
+            </NavLink>
+          </li>
+          <li>
+            <NavLink end prefetch="intent" style={activeLinkStyle}>
+              Great Neck, NY 11021
+            </NavLink>
+          </li>
+          <li>
+            <NavLink end prefetch="intent" style={activeLinkStyle}>
+              PHONE: +1 (323) 545 65 45
+            </NavLink>
+          </li>
+          <li>
+            <NavLink end prefetch="intent" style={activeLinkStyle}>
+              EMAIL: hello@vianisa.com
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
     </footer>
   );
 }
 
-function FooterMenu({menu}) {
-  const [root] = useMatches();
-  const publicStoreDomain = root?.data?.publicStoreDomain;
-  return (
-    <nav className="footer-menu" role="navigation">
-      {(menu || FALLBACK_FOOTER_MENU).items.map((item) => {
-        if (!item.url) return null;
-        // if the url is internal, we strip the domain
-        const url =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain)
-            ? new URL(item.url).pathname
-            : item.url;
-        const isExternal = !url.startsWith('/');
-        return isExternal ? (
-          <a href={url} key={item.id} rel="noopener noreferrer" target="_blank">
-            {item.title}
-          </a>
-        ) : (
-          <NavLink
-            end
-            key={item.id}
-            prefetch="intent"
-            style={activeLinkStyle}
-            to={url}
-          >
-            {item.title}
-          </NavLink>
-        );
-      })}
-    </nav>
-  );
-}
-
-const FALLBACK_FOOTER_MENU = {
-  id: 'gid://shopify/Menu/199655620664',
-  items: [
-    {
-      id: 'gid://shopify/MenuItem/461633060920',
-      resourceId: 'gid://shopify/ShopPolicy/23358046264',
-      tags: [],
-      title: 'Privacy Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/privacy-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633093688',
-      resourceId: 'gid://shopify/ShopPolicy/23358013496',
-      tags: [],
-      title: 'Refund Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/refund-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633126456',
-      resourceId: 'gid://shopify/ShopPolicy/23358111800',
-      tags: [],
-      title: 'Shipping Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/shipping-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633159224',
-      resourceId: 'gid://shopify/ShopPolicy/23358079032',
-      tags: [],
-      title: 'Terms of Service',
-      type: 'SHOP_POLICY',
-      url: '/policies/terms-of-service',
-      items: [],
-    },
-  ],
-};
-
 function activeLinkStyle({isActive, isPending}) {
   return {
-    fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'white',
+    fontWeight: isActive ? undefined : undefined,
+    color: isPending ? 'grey' : 'gray',
   };
 }

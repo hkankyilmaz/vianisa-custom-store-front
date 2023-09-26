@@ -16,9 +16,12 @@ export default function Policies() {
   const {policies} = useLoaderData();
 
   return (
-    <div className="policies">
-      <h1>Policies</h1>
+    <div className="policies page max-w-5xl m-auto p-10 pb-20">
+      <h1 className="underline">Policies</h1>
       <div>
+        <fieldset>
+          <Link to={'/pagex/shipping-and-returns'}>Free Shipping</Link>
+        </fieldset>
         {policies.map((policy) => {
           if (!policy) return null;
           return (

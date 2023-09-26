@@ -27,9 +27,9 @@ export default function Page() {
   const {page} = useLoaderData();
 
   return (
-    <div className="page">
+    <div className="page max-w-5xl m-auto p-10 pb-20">
       <header>
-        <h1>{page.title}</h1>
+        <h1 className="underline">{page.title}</h1>
       </header>
       <main dangerouslySetInnerHTML={{__html: page.body}} />
     </div>

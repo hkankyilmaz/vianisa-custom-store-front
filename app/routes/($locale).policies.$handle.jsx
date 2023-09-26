@@ -14,6 +14,8 @@ export async function loader({params, context}) {
     m1.toUpperCase(),
   );
 
+  console.log(policyName);
+
   const data = await context.storefront.query(POLICY_CONTENT_QUERY, {
     variables: {
       privacyPolicy: false,
@@ -38,14 +40,14 @@ export default function Policy() {
   const {policy} = useLoaderData();
 
   return (
-    <div className="policy">
+    <div className="policy page max-w-5xl m-auto p-10 pb-20">
       <br />
       <br />
       <div>
         <Link to="/policies">← Back to Policies</Link>
       </div>
       <br />
-      <h1>{policy.title}</h1>
+      <h1 className="underline">{policy.title}</h1>
       <div dangerouslySetInnerHTML={{__html: policy.body}} />
     </div>
   );
