@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {BsChevronRight, BsChevronLeft} from 'react-icons/bs';
 import {Image} from '@shopify/hydrogen';
 import gsap from 'gsap';
@@ -8,6 +8,14 @@ function FeaturedCollection({data}) {
   const [width, setWidth] = useState(0);
   const refOne = useRef();
   const refTwo = useRef();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', (e) => {
+        document.documentElement.style.setProperty('--x', `${0}px`);
+      });
+    }
+  }, []);
 
   const handleClick = (j) => {
     if (j == 'right') {
