@@ -12,6 +12,10 @@ export function Header({header, isLoggedIn, cart}) {
   const ref = React.useRef();
   const [megaMenu, setMegaMenu] = useState({isOpen: false, title: 'none'});
   const {shop, menu} = header;
+
+  React.useEffect(() => {
+    setMegaMenu({isOpen: false, title: 'none'});
+  }, []);
   return (
     <header className="header relative flex flex-col justify-center items-center">
       <div className="relative w-full flex justify-center items-center my-[10px]">
