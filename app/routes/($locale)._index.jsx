@@ -107,6 +107,7 @@ const FEATURED_COLLECTION_QUERY = `#graphql
     
           nodes  {
           title
+          handle
           variants (first:5) {
             nodes {
               title          

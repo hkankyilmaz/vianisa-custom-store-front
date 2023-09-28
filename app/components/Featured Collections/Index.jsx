@@ -1,6 +1,7 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {BsChevronRight, BsChevronLeft} from 'react-icons/bs';
 import {Image} from '@shopify/hydrogen';
+import {Link} from '@remix-run/react';
 import gsap from 'gsap';
 
 function FeaturedCollection({data}) {
@@ -88,9 +89,13 @@ export default FeaturedCollection;
 
 function Item({product}) {
   return (
-    <div className="inline-block w-[25%] pr-5 align-top">
-      <div className="text-xs">Sale</div>
-      <div className="w-full">
+    <Link
+      prefetch="intent"
+      to={`products/${product.handle}`}
+      className="inline-block w-[25%] pr-5 align-top cursor-pointer"
+    >
+      <div className="text-xs underline">Sale</div>
+      <div className="w-full relative">
         <Image
           className="w-full h-auto"
           width="4000"
@@ -102,6 +107,6 @@ function Item({product}) {
         {product.title}
       </div>
       <div className="text-xs"> {product.variants.nodes[0].price.amount} </div>
-    </div>
+    </Link>
   );
 }
