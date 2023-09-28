@@ -1,6 +1,7 @@
 import React, {forwardRef, useImperativeHandle} from 'react';
 import gsap from 'gsap';
 import useIsomorphicLayoutEffect from '~/utils';
+import {Link} from '@remix-run/react';
 
 const MegaMenu = forwardRef((props, ref) => {
   const [out, setOut] = React.useState(false);
@@ -86,7 +87,9 @@ const MegaMenu = forwardRef((props, ref) => {
             <p className="mb-3 font-semibold">{item.title}</p>
             <ul>
               {item.items.map((item) => (
-                <li className="capitalize"> {item.title} </li>
+                <Link to={`${item.url}`}>
+                  <li className="capitalize"> {item.title} </li>
+                </Link>
               ))}
             </ul>
           </div>
