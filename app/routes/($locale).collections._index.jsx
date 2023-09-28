@@ -3,14 +3,16 @@ import {json} from '@shopify/remix-oxygen';
 import {Pagination, getPaginationVariables, Image} from '@shopify/hydrogen';
 
 export async function loader({context, request}) {
-  const paginationVariables = getPaginationVariables(request, {
-    pageBy: 4,
-  });
+  const paginationVariables = getPaginationVariables(
+    request,
+    //   , {
+    //   pageBy: 4,
+    // }
+  );
 
   const {collections} = await context.storefront.query(COLLECTIONS_QUERY, {
     variables: paginationVariables,
   });
-
   return json({collections});
 }
 
@@ -18,11 +20,11 @@ export default function Collections() {
   const {collections} = useLoaderData();
 
   return (
-    <div className="collections">
+    <div className="collections" id="conn">
       <h1>Collections</h1>
       <Pagination connection={collections}>
         {({nodes, isLoading, PreviousLink, NextLink}) => (
-          <div>
+          <div id="sdad">
             <PreviousLink>
               {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
             </PreviousLink>
@@ -39,13 +41,29 @@ export default function Collections() {
 
 function CollectionsGrid({collections}) {
   return (
-    <div className="collections-grid">
+    <div className="collections-grid" id={'collections-grid'}>
       {collections.map((collection, index) => (
-        <CollectionItem
-          key={collection.id}
-          collection={collection}
-          index={index}
-        />
+        <div
+          className={`card`}
+          id={collection.id + 'ss'}
+          style={{
+            visibility: 'inherit',
+            opacity: '1',
+            transform: 'matrix(1, 0, 0, 1, 0, 0)',
+          }}
+        >
+          {/* <script>{console.log(collection.products.nodes[0])};</script> */}
+          <div class="ProductItem__LabelList">
+            <span class="ProductItem__Label ProductItem__Label--onSale Heading Text--subdued">
+              On sale
+            </span>
+          </div>
+          <CollectionItem
+            key={collection.id}
+            collection={collection}
+            index={index}
+          />
+        </div>
       ))}
     </div>
   );
@@ -59,32 +77,59 @@ function CollectionItem({collection, index}) {
       to={`/collections/${collection.handle}`}
       prefetch="intent"
     >
-      {collection.image && (
-        <Image
-          alt={collection.image.altText || collection.title}
-          aspectRatio="1/1"
-          data={collection.image}
-          loading={index < 3 ? 'eager' : undefined}
-        />
-      )}
+      {collection.products.nodes[0].images.nodes[2].url &&
+        (index % 2 == 0 ? (
+          <Image
+            alt={collection.products.nodes[0].images.nodes[0].altText}
+            aspectRatio="1/1"
+            data={collection.products.nodes[1].images.nodes[0]}
+            loading={index < 3 ? 'eager' : undefined}
+          />
+        ) : (
+          <Image
+            alt={collection.products.nodes[0].images.nodes[0].altText}
+            aspectRatio="1/1"
+            data={collection.products.nodes[0].images.nodes[0]}
+            loading={index < 3 ? 'eager' : undefined}
+          />
+        ))}
       <h5>{collection.title}</h5>
+      <h5>{}</h5>
     </Link>
   );
 }
 
 const COLLECTIONS_QUERY = `#graphql
-  fragment Collection on Collection {
+fragment Collection on Collection {
+  id
+  title
+  handle
+  description
+  image {
     id
-    title
-    handle
-    image {
+    url
+    altText
+    width
+    height
+  }
+  products(first:2 ){
+    nodes {
       id
-      url
-      altText
-      width
-      height
+      images(first:4 ){
+          nodes{
+             id
+            url
+            altText
+            width
+            height
+          }
+
+        
+      
     }
   }
+  }
+}
   query StoreCollections(
     $country: CountryCode
     $endCursor: String
