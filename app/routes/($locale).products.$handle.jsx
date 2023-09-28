@@ -92,7 +92,7 @@ export default function Product() {
   const {product, variants} = useLoaderData();
   const {selectedVariant} = product;
   return (
-    <div className="product">
+    <div className="product max-w-[1300px] m-auto py-10">
       <ProductImage image={selectedVariant?.image} />
       <ProductMain
         selectedVariant={selectedVariant}
@@ -124,7 +124,7 @@ function ProductMain({selectedVariant, product, variants}) {
   const {title, descriptionHtml} = product;
   return (
     <div className="product-main">
-      <h1>{title}</h1>
+      <h1 className="text-xl uppercase">{title}</h1>
       <ProductPrice selectedVariant={selectedVariant} />
       <br />
       <Suspense
