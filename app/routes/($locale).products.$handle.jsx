@@ -1,6 +1,7 @@
 import {Suspense} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, Link, useLoaderData} from '@remix-run/react';
+import EmblaCarousel from '~/components/Product Carausel Image Slider/Index';
 
 import {
   Image,
@@ -91,15 +92,28 @@ function redirectToFirstVariant({product, request}) {
 export default function Product() {
   const {product, variants} = useLoaderData();
   const {selectedVariant} = product;
+  const images = product.images.nodes;
+  console.log(images);
+  const imageByIndex = (index) => images[index % images.length];
+  const OPTIONS = {};
+  const SLIDE_COUNT = 10;
+  const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   return (
-    <div className="product max-w-[1300px] m-auto py-10">
-      <ProductImage image={selectedVariant?.image} />
-      <ProductMain
-        selectedVariant={selectedVariant}
-        product={product}
-        variants={variants}
-      />
-    </div>
+    <>
+      <div className="product max-w-[1500px] m-auto py-10">
+        {/* <ProductImage image={selectedVariant?.image} /> */}
+        <EmblaCarousel
+          slides={SLIDES}
+          options={OPTIONS}
+          imageByIndex={imageByIndex}
+        />
+        <ProductMain
+          selectedVariant={selectedVariant}
+          product={product}
+          variants={variants}
+        />
+      </div>
+    </>
   );
 }
 
@@ -311,6 +325,14 @@ const PRODUCT_FRAGMENT = `#graphql
     vendor
     handle
     descriptionHtml
+    images (first:20 ) {
+        nodes {
+          url
+          width
+          altText
+          height
+        }
+    }
     description
     options {
       name

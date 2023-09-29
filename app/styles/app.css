@@ -359,8 +359,8 @@ aside li {
 .product {
   display: grid;
   @media (min-width: 45em) {
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 4rem;
+    grid-template-columns: 4.2fr 3fr;
+    grid-gap: 2rem;
   }
 }
 
