@@ -27,16 +27,6 @@ html {
 * components/Aside
 * --------------------------------------------------
 */
-.features--heading-uppercase .Heading {
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-.card {
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  border-radius: 35px;
-  padding: 25px;
-}
 aside {
   background: var(--color-light);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
