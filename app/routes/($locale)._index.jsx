@@ -18,16 +18,8 @@ export async function loader({context}) {
       handle: 'moissanite-engagement-rings',
     },
   });
-  const featuredCollectionTwo = await storefront.query(
-    FEATURED_COLLECTION_QUERY,
-    {
-      variables: {
-        handle: 'lab-diamond-solitaire-pendants',
-      },
-    },
-  );
 
-  return defer({featuredCollection, featuredCollectionTwo});
+  return defer({featuredCollection});
 }
 
 export default function Homepage() {
@@ -38,7 +30,6 @@ export default function Homepage() {
       <HomePageBanner />
       <FeaturedCollection data={data.featuredCollection} />
       <CollectionList />
-      <FeaturedCollection data={data.featuredCollectionTwo} />
       {/* <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} /> */}
     </div>
@@ -107,7 +98,6 @@ const FEATURED_COLLECTION_QUERY = `#graphql
     
           nodes  {
           title
-          handle
           variants (first:5) {
             nodes {
               title          

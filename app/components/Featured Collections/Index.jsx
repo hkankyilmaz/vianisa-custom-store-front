@@ -1,7 +1,6 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState} from 'react';
 import {BsChevronRight, BsChevronLeft} from 'react-icons/bs';
 import {Image} from '@shopify/hydrogen';
-import {Link} from '@remix-run/react';
 import gsap from 'gsap';
 
 function FeaturedCollection({data}) {
@@ -9,14 +8,6 @@ function FeaturedCollection({data}) {
   const [width, setWidth] = useState(0);
   const refOne = useRef();
   const refTwo = useRef();
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', (e) => {
-        document.documentElement.style.setProperty('--x', `${0}px`);
-      });
-    }
-  }, []);
 
   const handleClick = (j) => {
     if (j == 'right') {
@@ -89,13 +80,9 @@ export default FeaturedCollection;
 
 function Item({product}) {
   return (
-    <Link
-      prefetch="intent"
-      to={`products/${product.handle}`}
-      className="inline-block w-[25%] pr-5 align-top cursor-pointer"
-    >
-      <div className="text-xs underline">Sale</div>
-      <div className="w-full relative">
+    <div className="inline-block w-[25%] pr-5 align-top">
+      <div className="text-xs">Sale</div>
+      <div className="w-full">
         <Image
           className="w-full h-auto"
           width="4000"
@@ -107,6 +94,6 @@ function Item({product}) {
         {product.title}
       </div>
       <div className="text-xs"> {product.variants.nodes[0].price.amount} </div>
-    </Link>
+    </div>
   );
 }
