@@ -138,7 +138,7 @@ function ProductMain({selectedVariant, product, variants}) {
   const {title, descriptionHtml} = product;
   return (
     <div className="product-main">
-      <h1 className="text-xl uppercase">{title}</h1>
+      <h1 className="text-xl uppercase opacity-70">{title}</h1>
       <ProductPrice selectedVariant={selectedVariant} />
       <br />
       <Suspense
@@ -180,12 +180,20 @@ function ProductPrice({selectedVariant}) {
     <div className="product-price">
       {selectedVariant?.compareAtPrice ? (
         <>
-          <p>Sale</p>
-          <br />
+          {/* <p>Sale</p>
+          <br /> */}
           <div className="product-price-on-sale">
-            {selectedVariant ? <Money data={selectedVariant.price} /> : null}
-            <s>
-              <Money data={selectedVariant.compareAtPrice} />
+            {selectedVariant ? (
+              <Money
+                className="text-red-600 text-2xl mr-2"
+                data={selectedVariant.price}
+              />
+            ) : null}
+            <s className="!text-black">
+              <Money
+                className="text-2xl"
+                data={selectedVariant.compareAtPrice}
+              />
             </s>
           </div>
         </>

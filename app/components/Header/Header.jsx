@@ -24,7 +24,7 @@ export function Header({header, isLoggedIn, cart}) {
         </NavLink>
         <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
       </div>
-      <div className="relative font-montserratMedium uppercase border-solid border-gray-300 border-y-[1px] w-full flex justify-center py-1">
+      <div className="relative  uppercase border-solid border-gray-300 border-y-[1px] w-full flex justify-center py-1">
         <HeaderMenu
           startAnimate={ref?.current?.startAnimate}
           setMegaMenu={setMegaMenu}
@@ -56,7 +56,11 @@ export function HeaderMenu({menu, viewport, setMegaMenu, startAnimate}) {
   }
 
   return (
-    <nav className={className} role="navigation">
+    <nav
+      style={{fontFamily: 'montserratmedium'}}
+      className={className}
+      role="navigation"
+    >
       {viewport === 'mobile' && (
         <NavLink
           end
@@ -83,7 +87,7 @@ export function HeaderMenu({menu, viewport, setMegaMenu, startAnimate}) {
               setMegaMenu({isOpen: true, title: item.title});
               startAnimate();
             }}
-            className="header-menu-item"
+            className="header-menu-item !text-[#2f2f2f] tracking-wide text-sm"
             end
             key={item.id}
             onClick={closeAside}

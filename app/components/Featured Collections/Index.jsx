@@ -2,7 +2,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import {BsChevronRight, BsChevronLeft} from 'react-icons/bs';
 import {Image} from '@shopify/hydrogen';
 import {Link} from '@remix-run/react';
-import gsap from 'gsap';
+import {Money} from '@shopify/hydrogen';
 
 function FeaturedCollection({data}) {
   const [panigate, setPanigate] = useState(0);
@@ -52,7 +52,10 @@ function FeaturedCollection({data}) {
   // };
 
   return (
-    <section className="flex flex-col justify-center items-center my-5 relative res-margine">
+    <section
+      style={{fontFamily: 'montserratmedium'}}
+      className="flex flex-col justify-center items-center my-5 relative res-margine"
+    >
       <div className="text-xl text-center uppercase mb-5 w-full">
         {data.collection.title}
       </div>
@@ -94,19 +97,45 @@ function Item({product}) {
       to={`products/${product.handle}`}
       className="inline-block w-[25%] pr-5 align-top cursor-pointer"
     >
-      <div className="text-xs underline">Sale</div>
-      <div className="w-full relative">
+      <div className="text-xs mb-1">Sale</div>
+      <div className="w-full relative overflow-hidden">
         <Image
-          className="w-full h-auto"
+          className="w-full h-auto hover:scale-[1.07] duration-500 ease-out"
           width="4000"
           loading="eager"
           src={product.images.nodes[0].url}
         />
       </div>
-      <div className="flex justify-start items-center whitespace-normal text-xs">
+      <div className="flex justify-start items-center whitespace-normal tracking-wider line-clamp-2  text-xs mt-2">
         {product.title}
       </div>
-      <div className="text-xs"> {product.variants.nodes[0].price.amount} </div>
+      <div className="text-xs mt-1">
+        <Money data={product.variants.nodes[0].price} />
+        {product.variants.nodes[0]?.compareAtPrice ? (
+          <>
+            {/* <p>Sale</p>
+          <br /> */}
+            <div className="product-price-on-sale">
+              {product.variants.nodes[0] ? (
+                <Money
+                  className="text-red-600 text-xs mt-1"
+                  data={product.variants.nodes[0].price}
+                />
+              ) : null}
+              <s className="!text-black">
+                <Money
+                  className="text-xs mt-1"
+                  data={product.variants.nodes[0].compareAtPrice}
+                />
+              </s>
+            </div>
+          </>
+        ) : (
+          product.variants.nodes[0]?.price && (
+            <Money data={selectedVariant?.price} />
+          )
+        )}
+      </div>
     </Link>
   );
 }

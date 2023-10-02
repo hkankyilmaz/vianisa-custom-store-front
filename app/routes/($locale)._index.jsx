@@ -110,9 +110,14 @@ const FEATURED_COLLECTION_QUERY = `#graphql
           handle
           variants (first:5) {
             nodes {
-              title          
+              title
+              compareAtPrice {
+                amount
+                currencyCode
+              }          
               price {
                 amount
+                currencyCode
               }
               image {
                  altText
