@@ -190,7 +190,7 @@ function ProductPrice({selectedVariant}) {
     <div className="product-price border-b pb-3 border-[#bfbfbf]">
       {selectedVariant?.compareAtPrice ? (
         <>
-          <p>Sale</p>
+          <p className="text-xs underline text-black">Sale</p>
           <div className="product-price-on-sale">
             {selectedVariant ? (
               <Money
