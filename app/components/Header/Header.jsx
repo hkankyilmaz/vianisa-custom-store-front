@@ -5,13 +5,15 @@ import {Suspense, useState} from 'react';
 import {GoPerson} from 'react-icons/go';
 import {AiOutlineSearch} from 'react-icons/ai';
 import {AiOutlineShoppingCart} from 'react-icons/ai';
-
 import MegaMenu from './MegaMenu';
 
 export function Header({header, isLoggedIn, cart}) {
   const ref = React.useRef();
   const [megaMenu, setMegaMenu] = useState({isOpen: false, title: 'none'});
   const {shop, menu} = header;
+
+  const matches = useMatches()[1].pathname;
+  console.log(useMatches());
 
   React.useEffect(() => {
     setMegaMenu({isOpen: false, title: 'none'});
@@ -24,7 +26,10 @@ export function Header({header, isLoggedIn, cart}) {
         </NavLink>
         <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
       </div>
-      <div className="relative  uppercase border-solid border-gray-300 border-y-[1px] w-full flex justify-center py-1">
+      <div
+        style={{borderBottom: matches == '/' ? 'none' : ''}}
+        className="relative  uppercase border-solid border-gray-300 border-y-[1px] w-full flex justify-center py-1"
+      >
         <HeaderMenu
           startAnimate={ref?.current?.startAnimate}
           setMegaMenu={setMegaMenu}

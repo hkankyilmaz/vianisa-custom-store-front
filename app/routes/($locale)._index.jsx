@@ -6,6 +6,7 @@ import {Image, Money} from '@shopify/hydrogen';
 import HomePageBanner from '~/components/HomePageBanner/Index';
 import FeaturedCollection from '~/components/Featured Collections/Index';
 import CollectionList from '~/components/Cllection List/Index';
+import BannerSlider from '../components/Header/Slider';
 
 export const meta = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -35,7 +36,7 @@ export default function Homepage() {
 
   return (
     <div className="home">
-      <HomePageBanner />
+      <BannerSlider />
       <FeaturedCollection data={data.featuredCollection} />
       <CollectionList />
       <FeaturedCollection data={data.featuredCollectionTwo} />

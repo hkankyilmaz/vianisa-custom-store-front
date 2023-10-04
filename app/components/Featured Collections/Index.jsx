@@ -54,7 +54,7 @@ function FeaturedCollection({data}) {
   return (
     <section
       style={{fontFamily: 'montserratmedium'}}
-      className="flex flex-col justify-center items-center my-5 relative res-margine"
+      className="flex flex-col justify-center items-center my-16 relative res-margine"
     >
       <div className="text-xl text-center uppercase mb-5 w-full">
         {data.collection.title}
@@ -110,7 +110,6 @@ function Item({product}) {
         {product.title}
       </div>
       <div className="text-xs mt-1">
-        <Money data={product.variants.nodes[0].price} />
         {product.variants.nodes[0]?.compareAtPrice ? (
           <>
             {/* <p>Sale</p>

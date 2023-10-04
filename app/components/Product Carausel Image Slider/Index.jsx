@@ -34,7 +34,7 @@ const EmblaCarousel = (props) => {
   }, [emblaMainApi, onSelect]);
 
   return (
-    <div className="embla">
+    <div className="embla slider-product">
       <div className="embla__viewport" ref={emblaMainRef}>
         <div className="embla__container">
           {slides.map((index) => (
