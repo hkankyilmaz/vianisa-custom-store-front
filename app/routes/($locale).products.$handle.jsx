@@ -291,7 +291,7 @@ function AddToCartButton({analytics, children, disabled, lines, onClick}) {
             value={JSON.stringify(analytics)}
           />
           <button
-            className="border w-[330px] px-2 py-2 rounded-md bg-black border-black text-white"
+            className="border w-[330px] px-2 py-2 tex-md rounded-md bg-black border-black text-white"
             type="submit"
             onClick={onClick}
             disabled={disabled ?? fetcher.state !== 'idle'}

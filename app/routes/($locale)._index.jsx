@@ -97,7 +97,7 @@ function RecommendedProducts({products}) {
   );
 }
 
-const FEATURED_COLLECTION_QUERY = `#graphql
+export const FEATURED_COLLECTION_QUERY = `#graphql
 
   query FeaturedCollection($country: CountryCode, $language: LanguageCode, $handle: String!)
     @inContext(country: $country, language: $language) {
