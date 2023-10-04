@@ -9,12 +9,12 @@ function BannerSlider() {
   return (
     <div className="relative">
       <Slider slides={SLIDES} options={OPTIONS} />
-      <div className="absolute bottom-[40%] right-[100px] translate-x-[-50%] max-md:flex max-md:flex-col max-md:item-center max-md:justify-center">
+      <div className="absolute bottom-[40%] right-[120px] translate-x-[-50%] max-md:flex max-md:flex-col max-md:item-center max-md:justify-center">
         <p className="text-3xl m-2 translate-x-[-10px]">True To You</p>
         <p className="text-sm mb-4">
           Carefully crafted designs that celebrate your story.
         </p>
-        <button className="w-[300px] px-3 py-2 bg-white text-black hover:bg-white hover:text-black transition-all ease-in">
+        <button className="w-[300px] px-3 py-2 bg-white text-black hover:bg-black hover:text-white transition-all ease-in">
           Shop Engagement Rings
         </button>
       </div>

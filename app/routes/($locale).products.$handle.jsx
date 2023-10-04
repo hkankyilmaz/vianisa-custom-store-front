@@ -2,16 +2,16 @@ import {Suspense} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, Link, useLoaderData} from '@remix-run/react';
 import EmblaCarousel from '~/components/Product Carausel Image Slider/Index';
-
 import {
   Image,
   Money,
   VariantSelector,
   getSelectedProductOptions,
   CartForm,
+  ShopPayButton,
 } from '@shopify/hydrogen';
 import {getVariantUrl} from '~/utils';
-
+import FeaturedCollection from '~/components/Featured Collections/Index';
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data.product.title}`}];
 };
@@ -19,6 +19,15 @@ export const meta = ({data}) => {
 export async function loader({params, request, context}) {
   const {handle} = params;
   const {storefront} = context;
+
+  const featuredCollectionTwo = await storefront.query(
+    FEATURED_COLLECTION_QUERY,
+    {
+      variables: {
+        handle: 'lab-diamond-solitaire-pendants',
+      },
+    },
+  );
 
   const selectedOptions = getSelectedProductOptions(request).filter(
     (option) =>
@@ -69,7 +78,7 @@ export async function loader({params, request, context}) {
     variables: {handle},
   });
 
-  return defer({product, variants});
+  return defer({product, variants, featuredCollectionTwo});
 }
 
 function redirectToFirstVariant({product, request}) {
@@ -90,7 +99,7 @@ function redirectToFirstVariant({product, request}) {
 }
 
 export default function Product() {
-  const {product, variants} = useLoaderData();
+  const {product, variants, featuredCollectionTwo} = useLoaderData();
   const {selectedVariant} = product;
   const images = product.images.nodes;
   console.log(images);
@@ -113,6 +122,7 @@ export default function Product() {
           variants={variants}
         />
       </div>
+      <FeaturedCollection data={featuredCollectionTwo} />
     </>
   );
 }
@@ -137,7 +147,7 @@ function ProductImage({image}) {
 function ProductMain({selectedVariant, product, variants}) {
   const {title, descriptionHtml} = product;
   return (
-    <div className="product-main">
+    <div className="product-main  border-b pb-1 border-[#bfbfbf]">
       <h1 className="text-xl uppercase opacity-70">{title}</h1>
       <ProductPrice selectedVariant={selectedVariant} />
       <br />
@@ -177,11 +187,10 @@ function ProductMain({selectedVariant, product, variants}) {
 
 function ProductPrice({selectedVariant}) {
   return (
-    <div className="product-price">
+    <div className="product-price border-b pb-3 border-[#bfbfbf]">
       {selectedVariant?.compareAtPrice ? (
         <>
-          {/* <p>Sale</p>
-          <br /> */}
+          <p>Sale</p>
           <div className="product-price-on-sale">
             {selectedVariant ? (
               <Money
@@ -206,7 +215,7 @@ function ProductPrice({selectedVariant}) {
 
 function ProductForm({product, selectedVariant, variants}) {
   return (
-    <div className="product-form">
+    <div className="product-form  border-b pb-6 border-[#bfbfbf]">
       <VariantSelector
         handle={product.handle}
         options={product.options}
@@ -233,6 +242,12 @@ function ProductForm({product, selectedVariant, variants}) {
       >
         {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
       </AddToCartButton>
+      <ShopPayButton
+        className="mt-3 text-xs"
+        width="330px"
+        storeDomain={'vianisa.myshopify.com'}
+        variantIds={selectedVariant ? [selectedVariant.id] : ''}
+      />
     </div>
   );
 }
@@ -240,20 +255,19 @@ function ProductForm({product, selectedVariant, variants}) {
 function ProductOptions({option}) {
   return (
     <div className="product-options" key={option.name}>
-      <h5>{option.name}</h5>
+      <h5 className="font-bold">{option.name}</h5>
       <div className="product-options-grid">
         {option.values.map(({value, isAvailable, isActive, to}) => {
           return (
             <Link
-              className="product-options-item"
+              className="border px-2 py-1 w-[100px] shadow-xl rounded-sm"
               key={option.name + value}
               prefetch="intent"
               preventScrollReset
               replace
               to={to}
               style={{
-                border: isActive ? '1px solid black' : '1px solid transparent',
-                opacity: isAvailable ? 1 : 0.3,
+                border: isActive ? '1px solid darkgreen' : '',
               }}
             >
               {value}
@@ -277,6 +291,7 @@ function AddToCartButton({analytics, children, disabled, lines, onClick}) {
             value={JSON.stringify(analytics)}
           />
           <button
+            className="border w-[330px] px-2 py-2 rounded-md bg-black border-black text-white"
             type="submit"
             onClick={onClick}
             disabled={disabled ?? fetcher.state !== 'idle'}
@@ -396,6 +411,58 @@ const VARIANTS_QUERY = `#graphql
   ) @inContext(country: $country, language: $language) {
     product(handle: $handle) {
       ...ProductVariants
+    }
+  }
+`;
+
+export const FEATURED_COLLECTION_QUERY = `#graphql
+
+  query FeaturedCollection($country: CountryCode, $language: LanguageCode, $handle: String!)
+    @inContext(country: $country, language: $language) {
+    collection(handle : $handle) {
+      description
+      title
+      products (first:20 ) {
+    
+          nodes  {
+          title
+          handle
+          variants (first:5) {
+            nodes {
+              title
+              compareAtPrice {
+                amount
+                currencyCode
+              }          
+              price {
+                amount
+                currencyCode
+              }
+              image {
+                 altText
+                 id
+                 width
+                 url
+              }
+              selectedOptions {
+                name
+                value
+              }
+            }
+          }
+          images (first:2) {
+            nodes {
+              altText
+              id
+              width
+              url
+    
+            }
+          }
+        
+      
+      }
+    }
     }
   }
 `;
