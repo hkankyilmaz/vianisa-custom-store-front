@@ -109,7 +109,7 @@ export default function Product() {
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   return (
     <>
-      <div className="product max-w-[1500px] m-auto py-10">
+      <div className="product max-w-[1300px] m-auto py-10">
         {/* <ProductImage image={selectedVariant?.image} /> */}
         <EmblaCarousel
           slides={SLIDES}
@@ -164,7 +164,7 @@ function ProductMain({selectedVariant, product, variants}) {
               border: matches.includes('-1-00-ct') ? '1px solid black' : '',
             }}
             prefetch="intent"
-            className=" border px-4 py-6 rounded-full mr-4 shadow-lg"
+            className=" border px-4 py-[1.4rem] rounded-full mr-4 shadow-lg hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
             to={`/products/${modifiedString}-1-00-ct`}
           >
             1.0 ct
@@ -173,7 +173,7 @@ function ProductMain({selectedVariant, product, variants}) {
             style={{
               border: matches.includes('-1-50-ct') ? '1px solid black' : '',
             }}
-            className=" border px-4 py-6 rounded-full mr-4 shadow-lg"
+            className=" border px-4 py-[1.4rem] rounded-full mr-4 shadow-lg hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
             prefetch="intent"
             to={`/products/${modifiedString}-1-50-ct`}
           >
@@ -183,7 +183,7 @@ function ProductMain({selectedVariant, product, variants}) {
             style={{
               border: matches.includes('-2-00-ct') ? '1px solid black' : '',
             }}
-            className=" border px-4 py-6 rounded-full mr-4 shadow-lg"
+            className=" border px-4 py-[1.4rem] rounded-full mr-4 shadow-lg hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
             prefetch="intent"
             to={`/products/${modifiedString}-2-00-ct`}
           >
@@ -301,7 +301,7 @@ function ProductOptions({option}) {
         {option.values.map(({value, isAvailable, isActive, to}) => {
           return (
             <Link
-              className="border px-2 py-1 w-[100px] shadow-xl rounded-sm"
+              className="border px-2 py-1 w-[100px] shadow-xl rounded-sm hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
               key={option.name + value}
               prefetch="intent"
               preventScrollReset
