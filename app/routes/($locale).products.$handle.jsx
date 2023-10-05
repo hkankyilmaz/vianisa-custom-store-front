@@ -1,6 +1,7 @@
 import {Suspense} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, Link, useLoaderData, useMatches} from '@remix-run/react';
+import _ from 'lodash';
 import EmblaCarousel from '~/components/Product Carausel Image Slider/Index';
 import {
   Image,
@@ -13,18 +14,23 @@ import {
 import {getVariantUrl} from '~/utils';
 import FeaturedCollection from '~/components/Featured Collections/Index';
 export const meta = ({data}) => {
-  return [{title: `Hydrogen | ${data.product.title}`}];
+  return [{title: `Hydrogen | ${data.product?.title}`}];
 };
 
 export async function loader({params, request, context}) {
   const {handle} = params;
   const {storefront} = context;
+  let randomNumber = _.random(0, 2);
 
   const featuredCollectionTwo = await storefront.query(
     FEATURED_COLLECTION_QUERY,
     {
       variables: {
-        handle: 'lab-diamond-solitaire-pendants',
+        handle: [
+          'lab-diamond-solitaire-pendants',
+          'hop-earrings',
+          'three-stone-engagement-rings',
+        ][randomNumber],
       },
     },
   );
@@ -102,7 +108,7 @@ export default function Product() {
   const {product, variants, featuredCollectionTwo} = useLoaderData();
   const {selectedVariant} = product;
   const images = product.images.nodes;
-  console.log(images);
+  console.log(_.random(0, 5));
   const imageByIndex = (index) => images[index % images.length];
   const OPTIONS = {};
   const SLIDE_COUNT = 10;

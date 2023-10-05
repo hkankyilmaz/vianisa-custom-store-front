@@ -94,7 +94,7 @@ function Item({product}) {
   return (
     <Link
       prefetch="intent"
-      to={`products/${product.handle}`}
+      to={`/products/${product.handle}`}
       className="inline-block w-[25%] pr-5 align-top cursor-pointer"
     >
       <div className="text-xs mb-1">Sale</div>
@@ -107,7 +107,7 @@ function Item({product}) {
         />
       </div>
       <div className="flex justify-start items-center whitespace-normal tracking-wider line-clamp-2  text-xs mt-2">
-        {product.title}
+        {product?.title}
       </div>
       <div className="text-xs mt-1">
         {product.variants.nodes[0]?.compareAtPrice ? (
