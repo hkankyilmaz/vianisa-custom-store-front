@@ -13,7 +13,6 @@ export function Header({header, isLoggedIn, cart}) {
   const {shop, menu} = header;
 
   const matches = useMatches()[1].pathname;
-  console.log(useMatches());
 
   React.useEffect(() => {
     setMegaMenu({isOpen: false, title: 'none'});

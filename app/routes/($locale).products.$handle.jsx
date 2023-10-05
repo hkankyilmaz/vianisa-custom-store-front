@@ -1,6 +1,6 @@
 import {Suspense} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
-import {Await, Link, useLoaderData} from '@remix-run/react';
+import {Await, Link, useLoaderData, useMatches} from '@remix-run/react';
 import EmblaCarousel from '~/components/Product Carausel Image Slider/Index';
 import {
   Image,
@@ -145,12 +145,53 @@ function ProductImage({image}) {
 }
 
 function ProductMain({selectedVariant, product, variants}) {
+  const ctArr = ['-1-50-ct', '-1-00-ct', '-2-00-ct'];
   const {title, descriptionHtml} = product;
+  const matches = useMatches()[1].pathname;
+  const modifiedString = product.handle.slice(0, -8);
+
   return (
     <div className="product-main  border-b pb-1 border-[#bfbfbf]">
       <h1 className="text-xl uppercase opacity-70">{title}</h1>
+
       <ProductPrice selectedVariant={selectedVariant} />
       <br />
+      {ctArr.some((item) => product.handle.includes(item)) ? (
+        <div className="mb-10">
+          <h5 className="font-bold text-md mb-10"> Total Carat Weight</h5>
+          <Link
+            style={{
+              border: matches.includes('-1-00-ct') ? '1px solid black' : '',
+            }}
+            prefetch="intent"
+            className=" border px-4 py-6 rounded-full mr-4 shadow-lg"
+            to={`/products/${modifiedString}-1-00-ct`}
+          >
+            1.0 ct
+          </Link>
+          <Link
+            style={{
+              border: matches.includes('-1-50-ct') ? '1px solid black' : '',
+            }}
+            className=" border px-4 py-6 rounded-full mr-4 shadow-lg"
+            prefetch="intent"
+            to={`/products/${modifiedString}-1-50-ct`}
+          >
+            1.5 ct
+          </Link>
+          <Link
+            style={{
+              border: matches.includes('-2-00-ct') ? '1px solid black' : '',
+            }}
+            className=" border px-4 py-6 rounded-full mr-4 shadow-lg"
+            prefetch="intent"
+            to={`/products/${modifiedString}-2-00-ct`}
+          >
+            2.0 ct
+          </Link>
+        </div>
+      ) : undefined}
+
       <Suspense
         fallback={
           <ProductForm
@@ -267,7 +308,7 @@ function ProductOptions({option}) {
               replace
               to={to}
               style={{
-                border: isActive ? '1px solid darkgreen' : '',
+                border: isActive ? '1px solid black' : '',
               }}
             >
               {value}
