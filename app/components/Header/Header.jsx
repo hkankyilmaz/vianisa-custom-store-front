@@ -21,7 +21,7 @@ export function Header({header, isLoggedIn, cart}) {
     <header className="header relative flex flex-col justify-center items-center">
       <div className="relative w-full flex justify-center items-center my-[10px]">
         <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-          <span className="text-[1.5em]">VİANİSA</span>
+          <span className="text-[1.5em]">VIANISA</span>
         </NavLink>
         <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
       </div>
