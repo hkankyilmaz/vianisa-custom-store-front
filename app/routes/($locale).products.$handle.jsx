@@ -3,6 +3,8 @@ import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, Link, useLoaderData, useMatches} from '@remix-run/react';
 import _ from 'lodash';
 import EmblaCarousel from '~/components/Product Carausel Image Slider/Index';
+import {FcShipped} from 'react-icons/fc';
+import useCalculateShipDay from '~/hooks/useCalculateShipDay';
 import {
   Image,
   Money,
@@ -20,20 +22,7 @@ export const meta = ({data}) => {
 export async function loader({params, request, context}) {
   const {handle} = params;
   const {storefront} = context;
-  let randomNumber = _.random(0, 2);
-
-  const featuredCollectionTwo = await storefront.query(
-    FEATURED_COLLECTION_QUERY,
-    {
-      variables: {
-        handle: [
-          'lab-diamond-solitaire-pendants',
-          'hop-earrings',
-          'three-stone-engagement-rings',
-        ][randomNumber],
-      },
-    },
-  );
+  let randomNumber = _.random(0, 1);
 
   const selectedOptions = getSelectedProductOptions(request).filter(
     (option) =>
@@ -50,6 +39,17 @@ export async function loader({params, request, context}) {
   }
 
   // await the query for the critical product data
+  const featuredCollectionTwo = await storefront.query(
+    FEATURED_COLLECTION_QUERY,
+    {
+      variables: {
+        handle: [
+          'lab-diamond-solitaire-pendants',
+          'three-stone-engagement-rings',
+        ][randomNumber],
+      },
+    },
+  );
   const {product} = await storefront.query(PRODUCT_QUERY, {
     variables: {handle, selectedOptions},
   });
@@ -108,7 +108,6 @@ export default function Product() {
   const {product, variants, featuredCollectionTwo} = useLoaderData();
   const {selectedVariant} = product;
   const images = product.images.nodes;
-  console.log(_.random(0, 5));
   const imageByIndex = (index) => images[index % images.length];
   const OPTIONS = {};
   const SLIDE_COUNT = 10;
@@ -133,31 +132,15 @@ export default function Product() {
   );
 }
 
-function ProductImage({image}) {
-  if (!image) {
-    return <div className="product-image" />;
-  }
-  return (
-    <div className="product-image">
-      <Image
-        alt={image.altText || 'Product Image'}
-        aspectRatio="1/1"
-        data={image}
-        key={image.id}
-        sizes="(min-width: 45em) 50vw, 100vw"
-      />
-    </div>
-  );
-}
-
 function ProductMain({selectedVariant, product, variants}) {
   const ctArr = ['-1-50-ct', '-1-00-ct', '-2-00-ct'];
-  const {title, descriptionHtml} = product;
+  const {title, descriptionHtml, tags} = product;
   const matches = useMatches()[1].pathname;
   const modifiedString = product.handle.slice(0, -8);
+  const shipDtae = useCalculateShipDay(tags);
 
   return (
-    <div className="product-main  border-b pb-1 border-[#bfbfbf]">
+    <div className="product-main">
       <h1 className="text-xl uppercase opacity-70">{title}</h1>
 
       <ProductPrice selectedVariant={selectedVariant} />
@@ -226,8 +209,18 @@ function ProductMain({selectedVariant, product, variants}) {
         <strong>Description</strong>
       </p>
       <br />
-      <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
+      <div
+        className="border-b pb-3 border-[#bfbfbf]"
+        dangerouslySetInnerHTML={{__html: descriptionHtml}}
+      />
       <br />
+      <div className="flex justify-start items-center border-b pb-6 border-[#bfbfbf]">
+        <FcShipped className="text-5xl mr-3" />
+        <span className="">
+          Order this item now and we will ship by{' '}
+          <span className="font-bold underline">{shipDtae}</span>
+        </span>{' '}
+      </div>
     </div>
   );
 }
@@ -393,6 +386,7 @@ const PRODUCT_FRAGMENT = `#graphql
     id
     title
     vendor
+    tags
     handle
     descriptionHtml
     images (first:20 ) {

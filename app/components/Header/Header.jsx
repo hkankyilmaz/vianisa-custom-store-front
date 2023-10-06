@@ -26,7 +26,10 @@ export function Header({header, isLoggedIn, cart}) {
         <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
       </div>
       <div
-        style={{borderBottom: matches == '/' ? 'none' : ''}}
+        style={{
+          borderBottom: matches == '/' ? 'none' : '',
+          paddingTop: matches == '/' ? '10px' : '',
+        }}
         className="relative  uppercase border-solid border-gray-300 border-y-[1px] w-full flex justify-center py-1"
       >
         <HeaderMenu

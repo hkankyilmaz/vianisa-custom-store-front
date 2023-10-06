@@ -57,7 +57,7 @@ function FeaturedCollection({data}) {
       className="flex flex-col justify-center items-center my-16 relative res-margine"
     >
       <div className="text-xl text-center uppercase mb-5 w-full">
-        {data.collection.title}
+        {data.collection?.title}
       </div>
       <div
         ref={refOne}

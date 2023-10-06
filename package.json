@@ -17,6 +17,8 @@
     "@shopify/cli-hydrogen": "^5.2.3",
     "@shopify/hydrogen": "^2023.7.7",
     "@shopify/remix-oxygen": "^1.1.4",
+    "dayjs": "^1.11.10",
+    "dayjs-business-days": "^1.0.4",
     "embla-carousel-autoplay": "^8.0.0-rc14",
     "embla-carousel-react": "^8.0.0-rc14",
     "graphql": "^16.6.0",
