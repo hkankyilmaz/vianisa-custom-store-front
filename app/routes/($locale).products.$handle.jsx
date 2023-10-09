@@ -1,10 +1,12 @@
-import {Suspense} from 'react';
+import {Suspense, useState, useEffect} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, Link, useLoaderData, useMatches} from '@remix-run/react';
 import _ from 'lodash';
 import EmblaCarousel from '~/components/Product Carausel Image Slider/Index';
 import {FcShipped} from 'react-icons/fc';
 import useCalculateShipDay from '~/hooks/useCalculateShipDay';
+import {ClickAwayListener} from '@mui/base/ClickAwayListener';
+import {AiOutlineDown} from 'react-icons/ai';
 import {
   Image,
   Money,
@@ -146,38 +148,42 @@ function ProductMain({selectedVariant, product, variants}) {
       <ProductPrice selectedVariant={selectedVariant} />
       <br />
       {ctArr.some((item) => product.handle.includes(item)) ? (
-        <div className="mb-10">
-          <h5 className="font-bold text-md mb-10"> Total Carat Weight</h5>
-          <Link
-            style={{
-              border: matches.includes('-1-00-ct') ? '1px solid black' : '',
-            }}
-            prefetch="intent"
-            className=" border px-4 py-[1.4rem] rounded-full mr-4 shadow-lg hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
-            to={`/products/${modifiedString}-1-00-ct`}
-          >
-            1.0 ct
-          </Link>
-          <Link
-            style={{
-              border: matches.includes('-1-50-ct') ? '1px solid black' : '',
-            }}
-            className=" border px-4 py-[1.4rem] rounded-full mr-4 shadow-lg hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
-            prefetch="intent"
-            to={`/products/${modifiedString}-1-50-ct`}
-          >
-            1.5 ct
-          </Link>
-          <Link
-            style={{
-              border: matches.includes('-2-00-ct') ? '1px solid black' : '',
-            }}
-            className=" border px-4 py-[1.4rem] rounded-full mr-4 shadow-lg hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
-            prefetch="intent"
-            to={`/products/${modifiedString}-2-00-ct`}
-          >
-            2.0 ct
-          </Link>
+        <div className="mb-8 flex justify-start items-center">
+          <h5 className="h-full font-bold text-md mr-5 flex justify-center items-center translate-y-1">
+            Total Carat Weight:
+          </h5>
+          <div className="h-full flex justify-center items-center">
+            <Link
+              style={{
+                border: matches.includes('-1-00-ct') ? '1px solid black' : '',
+              }}
+              prefetch="intent"
+              className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
+              to={`/products/${modifiedString}-1-00-ct`}
+            >
+              1.0 ct
+            </Link>
+            <Link
+              style={{
+                border: matches.includes('-1-50-ct') ? '1px solid black' : '',
+              }}
+              className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
+              prefetch="intent"
+              to={`/products/${modifiedString}-1-50-ct`}
+            >
+              1.5 ct
+            </Link>
+            <Link
+              style={{
+                border: matches.includes('-2-00-ct') ? '1px solid black' : '',
+              }}
+              className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
+              prefetch="intent"
+              to={`/products/${modifiedString}-2-00-ct`}
+            >
+              2.0 ct
+            </Link>
+          </div>
         </div>
       ) : undefined}
 
@@ -256,13 +262,15 @@ function ProductPrice({selectedVariant}) {
 function ProductForm({product, selectedVariant, variants}) {
   return (
     <div className="product-form  border-b pb-6 border-[#bfbfbf]">
-      <VariantSelector
-        handle={product.handle}
-        options={product.options}
-        variants={variants}
-      >
-        {({option}) => <ProductOptions key={option.name} option={option} />}
-      </VariantSelector>
+      <div className="gap-x-3 grid grid-cols-2">
+        <VariantSelector
+          handle={product.handle}
+          options={product.options}
+          variants={variants}
+        >
+          {({option}) => <ProductOptions key={option.name} option={option} />}
+        </VariantSelector>
+      </div>
       <br />
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}
@@ -284,8 +292,8 @@ function ProductForm({product, selectedVariant, variants}) {
       </AddToCartButton>
       <ShopPayButton
         className="mt-3 text-xs"
-        width="330px"
-        storeDomain={'vianisa.myshopify.com'}
+        width="100%"
+        storeDomain="vianisa.myshopify.com"
         variantIds={selectedVariant ? [selectedVariant.id] : ''}
       />
     </div>
@@ -293,30 +301,44 @@ function ProductForm({product, selectedVariant, variants}) {
 }
 
 function ProductOptions({option}) {
+  useEffect(() => {
+    setIsOpen(false);
+  }, [option]);
+
+  const [isOpen, setIsOpen] = useState(false);
+  let activeOption = _.find(option.values, {isActive: true}).value;
+
   return (
-    <div className="product-options" key={option.name}>
-      <h5 className="font-bold">{option.name}</h5>
-      <div className="product-options-grid">
-        {option.values.map(({value, isAvailable, isActive, to}) => {
-          return (
-            <Link
-              className="border px-2 py-1 w-[100px] shadow-xl rounded-sm hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
-              key={option.name + value}
-              prefetch="intent"
-              preventScrollReset
-              replace
-              to={to}
-              style={{
-                border: isActive ? '1px solid black' : '',
-              }}
-            >
-              {value}
-            </Link>
-          );
-        })}
+    <ClickAwayListener onClickAway={() => setIsOpen(false)}>
+      <div
+        className="relative px-2 py-4 text-normal border-2 cursor-pointer"
+        key={option.name}
+        onClick={() => setIsOpen(true)}
+      >
+        <span className="font-bold">{option.name}</span> :
+        <span> {activeOption} </span>
+        {isOpen ? (
+          <div className="absolute rounded-xl px-24 py-12 shadow-2xl right-[calc(100%+5px)] top-[50%] translate-y-[-50%] grid grid-col-1 gap-2 clip-path bg-[#e5e7eb]">
+            {option.values.map(({value, isAvailable, isActive, to}) => {
+              return (
+                <Link
+                  className=" text-slate-600 hover:underline w-32 text-center text-lg font-bold uppercase"
+                  key={option.name + value}
+                  prefetch="intent"
+                  preventScrollReset
+                  replace
+                  to={to}
+                >
+                  {value}
+                </Link>
+              );
+            })}
+          </div>
+        ) : undefined}
+        <br />
+        <AiOutlineDown className="absolute right-3 top-5 text-lg" />
       </div>
-      <br />
-    </div>
+    </ClickAwayListener>
   );
 }
 
@@ -331,7 +353,7 @@ function AddToCartButton({analytics, children, disabled, lines, onClick}) {
             value={JSON.stringify(analytics)}
           />
           <button
-            className="border w-[330px] px-2 py-2 tex-md rounded-md bg-black border-black text-white"
+            className="border w-full px-2 py-3 h-[42px] text- uppercase  rounded-md bg-black border-black tracking-wider text-white"
             type="submit"
             onClick={onClick}
             disabled={disabled ?? fetcher.state !== 'idle'}

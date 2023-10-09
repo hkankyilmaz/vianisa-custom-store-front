@@ -467,3 +467,15 @@ aside li {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+.clip-path {
+  clip-path: polygon(
+    0% 0%,
+    96.83% 0%,
+    96.83% 45.9%,
+    100% 51.85%,
+    96.83% 57.79%,
+    96.83% 100%,
+    0% 100%,
+    0% 47.75%
+  );
+}
