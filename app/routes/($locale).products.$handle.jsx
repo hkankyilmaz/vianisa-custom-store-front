@@ -135,11 +135,19 @@ export default function Product() {
 }
 
 function ProductMain({selectedVariant, product, variants}) {
+  const [isOpenGemStoneOpt, setIsGemStoneOpt] = useState(false);
   const ctArr = ['-1-50-ct', '-1-00-ct', '-2-00-ct'];
   const {title, descriptionHtml, tags} = product;
   const matches = useMatches()[1].pathname;
-  const modifiedString = product.handle.slice(0, -8);
+  const modifiedStringwithCarat = product.handle.slice(0, -8);
+  const modifiedStringwithGemStone = _.includes(matches, 'moissanite')
+    ? _.replace(product.handle, 'moissanite', 'lab-grown-diamond')
+    : _.replace(product.handle, 'lab-grown-diamond', 'moissanite');
   const shipDtae = useCalculateShipDay(tags);
+
+  useEffect(() => {
+    setIsGemStoneOpt(false);
+  }, [matches]);
 
   return (
     <div className="product-main">
@@ -147,6 +155,7 @@ function ProductMain({selectedVariant, product, variants}) {
 
       <ProductPrice selectedVariant={selectedVariant} />
       <br />
+
       {ctArr.some((item) => product.handle.includes(item)) ? (
         <div className="mb-8 flex justify-start items-center">
           <h5 className="h-full font-bold text-md mr-5 flex justify-center items-center translate-y-1">
@@ -159,7 +168,7 @@ function ProductMain({selectedVariant, product, variants}) {
               }}
               prefetch="intent"
               className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
-              to={`/products/${modifiedString}-1-00-ct`}
+              to={`/products/${modifiedStringwithCarat}-1-00-ct`}
             >
               1.0 ct
             </Link>
@@ -169,7 +178,7 @@ function ProductMain({selectedVariant, product, variants}) {
               }}
               className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
               prefetch="intent"
-              to={`/products/${modifiedString}-1-50-ct`}
+              to={`/products/${modifiedStringwithCarat}-1-50-ct`}
             >
               1.5 ct
             </Link>
@@ -179,14 +188,52 @@ function ProductMain({selectedVariant, product, variants}) {
               }}
               className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
               prefetch="intent"
-              to={`/products/${modifiedString}-2-00-ct`}
+              to={`/products/${modifiedStringwithCarat}-2-00-ct`}
             >
               2.0 ct
             </Link>
           </div>
         </div>
       ) : undefined}
-
+      {_.includes(matches, 'moissanite') ||
+      _.includes(matches, 'lab-grown-diamond') ? (
+        <ClickAwayListener onClickAway={() => setIsGemStoneOpt(false)}>
+          <div
+            onClick={() => setIsGemStoneOpt(true)}
+            className="relative px-2 py-4 mb-3 text-normal border-2 cursor-pointer"
+          >
+            <span className="font-bold">Gemstone</span> :
+            <span>
+              {_.includes(matches, 'moissanite')
+                ? ' Moissanite'
+                : ' Lab Grown Diamond'}
+            </span>
+            <AiOutlineDown className="absolute right-3 top-5 text-lg" />
+            {isOpenGemStoneOpt ? (
+              <div className="absolute rounded-xl px-24 py-12 shadow-2xl right-[calc(100%+5px)] top-[50%] translate-y-[-50%] grid grid-col-1 gap-2 clip-path bg-[#e5e7eb]">
+                {_.fill(Array(2), '').map((i, j) => (
+                  <Link
+                    className=" text-slate-600 hover:underline w-[200px] text-center text-lg font-bold uppercase"
+                    key={j}
+                    prefetch="intent"
+                    preventScrollReset
+                    replace
+                    to={`/products/${modifiedStringwithGemStone}`}
+                  >
+                    {_.includes(matches, 'moissanite') && j == 0
+                      ? 'Moissanite'
+                      : _.includes(matches, 'lab-grown-diamond') && j == 0
+                      ? 'Lab Grown Diamond'
+                      : !_.includes(matches, 'lab-grown-diamond') && j == 1
+                      ? 'Lab Grown Diamond'
+                      : 'Moissaniteee'}
+                  </Link>
+                ))}
+              </div>
+            ) : undefined}
+          </div>
+        </ClickAwayListener>
+      ) : undefined}
       <Suspense
         fallback={
           <ProductForm
@@ -318,11 +365,11 @@ function ProductOptions({option}) {
         <span className="font-bold">{option.name}</span> :
         <span> {activeOption} </span>
         {isOpen ? (
-          <div className="absolute rounded-xl px-24 py-12 shadow-2xl right-[calc(100%+5px)] top-[50%] translate-y-[-50%] grid grid-col-1 gap-2 clip-path bg-[#e5e7eb]">
+          <div className="absolute rounded-xl px-24  py-12 shadow-2xl right-[calc(100%+5px)] top-[50%] translate-y-[-50%] grid grid-col-1 gap-2 clip-path bg-[#e5e7eb]">
             {option.values.map(({value, isAvailable, isActive, to}) => {
               return (
                 <Link
-                  className=" text-slate-600 hover:underline w-32 text-center text-lg font-bold uppercase"
+                  className=" text-slate-600 hover:underline w-32 text-center text-lg font-bold uppercase w-[200px]"
                   key={option.name + value}
                   prefetch="intent"
                   preventScrollReset
