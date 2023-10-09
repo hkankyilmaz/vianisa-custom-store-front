@@ -369,7 +369,7 @@ function ProductOptions({option}) {
             {option.values.map(({value, isAvailable, isActive, to}) => {
               return (
                 <Link
-                  className=" text-slate-600 hover:underline w-32 text-center text-lg font-bold uppercase w-[200px]"
+                  className=" text-slate-600 hover:underline text-center text-lg font-bold uppercase w-[200px]"
                   key={option.name + value}
                   prefetch="intent"
                   preventScrollReset
