@@ -1,4 +1,4 @@
-import {Suspense, useState, useEffect} from 'react';
+import {Suspense, useState, useEffect, useRef} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, Link, useLoaderData, useMatches} from '@remix-run/react';
 import _ from 'lodash';
@@ -17,6 +17,8 @@ import {
 } from '@shopify/hydrogen';
 import {getVariantUrl} from '~/utils';
 import FeaturedCollection from '~/components/Featured Collections/Index';
+import gsap from 'gsap';
+
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data.product?.title}`}];
 };
@@ -195,11 +197,12 @@ function ProductMain({selectedVariant, product, variants}) {
           </div>
         </div>
       ) : undefined}
+      <ProductDescription descriptionHtml={descriptionHtml} />
       {_.includes(matches, 'moissanite') ||
       _.includes(matches, 'lab-grown-diamond') ? (
         <ClickAwayListener onClickAway={() => setIsGemStoneOpt(false)}>
           <div
-            onClick={() => setIsGemStoneOpt(true)}
+            onClick={() => setIsGemStoneOpt((prev) => !prev)}
             className="relative px-2 py-4 mb-3 text-normal border-2 cursor-pointer"
           >
             <span className="font-bold">Gemstone</span> :
@@ -258,15 +261,6 @@ function ProductMain({selectedVariant, product, variants}) {
       </Suspense>
       <br />
       <br />
-      <p>
-        <strong>Description</strong>
-      </p>
-      <br />
-      <div
-        className="border-b pb-3 border-[#bfbfbf]"
-        dangerouslySetInnerHTML={{__html: descriptionHtml}}
-      />
-      <br />
       <div className="flex justify-start items-center border-b pb-6 border-[#bfbfbf]">
         <FcShipped className="text-5xl mr-3" />
         <span className="">
@@ -280,7 +274,7 @@ function ProductMain({selectedVariant, product, variants}) {
 
 function ProductPrice({selectedVariant}) {
   return (
-    <div className="product-price border-b pb-3 border-[#bfbfbf]">
+    <div className="product-price">
       {selectedVariant?.compareAtPrice ? (
         <>
           <p className="text-xs underline text-black">Sale</p>
@@ -360,7 +354,7 @@ function ProductOptions({option}) {
       <div
         className="relative px-2 py-4 text-normal border-2 cursor-pointer"
         key={option.name}
-        onClick={() => setIsOpen(true)}
+        onClick={() => setIsOpen((prev) => !prev)}
       >
         <span className="font-bold">{option.name}</span> :
         <span> {activeOption} </span>
@@ -410,6 +404,46 @@ function AddToCartButton({analytics, children, disabled, lines, onClick}) {
         </>
       )}
     </CartForm>
+  );
+}
+
+function ProductDescription({descriptionHtml}) {
+  const ref = useRef();
+  const ref_ = useRef();
+  const isReverse = useRef(false);
+  const handleAnimate = () => {
+    if (!isReverse.current) {
+      isReverse.current = true;
+      gsap.to(ref.current, {height: 'auto'});
+      gsap.to(ref_.current, {rotate: -180});
+    } else {
+      isReverse.current = false;
+      gsap.to(ref.current, {height: '50px'});
+      gsap.to(ref_.current, {rotate: 360});
+    }
+  };
+
+  return (
+    <div
+      ref={ref}
+      className="h-[50px] mb-4 overflow-hidden border-y py-6 border-[#bfbfbf]"
+    >
+      <p
+        onClick={() => handleAnimate()}
+        className="uppercase tracking-widest relative cursor-pointer"
+      >
+        <strong>Description</strong>
+        <span className="absolute right-3 top-1 text-lg" ref={ref_}>
+          <AiOutlineDown />
+        </span>
+      </p>
+      <br />
+      <div
+        className="[&>div]:bg-slate-100 [&>div]:p-4 [&>div]:mb-3"
+        dangerouslySetInnerHTML={{__html: descriptionHtml}}
+      />
+      <br />
+    </div>
   );
 }
 
