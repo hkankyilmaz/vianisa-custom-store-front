@@ -1,3 +1,26 @@
+// Ürün moissanite-labdiamond gecisi olacak ise moissanite-labdiamond-select tagı ekelenemli
+// Ürün moissanite-diamond gecisi olacak ise moissanite-diamond-select tagı ekelenemli
+// ürün diamond ise diamond tagi ekelenmeli
+// ürün labdiamond ise lab-diamond tagi ekelenmeli
+// ürün moissanite ise moissanite tagi ekelenmeli
+//
+
+export const labOrMos = {
+  tags: [
+    'moissanite-labdiamond-select',
+    'moissanite-diamond-select',
+    'diamond',
+    'lab-diamond',
+    'moissanite',
+  ],
+};
+
+// inputNumber --> Kaç Tane input olduğunu
+// placeholder --> input için Label
+// labelOnProduct --> Kartta ilgili input girisini tanımlar
+// options --> select icin secenekler
+// tag --> örneğin ring size için girilmesi gereken tag
+
 export const tags = {
   ringSizes: {
     inputNumber: 1,
