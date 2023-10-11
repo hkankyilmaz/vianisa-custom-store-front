@@ -42,6 +42,7 @@ export const tags = [
     options: {
       range: [2, 14],
       delimeter: 0.25,
+      optionCount: 49,
     },
   },
   {
@@ -58,7 +59,7 @@ export const tags = [
   },
   {
     inputNumber: 1,
-    tags: ['necklace-length', 'io_necklacelength'],
+    tags: ['necklace-length', 'IO_necklacelength'],
     placeHolder: 'Necklace Size',
     name: 'necklaceLenght',
     inputType: 'select',
@@ -66,12 +67,13 @@ export const tags = [
     options: {
       range: [14, 20],
       delimeter: 1,
+      optionCount: 7,
     },
   },
   {
     inputNumber: 1,
     tags: ['name'],
-    placeHolder: 'Personalization(Custom Name)',
+    placeHolder: 'Personalization ( Custom Name )',
     name: 'name',
     inputType: 'text',
     labelOnProduct: 'name',
@@ -120,7 +122,7 @@ export const tags = [
   },
   {
     inputNumber: 3,
-    tags: ['expandable-inside-engraving', 'io_engraveable'],
+    tags: ['expandable-inside-engraving', 'IO_Engraveable'],
     name: 'multipleBirthStone',
     inputs: {
       first: {
@@ -185,7 +187,7 @@ export const tags = [
         inputType: 'text',
         labelOnProduct: 'Engraving Text for Engagement Ring',
       },
-      second: {
+      fourth: {
         placeHolder: 'Choose a Font for Wedding Band(Refer to Images)',
         name: 'fourth',
         inputType: 'select',
@@ -200,7 +202,7 @@ export const tags = [
           'Custom (Add a note in the text)',
         ],
       },
-      third: {
+      fifth: {
         placeHolder: 'Engraving Text for Wedding Band',
         name: 'five',
         inputType: 'text',

@@ -17,7 +17,10 @@ import {
 } from '@shopify/hydrogen';
 import {getVariantUrl} from '~/utils';
 import FeaturedCollection from '~/components/Featured Collections/Index';
-import ProductExtraInput from '../components/Product Extra Inputs/Index';
+import {
+  ProductExtraInputType,
+  ProductExtraInputTag,
+} from '../components/Product Extra Inputs/Index';
 import gsap from 'gsap';
 
 export const meta = ({data}) => {
@@ -318,8 +321,9 @@ function ProductForm({product, selectedVariant, variants}) {
             />
           )}
         </VariantSelector>
-        <ProductExtraInput product={product} />
       </div>
+      <ProductExtraInputType product={product} />
+      <ProductExtraInputTag product={product} />
       <br />
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}
@@ -389,7 +393,6 @@ function ProductOptions({option}) {
           <AiOutlineDown className="absolute right-3 top-5 text-lg" />
         </div>
       </ClickAwayListener>
-     
     </>
   );
 }
