@@ -61,12 +61,11 @@ export default function Homepage() {
   // fb((FB) => FB.CustomerChat.show(true));
   return (
     <div className="home">
-      <div id="fb-root" style={{display: 'block'}}></div>
-      <div
-        ref={MessengerRef}
-        id="fb-customer-chat"
-        className="fb-customerchat"
-      ></div>
+      {/* <!-- Messenger Chat plugin Code --> */}
+      <div id="fb-root"></div>
+
+      {/* <!-- Your Chat plugin code --> */}
+      <div id="fb-customer-chat" class="fb-customerchat"></div>
       <Scripts
         id="messenger-tag"
         strategy="afterInteractive"
