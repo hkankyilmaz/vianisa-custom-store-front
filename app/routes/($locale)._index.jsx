@@ -1,6 +1,6 @@
 import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link} from '@remix-run/react';
-import {Suspense} from 'react';
+import {Suspense, useEffect, useRef} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 
 import HomePageBanner from '~/components/HomePageBanner/Index';
@@ -33,7 +33,30 @@ export async function loader({context}) {
 
 export default function Homepage() {
   const data = useLoaderData();
+  const MessengerRef = useRef(null);
+  useEffect(() => {
+    MessengerRef.current.setAttribute('page_id', '111320718694277');
+    MessengerRef.current.setAttribute('attribution', 'biz_inbox');
 
+    window.fbAsyncInit = function () {
+      FB.init({
+        xfbml: true,
+        version: 'v17.0',
+      });
+    };
+
+    (function (d, s, id) {
+      var js,
+        fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, 'script', 'facebook-jssdk');
+    let chatbox = MessengerRef;
+    console.log(chatbox);
+  }, []);
   return (
     <div className="home">
       <BannerSlider />
@@ -42,6 +65,13 @@ export default function Homepage() {
       <FeaturedCollection data={data.featuredCollectionTwo} />
       {/* <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} /> */}
+      <div id="fb-root"></div>
+
+      <div
+        ref={MessengerRef}
+        id="fb-customer-chat"
+        class="fb-customerchat"
+      ></div>
     </div>
   );
 }
