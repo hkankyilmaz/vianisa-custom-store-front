@@ -114,6 +114,7 @@ export default function App() {
         <Scripts
           id="messenger-tag"
           strategy="afterInteractive"
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `var chatbox = document.getElementById('fb-customer-chat');
                       chatbox.setAttribute("page_id", "111320718694277");
@@ -123,6 +124,7 @@ export default function App() {
         <Scripts
           id="messenger-sdk"
           strategy="afterInteractive"
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `window.fbAsyncInit = function() {
   FB.init({
