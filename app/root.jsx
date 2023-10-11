@@ -12,6 +12,7 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
 } from '@remix-run/react';
+
 import favicon from '../public/favicon.svg';
 import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
@@ -114,21 +115,21 @@ export default function App() {
           id="messenger-tag"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
-            __html: `{var chatbox = document.getElementById('fb-customer-chat');
-chatbox.setAttribute("page_id", "111320718694277");
-chatbox.setAttribute("attribution", "biz_inbox");}`,
+            __html: `var chatbox = document.getElementById('fb-customer-chat');
+                      chatbox.setAttribute("page_id", "111320718694277");
+                      chatbox.setAttribute("attribution", "biz_inbox");`,
           }}
         ></Scripts>
         <Scripts
           id="messenger-sdk"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
-            __html: `{window.fbAsyncInit = function() {
+            __html: `window.fbAsyncInit = function() {
   FB.init({
     xfbml            : true,
     version          : 'v17.0'
   });
-};
+
 
 (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -136,7 +137,7 @@ chatbox.setAttribute("attribution", "biz_inbox");}`,
   js = d.createElement(s); js.id = id;
   js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
   fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));}`,
+}(document, 'script', 'facebook-jssdk'));`,
           }}
         ></Scripts>
         <Layout {...data}>
