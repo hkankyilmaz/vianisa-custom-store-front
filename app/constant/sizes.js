@@ -21,10 +21,20 @@ export const labOrMos = {
 // options --> select icin secenekler
 // tag --> örneğin ring size için girilmesi gereken tag
 
-export const tags = {
-  ringSizes: {
+export const tags = [
+  {
     inputNumber: 1,
-    tag: ['ring-size'],
+    tags: ['ring-size', 'io_ring size (2-14)'],
+    productType: [
+      'engagement rings',
+      'fashion rings',
+      'moissanite wedding bands',
+      'diamond wedding bands',
+      'classic wedding bands',
+      'birthstone rings',
+      'bridal sets',
+      'simulated diamond engagement rings',
+    ],
     placeHolder: 'Choose Your Ring Size',
     name: 'ringSizes',
     inputType: 'select',
@@ -34,9 +44,9 @@ export const tags = {
       delimeter: 0.25,
     },
   },
-  braceletLength: {
+  {
     inputNumber: 1,
-    tag: ['bracelet-length'],
+    tags: ['bracelet-length', 'io_braceletlength'],
     placeHolder: 'Bracelet Size',
     name: 'braceletLength',
     inputType: 'select',
@@ -46,9 +56,9 @@ export const tags = {
       delimeter: 0.5,
     },
   },
-  necklaceLenght: {
+  {
     inputNumber: 1,
-    tag: ['necklace-length'],
+    tags: ['necklace-length', 'io_necklacelength'],
     placeHolder: 'Necklace Size',
     name: 'necklaceLenght',
     inputType: 'select',
@@ -58,25 +68,25 @@ export const tags = {
       delimeter: 1,
     },
   },
-  name: {
+  {
     inputNumber: 1,
-    tag: ['name'],
+    tags: ['name'],
     placeHolder: 'Personalization(Custom Name)',
     name: 'name',
     inputType: 'text',
     labelOnProduct: 'name',
   },
-  initialLetter: {
+  {
     inputNumber: 1,
-    tag: ['initial-letter'],
+    tags: ['initial-letter', 'initial_letter'],
     placeHolder: 'Letter',
     name: 'initialLetter',
     inputType: 'text',
     labelOnProduct: 'letter',
   },
-  singleBirthstone: {
+  {
     inputNumber: 1,
-    tag: ['single-birthstone'],
+    tags: ['single-birthstone', 'io_singlebirhtstone'],
     placeHolder: 'Choose Birthstone',
     name: 'singleBirthstone',
     inputType: 'select',
@@ -96,17 +106,21 @@ export const tags = {
       'Blue Topaz (December)',
     ],
   },
-  multipleBirthStone: {
+  {
     inputNumber: 1,
-    tag: ['multiple-birthstone'],
+    tags: [
+      'multiple-birthstone',
+      'io_multiplebirthstone',
+      'io_multiplebirhtstone',
+    ],
     placeHolder: 'Please Specify Each Birthstone from Left to Right',
     name: 'multipleBirthStone',
     inputType: 'text',
     labelOnProduct: 'birthstone',
   },
-  expandableInsideEngraving: {
+  {
     inputNumber: 3,
-    tag: ['expandable-inside-engraving'],
+    tags: ['expandable-inside-engraving', 'io_engraveable'],
     name: 'multipleBirthStone',
     inputs: {
       first: {
@@ -138,9 +152,10 @@ export const tags = {
       },
     },
   },
-  bridalSetInsideEngraving: {
+  {
     inputNumber: 5,
-    tag: ['bridal-set-inside-engraving'],
+    productType: ['bridal sets'],
+    tags: ['bridal-set-inside-engraving'],
     name: 'bridalSetInsideEngraving',
     inputs: {
       first: {
@@ -193,9 +208,9 @@ export const tags = {
       },
     },
   },
-  signedOutSideEngraving3Letters: {
+  {
     inputNumber: 3,
-    tag: ['signed-outside-engraving-three-letters'],
+    tags: ['signed-outside-engraving-three-letters', 'signet_engrave'],
     name: 'signedOutSideEngraving3Letters',
     inputs: {
       first: {
@@ -229,9 +244,13 @@ export const tags = {
       },
     },
   },
-  outSideEngraving25Letters: {
+  {
     inputNumber: 3,
-    tag: ['outside-engraving-25-letters'],
+    productHandle: [
+      '14k-solid-gold-dainty-personalized-signet-ring',
+      '14k-gold-elongated-rectangular-signet-ring',
+    ],
+    tags: ['outside-engraving-25-letters'],
     name: 'outSideEngraving25Letters',
     inputs: {
       first: {
@@ -265,9 +284,10 @@ export const tags = {
       },
     },
   },
-  outsideEngravingZodiac: {
+  {
     inputNumber: 1,
-    tag: ['single-birthstone'],
+    productHandle: ['zodiac-signet-ring'],
+    tags: ['single-birthstone'],
     placeHolder: 'Choose Zodiac Engraving(Optional-See Images)',
     name: 'outsideEngravingZodiac',
     inputType: 'select',
@@ -287,4 +307,4 @@ export const tags = {
       '12 - Pisces',
     ],
   },
-};
+];

@@ -17,6 +17,7 @@ import {
 } from '@shopify/hydrogen';
 import {getVariantUrl} from '~/utils';
 import FeaturedCollection from '~/components/Featured Collections/Index';
+import ProductExtraInput from '../components/Product Extra Inputs/Index';
 import gsap from 'gsap';
 
 export const meta = ({data}) => {
@@ -309,8 +310,15 @@ function ProductForm({product, selectedVariant, variants}) {
           options={product.options}
           variants={variants}
         >
-          {({option}) => <ProductOptions key={option.name} option={option} />}
+          {({option}) => (
+            <ProductOptions
+              product={product}
+              key={option.name}
+              option={option}
+            />
+          )}
         </VariantSelector>
+        <ProductExtraInput product={product} />
       </div>
       <br />
       <AddToCartButton
@@ -350,36 +358,39 @@ function ProductOptions({option}) {
   let activeOption = _.find(option.values, {isActive: true}).value;
 
   return (
-    <ClickAwayListener onClickAway={() => setIsOpen(false)}>
-      <div
-        className="relative px-2 py-4 text-normal border-2 cursor-pointer"
-        key={option.name}
-        onClick={() => setIsOpen((prev) => !prev)}
-      >
-        <span className="font-bold">{option.name}</span> :
-        <span> {activeOption} </span>
-        {isOpen ? (
-          <div className="absolute rounded-xl px-24  py-12 shadow-2xl right-[calc(100%+5px)] top-[50%] translate-y-[-50%] grid grid-col-1 gap-2 clip-path bg-[#e5e7eb]">
-            {option.values.map(({value, isAvailable, isActive, to}) => {
-              return (
-                <Link
-                  className=" text-slate-600 hover:underline text-center text-lg font-bold uppercase w-[200px]"
-                  key={option.name + value}
-                  prefetch="intent"
-                  preventScrollReset
-                  replace
-                  to={to}
-                >
-                  {value}
-                </Link>
-              );
-            })}
-          </div>
-        ) : undefined}
-        <br />
-        <AiOutlineDown className="absolute right-3 top-5 text-lg" />
-      </div>
-    </ClickAwayListener>
+    <>
+      <ClickAwayListener onClickAway={() => setIsOpen(false)}>
+        <div
+          className="relative px-2 py-4 text-normal border-2 cursor-pointer"
+          key={option.name}
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          <span className="font-bold">{option.name}</span> :
+          <span> {activeOption} </span>
+          {isOpen ? (
+            <div className="absolute rounded-xl px-24  py-12 shadow-2xl right-[calc(100%+5px)] top-[50%] translate-y-[-50%] grid grid-col-1 gap-2 clip-path bg-[#e5e7eb]">
+              {option.values.map(({value, isAvailable, isActive, to}) => {
+                return (
+                  <Link
+                    className=" text-slate-600 hover:underline text-center text-lg font-bold uppercase w-[200px]"
+                    key={option.name + value}
+                    prefetch="intent"
+                    preventScrollReset
+                    replace
+                    to={to}
+                  >
+                    {value}
+                  </Link>
+                );
+              })}
+            </div>
+          ) : undefined}
+          <br />
+          <AiOutlineDown className="absolute right-3 top-5 text-lg" />
+        </div>
+      </ClickAwayListener>
+     
+    </>
   );
 }
 
@@ -491,6 +502,12 @@ const PRODUCT_FRAGMENT = `#graphql
     vendor
     tags
     handle
+    collections ( first :1) {
+    nodes{
+      title
+     }
+    }
+    productType
     descriptionHtml
     images (first:20 ) {
         nodes {
