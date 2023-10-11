@@ -65,12 +65,18 @@ export default function Homepage() {
       <FeaturedCollection data={data.featuredCollectionTwo} />
       {/* <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} /> */}
-      <div id="fb-root"></div>
+      {/* <div id="fb-root"></div>
 
       <div
         ref={MessengerRef}
         id="fb-customer-chat"
         class="fb-customerchat"
+      ></div> */}
+      <div id="fb-root" style={{display: showMsngr ? 'block' : 'none'}}></div>
+      <div
+        ref={MessengerRef}
+        id="fb-customer-chat"
+        className="fb-customerchat"
       ></div>
     </div>
   );
