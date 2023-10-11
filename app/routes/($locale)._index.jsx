@@ -72,7 +72,7 @@ export default function Homepage() {
         id="fb-customer-chat"
         class="fb-customerchat"
       ></div> */}
-      <div id="fb-root" style={{display: showMsngr ? 'block' : 'none'}}></div>
+      <div id="fb-root" style={{display: 'block'}}></div>
       <div
         ref={MessengerRef}
         id="fb-customer-chat"
