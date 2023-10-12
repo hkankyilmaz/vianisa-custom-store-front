@@ -83,8 +83,36 @@ export const tags = [
     tags: ['initial-letter', 'initial_letter'],
     placeHolder: 'Letter',
     name: 'initialLetter',
-    inputType: 'text',
+    inputType: 'select',
     labelOnProduct: 'letter',
+    options: [
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F',
+      'G',
+      'H',
+      'I',
+      'J',
+      'K',
+      'L',
+      'M',
+      'N',
+      'O',
+      'P',
+      'Q',
+      'R',
+      'S',
+      'T',
+      'U',
+      'V',
+      'W',
+      'X',
+      'Y',
+      'Z',
+    ],
   },
   {
     inputNumber: 1,
@@ -124,15 +152,15 @@ export const tags = [
     inputNumber: 3,
     tags: ['expandable-inside-engraving', 'IO_Engraveable'],
     name: 'multipleBirthStone',
-    inputs: {
-      first: {
-        placeHolder: 'Free Custom Inside Engraving(Optional)',
+    inputs: [
+      {
+        placeHolder: 'Free Custom Inside Engraving (Optional)',
         name: 'one',
         inputType: 'checkbox',
         labelOnProduct: 'Free Custom Inside Engraving',
       },
-      second: {
-        placeHolder: 'Choose a Font(Refer to Images)',
+      {
+        placeHolder: 'Choose a Font (Refer to Images)',
         name: 'second',
         inputType: 'select',
         labelOnProduct: 'Engraving Font',
@@ -146,27 +174,27 @@ export const tags = [
           'Custom (Add a note in the text)',
         ],
       },
-      third: {
+      {
         placeHolder: 'Engraving Text',
         name: 'third',
         inputType: 'text',
         labelOnProduct: 'Engraving Text',
       },
-    },
+    ],
   },
   {
     inputNumber: 5,
     productType: ['bridal sets'],
     tags: ['bridal-set-inside-engraving'],
     name: 'bridalSetInsideEngraving',
-    inputs: {
-      first: {
+    inputs: [
+      {
         placeHolder: 'Free Custom Inside Engraving(Optional)',
         name: 'one',
         inputType: 'checkbox',
         labelOnProduct: 'Free Custom Inside Engraving',
       },
-      second: {
+      {
         placeHolder: 'Choose a Font for Engagement Ring(Refer to Images)',
         name: 'second',
         inputType: 'select',
@@ -181,13 +209,13 @@ export const tags = [
           'Custom (Add a note in the text)',
         ],
       },
-      third: {
+      {
         placeHolder: 'Engraving Text for Engagement Ring',
         name: 'third',
         inputType: 'text',
         labelOnProduct: 'Engraving Text for Engagement Ring',
       },
-      fourth: {
+      {
         placeHolder: 'Choose a Font for Wedding Band(Refer to Images)',
         name: 'fourth',
         inputType: 'select',
@@ -202,27 +230,27 @@ export const tags = [
           'Custom (Add a note in the text)',
         ],
       },
-      fifth: {
+      {
         placeHolder: 'Engraving Text for Wedding Band',
         name: 'five',
         inputType: 'text',
         labelOnProduct: 'Engraving Text for Wedding Band',
       },
-    },
+    ],
   },
   {
     inputNumber: 3,
     tags: ['signed-outside-engraving-three-letters', 'signet_engrave'],
     name: 'signedOutSideEngraving3Letters',
-    inputs: {
-      first: {
+    inputs: [
+      {
         placeHolder: 'Free Outside Engraving (Optional)',
         name: 'one',
         inputType: 'checkbox',
         labelOnProduct: 'Free Outside Engraving',
       },
-      second: {
-        placeHolder: 'Choose a Font(Refer to Images)',
+      {
+        placeHolder: 'Choose a Font (Refer to Images)',
         name: 'second',
         inputType: 'select',
         labelOnProduct: 'Engraving Font',
@@ -238,13 +266,13 @@ export const tags = [
           'F08 - Old English Text',
         ],
       },
-      third: {
+      {
         placeHolder: 'Engraving Letters(up to 3)',
         name: 'third',
         inputType: 'text',
         labelOnProduct: 'Engraving Letters',
       },
-    },
+    ],
   },
   {
     inputNumber: 3,
@@ -254,14 +282,14 @@ export const tags = [
     ],
     tags: ['outside-engraving-25-letters'],
     name: 'outSideEngraving25Letters',
-    inputs: {
-      first: {
+    inputs: [
+      {
         placeHolder: 'Free Outside Engraving (Optional)',
         name: 'one',
         inputType: 'checkbox',
         labelOnProduct: 'Free Outside Engraving',
       },
-      second: {
+      {
         placeHolder: 'Choose a Font(Refer to Images)',
         name: 'second',
         inputType: 'select',
@@ -278,13 +306,13 @@ export const tags = [
           'F08 - Old English Text',
         ],
       },
-      third: {
+      {
         placeHolder: 'Engraving Letters(up to 25)',
         name: 'third',
         inputType: 'text',
         labelOnProduct: 'Engraving Letters',
       },
-    },
+    ],
   },
   {
     inputNumber: 1,

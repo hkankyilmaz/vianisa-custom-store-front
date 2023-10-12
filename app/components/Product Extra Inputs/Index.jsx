@@ -36,7 +36,7 @@ export function ProductExtraInputType({product}) {
                   )
                 : undefined}
             </select>
-            <AiOutlineDown className="absolute right-4 top-20 text-lg z-[-1]" />
+            <AiOutlineDown className="absolute right-4 top-5 text-lg z-[-1]" />
           </div>
         );
       }
@@ -70,7 +70,7 @@ export function ProductExtraInputTag({product}) {
               data-name={inputObj.name}
               placeholder={inputObj.placeHolder}
             />
-            <AiOutlineDown className="absolute right-4 top-8 text-lg z-[-1]" />
+            <AiOutlineDown className="absolute right-4top-[50%] translate-y-[-50%] text-lg z-[-1]" />
           </div>
         ) : inputObj.inputNumber == 1 && inputObj.inputType == 'select' ? (
           <div className="relative my-3 h-[46px]">
@@ -93,11 +93,70 @@ export function ProductExtraInputTag({product}) {
                         j * inputObj.options.delimeter}{' '}
                     </option>
                   ))
-                : undefined}
+                : inputObj.options.map((i, j) => (
+                    <option value={i}> {i} </option>
+                  ))}
             </select>
-            <AiOutlineDown className="absolute right-4 top-8 text-lg z-[-1]" />
+            <AiOutlineDown className="absolute right-4 top-[50%] translate-y-[-50%] text-lg z-[-1]" />
           </div>
-        ) : undefined}
+        ) : (
+          <>
+            {inputObj.inputs.map((inputObjSub) =>
+              inputObjSub.inputType == 'checkbox' ? (
+                <div className="flex items-center">
+                  <input
+                    data-labelOnProduct={inputObjSub.labelOnProduct}
+                    data-name={inputObj.name}
+                    value={true}
+                    name="chck"
+                    id="chck"
+                    className="mr-2"
+                    type="checkbox"
+                  />
+                  <label for={'chck'}> {inputObjSub.placeHolder} </label>
+                </div>
+              ) : inputObjSub.inputType == 'select' ? (
+                <div className="relative my-3 h-[46px]">
+                  <select
+                    data-labelOnProduct={inputObjSub.labelOnProduct}
+                    data-name={inputObjSub.name}
+                    className=" w-full h-[46px] cursor-pointer bg-transparent p-4 focus:border-transparent text-normal focus:outline-none border-2 border-[#E5E7EB] z-3"
+                  >
+                    <option value={null}> {inputObjSub.placeHolder} </option>
+                    {inputObjSub.options.delimeter
+                      ? fill(Array(inputObjSub.options.optionCount), '').map(
+                          (i, j) => (
+                            <option
+                              value={
+                                inputObjSub.options.range[0] +
+                                j * inputObjSub.options.delimeter
+                              }
+                            >
+                              Size{' '}
+                              {inputObjSub.options.range[0] +
+                                j * inputObjSub.options.delimeter}{' '}
+                            </option>
+                          ),
+                        )
+                      : inputObjSub.options.map((i, j) => (
+                          <option value={i}> {i} </option>
+                        ))}
+                  </select>
+                  <AiOutlineDown className="absolute right-4 top-[50%] translate-y-[-50%] text-lg z-[-1]" />
+                </div>
+              ) : inputObjSub.inputType == 'text' ? (
+                <div className="relative my-3 h-[46px]">
+                  <input
+                    className="w-full text-normal px-4 bg-transparent h-[46px] focus:border-transparent focus:outline-none border-2 border-[#E5E7EB] z-3"
+                    data-labelOnProduct={inputObjSub.labelOnProduct}
+                    data-name={inputObjSub.name}
+                    placeholder={inputObjSub.placeHolder}
+                  />
+                </div>
+              ) : undefined,
+            )}
+          </>
+        )}
       </>
     ));
   }
