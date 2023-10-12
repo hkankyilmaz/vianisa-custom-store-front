@@ -157,7 +157,9 @@ function ProductMain({selectedVariant, product, variants}) {
 
   return (
     <div className="product-main">
-      <h1 className="text-xl uppercase opacity-70">{title}</h1>
+      <h1 className="text-2xl uppercase opacity-70 font-montserratMd tracking-widest">
+        {title}
+      </h1>
 
       <ProductPrice selectedVariant={selectedVariant} />
       <br />
@@ -209,13 +211,13 @@ function ProductMain({selectedVariant, product, variants}) {
             onClick={() => setIsGemStoneOpt((prev) => !prev)}
             className="relative px-2 py-4 mb-3 text-normal border-2 cursor-pointer"
           >
-            <span className="font-bold">Gemstone</span> :
-            <span>
+            <span className="text-[#595959] tracking-wide">Gemstone</span> :
+            <span className="text-[#595959] tracking-wide">
               {_.includes(matches, 'moissanite')
                 ? ' Moissanite'
                 : ' Lab Grown Diamond'}
             </span>
-            <AiOutlineDown className="absolute right-3 top-5 text-lg" />
+            <AiOutlineDown className="absolute right-3 top-5 text-lg text-[#595959]" />
             {isOpenGemStoneOpt ? (
               <div className="absolute rounded-xl px-24 py-12 shadow-2xl right-[calc(100%+5px)] top-[50%] translate-y-[-50%] grid grid-col-1 gap-2 clip-path bg-[#e5e7eb]">
                 {_.fill(Array(2), '').map((i, j) => (
@@ -278,10 +280,12 @@ function ProductMain({selectedVariant, product, variants}) {
 
 function ProductPrice({selectedVariant}) {
   return (
-    <div className="product-price">
+    <div className="product-price font-montserratMd tracking-[2px]">
       {selectedVariant?.compareAtPrice ? (
         <>
-          <p className="text-xs underline text-black">Sale</p>
+          <p className="text-xs underline text-black tracking-normal mb-1">
+            Sale
+          </p>
           <div className="product-price-on-sale">
             {selectedVariant ? (
               <Money
@@ -306,7 +310,7 @@ function ProductPrice({selectedVariant}) {
 
 function ProductForm({product, selectedVariant, variants}) {
   return (
-    <div className="product-form  border-b pb-6 border-[#bfbfbf]">
+    <div className="product-form  border-b pb-6 border-[#bfbfbf] font-questrial">
       <div className="gap-x-3 grid grid-cols-2">
         <VariantSelector
           handle={product.handle}
@@ -365,12 +369,11 @@ function ProductOptions({option}) {
     <>
       <ClickAwayListener onClickAway={() => setIsOpen(false)}>
         <div
-          className="relative px-2 py-4 text-normal border-2 cursor-pointer"
+          className="relative px-2 py-4 text-normal border-2 cursor-pointer text-[#595959] tracking-wide"
           key={option.name}
           onClick={() => setIsOpen((prev) => !prev)}
         >
-          <span className="font-bold">{option.name}</span> :
-          <span> {activeOption} </span>
+          <span className="">{option.name}</span> :<span> {activeOption} </span>
           {isOpen ? (
             <div className="absolute rounded-xl px-24  py-12 shadow-2xl right-[calc(100%+5px)] top-[50%] translate-y-[-50%] grid grid-col-1 gap-2 clip-path bg-[#e5e7eb]">
               {option.values.map(({value, isAvailable, isActive, to}) => {
@@ -440,11 +443,11 @@ function ProductDescription({descriptionHtml}) {
   return (
     <div
       ref={ref}
-      className="h-[50px] mb-4 overflow-hidden border-y py-6 border-[#bfbfbf]"
+      className="h-[50px] mb-4 overflow-hidden border-y py-6 border-[#bfbfbf] text-[#595959] tracking-wide"
     >
       <p
         onClick={() => handleAnimate()}
-        className="uppercase tracking-widest relative cursor-pointer"
+        className="uppercase relative cursor-pointer font-montserratMd tracking-[2px]"
       >
         <strong>Description</strong>
         <span className="absolute right-3 top-1 text-lg" ref={ref_}>
@@ -453,7 +456,7 @@ function ProductDescription({descriptionHtml}) {
       </p>
       <br />
       <div
-        className="[&>div]:bg-slate-100 [&>div]:p-4 [&>div]:mb-3"
+        className="[&>div]:bg-slate-100 [&>div]:p-4 [&>div]:mb-3 text-lg"
         dangerouslySetInnerHTML={{__html: descriptionHtml}}
       />
       <br />

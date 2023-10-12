@@ -5,4 +5,11 @@ import typographyPlugin from '@tailwindcss/typography';
 export default {
   content: ['./app/**/*.{js,ts,jsx,tsx}'],
   plugins: [formsPlugin, typographyPlugin],
+  theme: {
+    fontFamily: {
+      montserratMd: ['montserratmedium', 'sans-serif'],
+      playfair: ['playfair', 'serif'],
+      questrial: ['Questrial', 'sans-serif'],
+    },
+  },
 };

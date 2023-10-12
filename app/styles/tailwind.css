@@ -1,6 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+@font-face {
+  font-family: 'montserratmedium';
+  src: url('../assets/Montserrat-Medium.otf');
+}
+@font-face {
+  font-family: 'playFair';
+  src: url('../assets/PlayfairDisplay-VariableFont_wght.ttf');
+}
 
 :root {
   --x: 0;

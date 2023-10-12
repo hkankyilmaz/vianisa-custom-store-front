@@ -12,7 +12,7 @@ export function ProductExtraInputType({product}) {
     if (resultType?.inputNumber == 1) {
       if (resultType.inputType == 'select') {
         return (
-          <div className="relative my-3 h-[46px]">
+          <div className="relative my-3 h-[46px] text-[#595959] tracking-wide">
             <select
               data-labelOnProduct={resultType.labelOnProduct}
               data-name={resultType.name}
@@ -61,7 +61,7 @@ export function ProductExtraInputTag({product}) {
 
   if (resultTag) {
     return resultTag.map((inputObj) => (
-      <>
+      <div className="text-[#595959] tracking-wide">
         {inputObj.inputNumber == 1 && inputObj.inputType == 'text' ? (
           <div className="relative my-3 h-[46px]">
             <input
@@ -157,7 +157,7 @@ export function ProductExtraInputTag({product}) {
             )}
           </>
         )}
-      </>
+      </div>
     ));
   }
 }

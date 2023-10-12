@@ -10,15 +10,6 @@
   --color-light: #fff;
 }
 
-@font-face {
-  font-family: 'montserratmedium';
-  src: url('../assets/Montserrat-Medium.otf');
-}
-@font-face {
-  font-family: 'playFair';
-  src: url('../assets/PlayfairDisplay-VariableFont_wght.ttf');
-}
-
 body,
 html {
   overflow-x: hidden;
