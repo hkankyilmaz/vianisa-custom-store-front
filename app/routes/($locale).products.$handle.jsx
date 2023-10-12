@@ -156,7 +156,7 @@ function ProductMain({selectedVariant, product, variants}) {
   }, [matches]);
 
   return (
-    <div className="product-main">
+    <div className="product-main  max-lg:px-[1.6rem] lg:mr-[75px]">
       <h1 className="text-2xl uppercase opacity-70 font-montserratMd tracking-widest">
         {title}
       </h1>
