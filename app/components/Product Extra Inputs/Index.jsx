@@ -2,6 +2,7 @@ import React from 'react';
 import {each, filter, find, includes, fill} from 'lodash';
 import {tags} from '../../constant/sizes';
 import {AiOutlineDown} from 'react-icons/ai';
+import Checkbox from '@mui/material/Checkbox';
 
 export function ProductExtraInputType({product}) {
   const productType = product.productType.toLowerCase();
@@ -104,16 +105,18 @@ export function ProductExtraInputTag({product}) {
             {inputObj.inputs.map((inputObjSub) =>
               inputObjSub.inputType == 'checkbox' ? (
                 <div className="flex items-center">
-                  <input
+                  <Checkbox
                     data-labelOnProduct={inputObjSub.labelOnProduct}
                     data-name={inputObj.name}
                     value={true}
                     name="chck"
                     id="chck"
-                    className="mr-2"
-                    type="checkbox"
+                    className="p-0"
                   />
-                  <label for={'chck'}> {inputObjSub.placeHolder} </label>
+                  <label className="ml-1" for={'chck'}>
+                    {' '}
+                    {inputObjSub.placeHolder}{' '}
+                  </label>
                 </div>
               ) : inputObjSub.inputType == 'select' ? (
                 <div className="relative my-3 h-[46px]">

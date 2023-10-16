@@ -151,17 +151,17 @@ export const tags = [
   {
     inputNumber: 3,
     tags: ['expandable-inside-engraving', 'IO_Engraveable'],
-    name: 'multipleBirthStone',
+    name: 'expandableInsideEngraving',
     inputs: [
       {
         placeHolder: 'Free Custom Inside Engraving (Optional)',
-        name: 'one',
+        name: 'isYes',
         inputType: 'checkbox',
         labelOnProduct: 'Free Custom Inside Engraving',
       },
       {
         placeHolder: 'Choose a Font (Refer to Images)',
-        name: 'second',
+        name: 'font',
         inputType: 'select',
         labelOnProduct: 'Engraving Font',
         options: [
@@ -176,7 +176,7 @@ export const tags = [
       },
       {
         placeHolder: 'Engraving Text',
-        name: 'third',
+        name: 'text',
         inputType: 'text',
         labelOnProduct: 'Engraving Text',
       },

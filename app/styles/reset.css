@@ -101,3 +101,7 @@ code {
   font-family: monospace;
   padding: 0.25rem;
 }
+.MuiCheckbox-root {
+  padding: 0 !important;
+  border-color: gray !important;
+}

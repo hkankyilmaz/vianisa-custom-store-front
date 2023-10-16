@@ -340,6 +340,12 @@ function ProductForm({product, selectedVariant, variants}) {
                 {
                   merchandiseId: selectedVariant.id,
                   quantity: 1,
+                  attributes: [
+                    {
+                      key: 'hakan',
+                      value: 'hakan',
+                    },
+                  ],
                 },
               ]
             : []
