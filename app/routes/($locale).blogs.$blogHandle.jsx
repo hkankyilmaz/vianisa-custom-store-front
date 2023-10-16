@@ -7,18 +7,20 @@ export const meta = ({data}) => {
 };
 
 export const loader = async ({request, params, context: {storefront}}) => {
-  const paginationVariables = getPaginationVariables(request, {
+  /*  const paginationVariables = getPaginationVariables(request, {
     pageBy: 4,
   });
-
+ */
   if (!params.blogHandle) {
+    console.log('hata11');
+
     throw new Response(`blog not found`, {status: 404});
   }
-
+  console.log(params.blogHandle);
   const {blog} = await storefront.query(BLOGS_QUERY, {
     variables: {
-      blogHandle: params.blogHandle,
-      ...paginationVariables,
+      handle: params.blogHandle,
+      /*  ...paginationVariables, */
     },
   });
 
@@ -37,7 +39,7 @@ export default function Blog() {
     <div className="blog">
       <h1>{blog.title}</h1>
       <div className="blog-grid">
-        <Pagination connection={articles}>
+        {/*     <Pagination connection={articles}>
           {({nodes, isLoading, PreviousLink, NextLink}) => {
             return (
               <>
@@ -59,7 +61,8 @@ export default function Blog() {
               </>
             );
           }}
-        </Pagination>
+        </Pagination> */}
+        {articles.data.pageByHandle.body}
       </div>
     </div>
   );
@@ -91,6 +94,19 @@ function ArticleItem({article, loading}) {
     </div>
   );
 }
+const BLOGS_QUERY = `
+query Blog($handle:String!){
+  pageByHandle(handle:$handle) {
+body
+    id
+    title
+    seo {
+      description
+      title
+    }
+  }
+}`;
+/* 
 
 // NOTE: https://shopify.dev/docs/api/storefront/latest/objects/blog
 const BLOGS_QUERY = `#graphql
@@ -148,3 +164,4 @@ const BLOGS_QUERY = `#graphql
     }
   }
 `;
+ */
