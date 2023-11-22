@@ -1,6 +1,6 @@
 import {json} from '@shopify/remix-oxygen';
 import {NO_PREDICTIVE_SEARCH_RESULTS} from '~/components/Search';
-import _ from 'lodash';
+// import _ from 'lodash';
 
 const DEFAULT_SEARCH_TYPES = [
   'ARTICLE',

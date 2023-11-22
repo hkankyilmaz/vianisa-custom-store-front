@@ -111,7 +111,7 @@ export default function App() {
 
         {/* <!-- Your Chat plugin code --> */}
         <div id="fb-customer-chat" className="fb-customerchat"></div>
-        <script
+        {/* <script
           id="messenger-tag"
           // nonce={nonce}
           // strategy="afterInteractive"
@@ -143,7 +143,7 @@ export default function App() {
               fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));`,
           }}
-        ></script>
+        ></script> */}
         <Layout {...data}>
           <Outlet />
         </Layout>
