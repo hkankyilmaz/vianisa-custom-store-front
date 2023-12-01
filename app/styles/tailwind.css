@@ -61,7 +61,7 @@ Featured Collection
 }
 
 .slider-btn__featuredCol {
-  @apply top-[50%] translate-y-[-60%] border p-4 rounded-full hover:bg-slate-100 absolute;
+  @apply top-[50%] translate-y-[-50%] border p-4 rounded-full hover:bg-slate-100 absolute;
 }
 /*
 ----------------------------------------- 

@@ -468,3 +468,56 @@ aside li {
     0% 47.75%
   );
 }
+
+/*
+* --------------------------------------------------
+* components/FeaturedCollection
+* --------------------------------------------------
+*/
+@keyframes slideOutAndInRight {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  33% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  66% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutAndInLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  33% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  66% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (hover: hover) {
+  .next-button:hover svg {
+    animation: slideOutAndInRight ease-in-out 0.4s forwards;
+  }
+
+  .prev-button:hover svg {
+    animation: slideOutAndInLeft ease-in-out 0.4s forwards;
+  }
+}

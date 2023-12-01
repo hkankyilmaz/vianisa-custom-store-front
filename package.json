@@ -20,11 +20,12 @@
     "@shopify/cli-hydrogen": "^5.2.3",
     "@shopify/hydrogen": "^2023.7.7",
     "@shopify/remix-oxygen": "^1.1.4",
+    "@tailwindcss/container-queries": "^0.1.1",
     "dayjs": "^1.11.10",
     "dayjs-business-days": "^1.0.4",
     "embla-carousel-autoplay": "^8.0.0-rc14",
     "embla-carousel-react": "^8.0.0-rc14",
-    "framer-motion": "^10.16.5",
+    "framer-motion": "^10.16.9",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
     "gsap": "^3.12.2",
@@ -34,6 +35,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
+    "react-slick": "^0.29.0",
     "styled-components": "^6.0.8"
   },
   "devDependencies": {

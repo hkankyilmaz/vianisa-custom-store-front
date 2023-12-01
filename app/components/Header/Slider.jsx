@@ -19,11 +19,10 @@ export default BannerSlider;
 
 /*********************************************************/
 
-const EmblaCarousel = (props) => {
-  const {slides, options} = props;
+const EmblaCarousel = ({slides, options}) => {
   const autoplayOptions = {
     delay: SLIDE_DELAY,
-    stopOnInteraction: true,
+    stopOnInteraction: false,
   };
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [
     Autoplay(autoplayOptions),
@@ -43,38 +42,36 @@ const EmblaCarousel = (props) => {
     <div className="overflow-hidden relative" ref={emblaRef}>
       <div className="flex touch-pan-y">
         {slides.map((index) => (
-          <>
-            <Banner
-              imageSrc={imageByIndex(index)}
-              positionAlign="left"
-              key={index}
-            >
-              <Banner.Header>
-                <h1 className="text-4xl font-bold top-1/2">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
-                </h1>
-                <p className="text-xl">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
-                </p>
-              </Banner.Header>
-              <Banner.Body>
-                <p className="text-xl">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
-                </p>
-                <p className="text-xl">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
-                </p>
-                <p className="text-xl">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
-                </p>
-              </Banner.Body>
-              <Banner.Footer>
-                <button className="bg-[#2f2f2f] text-white px-5 py-2 rounded-full">
-                  Lorem ipsum
-                </button>
-              </Banner.Footer>
-            </Banner>
-          </>
+          <Banner
+            imageSrc={imageByIndex(index)}
+            positionAlign="left"
+            key={index}
+          >
+            <Banner.Header>
+              <h1 className="text-4xl font-bold top-1/2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
+              </h1>
+              <p className="text-xl">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
+              </p>
+            </Banner.Header>
+            <Banner.Body>
+              <p className="text-xl">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
+              </p>
+              <p className="text-xl">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
+              </p>
+              <p className="text-xl">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
+              </p>
+            </Banner.Body>
+            <Banner.Footer>
+              <button className="bg-[#2f2f2f] text-white px-5 py-2 rounded-full">
+                Lorem ipsum
+              </button>
+            </Banner.Footer>
+          </Banner>
         ))}
       </div>
 
@@ -133,9 +130,7 @@ const useDotButton = (emblaApi, onButtonClick) => {
   };
 };
 
-const DotButton = (props) => {
-  const {children, ...restProps} = props;
-
+const DotButton = ({children, ...restProps}) => {
   return (
     <button type="button" {...restProps}>
       {children}
@@ -209,7 +204,6 @@ const Banner = ({
   };
 
   useEffect(() => {
-    console.log('isInView', isInView, imageSrc);
     let timeout;
     const show = () => {
       controls.start('visible');
