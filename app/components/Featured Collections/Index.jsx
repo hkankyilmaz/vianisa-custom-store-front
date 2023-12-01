@@ -110,35 +110,36 @@ const Carousel = ({
   };
 
   useEffect(() => {
-    //   setTimeout(() => {
-    //     setWidth(
-    //       carouselContainerRef.current.scrollWidth -
-    //         carouselContainerRef.current.offsetWidth,
-    //     );
-    //   }, 1000);
+    setTimeout(() => {
+      setWidth(
+        carouselContainerRef.current.scrollWidth -
+          carouselContainerRef.current.offsetWidth,
+      );
+    }, 1000);
+    // const handleRefResize = debounce(() => {});
 
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-      // setTimeout(() => {
-      //   console.log(
-      //     renderCount.current % 2 == 0 ? 'initial' : 'strict mode',
-      //     carouselContainerRef.current.scrollWidth -
-      //       carouselContainerRef.current.offsetWidth,
-      //   );
-      //   setWidth(
-      //     carouselContainerRef.current.scrollWidth -
-      //       carouselContainerRef.current.offsetWidth,
-      //   );
-      //   renderCount.current += 1;
-      // }, 1000);
+      //setWindowWidth(window.innerWidth);
+      setTimeout(() => {
+        console.log(
+          renderCount.current % 2 == 0 ? 'initial' : 'strict mode',
+          carouselContainerRef.current.scrollWidth -
+            carouselContainerRef.current.offsetWidth,
+        );
+        setWidth(
+          carouselContainerRef.current.scrollWidth -
+            carouselContainerRef.current.offsetWidth,
+        );
+        renderCount.current += 1;
+      }, 1000);
 
-      // if (window.innerWidth < 1024) {
-      //   setIsTabletSize(true);
-      //   setItemGroups(groupItems(items, 1));
-      // } else {
-      //   setIsTabletSize(false);
-      //   setItemGroups(groupItems(items, itemsPerGroup));
-      // }
+      if (window.innerWidth < 1024) {
+        setIsTabletSize(true);
+        setItemGroups(groupItems(items, 1));
+      } else {
+        setIsTabletSize(false);
+        setItemGroups(groupItems(items, itemsPerGroup));
+      }
     };
 
     handleResize();
@@ -147,22 +148,22 @@ const Carousel = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useLayoutEffect(() => {
-    const newWidth =
-      carouselContainerRef.current.scrollWidth -
-      carouselContainerRef.current.offsetWidth;
-    setWidth(newWidth);
+  //   useLayoutEffect(() => {
+  //     const newWidth =
+  //       carouselContainerRef.current.scrollWidth -
+  //       carouselContainerRef.current.offsetWidth;
+  //     setWidth(newWidth);
 
-    console.log('newWidth', newWidth);
+  //     console.log('newWidth', newWidth);
 
-    if (window.innerWidth < 1024) {
-      setIsTabletSize(true);
-      setItemGroups(groupItems(items, 1));
-    } else {
-      setIsTabletSize(false);
-      setItemGroups(groupItems(items, itemsPerGroup));
-    }
-  }, [windowWidth]);
+  //     if (window.innerWidth < 1024) {
+  //       setIsTabletSize(true);
+  //       setItemGroups(groupItems(items, 1));
+  //     } else {
+  //       setIsTabletSize(false);
+  //       setItemGroups(groupItems(items, itemsPerGroup));
+  //     }
+  //   }, [windowWidth]);
 
   return (
     <>
@@ -241,6 +242,7 @@ function Item({product, className = ''}) {
       prefetch="intent"
       to={`/products/${product.handle}`}
       className={`cursor-pointer w-full ${className}`}
+      onDragStart={(e) => e.preventDefault()}
     >
       <div className="text-xs mb-1">Sale</div>
       <div className="w-full relative overflow-hidden">
