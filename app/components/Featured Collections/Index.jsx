@@ -212,7 +212,11 @@ const Carousel = ({items, itemsPerGroup = 1, loop = false}) => {
             ref={scope}
           >
             {itemGroups.map((group, index) => (
-              <CarouselItemGroup key={index} items={group} />
+              <CarouselItemGroup
+                key={index}
+                items={group}
+                itemsPerGroup={isTabletSize ? 1 : itemsPerGroup}
+              />
             ))}
           </motion.div>
         </motion.div>
@@ -237,11 +241,11 @@ const CarouselItem = ({item}) => {
   return item;
 };
 
-const CarouselItemGroup = ({items}) => {
+const CarouselItemGroup = ({items, itemsPerGroup}) => {
   return (
     <motion.div
       className="grid min-w-[50%] lg:min-w-full flex-1 max-lg:first-of-type:ml-[25%]"
-      style={{gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))`}}
+      style={{gridTemplateColumns: `repeat(${itemsPerGroup}, minmax(0, 1fr))`}}
     >
       {items.map((item, index) => (
         <CarouselItem key={index} item={item} />
