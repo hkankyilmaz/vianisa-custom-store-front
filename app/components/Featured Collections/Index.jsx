@@ -1,9 +1,18 @@
-import React, {useRef, useState, useEffect, useLayoutEffect} from 'react';
+'use client';
+
+import React, {useRef, useState, useEffect} from 'react';
 import {BsChevronRight, BsChevronLeft} from 'react-icons/bs';
 import {Image} from '@shopify/hydrogen';
 import {Link} from '@remix-run/react';
 import {Money} from '@shopify/hydrogen';
-import {cubicBezier, motion, useAnimate, useDragControls} from 'framer-motion';
+import {
+  cubicBezier,
+  motion,
+  useAnimate,
+  useMotionValue,
+  useMotionValueEvent,
+  useSpring,
+} from 'framer-motion';
 
 function FeaturedCollection({data}) {
   const items = data.collection?.products?.nodes.map((product, index) => (
@@ -28,20 +37,28 @@ export default FeaturedCollection;
 
 /*********************************************************/
 
-const Carousel = ({
-  items,
-  itemsPerGroup = 1,
-  //   dragFree = false,
-  loop = false,
-}) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const carouselContainerRef = useRef(null);
+const Carousel = ({items, itemsPerGroup = 1, loop = false}) => {
   const [scope, animate] = useAnimate();
   const [width, setWidth] = useState(0);
-  const [hasCrossedThreshold, setHasCrossedThreshold] = useState(false);
+  const carouselContainerRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [isTabletSize, setIsTabletSize] = useState(false);
-  const renderCount = useRef(0);
-  const [windowWidth, setWindowWidth] = useState(0);
+  const [hasCrossedThreshold, setHasCrossedThreshold] = useState(false);
+  const x = useMotionValue(0);
+  const prevIsTabletSize = useRef(isTabletSize);
+  const variants = {
+    hidden: {
+      opacity: 0,
+      y: 20,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 1,
+      },
+    },
+  };
 
   const groupItems = (items, itemsPerGroup) => {
     return items.reduce((acc, item, index) => {
@@ -68,6 +85,8 @@ const Carousel = ({
         ? nextIndex
         : nextIndex - 1 / (100 - 100 / nextGroupLength)) * 100;
 
+    console.log('translateAmount', translateAmount);
+
     animate(
       scope.current,
       {translateX: `-${translateAmount}%`},
@@ -88,6 +107,8 @@ const Carousel = ({
         ? prevIndex
         : prevIndex + 1 / (100 - 100 / prevGroupLength)) * 100;
 
+    console.log('translateAmount', translateAmount);
+
     animate(
       scope.current,
       {translateX: `-${translateAmount}%`},
@@ -103,67 +124,59 @@ const Carousel = ({
       info.offset.x / carouselContainerRef.current.offsetWidth,
     );
 
+    console.log('dragAmount', dragAmount);
+
     if (dragAmount > dragTreshold && !hasCrossedThreshold && !isTabletSize) {
       setHasCrossedThreshold(true);
       info.offset.x > 0 ? handlePrev() : handleNext();
     }
   };
 
+  useMotionValueEvent(x, 'change', (latest) => {
+    console.log('motion value', latest);
+  });
+
   useEffect(() => {
     setTimeout(() => {
-      setWidth(
-        carouselContainerRef.current.scrollWidth -
-          carouselContainerRef.current.offsetWidth,
-      );
-    }, 1000);
-    // const handleRefResize = debounce(() => {});
+      setWidth(scope.current.scrollWidth - scope.current.offsetWidth);
+    }, 200);
 
     const handleResize = () => {
-      //setWindowWidth(window.innerWidth);
-      setTimeout(() => {
-        console.log(
-          renderCount.current % 2 == 0 ? 'initial' : 'strict mode',
-          carouselContainerRef.current.scrollWidth -
-            carouselContainerRef.current.offsetWidth,
-        );
-        setWidth(
-          carouselContainerRef.current.scrollWidth -
-            carouselContainerRef.current.offsetWidth,
-        );
-        renderCount.current += 1;
-      }, 1000);
+      const {scrollWidth, offsetWidth} = scope.current;
+      const newWidth = scrollWidth - offsetWidth;
+
+      setWidth(newWidth);
+      setIsTabletSize((prev) => {
+        prevIsTabletSize.current = prev;
+        return window.innerWidth < 1024;
+      });
 
       if (window.innerWidth < 1024) {
-        setIsTabletSize(true);
-        setItemGroups(groupItems(items, 1));
-      } else {
-        setIsTabletSize(false);
-        setItemGroups(groupItems(items, itemsPerGroup));
+        x.jump(0);
       }
     };
 
     handleResize();
     window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
-  //   useLayoutEffect(() => {
-  //     const newWidth =
-  //       carouselContainerRef.current.scrollWidth -
-  //       carouselContainerRef.current.offsetWidth;
-  //     setWidth(newWidth);
+  useEffect(() => {
+    if (isTabletSize && !prevIsTabletSize.current) {
+      animate(scope.current, {translateX: '0%'});
+      setActiveIndex(0); //jump kullanınca burada çalışmıyor animate kullanınca çalışıyor
+      //x.jump(0);
+      setItemGroups(groupItems(items, 1));
+    }
 
-  //     console.log('newWidth', newWidth);
-
-  //     if (window.innerWidth < 1024) {
-  //       setIsTabletSize(true);
-  //       setItemGroups(groupItems(items, 1));
-  //     } else {
-  //       setIsTabletSize(false);
-  //       setItemGroups(groupItems(items, itemsPerGroup));
-  //     }
-  //   }, [windowWidth]);
+    if (!isTabletSize && prevIsTabletSize.current) {
+      //x.jump(0);
+      setItemGroups(groupItems(items, itemsPerGroup));
+    }
+  }, [isTabletSize]);
 
   return (
     <>
@@ -190,9 +203,12 @@ const Carousel = ({
               right: 0,
               left: isTabletSize ? -width : 0,
             }}
-            dragMomentum={isTabletSize ? true : false}
-            onDragEnd={handleDragEnd}
+            onDragEnd={isTabletSize ? null : handleDragEnd}
+            style={{x}}
             className="flex flex-row items-center"
+            variants={variants}
+            initial="hidden"
+            animate="visible"
             ref={scope}
           >
             {itemGroups.map((group, index) => (
@@ -237,12 +253,20 @@ const CarouselItemGroup = ({items}) => {
 /*********************************************************/
 
 function Item({product, className = ''}) {
+  const [isDragging, setIsDragging] = useState(false);
+
   return (
     <Link
       prefetch="intent"
-      to={`/products/${product.handle}`}
+      to={/* `/products/${product.handle}` */ '#'}
       className={`cursor-pointer w-full ${className}`}
-      onDragStart={(e) => e.preventDefault()}
+      onDragStart={(e) => {
+        setIsDragging(true);
+        e.preventDefault();
+      }}
+      onDragEnd={() => {
+        setIsDragging(false);
+      }}
     >
       <div className="text-xs mb-1">Sale</div>
       <div className="w-full relative overflow-hidden">
@@ -251,6 +275,11 @@ function Item({product, className = ''}) {
           loading="eager"
           sizes="400px"
           src={product.images.nodes[0].url}
+          onClick={(e) => {
+            if (isDragging) {
+              e.preventDefault();
+            }
+          }}
         />
       </div>
       <div className="flex justify-start items-center whitespace-normal tracking-wider line-clamp-2  text-xs mt-2">
