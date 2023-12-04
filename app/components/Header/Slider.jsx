@@ -40,7 +40,7 @@ const EmblaCarousel = ({slides, options}) => {
 
   return (
     <div className="overflow-hidden relative" ref={emblaRef}>
-      <div className="flex touch-pan-y">
+      <div className="flex touch-pan-y max-lg:min-h-[50vh]">
         {slides.map((index) => (
           <Banner
             imageSrc={imageByIndex(index)}
@@ -75,7 +75,7 @@ const EmblaCarousel = ({slides, options}) => {
         ))}
       </div>
 
-      <div className="absolute z-10 bottom-7 left-7 flex justify-center items-center gap-3">
+      <div className="absolute z-10 bottom-7 left-7 flex justify-center items-center gap-3 max-lg:hidden">
         {scrollSnaps.map((_, index) => (
           <DotButton
             key={index}
@@ -229,6 +229,7 @@ const Banner = ({
       >
         <motion.div
           className="w-full h-full flex flex-col gap-4"
+          initial="hidden"
           animate={controls}
           variants={variants}
         >
