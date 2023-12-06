@@ -4,7 +4,7 @@ import {Image} from '@shopify/hydrogen';
 import {Link} from '@remix-run/react';
 import {Money} from '@shopify/hydrogen';
 
-function FeaturedCollection({data}) {
+function FeaturedCollection({data, title}) {
   const [panigate, setPanigate] = useState(0);
   const [width, setWidth] = useState(0);
   const refOne = useRef();
@@ -53,11 +53,11 @@ function FeaturedCollection({data}) {
 
   return (
     <section
-      style={{fontFamily: 'montserratmedium'}}
-      className="flex flex-col justify-center items-center my-16 relative res-margine"
+      // style={{fontFamily: 'title'}}
+      className="font-body  flex flex-col justify-center items-center my-16 relative res-margine"
     >
-      <div className="text-xl text-center uppercase mb-5 w-full">
-        {data.collection?.title}
+      <div className="text-xl font-title text-center uppercase mb-5 w-full">
+        {title ? title : data.collection?.title}
       </div>
       <div
         ref={refOne}
@@ -77,7 +77,7 @@ function FeaturedCollection({data}) {
           <BsChevronLeft />
         </button>
         <button
-          style={{display: panigate == 4 ? 'none' : 'initial'}}
+          style={{display: panigate == 1 ? 'none' : 'initial'}}
           onClick={() => handleClick('right')}
           className="right-[-3em] slider-btn__featuredCol"
         >
@@ -97,7 +97,7 @@ function Item({product}) {
       to={`/products/${product.handle}`}
       className="inline-block w-[25%] pr-5 align-top cursor-pointer"
     >
-      <div className="text-xs mb-1">Sale</div>
+      <div className="text-xs tracking-widest mb-1">ON SALE</div>
       <div className="w-full relative overflow-hidden">
         <Image
           className="w-full h-auto hover:scale-[1.07] duration-500 ease-out"
@@ -106,10 +106,10 @@ function Item({product}) {
           src={product.images.nodes[0].url}
         />
       </div>
-      <div className="flex justify-start items-center whitespace-normal tracking-wider line-clamp-2  text-xs mt-2">
+      <div className="flex justify-start items-center whitespace-normal tracking-widest line-clamp-2 font-title font-medium text-normal mt-2">
         {product?.title}
       </div>
-      <div className="text-xs mt-1">
+      <div className="text-xs mt-1 ">
         {product.variants.nodes[0]?.compareAtPrice ? (
           <>
             {/* <p>Sale</p>
@@ -117,13 +117,13 @@ function Item({product}) {
             <div className="product-price-on-sale">
               {product.variants.nodes[0] ? (
                 <Money
-                  className="text-red-600 text-xs mt-1"
+                  className="text-red-600 tracking-widest	font-body font-normal text-xs mt-1"
                   data={product.variants.nodes[0].price}
                 />
               ) : null}
               <s className="!text-black">
                 <Money
-                  className="text-xs mt-1"
+                  className="font-body tracking-widest	 font-normal text-xs mt-1"
                   data={product.variants.nodes[0].compareAtPrice}
                 />
               </s>

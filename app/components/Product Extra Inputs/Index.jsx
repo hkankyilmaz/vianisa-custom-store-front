@@ -17,7 +17,7 @@ export function ProductExtraInputType({product}) {
             <select
               data-labelOnProduct={resultType.labelOnProduct}
               data-name={resultType.name}
-              className="w-full h-[46px] cursor-pointer bg-transparent p-4 focus:border-transparent text-normal focus:outline-none border-2 border-[#E5E7EB] z-3"
+              className="w-full h-[46px] cursor-pointer bg-transparent  focus:border-transparent text-normal focus:outline-none border-2 border-[#E5E7EB] z-3"
             >
               <option value={null}> {resultType.placeHolder} </option>
               {resultType.options.delimeter
@@ -78,7 +78,7 @@ export function ProductExtraInputTag({product}) {
             <select
               data-labelOnProduct={inputObj.labelOnProduct}
               data-name={inputObj.name}
-              className=" w-full h-[46px] cursor-pointer bg-transparent p-4 focus:border-transparent text-normal focus:outline-none border-2 border-[#E5E7EB] z-3"
+              className=" w-full h-[46px] cursor-pointer bg-transparent focus:border-transparent text-normal focus:outline-none border-2 border-[#E5E7EB] z-3"
             >
               <option value={null}> {inputObj.placeHolder} </option>
               {inputObj.options.delimeter
@@ -123,7 +123,7 @@ export function ProductExtraInputTag({product}) {
                   <select
                     data-labelOnProduct={inputObjSub.labelOnProduct}
                     data-name={inputObjSub.name}
-                    className=" w-full h-[46px] cursor-pointer bg-transparent p-4 focus:border-transparent text-normal focus:outline-none border-2 border-[#E5E7EB] z-3"
+                    className=" w-full h-[46px] cursor-pointer bg-transparent  focus:border-transparent text-normal focus:outline-none border-2 border-[#E5E7EB] z-3"
                   >
                     <option value={null}> {inputObjSub.placeHolder} </option>
                     {inputObjSub.options.delimeter

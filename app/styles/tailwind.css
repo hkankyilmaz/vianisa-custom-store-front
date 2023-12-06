@@ -10,7 +10,14 @@
   font-family: 'playFair';
   src: url('../assets/PlayfairDisplay-VariableFont_wght.ttf');
 }
-
+@font-face {
+  font-family: 'zapHuman';
+  src: url('../assets/ZapfHumanist601BT-Roman.otf');
+}
+@font-face {
+  font-family: 'avenir';
+  src: url('../assets/AVENIR-MEDIUM.woff');
+}
 :root {
   --x: 0;
   --mega-menu-column: 2;

@@ -13,7 +13,7 @@
 body,
 html {
   overflow-x: hidden;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 /*
@@ -72,7 +72,10 @@ aside p {
     margin: 0;
   }
 }
-
+p {
+  font-family: 'avenir';
+  font-size: 13px;
+}
 aside li {
   margin-bottom: 0.125rem;
 }
@@ -356,6 +359,12 @@ aside li {
     grid-template-columns: 4.2fr 3fr;
     grid-gap: 2rem;
   }
+}
+.shop-pay-logo {
+  height: 14px;
+  width: 59px;
+  vertical-align: middle;
+  margin-bottom: 1px;
 }
 
 .product h1 {
