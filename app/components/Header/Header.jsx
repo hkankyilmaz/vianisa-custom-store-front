@@ -86,7 +86,7 @@ export function HeaderMenu({menu, viewport, setMegaMenu, startAnimate}) {
         const url =
           item.url.includes('myshopify.com') ||
           item.url.includes(publicStoreDomain)
-            ? new URL(item.url).pathname
+            ? item.url
             : item.url;
         return (
           <NavLink

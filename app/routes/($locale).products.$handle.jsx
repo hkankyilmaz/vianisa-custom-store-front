@@ -371,7 +371,7 @@ function ProductPrice({selectedVariant}) {
 function ProductForm({product, selectedVariant, variants}) {
   return (
     <div className="product-form  border-b pb-6 border-[#bfbfbf] font-questrial">
-      <div className="!flex flex-col gap-y-3  sm:gap-x-3 grid grid-cols-2 ">
+      <div className=" gap-x-3 grid grid-cols-2 max-sm:flex flex-col gap-y-3  ">
         <VariantSelector
           handle={product.handle}
           options={product.options}
