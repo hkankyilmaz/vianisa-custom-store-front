@@ -122,7 +122,7 @@ export default function Product() {
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   return (
     <>
-      <div className="product max-w-[1300px] m-auto py-10">
+      <div className="product max-w-[1300px] m-auto  sm: flex">
         {/* <ProductImage image={selectedVariant?.image} /> */}
         <EmblaCarousel
           slides={SLIDES}
@@ -160,7 +160,7 @@ function ProductMain({selectedVariant, product, variants}) {
 
   return (
     <div className="product-main  max-lg:px-[1.6rem] lg:mr-[75px]">
-      <h1 className="text-2xl uppercase opacity-70 font-montserratMd tracking-widest">
+      <h1 className="text-2xl uppercase opacity-70 font-montserratMd tracking-widest text-center sm: !mt-[10px]">
         {title}
       </h1>
 
@@ -211,39 +211,39 @@ function ProductMain({selectedVariant, product, variants}) {
 
       {ctArr.some((item) => product.handle.includes(item)) ? (
         <div className="mb-8 flex justify-start items-center">
-          <h5 className="h-full font-bold text-md mr-5 flex justify-center items-center translate-y-1">
+          <h5 className="h-full font-bold text-[13px] mr-5 flex justify-center items-center translate-y-1">
             Total Carat Weight:
           </h5>
           <div className="h-full flex justify-center items-center">
             <Link
               style={{
-                border: matches.includes('-1-00-ct') ? '1px solid black' : '',
+                border: matches.includes('-1-00-ct') ? '2px solid black' : '',
               }}
               prefetch="intent"
-              className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
+              className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px] px-[13px] py-[15px]"
               to={`/products/${modifiedStringwithCarat}-1-00-ct`}
             >
-              1.0 ct
+              1.0ct
             </Link>
             <Link
               style={{
-                border: matches.includes('-1-50-ct') ? '1px solid black' : '',
+                border: matches.includes('-1-50-ct') ? '2px solid black' : '',
               }}
-              className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
+              className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px] px-[13px] py-[15px]"
               prefetch="intent"
               to={`/products/${modifiedStringwithCarat}-1-50-ct`}
             >
-              1.5 ct
+              1.5ct
             </Link>
             <Link
               style={{
-                border: matches.includes('-2-00-ct') ? '1px solid black' : '',
+                border: matches.includes('-2-00-ct') ? '2px solid black' : '',
               }}
-              className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75"
+              className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px] px-[13px] py-[15px]"
               prefetch="intent"
               to={`/products/${modifiedStringwithCarat}-2-00-ct`}
             >
-              2.0 ct
+              2.0ct
             </Link>
           </div>
         </div>
@@ -333,16 +333,16 @@ function ProductMain({selectedVariant, product, variants}) {
 
 function ProductPrice({selectedVariant}) {
   return (
-    <div className="product-price font-montserratMd tracking-[2px]">
+    <div className="product-price font-montserratMd tracking-[2px]  	">
       {selectedVariant?.compareAtPrice ? (
         <>
           {/*  <p className="text-xs underline text-black tracking-normal mb-1">
             Sale
           </p> */}
-          <div className="product-price-on-sale">
+          <div className="product-price-on-sale  sm: flex flex-row	justify-items-center justify-center		">
             {selectedVariant ? (
               <Money
-                className="text-red-600 text-2xl mr-2"
+                className="text-red-600 text-2xl mr-2 "
                 data={selectedVariant.price}
               />
             ) : null}

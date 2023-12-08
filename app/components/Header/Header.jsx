@@ -112,7 +112,7 @@ export function HeaderMenu({menu, viewport, setMegaMenu, startAnimate}) {
 
 function HeaderCtas({isLoggedIn, cart}) {
   return (
-    <nav className="absolute right-12 header-ctas" role="navigation">
+    <nav className="absolute right-12 header-ctas sm: flex" role="navigation">
       <HeaderMenuMobileToggle />
       <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
         <GoPerson style={{color: 'gray'}} size={'1.75em'} />
@@ -125,7 +125,7 @@ function HeaderCtas({isLoggedIn, cart}) {
 
 function HeaderMenuMobileToggle() {
   return (
-    <a className="header-menu-mobile-toggle" href="#mobile-menu-aside">
+    <a className="header-menu-mobile-toggle left-1" href="#mobile-menu-aside">
       <h3>☰</h3>
     </a>
   );
