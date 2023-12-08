@@ -160,7 +160,7 @@ function ProductMain({selectedVariant, product, variants}) {
 
   return (
     <div className="product-main  max-lg:px-[1.6rem] lg:mr-[75px]">
-      <h1 className="text-2xl uppercase opacity-70 font-montserratMd tracking-widest text-center sm: !mt-[10px]">
+      <h1 className="text-[18px] font-[500] uppercase font-montserratMd text-[#2f2f2f] tracking-[3.6px] text-center sm: !mt-[10px]">
         {title}
       </h1>
 
@@ -254,7 +254,7 @@ function ProductMain({selectedVariant, product, variants}) {
         <ClickAwayListener onClickAway={() => setIsGemStoneOpt(false)}>
           <div
             onClick={() => setIsGemStoneOpt((prev) => !prev)}
-            className="relative px-2 py-4 mb-3 text-normal border-2 cursor-pointer"
+            className="relative px-[15px] py-[10px] mb-3 text-[13px] border-[1px] border-[#e0e0e0] cursor-pointer"
           >
             <span className="text-[#595959] tracking-wide">Gemstone</span> :
             <span className="text-[#595959] tracking-wide">
@@ -312,20 +312,27 @@ function ProductMain({selectedVariant, product, variants}) {
       </Suspense>
       <br />
       <br />
-      <div class="flex gap-1 justify-center	align-center items-center">
-        <img
-          className="w-32"
-          src="https://cdn.shopify.com/s/files/1/0484/1429/4167/files/One_Tree_Planted_horizontal_logo_1.png?v=1662472737"
-          alt=""
-        />
-        <p>For each purchase</p>
-      </div>
-      <div className="flex justify-start items-center border-b pb-6 border-[#bfbfbf]">
-        <FcShipped className="text-5xl mr-3" />
-        <span className="">
-          Order this item now and we will ship by{' '}
-          <span className="font-bold underline">{shipDtae}</span>
-        </span>{' '}
+      <div className="justify-center justify-items-center items-center	content-center	flex  flex-col	">
+        <div className="flex gap-1 justify-center	align-center items-center w-auto">
+          <img
+            className="w-32"
+            src="https://cdn.shopify.com/s/files/1/0484/1429/4167/files/One_Tree_Planted_horizontal_logo_1.png?v=1662472737"
+            alt=""
+          />
+          <p>For each purchase</p>
+        </div>
+        <div className='w-auto"'>
+          <a href="/pages/plant-a-tree" target="_blank" className="underline">
+            Learn more
+          </a>
+        </div>
+        <div className="flex justify-start items-center border-b pb-6 border-[#bfbfbf] text-[13px]">
+          {/* <FcShipped className="text-5xl mr-3" /> */}
+          <span className="">
+            Order this item now and we will ship by{' '}
+            <span className="font-bold underline">{shipDtae}</span>
+          </span>{' '}
+        </div>
       </div>
     </div>
   );
@@ -342,13 +349,13 @@ function ProductPrice({selectedVariant}) {
           <div className="product-price-on-sale  sm: flex flex-row	justify-items-center justify-center		">
             {selectedVariant ? (
               <Money
-                className="text-red-600 text-2xl mr-2 "
+                className="text-red-600 text-[15px] mr-2 "
                 data={selectedVariant.price}
               />
             ) : null}
             <s className="!text-black">
               <Money
-                className="text-2xl"
+                className=" text-[15px]"
                 data={selectedVariant.compareAtPrice}
               />
             </s>
@@ -364,7 +371,7 @@ function ProductPrice({selectedVariant}) {
 function ProductForm({product, selectedVariant, variants}) {
   return (
     <div className="product-form  border-b pb-6 border-[#bfbfbf] font-questrial">
-      <div className="gap-x-3 grid grid-cols-2">
+      <div className="!flex flex-col gap-y-3  sm:gap-x-3 grid grid-cols-2 ">
         <VariantSelector
           handle={product.handle}
           options={product.options}
@@ -428,7 +435,7 @@ function ProductOptions({option}) {
     <>
       <ClickAwayListener onClickAway={() => setIsOpen(false)}>
         <div
-          className="relative px-2 py-4 text-normal border-2 cursor-pointer text-[#595959] tracking-wide"
+          className="relative flex px-[15px] py-[10px]  text-[13px] border-2 cursor-pointer text-[#595959] tracking-wide"
           key={option.name}
           onClick={() => setIsOpen((prev) => !prev)}
         >
