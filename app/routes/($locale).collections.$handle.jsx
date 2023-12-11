@@ -1,6 +1,6 @@
+import React from 'react';
 import {json, redirect} from '@shopify/remix-oxygen';
 import {Form} from '@remix-run/react';
-import {RangeSlider} from 'rsuite';
 import {useLoaderData, Link} from '@remix-run/react';
 import {
   Pagination,
@@ -9,6 +9,7 @@ import {
   Money,
 } from '@shopify/hydrogen';
 import {useVariantUrl} from '~/utils';
+import Slider from '@mui/material/Slider';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data.collection.title} Collection`}];
@@ -38,17 +39,22 @@ export async function loader({request, params, context}) {
 }
 
 export default function Collection() {
+  const [value, setValue] = React.useState([20, 37]);
+
   const {collection} = useLoaderData();
   console.log(collection);
 
   return (
     <div className="collection">
-      <h1 className="text-center">{collection.title}</h1>
-      <p className="flex justify-center mb-10">
-        <span className="lg:max-w-lg w-full text-center">
-          {collection.description}
-        </span>
-      </p>
+      <div className="my-10">
+        <h1 className="text-center text-4xl">{collection.title}</h1>
+        <p className="flex justify-center">
+          <span className="lg:max-w-lg w-full text-center">
+            {collection.description}
+          </span>
+        </p>
+      </div>
+
       <div className="h-[75px] w-full border-y mb-10 flex justify-center items-center">
         <div className="flex w-[160px] justify-center items-center border-r h-full">
           <div className="w-[35px] h-[35px] grid grid-cols-2 grid-rows-2 gap-[0.5px] mr-2">
@@ -75,7 +81,7 @@ export default function Collection() {
       <Pagination connection={collection.products}>
         {({nodes, isLoading, PreviousLink, NextLink}) => (
           <>
-            <ProductsGrid products={nodes} />
+            <ProductsGrid value={value} setValue={setValue} products={nodes} />
             <br />
             <NextLink>
               {isLoading ? 'Loading...' : <span>Load more ↓</span>}
@@ -87,14 +93,39 @@ export default function Collection() {
   );
 }
 
-function ProductsGrid({products}) {
+function ProductsGrid({products, value, setValue}) {
+  console.log(value);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   return (
     <div className="grid grid-cols-[auto_auto] px-5">
-      <div className="lg:min-w-[350px]">
+      <div className="lg:min-w-[350px] pl-[30px]">
         <Form>
           <div className="mb-4">
-            <p className="font-bold">PRİCE</p>
-            <RangeSlider defaultValue={[10, 50]} />
+            <p className="font-bold mb-2">PRİCE</p>
+            <Slider
+              className="max-w-[80%] translate-x-2 mb-1"
+              sx={{color: 'gray'}}
+              getAriaLabel={() => 'Temperature range'}
+              value={value}
+              onChange={handleChange}
+              valueLabelDisplay="auto"
+            />
+            <div className="flex space-x-[10%]">
+              <div className="border border-[#8c8c8c] border-solid w-[37%] h-[50px] relative text-right text-xl pr-1 flex justify-end items-center text-[#8c8c8c]">
+                <span className="absolute left-1 top-[50%] translate-y-[-50%] text-xl ">
+                  $
+                </span>
+                {value[0]}
+              </div>
+              <div className="border border-[#8c8c8c] border-solid w-[37%] h-[50px] relative text-right text-xl pr-1 flex justify-end items-center text-[#8c8c8c]">
+                <span className="absolute left-1 top-[50%] translate-y-[-50%] text-xl ">
+                  $
+                </span>
+                {value[1]}
+              </div>
+            </div>
           </div>
           <div className="mb-4">
             <p className="mb-2 font-bold">COLOR</p>
