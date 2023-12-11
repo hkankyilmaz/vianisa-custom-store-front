@@ -6,12 +6,13 @@
   --header-height: 90px;
   --color-dark: #000;
   --color-light: #fff;
+  --heading-color: #2f2f2f;
+  --header-border-color: #e0e0e0;
 }
 
 body,
 html {
   overflow-x: hidden;
-  font-size: 12px;
 }
 
 /*
@@ -164,12 +165,6 @@ aside li {
 
 .header-menu-item {
   cursor: pointer;
-}
-
-.header-ctas {
-  align-items: center;
-  display: flex;
-  grid-gap: 1rem;
 }
 
 /*

@@ -9,7 +9,7 @@ const SLIDE_DELAY = 4000;
 
 const BannerSlider = () => {
   const OPTIONS = {loop: true};
-  const SLIDE_COUNT = images.length;
+  const SLIDE_COUNT = imagesDesktop.length;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 
   return <EmblaCarousel slides={SLIDES} options={OPTIONS} />;
@@ -32,50 +32,44 @@ const EmblaCarousel = ({slides, options}) => {
     if (!autoplay) return;
     if (autoplay.options.stopOnInteraction !== false) autoplay.stop();
   }, []);
-
   const {selectedIndex, scrollSnaps, onDotButtonClick} = useDotButton(
     emblaApi,
     onButtonClick,
   );
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  });
 
   return (
     <div className="overflow-hidden relative" ref={emblaRef}>
-      <div className="flex touch-pan-y max-lg:min-h-[50vh]">
+      <div className="flex touch-pan-y max-sm:min-h-[50vh]">
         {slides.map((index) => (
           <Banner
-            imageSrc={imageByIndex(index)}
+            imageSrc={imageByIndex(index, isMobile)}
             positionAlign="left"
             key={index}
-          >
-            <Banner.Header>
-              <h1 className="text-4xl font-bold top-1/2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
-              </h1>
-              <p className="text-xl">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
-              </p>
-            </Banner.Header>
-            <Banner.Body>
-              <p className="text-xl">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
-              </p>
-              <p className="text-xl">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
-              </p>
-              <p className="text-xl">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.{' '}
-              </p>
-            </Banner.Body>
-            <Banner.Footer>
-              <button className="bg-[#2f2f2f] text-white px-5 py-2 rounded-full">
-                Lorem ipsum
-              </button>
-            </Banner.Footer>
-          </Banner>
+          ></Banner>
         ))}
       </div>
 
-      <div className="absolute z-10 bottom-7 left-7 flex justify-center items-center gap-3 max-lg:hidden">
+      <div
+        className={`absolute z-10 bottom-7 left-7 flex justify-center items-center gap-3 max-lg:hidden ${
+          imagesDesktop.length > 1 ? 'visible' : 'hidden'
+        }`}
+      >
         {scrollSnaps.map((_, index) => (
           <DotButton
             key={index}
@@ -140,12 +134,15 @@ const DotButton = ({children, ...restProps}) => {
 
 /*********************************************************/
 
-import image1 from '~/assets/banner.jpg';
-import image2 from '~/assets/banner2.jpg';
+import image3 from '~/assets/banner-vianisa.webp';
 
-const images = [image1, image2];
+import image3_mobile from '~/assets/banner-vianisa-mobile.webp';
 
-const imageByIndex = (index) => images[index % images.length];
+const imagesDesktop = [image3];
+const imagesMobile = [image3_mobile];
+
+const imageByIndex = (index, isMobile) =>
+  isMobile ? imagesMobile[index] : imagesDesktop[index];
 
 /*********************************************************/
 
