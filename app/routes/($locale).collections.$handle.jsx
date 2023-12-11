@@ -112,14 +112,17 @@ function ProductsGrid({products, value, setValue}) {
               onChange={handleChange}
               valueLabelDisplay="auto"
             />
-            <div className="flex space-x-[10%]">
-              <div className="border border-[#8c8c8c] border-solid w-[37%] h-[50px] relative text-right text-xl pr-1 flex justify-end items-center text-[#8c8c8c]">
+            <div className="flex">
+              <div className="border border-[#8c8c8c] border-solid w-[37%] h-[40px] relative text-right text-xl pr-1 flex justify-end items-center text-[#8c8c8c]">
                 <span className="absolute left-1 top-[50%] translate-y-[-50%] text-xl ">
                   $
                 </span>
                 {value[0]}
               </div>
-              <div className="border border-[#8c8c8c] border-solid w-[37%] h-[50px] relative text-right text-xl pr-1 flex justify-end items-center text-[#8c8c8c]">
+              <div className="flex justify-center items-center mx-[3%] text-[#8c8c8c]">
+                -
+              </div>
+              <div className="border border-[#8c8c8c] border-solid w-[37%] h-[40px] relative text-right text-xl pr-1 flex justify-end items-center text-[#8c8c8c]">
                 <span className="absolute left-1 top-[50%] translate-y-[-50%] text-xl ">
                   $
                 </span>
