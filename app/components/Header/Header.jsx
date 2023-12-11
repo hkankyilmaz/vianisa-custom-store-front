@@ -43,7 +43,7 @@ export function Header({header, isLoggedIn, cart}) {
         </NavLink>
         <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
       </div>
-      <div className="uppercase w-full flex justify-center py-2 shadow-[rgb(34,34,34)_0px_2px_2px_0px] text-center font-questrial mt-7 mb-[2px] max-xl:hidden">
+      <div className="uppercase w-full flex justify-center py-2 shadow-[rgb(34,34,34)_0px_0px_2px_0px] text-center font-questrial mb-[2px] max-xl:hidden z-20 relative">
         <HeaderMenu
           startAnimate={ref?.current?.startAnimate}
           setMegaMenu={setMegaMenu}
