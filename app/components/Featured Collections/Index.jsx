@@ -85,8 +85,6 @@ const Carousel = ({items, itemsPerGroup = 1, loop = false}) => {
         ? nextIndex
         : nextIndex - 1 / (100 - 100 / nextGroupLength)) * 100;
 
-    console.log('translateAmount', translateAmount);
-
     animate(
       scope.current,
       {translateX: `-${translateAmount}%`},
@@ -107,8 +105,6 @@ const Carousel = ({items, itemsPerGroup = 1, loop = false}) => {
         ? prevIndex
         : prevIndex + 1 / (100 - 100 / prevGroupLength)) * 100;
 
-    console.log('translateAmount', translateAmount);
-
     animate(
       scope.current,
       {translateX: `-${translateAmount}%`},
@@ -124,17 +120,11 @@ const Carousel = ({items, itemsPerGroup = 1, loop = false}) => {
       info.offset.x / carouselContainerRef.current.offsetWidth,
     );
 
-    console.log('dragAmount', dragAmount);
-
     if (dragAmount > dragTreshold && !hasCrossedThreshold && !isTabletSize) {
       setHasCrossedThreshold(true);
       info.offset.x > 0 ? handlePrev() : handleNext();
     }
   };
-
-  useMotionValueEvent(x, 'change', (latest) => {
-    console.log('motion value', latest);
-  });
 
   useEffect(() => {
     setTimeout(() => {
