@@ -128,7 +128,7 @@ export function HeaderMenu({menu, viewport, setMegaMenu, startAnimate}) {
         const url =
           item.url.includes('myshopify.com') ||
           item.url.includes(publicStoreDomain)
-            ? new URL(item.url).pathname
+            ? item.url
             : item.url;
         return (
           <NavLink
@@ -154,33 +154,10 @@ export function HeaderMenu({menu, viewport, setMegaMenu, startAnimate}) {
 
 function HeaderCtas({isLoggedIn, cart}) {
   return (
-    <nav
-      className="flex items-center gap-[18px] sm:gap-[25px] text-[#808080cc] flex-[1_0_0] justify-end"
-      role="navigation"
-    >
-      <NavLink
-        prefetch="intent"
-        to="/account"
-        className="!text-[#808080cc] max-sm:hidden"
-        style={activeLinkStyle}
-      >
-        <svg
-          className="w-[20px] h-[20px]"
-          role="presentation"
-          viewBox="0 0 20 20"
-        >
-          <g
-            transform="translate(1 1)"
-            stroke="currentColor"
-            strokeWidth="2"
-            fill="none"
-            fillRule="evenodd"
-            strokeLinecap="square"
-          >
-            <path d="M0 18c0-4.5188182 3.663-8.18181818 8.18181818-8.18181818h1.63636364C14.337 9.81818182 18 13.4811818 18 18"></path>
-            <circle cx="9" cy="4.90909091" r="4.90909091"></circle>
-          </g>
-        </svg>
+    <nav className="absolute right-12 header-ctas" role="navigation">
+      <HeaderMenuMobileToggle />
+      <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
+        <GoPerson style={{color: 'gray'}} size={'1.75em'} />
       </NavLink>
       <SearchToggle />
       <WishlistToggle />
@@ -191,7 +168,7 @@ function HeaderCtas({isLoggedIn, cart}) {
 
 function HeaderMenuMobileToggle() {
   return (
-    <a className="header-menu-mobile-toggle" href="#mobile-menu-aside">
+    <a className="header-menu-mobile-toggle left-1" href="#mobile-menu-aside">
       <h3>☰</h3>
     </a>
   );

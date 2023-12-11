@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import {Thumb} from './CarouselThumbsButton';
+import {useDotButton} from './CarouselThumbsDotButton';
 import {Image} from '@shopify/hydrogen';
 
 const EmblaCarousel = (props) => {
@@ -56,15 +57,25 @@ const EmblaCarousel = (props) => {
       <div className="embla-thumbs">
         <div className="embla-thumbs__viewport" ref={emblaThumbsRef}>
           <div className="embla-thumbs__container">
-            {slides.map((index) => (
-              <Thumb
-                onClick={() => onThumbClick(index)}
-                selected={index === selectedIndex}
-                index={index}
-                imgSrc={imageByIndex(index).url}
-                key={index}
-              />
-            ))}
+            {window.innerWidth > 500
+              ? slides.map((index) => (
+                  <Thumb
+                    onClick={() => onThumbClick(index)}
+                    selected={index === selectedIndex}
+                    index={index}
+                    imgSrc={imageByIndex(index).url}
+                    key={index}
+                  />
+                ))
+              : slides.map((index) => (
+                  <Thumb
+                    onClick={() => onThumbClick(index)}
+                    selected={index === selectedIndex}
+                    index={index}
+                    imgSrc={imageByIndex(index).url}
+                    key={index}
+                  />
+                ))}
           </div>
         </div>
       </div>
