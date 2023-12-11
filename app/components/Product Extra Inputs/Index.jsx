@@ -1,12 +1,11 @@
 import React from 'react';
-import {each, filter, find, includes, fill} from 'lodash';
+import {each, filter, find, includes, fill, bind} from 'lodash';
 import {tags} from '../../constant/sizes';
 import {AiOutlineDown} from 'react-icons/ai';
 import Checkbox from '@mui/material/Checkbox';
 
 export function ProductExtraInputType({product}) {
   const productType = product.productType.toLowerCase();
-
   let resultType = find(tags, (i) => includes(i.productType, productType));
 
   if (resultType) {
