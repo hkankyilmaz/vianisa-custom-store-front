@@ -87,6 +87,7 @@ function ProductsGrid({products}) {
 function ProductItem({product, loading}) {
   const variant = product.variants.nodes[0];
   const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
+  console.log(variantUrl, product);
   return (
     <Link className="w-full" key={product.id} prefetch="intent" to={variantUrl}>
       {product.featuredImage && (

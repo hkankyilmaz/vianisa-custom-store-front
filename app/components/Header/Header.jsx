@@ -13,6 +13,7 @@ export function Header({header, isLoggedIn, cart}) {
   const [isMobile, setIsMobile] = useState(false);
   const {shop, menu} = header;
   const matches = useMatches()[1].pathname;
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,9 +31,10 @@ export function Header({header, isLoggedIn, cart}) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // denemem
   return (
-    <header className="bg-white text-[var(--heading-color)] shadow-[0_-1px_var(--header-border-color)_inset]">
-      <div className="relative w-full flex justify-between items-center py-[10px] px-[30px]">
+    <header className="bg-white text-[var(--heading-color)]">
+      <div className="relative w-full flex justify-between items-center py-[10px] px-[30px]  shadow-[0_-1px_var(--header-border-color)_inset] z-10">
         <MenuToggle />
         <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
           <span className="text-xl not-italic tracking-[.2em] uppercase text-[var(--heading-color)] font-bold font-playfair">
@@ -41,13 +43,7 @@ export function Header({header, isLoggedIn, cart}) {
         </NavLink>
         <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
       </div>
-      {/* <div
-        style={{
-          borderBottom: matches == '/' ? 'none' : '',
-          paddingTop: matches == '/' ? '10px' : '',
-        }}
-        className="relative  uppercase border-solid border-gray-300 border-y-[1px] w-full flex justify-center py-1"
-      >
+      <div className="uppercase w-full flex justify-center py-2 shadow-[rgb(34,34,34)_0px_0px_2px_0px] text-center font-questrial mb-[2px] max-xl:hidden z-20 relative">
         <HeaderMenu
           startAnimate={ref?.current?.startAnimate}
           setMegaMenu={setMegaMenu}
@@ -60,7 +56,7 @@ export function Header({header, isLoggedIn, cart}) {
           megaMenu={megaMenu}
           menu={menu}
         />
-      </div> */}
+      </div>
     </header>
   );
 }
@@ -69,7 +65,7 @@ export function MenuToggle() {
   return (
     <button className="flex-[1_0_0]">
       <svg
-        className="w-[24px] h-[17px] max-sm:hidden"
+        className="w-[24px] h-[17px] max-sm:hidden xl:hidden"
         role="presentation"
         viewBox="0 0 24 16"
       >
@@ -128,7 +124,7 @@ export function HeaderMenu({menu, viewport, setMegaMenu, startAnimate}) {
         const url =
           item.url.includes('myshopify.com') ||
           item.url.includes(publicStoreDomain)
-            ? item.url
+            ? new URL(item.url).pathname
             : item.url;
         return (
           <NavLink
@@ -154,10 +150,33 @@ export function HeaderMenu({menu, viewport, setMegaMenu, startAnimate}) {
 
 function HeaderCtas({isLoggedIn, cart}) {
   return (
-    <nav className="absolute right-12 header-ctas" role="navigation">
-      <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
-        <GoPerson style={{color: 'gray'}} size={'1.75em'} />
+    <nav
+      className="flex items-center gap-[18px] sm:gap-[25px] text-[#808080cc] flex-[1_0_0] justify-end"
+      role="navigation"
+    >
+      <NavLink
+        prefetch="intent"
+        to="/account"
+        className="!text-[#808080cc] max-sm:hidden"
+        style={activeLinkStyle}
+      >
+        <svg
+          className="w-[20px] h-[20px]"
+          role="presentation"
+          viewBox="0 0 20 20"
+        >
+          <g
+            transform="translate(1 1)"
+            stroke="currentColor"
+            strokeWidth="2"
+            fill="none"
+            fillRule="evenodd"
+            strokeLinecap="square"
+          >
+            <path d="M0 18c0-4.5188182 3.663-8.18181818 8.18181818-8.18181818h1.63636364C14.337 9.81818182 18 13.4811818 18 18"></path>
+            <circle cx="9" cy="4.90909091" r="4.90909091"></circle>
+          </g>
+        </svg>
       </NavLink>
       <SearchToggle />
       <WishlistToggle />
@@ -168,7 +187,7 @@ function HeaderCtas({isLoggedIn, cart}) {
 
 function HeaderMenuMobileToggle() {
   return (
-    <a className="header-menu-mobile-toggle left-1" href="#mobile-menu-aside">
+    <a className="header-menu-mobile-toggle" href="#mobile-menu-aside">
       <h3>☰</h3>
     </a>
   );
