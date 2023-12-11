@@ -40,7 +40,7 @@ Announcemed Bar
 */
 
 .announce-item {
-  @apply text-white w-[100vw] flex justify-center items-center text-center absolute tracking-[.2em] leading-4 translate-x-[-%100] sm:uppercase !text-[11.5px] font-montserratMd;
+  @apply text-white w-[100vw] flex justify-center items-center text-center absolute tracking-[.2em] leading-4 translate-x-[-%100] uppercase !text-[11.5px] font-montserratMd;
 }
 /*
 ----------------------------------------- 
