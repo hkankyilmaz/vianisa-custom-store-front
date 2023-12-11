@@ -31,6 +31,7 @@ export function Header({header, isLoggedIn, cart}) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // denemem
   return (
     <header className="bg-white text-[var(--heading-color)]">
       <div className="relative w-full flex justify-between items-center py-[10px] px-[30px]  shadow-[0_-1px_var(--header-border-color)_inset] z-10">
