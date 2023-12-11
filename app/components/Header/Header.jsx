@@ -13,6 +13,7 @@ export function Header({header, isLoggedIn, cart}) {
   const [isMobile, setIsMobile] = useState(false);
   const {shop, menu} = header;
   const matches = useMatches()[1].pathname;
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,8 +32,8 @@ export function Header({header, isLoggedIn, cart}) {
   }, []);
 
   return (
-    <header className="bg-white text-[var(--heading-color)] shadow-[0_-1px_var(--header-border-color)_inset]">
-      <div className="relative w-full flex justify-between items-center py-[10px] px-[30px]">
+    <header className="bg-white text-[var(--heading-color)]">
+      <div className="relative w-full flex justify-between items-center py-[10px] px-[30px]  shadow-[0_-1px_var(--header-border-color)_inset] z-10">
         <MenuToggle />
         <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
           <span className="text-xl not-italic tracking-[.2em] uppercase text-[var(--heading-color)] font-bold font-playfair">
@@ -41,13 +42,7 @@ export function Header({header, isLoggedIn, cart}) {
         </NavLink>
         <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
       </div>
-      {/* <div
-        style={{
-          borderBottom: matches == '/' ? 'none' : '',
-          paddingTop: matches == '/' ? '10px' : '',
-        }}
-        className="relative  uppercase border-solid border-gray-300 border-y-[1px] w-full flex justify-center py-1"
-      >
+      <div className="uppercase w-full flex justify-center py-2 shadow-[rgb(34,34,34)_0px_2px_2px_0px] text-center font-questrial mt-7 mb-[2px] max-xl:hidden">
         <HeaderMenu
           startAnimate={ref?.current?.startAnimate}
           setMegaMenu={setMegaMenu}
@@ -60,7 +55,7 @@ export function Header({header, isLoggedIn, cart}) {
           megaMenu={megaMenu}
           menu={menu}
         />
-      </div> */}
+      </div>
     </header>
   );
 }
@@ -69,7 +64,7 @@ export function MenuToggle() {
   return (
     <button className="flex-[1_0_0]">
       <svg
-        className="w-[24px] h-[17px] max-sm:hidden"
+        className="w-[24px] h-[17px] max-sm:hidden xl:hidden"
         role="presentation"
         viewBox="0 0 24 16"
       >
