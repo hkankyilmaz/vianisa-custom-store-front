@@ -135,7 +135,7 @@ export default function Product() {
   return (
     <>
       <BasicBreadcrumbs
-        className="pl-[3.2rem] py-1 text-[13px] gap-2"
+        className="product max-w-[1300px] pl-[1.6rem] m-auto text-[13px] gap-x-2 max-md:pt-2"
         product={product}
       />
 

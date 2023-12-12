@@ -12,20 +12,22 @@ export default function BasicBreadcrumbs({className, product}) {
   const [xx, setxx] = useState('');
   return (
     <div role="presentation" className={className} onClick={handleClick}>
-      <nav className="flex flex-row font-body gap-1">
-        <Link className="font-body" to="/">
+      <nav className="flex flex-row font-body gap-1 overflow-hidden">
+        <Link className="font-body hover:underline-offset-4" to="/">
           Home
         </Link>
         <span className="breadcrumb-arrow">&gt;</span>
         <Link
-          className="font-body"
+          className="font-body hover:underline-offset-4"
           to={'/collections/' + product.collections.nodes[0].handle}
         >
-          {product.collections.nodes[0].title}
+          {product.collections.nodes[0].title?.split(' ')[0]}
         </Link>
         <span className="breadcrumb-arrow">&gt;</span>
 
-        <Link className="font-body">{product.title}</Link>
+        <Link className="font-body hover:underline-offset-4 max-md:whitespace-nowrap text-ellipsis overflow-hidden	 ">
+          {product.title.split(' ')[0]}
+        </Link>
       </nav>
     </div>
   );
