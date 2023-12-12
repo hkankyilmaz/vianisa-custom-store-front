@@ -35,7 +35,6 @@ function CartDetails({layout, cart}) {
 
 function CartLines({lines, layout}) {
   if (!lines) return null;
-
   return (
     <div aria-labelledby="cart-lines">
       <ul>
@@ -145,35 +144,45 @@ function CartLineRemoveButton({lineIds}) {
 
 function CartLineQuantity({line}) {
   if (!line || typeof line?.quantity === 'undefined') return null;
-  const {id: lineId, quantity} = line;
+  const {id: lineId, quantity, attributes} = line;
   const prevQuantity = Number(Math.max(0, quantity - 1).toFixed(0));
   const nextQuantity = Number((quantity + 1).toFixed(0));
-
+  console.log(line);
   return (
     <div className="cart-line-quantiy">
-      <small>Quantity: {quantity} &nbsp;&nbsp;</small>
-      <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
-        <button
-          aria-label="Decrease quantity"
-          disabled={quantity <= 1}
-          name="decrease-quantity"
-          value={prevQuantity}
-        >
-          <span>&#8722; </span>
-        </button>
-      </CartLineUpdateButton>
-      &nbsp;
-      <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
-        <button
-          aria-label="Increase quantity"
-          name="increase-quantity"
-          value={nextQuantity}
-        >
-          <span>&#43;</span>
-        </button>
-      </CartLineUpdateButton>
-      &nbsp;
-      <CartLineRemoveButton lineIds={[lineId]} />
+      <div className="flex flex-col gap-1">
+        {attributes.map((attribute) => (
+          <small>
+            {attribute.key}: {attribute.value}
+          </small>
+        ))}
+
+        <small>Quantity: {quantity} &nbsp;&nbsp;</small>
+      </div>
+      <div className="flex items-end	">
+        <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
+          <button
+            aria-label="Decrease quantity"
+            disabled={quantity <= 1}
+            name="decrease-quantity"
+            value={prevQuantity}
+          >
+            <span>&#8722; </span>
+          </button>
+        </CartLineUpdateButton>
+        &nbsp;
+        <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
+          <button
+            aria-label="Increase quantity"
+            name="increase-quantity"
+            value={nextQuantity}
+          >
+            <span>&#43;</span>
+          </button>
+        </CartLineUpdateButton>
+        &nbsp;
+        <CartLineRemoveButton lineIds={[lineId]} />
+      </div>
     </div>
   );
 }

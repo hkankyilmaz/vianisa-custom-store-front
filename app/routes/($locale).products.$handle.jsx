@@ -429,8 +429,8 @@ function ProductForm({product, selectedVariant, variants}) {
                   quantity: 1,
                   attributes: [
                     {
-                      key: 'hakan',
-                      value: 'hakan',
+                      key: 'leng',
+                      value: 'hasdasakan',
                     },
                   ],
                 },

@@ -76,14 +76,14 @@ const MegaMenu = forwardRef((props, ref) => {
           ctx.removeMegamenu();
         }
       }}
-      className={`w-full py-14 absolute top-[100%] flex invisible justify-center bg-white mega-menu`}
+      className={`w-full pt-5 pb-14 absolute top-[100%] flex invisible justify-center bg-white mega-menu`}
     >
       <div
         ref={refTwo}
         className="max-w-7xl grid grid-column-number gap-x-48 bg-white"
       >
         {navElement[0]?.items.map((item) => (
-          <div className="flex flex-col items-start">
+          <div className="flex flex-col items-start ">
             <p className="mb-3 font-semibold">{item.title}</p>
             <ul>
               {item.items.map((item) => (
@@ -93,7 +93,9 @@ const MegaMenu = forwardRef((props, ref) => {
                     'http://localhost:3000',
                   )}`}
                 >
-                  <li className="capitalize"> {item.title} </li>
+                  <li className="capitalize text-justify mb-3 text-[13px]">
+                    {item.title}
+                  </li>
                 </Link>
               ))}
             </ul>
