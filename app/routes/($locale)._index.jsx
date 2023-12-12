@@ -163,7 +163,7 @@ export const FEATURED_COLLECTION_QUERY = `#graphql
     collection(handle : $handle) {
       description
       title
-      products (first:20 ) {
+      products (first:8 ) {
     
           nodes  {
           title

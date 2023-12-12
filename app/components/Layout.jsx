@@ -1,4 +1,4 @@
-import {Await} from '@remix-run/react';
+import {Await, useMatches} from '@remix-run/react';
 import {Suspense, useRef, useEffect} from 'react';
 import {Aside} from '~/components/Aside';
 import {Footer} from '~/components/Footer';
@@ -14,6 +14,7 @@ import gsap from 'gsap';
 
 export function Layout({cart, children = null, footer, header, isLoggedIn}) {
   const ref = useRef();
+  const matches = useMatches();
 
   useIsomorphicLayoutEffect(() => {
     const height = ref.current.offsetHeight;

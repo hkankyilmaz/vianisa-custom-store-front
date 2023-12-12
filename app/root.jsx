@@ -18,7 +18,7 @@ import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
 import {Layout} from '~/components/Layout';
 import tailwindCss from './styles/tailwind.css';
-import dotSliderStyles from './components/Product Carausel Image Dot Slider/embla.css,';
+import dotSliderStyles from './components/Product Carausel Image Dot Slider/embla.css';
 
 // This is important to avoid re-fetching root queries on sub-navigations
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
@@ -98,7 +98,6 @@ export async function loader({context}) {
 export default function App() {
   const nonce = useNonce();
   const data = useLoaderData();
-
   return (
     <html lang="en">
       <head>
@@ -113,7 +112,7 @@ export default function App() {
 
         {/* <!-- Your Chat plugin code --> */}
         <div id="fb-customer-chat" className="fb-customerchat"></div>
-        {/* <script
+        <script
           id="messenger-tag"
           // nonce={nonce}
           // strategy="afterInteractive"
@@ -145,7 +144,8 @@ export default function App() {
               fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));`,
           }}
-        ></script> */}
+        ></script>
+
         <Layout {...data}>
           <Outlet />
         </Layout>

@@ -23,9 +23,10 @@ import {
   ProductExtraInputTag,
 } from '../components/Product Extra Inputs/Index';
 import gsap from 'gsap';
+import BasicBreadcrumbs from '../components/Breadcrumbs/Index';
 
 export const meta = ({data}) => {
-  return [{title: `Hydrogen | ${data.product?.title}`}];
+  return [{title: `${data.product?.title}`}];
 };
 
 export async function loader({params, request, context}) {
@@ -127,26 +128,33 @@ export default function Product() {
     } else {
       setmob(true);
     }
+    console.log(window.innerWidth);
   }, []);
 
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   return (
     <>
+      <BasicBreadcrumbs
+        className="pl-[3.2rem] py-1 text-[13px] gap-2"
+        product={product}
+      />
+
       <div className="product max-w-[1300px] m-auto  sm: flex">
         {/* <ProductImage image={selectedVariant?.image} /> */}
-        {mob ? (
-          <EmblaCarousel
-            slides={SLIDES}
-            options={OPTIONS}
-            imageByIndex={imageByIndex}
-          />
-        ) : (
+
+        <EmblaCarousel
+          slides={SLIDES}
+          options={OPTIONS}
+          imageByIndex={imageByIndex}
+        />
+
+        <div className="flex flex-wrap flex-col	md:hidden">
           <DotCarousel
             slides={SLIDES}
             options={OPTIONS}
             imageByIndex={imageByIndex}
           />
-        )}
+        </div>
 
         <ProductMain
           selectedVariant={selectedVariant}
@@ -596,6 +604,7 @@ const PRODUCT_FRAGMENT = `#graphql
     collections ( first :1) {
     nodes{
       title
+      handle
      }
     }
     productType

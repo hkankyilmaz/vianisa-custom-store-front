@@ -64,7 +64,7 @@ const MegaMenu = forwardRef((props, ref) => {
       `${navElement[0]?.items.length}`,
     );
   }
-
+  console.log(navElement);
   //if (!props.megaMenu.isOpen) return undefined;
   return (
     <div
@@ -87,7 +87,12 @@ const MegaMenu = forwardRef((props, ref) => {
             <p className="mb-3 font-semibold">{item.title}</p>
             <ul>
               {item.items.map((item) => (
-                <Link to={`${item.url}`}>
+                <Link
+                  to={`${item.url.replace(
+                    'https://vianisa.myshopify.com',
+                    'http://localhost:3000',
+                  )}`}
+                >
                   <li className="capitalize"> {item.title} </li>
                 </Link>
               ))}

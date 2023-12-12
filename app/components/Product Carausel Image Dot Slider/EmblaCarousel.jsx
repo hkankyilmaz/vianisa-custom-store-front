@@ -48,7 +48,7 @@ const DotCarousel = (props) => {
 
   return (
     <>
-      <div className="embla">
+      <div className="embla ">
         <div className="embla__viewport" ref={emblaRef}>
           <div className="embla__container">
             {slides.map((index) => (
@@ -66,13 +66,12 @@ const DotCarousel = (props) => {
           </div>
         </div>
 
-        <div className="embla__buttons">
-          <PrevButton onClick={scrollPrev} disabled={prevBtnDisabled} />
-          <NextButton onClick={scrollNext} disabled={nextBtnDisabled} />
-        </div>
+        <div className="embla__buttons"></div>
       </div>
 
       <div className="embla__dots">
+        <PrevButton onClick={scrollPrev} disabled={prevBtnDisabled} />
+
         {scrollSnaps.map((_, index) => (
           <DotButton
             key={index}
@@ -82,6 +81,7 @@ const DotCarousel = (props) => {
             )}
           />
         ))}
+        <NextButton onClick={scrollNext} disabled={nextBtnDisabled} />
       </div>
     </>
   );
