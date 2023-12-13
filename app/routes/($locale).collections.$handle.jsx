@@ -27,7 +27,7 @@ export async function loader({request, params, context}) {
   }
 
   const {collection} = await storefront.query(COLLECTION_QUERY, {
-    variables: {handle, max, min, color, metarial, ...paginationVariables},
+    variables: {handle, ...paginationVariables},
   });
 
   if (!collection) {
@@ -100,7 +100,7 @@ function ProductsGrid({products, value, setValue}) {
   return (
     <div className="grid grid-cols-[auto_auto] px-5">
       <div className="lg:min-w-[320px] pl-[30px]">
-        <Form>
+        <Form method="get">
           <div className="mb-4">
             <p className="font-bold mb-2">PRİCE</p>
             <Slider
@@ -131,15 +131,33 @@ function ProductsGrid({products, value, setValue}) {
           </div>
           <div className="mb-4">
             <p className="mb-2 font-bold">COLOR</p>
-            <p className="mb-1">ROSE</p>
-            <p className="mb-1">WHİTE</p>
-            <p>YELLOW</p>
+            <p className="mb-1">
+              <input
+                className="hidden"
+                type="checkbox"
+                id="rose"
+                name="color"
+                value="rose"
+              />
+              <span className="hidden"></span>
+              <label htmlFor="rose">ROSE</label>
+            </p>
+            <p data-searchParam="color=White" className="mb-1">
+              WHİTE
+            </p>
+            <p data-searchParam="color=Yellow">YELLOW</p>
           </div>
           <div>
             <p className="mb-2 font-bold">METERİAL</p>
-            <p className="mb-1">10K GOLD</p>
-            <p className="mb-1">14K GOLD</p>
-            <p className="">18K GOLD</p>
+            <p data-searchParam="metarial=Rose" className="mb-1">
+              10K GOLD
+            </p>
+            <p data-searchParam="metarial=Rose" className="mb-1">
+              14K GOLD
+            </p>
+            <p data-searchParam="metarial=Rose" className="">
+              18K GOLD
+            </p>
           </div>
         </Form>
       </div>
@@ -226,10 +244,7 @@ const COLLECTION_QUERY = `#graphql
     $last: Int
     $startCursor: String
     $endCursor: String
-    $max :Float
-    $min :Float
-    $color :String
-    $metarial :String
+    
   ) @inContext(country: $country, language: $language) {
     collection(handle: $handle) {
       id

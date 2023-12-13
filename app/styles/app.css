@@ -516,3 +516,19 @@ aside li {
     animation: slideOutAndInLeft ease-in-out 0.4s forwards;
   }
 }
+
+/* Collection Filter */
+
+#rose:checked ~ label {
+  text-decoration: underline;
+}
+
+#rose:checked ~ span {
+  display: inline-flex;
+  width: 6px;
+  height: 6px;
+  background-color: #000;
+  border-radius: 100%;
+  margin-right: 10px;
+  transform: translateY(-2px);
+}
