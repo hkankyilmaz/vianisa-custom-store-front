@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {json, redirect} from '@shopify/remix-oxygen';
 import {Form} from '@remix-run/react';
-import {useLoaderData, Link} from '@remix-run/react';
+import {useLoaderData, Link, useLocation} from '@remix-run/react';
 import {
   Pagination,
   getPaginationVariables,
@@ -27,7 +27,7 @@ export async function loader({request, params, context}) {
   }
 
   const {collection} = await storefront.query(COLLECTION_QUERY, {
-    variables: {handle, ...paginationVariables},
+    variables: {handle, max, min, color, metarial, ...paginationVariables},
   });
 
   if (!collection) {
@@ -94,18 +94,17 @@ export default function Collection() {
 }
 
 function ProductsGrid({products, value, setValue}) {
-  console.log(value);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   return (
     <div className="grid grid-cols-[auto_auto] px-5">
-      <div className="lg:min-w-[350px] pl-[30px]">
+      <div className="lg:min-w-[320px] pl-[30px]">
         <Form>
           <div className="mb-4">
             <p className="font-bold mb-2">PRİCE</p>
             <Slider
-              className="max-w-[80%] translate-x-2 mb-1"
+              className="max-w-[80%] mb-1"
               sx={{color: 'gray'}}
               getAriaLabel={() => 'Temperature range'}
               value={value}
@@ -113,8 +112,8 @@ function ProductsGrid({products, value, setValue}) {
               valueLabelDisplay="auto"
             />
             <div className="flex">
-              <div className="border border-[#8c8c8c] border-solid w-[37%] h-[40px] relative text-right text-xl pr-1 flex justify-end items-center text-[#8c8c8c]">
-                <span className="absolute left-1 top-[50%] translate-y-[-50%] text-xl ">
+              <div className="border border-[#8c8c8c] border-solid w-[37%] h-[40px] relative text-right text-xl pr-2 flex justify-end items-center text-[#8c8c8c]">
+                <span className="absolute left-2 top-[50%] translate-y-[-50%] text-xl ">
                   $
                 </span>
                 {value[0]}
@@ -122,8 +121,8 @@ function ProductsGrid({products, value, setValue}) {
               <div className="flex justify-center items-center mx-[3%] text-[#8c8c8c]">
                 -
               </div>
-              <div className="border border-[#8c8c8c] border-solid w-[37%] h-[40px] relative text-right text-xl pr-1 flex justify-end items-center text-[#8c8c8c]">
-                <span className="absolute left-1 top-[50%] translate-y-[-50%] text-xl ">
+              <div className="border border-[#8c8c8c] border-solid w-[37%] h-[40px] relative text-right text-xl pr-2 flex justify-end items-center text-[#8c8c8c]">
+                <span className="absolute left-2 top-[50%] translate-y-[-50%] text-xl ">
                   $
                 </span>
                 {value[1]}
@@ -167,7 +166,7 @@ function ProductItem({product, loading}) {
       {product.featuredImage && (
         <Image
           alt={product.featuredImage.altText || product.title}
-          aspectRatio="1/1"
+          aspectRatio="4/3"
           data={product.featuredImage}
           loading={loading}
           sizes="(min-width: 45em) 400px, 100vw"
@@ -227,6 +226,10 @@ const COLLECTION_QUERY = `#graphql
     $last: Int
     $startCursor: String
     $endCursor: String
+    $max :Float
+    $min :Float
+    $color :String
+    $metarial :String
   ) @inContext(country: $country, language: $language) {
     collection(handle: $handle) {
       id
