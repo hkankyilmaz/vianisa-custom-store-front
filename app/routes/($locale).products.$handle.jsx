@@ -24,6 +24,7 @@ import {
 } from '../components/Product Extra Inputs/Index';
 import gsap from 'gsap';
 import BasicBreadcrumbs from '../components/Breadcrumbs/Index';
+import ColBlog from '../components/CollectionBlog/Index';
 
 export const meta = ({data}) => {
   return [{title: `${data.product?.title}`}];
@@ -165,6 +166,10 @@ export default function Product() {
       <FeaturedCollection
         data={featuredCollectionTwo}
         title="YOU MAY ALSO LIKE"
+      />
+      <ColBlog
+        className="px-[10rem] w-auto "
+        collection={product.collections.nodes[0]}
       />
     </>
   );

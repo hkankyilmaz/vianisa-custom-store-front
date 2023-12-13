@@ -2,22 +2,9 @@ export const blogs = [
   {
     handle: 'gold-vermeil-birthstone-rings',
     title: 'Gold Vermeil Birthstone Rings Collection',
-    content: [
-      <p>
-        Looking for a personalized gift at a more modest budget? Eternate’s gold
-        vermeil birthstone rings combine distinctive style with time enduring
-        grace of vermeil. Boasting strikingly vibrant colored birthstones and
-        luxury design, these vermeil rings available in gold, silver and rose,
-        make the perfect gift for yourself or a loved one.
-      </p>,
-      <p>
-        At Eternate we promise to stand by our customers for a lifetime. That
-        means alongside offering great service and communication, we also strive
-        for ethical and affordable quality for all. Luxurious design meets
-        affordable prices in Eternate’s collection of gold vermeil birthstone
-        jewelry. So you don’t have to choose between style and quality.
-      </p>,
-    ],
+    content:
+      'At Eternate we promise to stand by our customers for a lifetime.That means alongside offering great service and communication, we also strive for ethical and affordable quality for all.Luxurious design meets affordable prices in Eternate’s collection of gold vermeil birthstone jewelry.So you don’t have to choose between style and quality.',
+    cont2: '<i class="fas fa-check">Intermediate</i>',
     faqTitle: 'Gold Vermeil Birthstone Rings FAQs',
     name: 'ringSizes',
     questions: [
