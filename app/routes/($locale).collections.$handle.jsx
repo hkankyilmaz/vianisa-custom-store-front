@@ -11,7 +11,6 @@ import {
 import {useVariantUrl} from '~/utils';
 import Slider from '@mui/material/Slider';
 import ColBlog from '../components/CollectionBlog/Index';
-import {d} from 'dist/client/build/_shared/chunk-B77VH47Z';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data.collection.title} Collection`}];
