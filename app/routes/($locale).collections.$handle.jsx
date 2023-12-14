@@ -11,6 +11,7 @@ import {
 import {useVariantUrl} from '~/utils';
 import Slider from '@mui/material/Slider';
 import ColBlog from '../components/CollectionBlog/Index';
+import {blogs} from '../constant/collectionsblog';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data.collection.title} Collection`}];
@@ -43,8 +44,7 @@ export default function Collection() {
   const [value, setValue] = React.useState([20, 37]);
 
   const {collection} = useLoaderData();
-  console.log(collection);
-
+  let findedCol = blogs.find((xx) => xx.handle === collection.handle);
   return (
     <div className="collection">
       <div className="my-10">
@@ -90,6 +90,11 @@ export default function Collection() {
           </>
         )}
       </Pagination>
+      {findedCol ? (
+        <ColBlog collection={collection} className={'px-10'}></ColBlog>
+      ) : (
+        ''
+      )}
     </div>
   );
 }

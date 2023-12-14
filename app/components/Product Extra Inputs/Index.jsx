@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {each, filter, find, includes, fill, bind} from 'lodash';
 import {tags} from '../../constant/sizes';
 import {AiOutlineDown} from 'react-icons/ai';
@@ -46,8 +46,8 @@ export function ProductExtraInputType({product}) {
 
 export function ProductExtraInputTag({product}) {
   const productTags = product.tags;
-
-  console.log('productTags : ', productTags);
+  const [open, setopen] = useState(false);
+  // console.log('productTags : ', productTags);
 
   let resultTag = filter(tags, (i) => {
     let res;
@@ -57,7 +57,7 @@ export function ProductExtraInputTag({product}) {
     return res;
   });
 
-  console.log('tag : ', resultTag);
+  // console.log('tag : ', resultTag);
 
   if (resultTag) {
     return resultTag.map((inputObj) => (
@@ -107,17 +107,18 @@ export function ProductExtraInputTag({product}) {
                   <Checkbox
                     data-labelOnProduct={inputObjSub.labelOnProduct}
                     data-name={inputObj.name}
-                    value={true}
+                    value={open}
                     name="chck"
                     id="chck"
                     className="p-0"
+                    onChange={() => setopen(!open)}
                   />
                   <label className="ml-1" for={'chck'}>
                     {' '}
                     {inputObjSub.placeHolder}{' '}
                   </label>
                 </div>
-              ) : inputObjSub.inputType == 'select' ? (
+              ) : inputObjSub.inputType == 'select' && open ? (
                 <div className="relative my-3 h-[46px]">
                   <select
                     data-labelOnProduct={inputObjSub.labelOnProduct}
@@ -146,7 +147,7 @@ export function ProductExtraInputTag({product}) {
                   </select>
                   <AiOutlineDown className="absolute right-4 top-[50%] translate-y-[-50%] text-[13px] z-[-1]" />
                 </div>
-              ) : inputObjSub.inputType == 'text' ? (
+              ) : inputObjSub.inputType == 'text' && open ? (
                 <div className="relative my-3 h-[46px]">
                   <input
                     className="w-full text-[13px] px-4 bg-transparent h-[46px] focus:border-transparent focus:outline-none border-2 border-[#E5E7EB] z-3"

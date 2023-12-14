@@ -167,10 +167,6 @@ export default function Product() {
         data={featuredCollectionTwo}
         title="YOU MAY ALSO LIKE"
       />
-      <ColBlog
-        className="px-[10rem] w-auto "
-        collection={product.collections.nodes[0]}
-      />
     </>
   );
 }
