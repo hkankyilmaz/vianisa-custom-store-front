@@ -70,6 +70,7 @@ function QuesItem({question, answer, openDef}) {
   return (
     <>
       <ListItemText
+        sx={{display: 'flex'}}
         className="cursor-pointer select-none hover:!bg-inherit focus:!bg-inherit"
         onClick={handleClick}
       >
