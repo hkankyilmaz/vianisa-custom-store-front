@@ -188,7 +188,7 @@ function ProductMain({selectedVariant, product, variants}) {
 
   return (
     <div className="product-main  max-lg:px-[1.6rem] lg:mr-[75px]">
-      <h1 className="text-[18px] font-[500] uppercase font-montserratMd text-[#2f2f2f] tracking-[3.6px] text-center sm: !mt-[10px]">
+      <h1 className="text-[18px] font-[500] uppercase font-montserratMd text-[#2f2f2f] tracking-[3.6px] text-left sm: !mt-[10px]">
         {title}
       </h1>
 
