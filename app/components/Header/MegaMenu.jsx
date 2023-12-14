@@ -90,7 +90,7 @@ const MegaMenu = forwardRef((props, ref) => {
                 <Link
                   to={`${item.url.replace(
                     'https://vianisa.myshopify.com',
-                    'http://localhost:3000',
+                    window.location.origin,
                   )}`}
                 >
                   <li className="capitalize text-justify mb-3 text-[13px]">
