@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {json, redirect} from '@shopify/remix-oxygen';
 import {Form} from '@remix-run/react';
 import {useLoaderData, Link, useLocation} from '@remix-run/react';
@@ -10,6 +10,8 @@ import {
 } from '@shopify/hydrogen';
 import {useVariantUrl} from '~/utils';
 import Slider from '@mui/material/Slider';
+import {FaAngleDown} from 'react-icons/fa';
+import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data.collection.title} Collection`}];
@@ -39,7 +41,12 @@ export async function loader({request, params, context}) {
 }
 
 export default function Collection() {
-  const [value, setValue] = React.useState([20, 37]);
+  const [openFilterDesk, setOpenFilterDesk] = useState(false);
+  const [value, setValue] = useState([20, 37]);
+
+  const handleCloseFilter = () => {
+    setOpenFilterDesk(false);
+  };
 
   const {collection} = useLoaderData();
   console.log(collection);
@@ -74,8 +81,28 @@ export default function Collection() {
           </div>
         </div>
         <div className="w-full"></div>
-        <div className="w-[160px] h-full border-l flex justify-center items-center">
-          Sort
+        <div
+          onClick={() => setOpenFilterDesk((prev) => !prev)}
+          className="w-[160px] h-full border-l flex justify-center items-center relative cursor-pointer select-none"
+        >
+          SORT
+          <FaAngleDown color="gray" className="ml-1 translate-y-[1px]" />
+          <ClickAwayListener onClickAway={handleCloseFilter}>
+            <>
+              {openFilterDesk ? (
+                <div className="clip-path-filter rounded-md [&>p:hover]:underline [&>p]:cursor-pointer [&>p]:mb-2 [&>p]:text-right sortabsolute absolute top-[105%] right-0 w-[300px] py-10 px-10 h-auto text-slate-600 bg-[#e5e7eb] shadow-md">
+                  <p>FEATURED</p>
+                  <p>BEST SELLING</p>
+                  <p>ALPHABETICALLY, A-Z</p>
+                  <p>ALPHABETICALLY, Z-A</p>
+                  <p>PRICE, LOW TO HIGH</p>
+                  <p>PRICE, HIGH TO LOW</p>
+                  <p>DATE, OLD TO NEW</p>
+                  <p>DATE, NEW TO OLD</p>
+                </div>
+              ) : undefined}
+            </>
+          </ClickAwayListener>
         </div>
       </div>
       <Pagination connection={collection.products}>
@@ -139,26 +166,80 @@ function ProductsGrid({products, value, setValue}) {
                 name="color"
                 value="rose"
               />
-              <span className="hidden"></span>
+              <span className="hidden rose"></span>
               <label htmlFor="rose">ROSE</label>
             </p>
-            <p data-searchParam="color=White" className="mb-1">
-              WHİTE
+            <p className="mb-1">
+              <input
+                className="hidden"
+                type="checkbox"
+                id="white"
+                name="color"
+                value="white"
+              />
+              <span className="hidden white"></span>
+              <label htmlFor="white">WHİTE</label>
             </p>
-            <p data-searchParam="color=Yellow">YELLOW</p>
+            <p className="mb-1">
+              <input
+                className="hidden"
+                type="checkbox"
+                id="yellow"
+                name="color"
+                value="yellow"
+              />
+              <span className="hidden yellow"></span>
+              <label htmlFor="yellow">YELLOW</label>
+            </p>
           </div>
           <div>
             <p className="mb-2 font-bold">METERİAL</p>
-            <p data-searchParam="metarial=Rose" className="mb-1">
-              10K GOLD
+            <p className="mb-1">
+              <input
+                className="hidden"
+                type="checkbox"
+                id="_10kgold"
+                name="meterial"
+                value="10kgold"
+              />
+              <span className="hidden _10kgold"></span>
+              <label htmlFor="_10kgold">10K GOLD</label>
             </p>
-            <p data-searchParam="metarial=Rose" className="mb-1">
-              14K GOLD
+            <p className="mb-1">
+              <input
+                className="hidden"
+                type="checkbox"
+                id="_14kgold"
+                name="meterial"
+                value="14kgold"
+              />
+              <span className="hidden _14kgold"></span>
+              <label htmlFor="_14kgold">14K GOLD</label>
             </p>
-            <p data-searchParam="metarial=Rose" className="">
-              18K GOLD
+            <p className="mb-1">
+              <input
+                className="hidden"
+                type="checkbox"
+                id="_18kgold"
+                name="meterial"
+                value="18kgold"
+              />
+              <span className="hidden _18kgold"></span>
+              <label htmlFor="_18kgold">18K GOLD</label>
             </p>
           </div>
+          <button
+            className="border block border-solid border-black w-[150px] h-[40px]  mt-4 hover:bg-black hover:text-white"
+            type="submit"
+          >
+            Filter
+          </button>
+          <button
+            className="block border border-solid border-black  w-[150px] h-[40px]   mt-4 hover:bg-black hover:text-white"
+            type="reset"
+          >
+            Reset
+          </button>
         </Form>
       </div>
       <div className="grid grid-cols-4 gap-10">
