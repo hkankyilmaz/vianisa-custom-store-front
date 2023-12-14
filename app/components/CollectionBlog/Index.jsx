@@ -117,7 +117,7 @@ function FaqContent({title, content, openDef}) {
     </>
   );
 }
-function Script({questions, title, description, image}) {
+function Script({questions}) {
   let scrpt = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
