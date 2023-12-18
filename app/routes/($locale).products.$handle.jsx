@@ -24,7 +24,6 @@ import {
 } from '../components/Product Extra Inputs/Index';
 import gsap from 'gsap';
 import BasicBreadcrumbs from '../components/Breadcrumbs/Index';
-import ColBlog from '../components/CollectionBlog/Index';
 
 export const meta = ({data}) => {
   return [{title: `${data.product?.title}`}];
