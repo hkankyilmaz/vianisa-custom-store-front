@@ -1,16 +1,16 @@
-import React, {forwardRef, useImperativeHandle} from 'react';
+import React, {forwardRef, useEffect, useImperativeHandle} from 'react';
 import gsap from 'gsap';
 import useIsomorphicLayoutEffect from '~/utils';
-import {Link} from '@remix-run/react';
+import {Link, useMatches} from '@remix-run/react';
+import {motion} from 'framer-motion';
 
 const MegaMenu = forwardRef((props, ref) => {
-  const [out, setOut] = React.useState(false);
   const animateIsGoing = React.useRef({isGoing: false, first: true});
   const refOne = React.useRef();
   const refTwo = React.useRef();
   const tl = React.useRef();
   const tl_ = React.useRef();
-
+  const [root] = useMatches();
   const [ctx] = React.useState(() => gsap.context(() => {}));
 
   useIsomorphicLayoutEffect(() => {
@@ -23,7 +23,7 @@ const MegaMenu = forwardRef((props, ref) => {
         tl.current = gsap
           .timeline()
           .to(refOne.current, {autoAlpha: 1, duration: 0.2})
-          .to(refTwo.current, {display: 'grid'}, '<')
+          .to(refTwo.current, {display: 'flexbox'}, '<')
           .set(refTwo.current, {autoAlpha: 0}, '<')
           .from(refTwo.current, {y: 7, autoAlpha: 0, duration: 0.4}, '<')
           .then(
@@ -48,7 +48,6 @@ const MegaMenu = forwardRef((props, ref) => {
       return {
         startAnimate: () => {
           ctx.megaMenuAni();
-          setOut(false);
         },
       };
     },
@@ -65,30 +64,47 @@ const MegaMenu = forwardRef((props, ref) => {
     );
   }
 
+  useEffect(() => {
+    if (!props.isHeaderHover) {
+      props.setMegaMenu({...props.megaMenu, isOpen: false});
+      ctx.removeMegamenu();
+    }
+  }, [props.isHeaderHover]);
+
+  const stripUrl = (url) => {
+    const publicStoreDomain = root?.data?.publicStoreDomain;
+    const newUrl =
+      url.includes('myshopify.com') || url.includes(publicStoreDomain)
+        ? new URL(url).pathname
+        : url;
+
+    return newUrl;
+  };
+
   //if (!props.megaMenu.isOpen) return undefined;
   return (
     <div
       ref={refOne}
-      onMouseLeave={() => {
-        if (out == false) {
-          setOut(true);
-          props.setMegaMenu({...props.megaMenu, isOpen: false});
-          ctx.removeMegamenu();
-        }
-      }}
-      className={`w-full py-14 absolute top-[100%] flex invisible justify-center bg-white mega-menu`}
+      className="w-full py-[20px] absolute top-[100%] invisibl bg-white border-y border-[#e0e0e0]"
     >
       <div
         ref={refTwo}
-        className="max-w-7xl grid grid-column-number gap-x-48 bg-white"
+        className={`w-full flex justify-evenly bg-white ${props.megaMenu.className}`}
       >
         {navElement[0]?.items.map((item) => (
-          <div className="flex flex-col items-start">
-            <p className="mb-3 font-semibold">{item.title}</p>
+          <div className="flex flex-col items-start my-[20px] mx-[40px] !h-fit">
+            <Link
+              to={stripUrl(item.url)}
+              className="mb-[20px] font-extrabold cursor-pointer font-montserratMd text-[11px] tracking-[.2em] uppercase"
+            >
+              {item.title}
+            </Link>
             <ul>
               {item.items.map((item) => (
-                <Link to={`${item.url}`}>
-                  <li className="capitalize"> {item.title} </li>
+                <Link to={stripUrl(item.url)}>
+                  <li className="capitalize hover:underline font-questrial text-[13px] font-normal text-left mb-[12px] leading-[1.5]">
+                    {item.title}
+                  </li>
                 </Link>
               ))}
             </ul>
