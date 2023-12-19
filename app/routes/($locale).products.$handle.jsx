@@ -8,6 +8,7 @@ import {FcShipped} from 'react-icons/fc';
 import useCalculateShipDay from '~/hooks/useCalculateShipDay';
 import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import {AiOutlineDown} from 'react-icons/ai';
+
 import {
   Image,
   Money,
@@ -118,18 +119,17 @@ export default function Product() {
   const {product, variants, featuredCollectionTwo} = useLoaderData();
   const {selectedVariant} = product;
   const images = product.images.nodes;
-  const [mob, setmob] = useState(false);
   const imageByIndex = (index) => images[index % images.length];
   const OPTIONS = {};
   const SLIDE_COUNT = 8;
-  useEffect(() => {
+  /*   useEffect(() => {
     if (window.innerWidth > 600) {
       setmob(false);
     } else {
       setmob(true);
     }
     console.log(window.innerWidth);
-  }, []);
+  }, []); */
 
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   return (

@@ -226,10 +226,10 @@ export function Footer({menu}) {
             <li>EMAIL: hello@vianisa.com</li>
           </ul>
         </nav>
-        <div class="Footer__Copyright center content-center justify-center justify-items-center">
+        <div className="Footer__Copyright center content-center justify-center justify-items-center">
           <a
             href="/"
-            class="Footer__StoreName Heading u-h7 Link Link--secondary"
+            className="Footer__StoreName Heading u-h7 Link Link--secondary"
           >
             © Vianisa
           </a>
@@ -238,8 +238,8 @@ export function Footer({menu}) {
 
       {/* <Divider className="w-100% flex sm:hidden" /> */}
 
-      <ul class="Footer__PaymentList HorizontalList flex items-center content-center justify-center flex-wrap	 gap-x-5 pt-[28px]	gap-y-2 my-[28px]  border-t-2">
-        <li class="HorizontalList__Item w-fit">
+      <ul className="Footer__PaymentList HorizontalList flex items-center content-center justify-center flex-wrap	 gap-x-5 pt-[28px]	gap-y-2 my-[28px]  border-t-2">
+        <li className="HorizontalList__Item w-fit">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             role="img"
@@ -266,7 +266,7 @@ export function Footer({menu}) {
             </g>
           </svg>
         </li>
-        <li class="HorizontalList__Item w-fit">
+        <li className="HorizontalList__Item w-fit">
           <svg
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
@@ -276,7 +276,7 @@ export function Footer({menu}) {
             width="38"
             height="24"
             viewBox="0 0 165.521 105.965"
-            xml:space="preserve"
+            xmlSpace="preserve"
             aria-labelledby="pi-apple_pay"
           >
             <title id="pi-apple_pay">Apple Pay</title>
@@ -316,7 +316,7 @@ export function Footer({menu}) {
             </g>
           </svg>
         </li>
-        <li class="HorizontalList__Item w-fit">
+        <li className="HorizontalList__Item w-fit">
           <svg
             viewBox="0 0 38 24"
             xmlns="http://www.w3.org/2000/svg"
@@ -340,7 +340,7 @@ export function Footer({menu}) {
             ></path>
           </svg>
         </li>
-        <li class="HorizontalList__Item w-fit">
+        <li className="HorizontalList__Item w-fit">
           <svg
             viewBox="0 0 38 24"
             width="38"
@@ -394,12 +394,12 @@ export function Footer({menu}) {
                 y2="9.104"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stop-color="#F89F20"></stop>
-                <stop offset=".25" stop-color="#F79A20"></stop>
-                <stop offset=".533" stop-color="#F68D20"></stop>
-                <stop offset=".62" stop-color="#F58720"></stop>
-                <stop offset=".723" stop-color="#F48120"></stop>
-                <stop offset="1" stop-color="#F37521"></stop>
+                <stop stopColor="#F89F20"></stop>
+                <stop offset=".25" stopColor="#F79A20"></stop>
+                <stop offset=".533" stopColor="#F68D20"></stop>
+                <stop offset=".62" stopColor="#F58720"></stop>
+                <stop offset=".723" stopColor="#F48120"></stop>
+                <stop offset="1" stopColor="#F37521"></stop>
               </linearGradient>
               <linearGradient
                 id="pi-paint1_linear"
@@ -409,15 +409,15 @@ export function Footer({menu}) {
                 y2="6.446"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stop-color="#F58720"></stop>
-                <stop offset=".359" stop-color="#E16F27"></stop>
-                <stop offset=".703" stop-color="#D4602C"></stop>
-                <stop offset=".982" stop-color="#D05B2E"></stop>
+                <stop stopColor="#F58720"></stop>
+                <stop offset=".359" stopColor="#E16F27"></stop>
+                <stop offset=".703" stopColor="#D4602C"></stop>
+                <stop offset=".982" stopColor="#D05B2E"></stop>
               </linearGradient>
             </defs>
           </svg>
         </li>
-        <li class="HorizontalList__Item w-fit">
+        <li className="HorizontalList__Item w-fit">
           <svg
             width="38"
             height="24"
@@ -462,10 +462,10 @@ export function Footer({menu}) {
                 y2="13.019"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stop-color="#0064E1"></stop>
-                <stop offset=".4" stop-color="#0064E1"></stop>
-                <stop offset=".83" stop-color="#0073EE"></stop>
-                <stop offset="1" stop-color="#0082FB"></stop>
+                <stop stopColor="#0064E1"></stop>
+                <stop offset=".4" stopColor="#0064E1"></stop>
+                <stop offset=".83" stopColor="#0073EE"></stop>
+                <stop offset="1" stopColor="#0082FB"></stop>
               </linearGradient>
               <linearGradient
                 id="pi-paint1_linear_1164_3"
@@ -475,13 +475,13 @@ export function Footer({menu}) {
                 y2="11.089"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stop-color="#0082FB"></stop>
-                <stop offset="1" stop-color="#0064E0"></stop>
+                <stop stopColor="#0082FB"></stop>
+                <stop offset="1" stopColor="#0064E0"></stop>
               </linearGradient>
             </defs>
           </svg>
         </li>
-        <li class="HorizontalList__Item w-fit">
+        <li className="HorizontalList__Item w-fit">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             role="img"
@@ -522,7 +522,7 @@ export function Footer({menu}) {
             ></path>
           </svg>
         </li>
-        <li class="HorizontalList__Item w-fit">
+        <li className="HorizontalList__Item w-fit">
           <svg
             viewBox="0 0 38 24"
             xmlns="http://www.w3.org/2000/svg"
@@ -548,7 +548,7 @@ export function Footer({menu}) {
             ></path>
           </svg>
         </li>
-        <li class="HorizontalList__Item w-fit">
+        <li className="HorizontalList__Item w-fit">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             role="img"
@@ -573,7 +573,7 @@ export function Footer({menu}) {
             ></path>
           </svg>
         </li>
-        <li class="HorizontalList__Item w-fit">
+        <li className="HorizontalList__Item w-fit">
           <svg
             viewBox="0 0 38 24"
             xmlns="http://www.w3.org/2000/svg"
