@@ -48,9 +48,8 @@ export default function Collection() {
     setOpenFilterDesk(false);
   };
 
-
   const {collection} = useLoaderData();
-  let findedCol = blogs.find((xx) => xx.handle === collection.handle);
+
   return (
     <div className="collection">
       <div className="my-10">

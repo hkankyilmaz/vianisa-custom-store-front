@@ -34,7 +34,6 @@ export function Header({header, isLoggedIn, cart}) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // denemem
   return (
     <header
       className="bg-white text-[var(--heading-color)]"
