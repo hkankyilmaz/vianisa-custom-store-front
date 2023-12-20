@@ -252,7 +252,7 @@ function Item({product, className = ''}) {
   return (
     <Link
       prefetch="intent"
-      to={/* `/products/${product.handle}` */ '#'}
+      to={`/products/${product.handle}`}
       className={`cursor-pointer w-full ${className}`}
       onDragStart={(e) => {
         setIsDragging(true);

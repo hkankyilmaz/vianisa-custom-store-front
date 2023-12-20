@@ -34,6 +34,7 @@ export function Header({header, isLoggedIn, cart}) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // denemem
   return (
     <header
       className="bg-white text-[var(--heading-color)]"
@@ -149,7 +150,7 @@ export function HeaderMenu({
         const url =
           item.url.includes('myshopify.com') ||
           item.url.includes(publicStoreDomain)
-            ? item.url
+            ? new URL(item.url).pathname
             : item.url;
         return (
           <CustomLink
@@ -305,7 +306,7 @@ function HeaderCtas({isLoggedIn, cart}) {
 
 function HeaderMenuMobileToggle() {
   return (
-    <a className="header-menu-mobile-toggle left-1" href="#mobile-menu-aside">
+    <a className="header-menu-mobile-toggle" href="#mobile-menu-aside">
       <h3>☰</h3>
     </a>
   );

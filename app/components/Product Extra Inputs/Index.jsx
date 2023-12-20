@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {each, filter, find, includes, fill, bind} from 'lodash';
 import {tags} from '../../constant/sizes';
 import {AiOutlineDown} from 'react-icons/ai';
@@ -12,32 +12,34 @@ export function ProductExtraInputType({product}) {
     if (resultType?.inputNumber == 1) {
       if (resultType.inputType == 'select') {
         return (
-          <div className="relative my-3 h-[46px] text-[#595959] tracking-wide">
-            <select
-              data-labelOnProduct={resultType.labelOnProduct}
-              data-name={resultType.name}
-              className="w-full h-[46px] cursor-pointer bg-transparent  focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
-            >
-              <option value={null}> {resultType.placeHolder} </option>
-              {resultType.options.delimeter
-                ? fill(Array(resultType.options.optionCount), '').map(
-                    (i, j) => (
-                      <option
-                        value={
-                          resultType.options.range[0] +
-                          j * resultType.options.delimeter
-                        }
-                      >
-                        Size{' '}
-                        {resultType.options.range[0] +
-                          j * resultType.options.delimeter}{' '}
-                      </option>
-                    ),
-                  )
-                : undefined}
-            </select>
-            <AiOutlineDown className="absolute right-4 top-5 text-lg z-[-1]" />
-          </div>
+
+            <div className="relative my-3 w-full text-[#595959] tracking-wide">
+              <select
+                data-labelOnProduct={resultType.labelOnProduct}
+                data-name={resultType.name}
+                className="align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10"
+              >
+                <option  value={null}> {resultType.placeHolder} </option>
+                {resultType.options.delimeter
+                  ? fill(Array(resultType.options.optionCount), '').map(
+                      (i, j) => (
+                        <option
+                          value={
+                            resultType.options.range[0] +
+                            j * resultType.options.delimeter
+                          }
+                        >
+                          Size{' '}
+                          {resultType.options.range[0] +
+                            j * resultType.options.delimeter}{' '}
+                        </option>
+                      ),
+                      )
+                      : undefined}
+              </select>
+              <AiOutlineDown className="absolute right-[15px] top-[14px] text-sm text-[#000] z-[-1]" />
+            </div>
+          
         );
       }
     }
@@ -46,8 +48,8 @@ export function ProductExtraInputType({product}) {
 
 export function ProductExtraInputTag({product}) {
   const productTags = product.tags;
-
-  console.log('productTags : ', productTags);
+  const [open, setopen] = useState(false);
+  // console.log('productTags : ', productTags);
 
   let resultTag = filter(tags, (i) => {
     let res;
@@ -57,15 +59,15 @@ export function ProductExtraInputTag({product}) {
     return res;
   });
 
-  console.log('tag : ', resultTag);
+  // console.log('tag : ', resultTag);
 
   if (resultTag) {
     return resultTag.map((inputObj) => (
       <div className="text-[#595959] tracking-wide">
         {inputObj.inputNumber == 1 && inputObj.inputType == 'text' ? (
-          <div className="relative my-3 h-[46px]">
+          <div className="relative my-3 h-[41.5px]">
             <input
-              className="w-full bg-transparent h-[46px] focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
+              className="w-full bg-transparent h-[41.5px] focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
               data-labelOnProduct={inputObj.labelOnProduct}
               data-name={inputObj.name}
               placeholder={inputObj.placeHolder}
@@ -73,11 +75,11 @@ export function ProductExtraInputTag({product}) {
             <AiOutlineDown className="absolute right-4top-[50%] translate-y-[-50%] text-lg z-[-1]" />
           </div>
         ) : inputObj.inputNumber == 1 && inputObj.inputType == 'select' ? (
-          <div className="relative my-3 h-[46px]">
+          <div className="relative my-3 h-[41.5px]">
             <select
               data-labelOnProduct={inputObj.labelOnProduct}
               data-name={inputObj.name}
-              className=" w-full h-[46px] cursor-pointer bg-transparent focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
+              className=" w-full h-[41.5px] cursor-pointer bg-transparent focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
             >
               <option value={null}> {inputObj.placeHolder} </option>
               {inputObj.options.delimeter
@@ -107,22 +109,23 @@ export function ProductExtraInputTag({product}) {
                   <Checkbox
                     data-labelOnProduct={inputObjSub.labelOnProduct}
                     data-name={inputObj.name}
-                    value={true}
+                    value={open}
                     name="chck"
                     id="chck"
                     className="p-0"
+                    onChange={() => setopen(!open)}
                   />
                   <label className="ml-1" for={'chck'}>
                     {' '}
                     {inputObjSub.placeHolder}{' '}
                   </label>
                 </div>
-              ) : inputObjSub.inputType == 'select' ? (
-                <div className="relative my-3 h-[46px]">
+              ) : inputObjSub.inputType == 'select' && open ? (
+                <div className="relative my-3 h-[41.5px]">
                   <select
                     data-labelOnProduct={inputObjSub.labelOnProduct}
                     data-name={inputObjSub.name}
-                    className=" w-full h-[46px] cursor-pointer bg-transparent  focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
+                    className=" w-full h-[41.5px] cursor-pointer bg-transparent  focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
                   >
                     <option value={null}> {inputObjSub.placeHolder} </option>
                     {inputObjSub.options.delimeter
@@ -146,10 +149,10 @@ export function ProductExtraInputTag({product}) {
                   </select>
                   <AiOutlineDown className="absolute right-4 top-[50%] translate-y-[-50%] text-[13px] z-[-1]" />
                 </div>
-              ) : inputObjSub.inputType == 'text' ? (
-                <div className="relative my-3 h-[46px]">
+              ) : inputObjSub.inputType == 'text' && open ? (
+                <div className="relative my-3 h-[41.5px]">
                   <input
-                    className="w-full text-[13px] px-4 bg-transparent h-[46px] focus:border-transparent focus:outline-none border-2 border-[#E5E7EB] z-3"
+                    className="w-full text-[13px] px-4 bg-transparent h-[41.5px] focus:border-transparent focus:outline-none border-2 border-[#E5E7EB] z-3"
                     data-labelOnProduct={inputObjSub.labelOnProduct}
                     data-name={inputObjSub.name}
                     placeholder={inputObjSub.placeHolder}

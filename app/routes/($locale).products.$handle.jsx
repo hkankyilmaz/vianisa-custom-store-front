@@ -119,16 +119,40 @@ export default function Product() {
   const imageByIndex = (index) => images[index % images.length];
   const OPTIONS = {};
   const SLIDE_COUNT = 8;
+  /*   useEffect(() => {
+    if (window.innerWidth > 600) {
+      setmob(false);
+    } else {
+      setmob(true);
+    }
+    console.log(window.innerWidth);
+  }, []); */
+
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   return (
     <>
+      <BasicBreadcrumbs
+        className="product max-w-[1300px] pl-[1.6rem] m-auto text-[13px] gap-x-2 max-md:pt-2 mt-[30px]"
+        product={product}
+      />
+
       <div className="product max-w-[1300px] m-auto  sm: flex">
         {/* <ProductImage image={selectedVariant?.image} /> */}
+
         <EmblaCarousel
           slides={SLIDES}
           options={OPTIONS}
           imageByIndex={imageByIndex}
         />
+
+        <div className="flex flex-wrap flex-col	md:hidden">
+          <DotCarousel
+            slides={SLIDES}
+            options={OPTIONS}
+            imageByIndex={imageByIndex}
+          />
+        </div>
+
         <ProductMain
           selectedVariant={selectedVariant}
           product={product}
@@ -159,16 +183,17 @@ function ProductMain({selectedVariant, product, variants}) {
   }, [matches]);
 
   return (
-    <div className="product-main  max-lg:px-[1.6rem] lg:mr-[75px]">
-      <h1 className="text-[18px] font-[500] uppercase font-montserratMd text-[#2f2f2f] tracking-[3.6px] text-center sm: !mt-[10px]">
+    <div className='product-main-wrapper'>
+      <div className="product-main w-[400px] mr-[100px] ml-[50px]  lg:mr-[100px]">
+      <h1 className="text-[18px] font-[500] uppercase font-body text-[#2f2f2f] tracking-[3.6px] text-left">
         {title}
       </h1>
 
       <style></style>
       <ProductPrice selectedVariant={selectedVariant} />
-      <br />
-      <p>
-        4 interest-free installments, or from <strong>$53.88/mo</strong> with
+      <p className='mt-3 text-[#2f2f2f]'>
+        <span>
+        4 interest-free installments, or from <strong>$53.88</strong>/mo with
         <shop-pay-logo
           role="img"
           aria-label="Shop Pay"
@@ -205,22 +230,22 @@ function ProductMain({selectedVariant, product, variants}) {
             ></path>
           </svg>
         </shop-pay-logo>
+        </span>
         <button className="underline">View sample plans</button>
       </p>
-      <br />
 
       {ctArr.some((item) => product.handle.includes(item)) ? (
-        <div className="mb-8 flex justify-start items-center">
-          <h5 className="h-full font-bold text-[13px] mr-5 flex justify-center items-center translate-y-1">
+        <div className="mt-[20px] mb-6 flex justify-start items-center gap-[5px]">
+          <h5 className="h-full font-bold text-[13px] mr-5 flex justify-center items-center font-body text-[#2f2f2f] pt-[10px]">
             Total Carat Weight:
           </h5>
-          <div className="h-full flex justify-center items-center">
+          <div className="h-full flex justify-center items-center gap-[5px]">
             <Link
               style={{
                 border: matches.includes('-1-00-ct') ? '2px solid black' : '',
               }}
               prefetch="intent"
-              className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px] px-[13px] py-[15px]"
+              className=" border px-[12px] py-[15px] rounded-full shadow-lg hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
               to={`/products/${modifiedStringwithCarat}-1-00-ct`}
             >
               1.0ct
@@ -229,7 +254,7 @@ function ProductMain({selectedVariant, product, variants}) {
               style={{
                 border: matches.includes('-1-50-ct') ? '2px solid black' : '',
               }}
-              className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px] px-[13px] py-[15px]"
+              className=" border px-[12px] py-[15px] rounded-full shadow-lg hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
               prefetch="intent"
               to={`/products/${modifiedStringwithCarat}-1-50-ct`}
             >
@@ -239,7 +264,7 @@ function ProductMain({selectedVariant, product, variants}) {
               style={{
                 border: matches.includes('-2-00-ct') ? '2px solid black' : '',
               }}
-              className=" border px-4 py-[1.4rem] rounded-full shadow-lg mr-3 hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px] px-[13px] py-[15px]"
+              className=" border px-[12px] py-[15px] rounded-full shadow-lg hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
               prefetch="intent"
               to={`/products/${modifiedStringwithCarat}-2-00-ct`}
             >
@@ -252,17 +277,30 @@ function ProductMain({selectedVariant, product, variants}) {
       {_.includes(matches, 'moissanite') ||
       _.includes(matches, 'lab-grown-diamond') ? (
         <ClickAwayListener onClickAway={() => setIsGemStoneOpt(false)}>
-          <div
+          <div className="relative my-3 w-full text-[#595959] tracking-wide">
+              <select
+                className="text-[#595959] font-body align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10"
+              >
+                <option> Gemstone: Moissanite </option>
+                <option> Gemstone: Lab Grown Diamond </option>
+              </select>
+              <AiOutlineDown className="absolute right-[15px] top-[14px] text-sm text-[#000] z-[-1]" />
+            </div>
+
+          {/* <div
             onClick={() => setIsGemStoneOpt((prev) => !prev)}
-            className="relative px-[15px] py-[10px] mb-3 text-[13px] border-[1px] border-[#e0e0e0] cursor-pointer"
+            className="relative flex justify-between items-center pr-[12.5px] pl-[15px] pt-[10px] pb-[10px] mt-3 mb-[15px] text-[13px] border-[1px] border-[#e0e0e0] cursor-pointer font-body"
           >
-            <span className="text-[#595959] tracking-wide">Gemstone</span> :
+            <div>
+            
+            <span className="text-[#595959] tracking-wide">Gemstone</span>:
             <span className="text-[#595959] tracking-wide">
               {_.includes(matches, 'moissanite')
                 ? ' Moissanite'
                 : ' Lab Grown Diamond'}
             </span>
-            <AiOutlineDown className="absolute right-3 top-5 text-lg text-[#595959]" />
+            </div>
+            <AiOutlineDown className="text-sm text-[#000]" />
             {isOpenGemStoneOpt ? (
               <div className="absolute rounded-xl px-24 py-12 shadow-2xl right-[calc(100%+5px)] top-[50%] translate-y-[-50%] grid grid-col-1 gap-2 clip-path bg-[#e5e7eb]">
                 {_.fill(Array(2), '').map((i, j) => (
@@ -285,7 +323,7 @@ function ProductMain({selectedVariant, product, variants}) {
                 ))}
               </div>
             ) : undefined}
-          </div>
+          </div> */}
         </ClickAwayListener>
       ) : undefined}
       <Suspense
@@ -334,28 +372,29 @@ function ProductMain({selectedVariant, product, variants}) {
           </span>{' '}
         </div>
       </div>
+      </div>    
     </div>
   );
 }
 
 function ProductPrice({selectedVariant}) {
   return (
-    <div className="product-price font-montserratMd tracking-[2px]  	">
+    <div className="product-price font-body font-medium tracking-[2px]  	">
       {selectedVariant?.compareAtPrice ? (
         <>
           {/*  <p className="text-xs underline text-black tracking-normal mb-1">
             Sale
           </p> */}
-          <div className="product-price-on-sale  sm: flex flex-row	justify-items-center justify-center		">
+          <div className="product-price-on-sale  sm: flex flex-row	justify-items-center justify-start mt-[15px]">
             {selectedVariant ? (
               <Money
-                className="text-red-600 text-[15px] mr-2 "
+                className="text-red-600 text-[16px] mr-2 "
                 data={selectedVariant.price}
               />
             ) : null}
             <s className="!text-black">
               <Money
-                className=" text-[15px]"
+                className=" text-[16px] ml-[30px]"
                 data={selectedVariant.compareAtPrice}
               />
             </s>
@@ -370,7 +409,7 @@ function ProductPrice({selectedVariant}) {
 
 function ProductForm({product, selectedVariant, variants}) {
   return (
-    <div className="product-form  border-b pb-6 border-[#bfbfbf] font-questrial">
+    <div className="product-form  border-b pb-6 border-[#bfbfbf] font-body">
       <div className=" gap-x-3 grid grid-cols-2 max-sm:flex flex-col gap-y-3  ">
         <VariantSelector
           handle={product.handle}
@@ -402,8 +441,8 @@ function ProductForm({product, selectedVariant, variants}) {
                   quantity: 1,
                   attributes: [
                     {
-                      key: 'hakan',
-                      value: 'hakan',
+                      key: 'leng',
+                      value: 'hasdasakan',
                     },
                   ],
                 },
@@ -435,31 +474,32 @@ function ProductOptions({option}) {
     <>
       <ClickAwayListener onClickAway={() => setIsOpen(false)}>
         <div
-          className="relative flex px-[15px] py-[10px]  text-[13px] border-2 cursor-pointer text-[#595959] tracking-wide"
+          className="flex justify-between relative items-center px-[14px] py-[10px]  text-[13px] border cursor-pointer text-[#595959] tracking-wide"
           key={option.name}
           onClick={() => setIsOpen((prev) => !prev)}
         >
-          <span className="">{option.name}</span> :<span> {activeOption} </span>
-          {isOpen ? (
-            <div className="absolute rounded-xl px-24  py-12 shadow-2xl right-[calc(100%+5px)] top-[50%] translate-y-[-50%] grid grid-col-1 gap-2 clip-path bg-[#e5e7eb]">
-              {option.values.map(({value, isAvailable, isActive, to}) => {
-                return (
-                  <Link
+          <div>
+            <span className="">{option.name}</span>: <span> {activeOption} </span>
+            {isOpen ? (
+              <div className="absolute z-10 rounded-xl px-24  py-12 shadow-2xl right-[calc(100%+5px)] top-[50%] translate-y-[-50%] grid grid-col-1 gap-2 clip-path bg-[#e5e7eb]">
+                {option.values.map(({value, isAvailable, isActive, to}) => {
+                  return (
+                    <Link
                     className=" text-slate-600 hover:underline text-center text-lg font-bold uppercase w-[200px]"
                     key={option.name + value}
                     prefetch="intent"
                     preventScrollReset
-                    replace
-                    to={to}
-                  >
-                    {value}
-                  </Link>
-                );
-              })}
-            </div>
-          ) : undefined}
-          <br />
-          <AiOutlineDown className="absolute right-3 top-5 text-lg" />
+                      replace
+                      to={to}
+                    >
+                      {value}
+                    </Link>
+                  );
+                })}
+              </div>
+            ) : undefined}
+          </div>
+          <AiOutlineDown className="text-sm text-[#000]" />
         </div>
       </ClickAwayListener>
     </>
