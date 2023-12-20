@@ -11,8 +11,8 @@
   src: url('../assets/PlayfairDisplay-VariableFont_wght.ttf');
 }
 @font-face {
-  font-family: 'zapHuman';
-  src: url('../assets/ZapfHumanist601BT-Roman.otf');
+  font-family: 'optima';
+  src: url('../assets/Optima-Normal.ttf');
 }
 @font-face {
   font-family: 'avenir';
@@ -311,4 +311,26 @@ Product Image Carausel
 }
 .embla__slide__number {
   display: none;
+}
+
+/* .embla {
+  margin-left: 50px;
+} */
+
+.product-description-detail {
+  div {
+    border-bottom: none;
+  }
+  div + p span {
+    font-size: 11px !important;
+  }
+  div + p {
+    margin-bottom: 20px
+  }
+  p {
+    @apply font-questrial;
+  }
+}
+.product-description-detail div > p + p {
+  margin-bottom: 20px
 }
