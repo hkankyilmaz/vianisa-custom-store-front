@@ -1,12 +1,11 @@
 import React from 'react';
-import {each, filter, find, includes, fill} from 'lodash';
+import {each, filter, find, includes, fill, bind} from 'lodash';
 import {tags} from '../../constant/sizes';
 import {AiOutlineDown} from 'react-icons/ai';
 import Checkbox from '@mui/material/Checkbox';
 
 export function ProductExtraInputType({product}) {
   const productType = product.productType.toLowerCase();
-
   let resultType = find(tags, (i) => includes(i.productType, productType));
 
   if (resultType) {
@@ -17,7 +16,7 @@ export function ProductExtraInputType({product}) {
             <select
               data-labelOnProduct={resultType.labelOnProduct}
               data-name={resultType.name}
-              className="w-full h-[46px] cursor-pointer bg-transparent p-4 focus:border-transparent text-normal focus:outline-none border-2 border-[#E5E7EB] z-3"
+              className="w-full h-[46px] cursor-pointer bg-transparent  focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
             >
               <option value={null}> {resultType.placeHolder} </option>
               {resultType.options.delimeter
@@ -66,7 +65,7 @@ export function ProductExtraInputTag({product}) {
         {inputObj.inputNumber == 1 && inputObj.inputType == 'text' ? (
           <div className="relative my-3 h-[46px]">
             <input
-              className="w-full bg-transparent h-[46px] focus:border-transparent text-lg focus:outline-none border-2 border-[#E5E7EB] z-3"
+              className="w-full bg-transparent h-[46px] focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
               data-labelOnProduct={inputObj.labelOnProduct}
               data-name={inputObj.name}
               placeholder={inputObj.placeHolder}
@@ -78,7 +77,7 @@ export function ProductExtraInputTag({product}) {
             <select
               data-labelOnProduct={inputObj.labelOnProduct}
               data-name={inputObj.name}
-              className=" w-full h-[46px] cursor-pointer bg-transparent p-4 focus:border-transparent text-normal focus:outline-none border-2 border-[#E5E7EB] z-3"
+              className=" w-full h-[46px] cursor-pointer bg-transparent focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
             >
               <option value={null}> {inputObj.placeHolder} </option>
               {inputObj.options.delimeter
@@ -98,7 +97,7 @@ export function ProductExtraInputTag({product}) {
                     <option value={i}> {i} </option>
                   ))}
             </select>
-            <AiOutlineDown className="absolute right-4 top-[50%] translate-y-[-50%] text-lg z-[-1]" />
+            <AiOutlineDown className="absolute right-4 top-[50%] translate-y-[-50%] text-[13px] z-[-1]" />
           </div>
         ) : (
           <>
@@ -123,7 +122,7 @@ export function ProductExtraInputTag({product}) {
                   <select
                     data-labelOnProduct={inputObjSub.labelOnProduct}
                     data-name={inputObjSub.name}
-                    className=" w-full h-[46px] cursor-pointer bg-transparent p-4 focus:border-transparent text-normal focus:outline-none border-2 border-[#E5E7EB] z-3"
+                    className=" w-full h-[46px] cursor-pointer bg-transparent  focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
                   >
                     <option value={null}> {inputObjSub.placeHolder} </option>
                     {inputObjSub.options.delimeter
@@ -145,12 +144,12 @@ export function ProductExtraInputTag({product}) {
                           <option value={i}> {i} </option>
                         ))}
                   </select>
-                  <AiOutlineDown className="absolute right-4 top-[50%] translate-y-[-50%] text-lg z-[-1]" />
+                  <AiOutlineDown className="absolute right-4 top-[50%] translate-y-[-50%] text-[13px] z-[-1]" />
                 </div>
               ) : inputObjSub.inputType == 'text' ? (
                 <div className="relative my-3 h-[46px]">
                   <input
-                    className="w-full text-normal px-4 bg-transparent h-[46px] focus:border-transparent focus:outline-none border-2 border-[#E5E7EB] z-3"
+                    className="w-full text-[13px] px-4 bg-transparent h-[46px] focus:border-transparent focus:outline-none border-2 border-[#E5E7EB] z-3"
                     data-labelOnProduct={inputObjSub.labelOnProduct}
                     data-name={inputObjSub.name}
                     placeholder={inputObjSub.placeHolder}

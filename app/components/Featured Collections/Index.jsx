@@ -262,7 +262,7 @@ function Item({product, className = ''}) {
         setIsDragging(false);
       }}
     >
-      <div className="text-xs mb-1">Sale</div>
+      <div className="text-xs tracking-widest mb-1">ON SALE</div>
       <div className="w-full relative overflow-hidden">
         <Image
           className="w-full h-auto hover:scale-[1.07] duration-500 ease-out"
@@ -276,10 +276,10 @@ function Item({product, className = ''}) {
           }}
         />
       </div>
-      <div className="flex justify-start items-center whitespace-normal tracking-wider line-clamp-2  text-xs mt-2">
+      <div className="flex justify-start items-center whitespace-normal tracking-widest line-clamp-2 font-title font-medium text-normal mt-2">
         {product?.title}
       </div>
-      <div className="text-xs mt-1">
+      <div className="text-xs mt-1 ">
         {product.variants.nodes[0]?.compareAtPrice ? (
           <>
             {/* <p>Sale</p>
@@ -287,13 +287,13 @@ function Item({product, className = ''}) {
             <div className="product-price-on-sale">
               {product.variants.nodes[0] ? (
                 <Money
-                  className="text-red-600 text-xs mt-1"
+                  className="text-red-600 tracking-widest	font-body font-normal text-xs mt-1"
                   data={product.variants.nodes[0].price}
                 />
               ) : null}
               <s className="!text-black">
                 <Money
-                  className="text-xs mt-1"
+                  className="font-body tracking-widest	 font-normal text-xs mt-1"
                   data={product.variants.nodes[0].compareAtPrice}
                 />
               </s>
