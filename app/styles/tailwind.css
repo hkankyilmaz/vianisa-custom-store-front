@@ -1,7 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+
+@font-face {
+  font-family: 'Questrial';
+  src: url('../assets/Questrial.woff2');
+}
 @font-face {
   font-family: 'montserratmedium';
   src: url('../assets/Montserrat-Medium.otf');
@@ -47,7 +51,7 @@ Announcemed Bar
 */
 
 .announce-item {
-  @apply text-white w-[100vw] flex justify-center items-center text-center absolute leading-4 translate-x-[-%100] sm:uppercase;
+  @apply text-white w-[100vw] flex justify-center items-center text-center absolute tracking-[.2em] leading-4 translate-x-[-%100] uppercase !text-[11.5px] font-montserratMd;
 }
 /*
 ----------------------------------------- 
@@ -68,7 +72,7 @@ Featured Collection
 }
 
 .slider-btn__featuredCol {
-  @apply top-[50%] translate-y-[-60%] border p-4 rounded-full hover:bg-slate-100 absolute;
+  @apply top-[50%] translate-y-[-50%] border p-4 rounded-full hover:bg-slate-100 absolute;
 }
 /*
 ----------------------------------------- 

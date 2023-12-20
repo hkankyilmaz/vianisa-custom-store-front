@@ -25,7 +25,7 @@ function AnnouncementBar() {
   return (
     <div
       ref={ref}
-      className="flex justify-center items-center h-[40px] sm:h-[31px] w-[100vw] bg-black relative overflow-hidden"
+      className="flex justify-center items-center h-[40px] sm:h-[36px] w-[100vw] bg-[var(--heading-color)] relative overflow-hidden"
     >
       <span className="announce-item ann-item-one">
         15% Sale Sitewide - Use the Code "15OFF" at the Checkout

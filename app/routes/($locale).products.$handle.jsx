@@ -655,8 +655,8 @@ export const FEATURED_COLLECTION_QUERY = `#graphql
     collection(handle : $handle) {
       description
       title
-      products (first:8 ) {
-    
+      products (first:20 ) {
+
           nodes  {
           title
           handle
@@ -666,7 +666,7 @@ export const FEATURED_COLLECTION_QUERY = `#graphql
               compareAtPrice {
                 amount
                 currencyCode
-              }          
+              }
               price {
                 amount
                 currencyCode
@@ -689,11 +689,10 @@ export const FEATURED_COLLECTION_QUERY = `#graphql
               id
               width
               url
-    
+
             }
           }
-        
-      
+
       }
     }
     }
