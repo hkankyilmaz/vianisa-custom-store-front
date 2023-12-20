@@ -2,7 +2,6 @@ import React, {forwardRef, useEffect, useImperativeHandle} from 'react';
 import gsap from 'gsap';
 import useIsomorphicLayoutEffect from '~/utils';
 import {Link, useMatches} from '@remix-run/react';
-import {motion} from 'framer-motion';
 
 const MegaMenu = forwardRef((props, ref) => {
   const animateIsGoing = React.useRef({isGoing: false, first: true});
@@ -22,10 +21,23 @@ const MegaMenu = forwardRef((props, ref) => {
         animateIsGoing.current = {isGoing: true, first: false};
         tl.current = gsap
           .timeline()
-          .to(refOne.current, {autoAlpha: 1, duration: 0.2})
-          .to(refTwo.current, {display: 'flexbox'}, '<')
-          .set(refTwo.current, {autoAlpha: 0}, '<')
-          .from(refTwo.current, {y: 7, autoAlpha: 0, duration: 0.4}, '<')
+          .set(refOne.current, {autoAlpha: 0})
+          .set(refTwo.current, {y: 7, autoAlpha: 0})
+          .to(refOne.current, {
+            autoAlpha: 1,
+            duration: 0.3,
+            ease: 'power1.inOut',
+          })
+          .to(
+            refTwo.current,
+            {
+              y: 0,
+              autoAlpha: 1,
+              duration: 0.2,
+              ease: 'power1.inOut',
+            },
+            '<',
+          )
           .then(
             () => (animateIsGoing.current = {isGoing: false, first: false}),
           );
@@ -33,10 +45,11 @@ const MegaMenu = forwardRef((props, ref) => {
     });
 
     ctx.add('removeMegamenu', () => {
-      tl_.current = gsap
-        .timeline()
-        .set(refOne.current, {autoAlpha: 1})
-        .to(refOne.current, {autoAlpha: 0, duration: 0.3});
+      tl_.current = gsap.timeline().to(refOne.current, {
+        autoAlpha: 0,
+        duration: 0.3,
+        ease: 'power1.inOut',
+      });
     });
 
     return () => ctx.revert();
@@ -66,6 +79,7 @@ const MegaMenu = forwardRef((props, ref) => {
 
   useEffect(() => {
     if (!props.isHeaderHover) {
+      console.log('remove megamenu');
       props.setMegaMenu({...props.megaMenu, isOpen: false});
       ctx.removeMegamenu();
     }
@@ -85,7 +99,13 @@ const MegaMenu = forwardRef((props, ref) => {
   return (
     <div
       ref={refOne}
-      className="w-full py-[20px] absolute top-[100%] invisibl bg-white border-y border-[#e0e0e0]"
+      className={`w-full py-[20px] absolute top-[100%] invisible bg-white border-y border-[#e0e0e0] ${
+        props.megaMenu.isOpen ? 'pointer-events-auto' : 'pointer-events-none'
+      }`}
+      onMouseEnter={() => {
+        if (!props.megaMenu.isOpen) {
+        }
+      }}
     >
       <div
         ref={refTwo}
