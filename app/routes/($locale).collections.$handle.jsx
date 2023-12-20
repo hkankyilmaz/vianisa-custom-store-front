@@ -13,6 +13,7 @@ import Slider from '@mui/material/Slider';
 import {FaAngleDown} from 'react-icons/fa';
 import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import useGetSearchParams from '~/hooks/useGetSearchParams';
+import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data.collection.title} Collection`}];
@@ -23,7 +24,8 @@ export async function loader({request, params, context}) {
   const colors = url.searchParams.getAll('color');
   const meterials = url.searchParams.getAll('meterial');
   const searchParams = useGetSearchParams(colors, meterials);
-  console.log(searchParams);
+  const COLLECTION_QUERY = useGenerateCollectionQuery(searchParams);
+  console.log(COLLECTION_QUERY);
   const {handle} = params;
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
@@ -283,77 +285,3 @@ function ProductItem({product, loading}) {
     </Link>
   );
 }
-
-const PRODUCT_ITEM_FRAGMENT = `#graphql
-  fragment MoneyProductItem on MoneyV2 {
-    amount
-    currencyCode
-  }
-  fragment ProductItem on Product {
-    id
-    handle
-    title
-    featuredImage {
-      id
-      altText
-      url
-      width
-      height
-    }
-    priceRange {
-      minVariantPrice {
-        ...MoneyProductItem
-      }
-      maxVariantPrice {
-        ...MoneyProductItem
-      }
-    }
-    variants(first: 1) {
-      nodes {
-        selectedOptions {
-          name
-          value
-        }
-      }
-    }
-  }
-`;
-
-// NOTE: https://shopify.dev/docs/api/storefront/2022-04/objects/collection
-const COLLECTION_QUERY = `#graphql
-  ${PRODUCT_ITEM_FRAGMENT}
-  query Collection(
-    $handle: String!
-    $country: CountryCode
-    $language: LanguageCode
-    $first: Int
-    $last: Int
-    $startCursor: String
-    $endCursor: String
-    
-  ) @inContext(country: $country, language: $language) {
-    collection(handle: $handle) {
-      id
-      handle
-      title
-      description
-      products(
-        first: $first,
-        last: $last,
-        before: $startCursor,
-        after: $endCursor
-      ) {
-        nodes {
-          ...ProductItem
-        }
-        pageInfo {
-          hasPreviousPage
-          startCursor
-          hasNextPage
-          hasNextPage
-          endCursor
-        }
-      }
-    }
-  }
-`;

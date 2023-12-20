@@ -1,4 +1,77 @@
-function useGenerateCollectionQuery() {}
+function useGenerateCollectionQuery(combinedSearchParams, sortValue) {
+  return `#graphql
+ ${PRODUCT_ITEM_FRAGMENT}
+  query Collection(
+    $handle: String!
+    $country: CountryCode
+    $language: LanguageCode
+    $first: Int
+    $last: Int
+    $startCursor: String
+    $endCursor: String
+    
+  ) @inContext(country: $country, language: $language) {
+    collection(handle: $handle) {
+      id
+      handle
+      title
+      description
+      products(
+        first: $first,
+        last: $last,
+        before: $startCursor,
+        after: $endCursor
+        sortKey:BEST_SELLING
+        filters : [
+      ${(() => {
+        if (combinedSearchParams.length > 0) {
+          let query = '';
+          combinedSearchParams.map((searchParam, idx) => {
+            if (
+              searchParam == 'yellow' ||
+              searchParam == 'white' ||
+              searchParam == 'rose'
+            ) {
+              query += ` {variantOption: {name: "Color", value: "${
+                searchParam == 'yellow'
+                  ? 'Yellow'
+                  : searchParam == 'white'
+                  ? 'White'
+                  : searchParam == 'rose'
+                  ? 'Rose'
+                  : ''
+              }"}}${idx !== combinedSearchParams.length - 1 ? ',' : ''}`;
+            } else {
+              query += ` {variantOption: {name: "Meterial", value: "${
+                searchParam == '10kgold'
+                  ? '10k Gold'
+                  : searchParam == '14kgold'
+                  ? '14k Gold'
+                  : searchParam == '18kgold'
+                  ? '18k Gold'
+                  : ''
+              }"}}${idx !== combinedSearchParams.length - 1 ? ',' : ''}`;
+            }
+          });
+          return query;
+        } else return '';
+      })()}]
+      ) {
+        nodes {
+          ...ProductItem
+        }
+        pageInfo {
+          hasPreviousPage
+          startCursor
+          hasNextPage
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+`;
+}
 
 export default useGenerateCollectionQuery;
 
@@ -31,45 +104,6 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
         selectedOptions {
           name
           value
-        }
-      }
-    }
-  }
-`;
-
-// NOTE: https://shopify.dev/docs/api/storefront/2022-04/objects/collection
-const COLLECTION_QUERY = `#graphql
-  ${PRODUCT_ITEM_FRAGMENT}
-  query Collection(
-    $handle: String!
-    $country: CountryCode
-    $language: LanguageCode
-    $first: Int
-    $last: Int
-    $startCursor: String
-    $endCursor: String
-    
-  ) @inContext(country: $country, language: $language) {
-    collection(handle: $handle) {
-      id
-      handle
-      title
-      description
-      products(
-        first: $first,
-        last: $last,
-        before: $startCursor,
-        after: $endCursor
-      ) {
-        nodes {
-          ...ProductItem
-        }
-        pageInfo {
-          hasPreviousPage
-          startCursor
-          hasNextPage
-          hasNextPage
-          endCursor
         }
       }
     }
