@@ -12,12 +12,19 @@ import {useVariantUrl} from '~/utils';
 import Slider from '@mui/material/Slider';
 import {FaAngleDown} from 'react-icons/fa';
 import {ClickAwayListener} from '@mui/base/ClickAwayListener';
+import useGetSearchParams from '~/hooks/useGetSearchParams';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data.collection.title} Collection`}];
 };
 
 export async function loader({request, params, context}) {
+  const url = new URL(request.url);
+
+  const colors = url.searchParams.getAll('color');
+  const meterials = url.searchParams.getAll('meterial');
+  const searchParams = useGetSearchParams(colors, meterials);
+  console.log(searchParams);
   const {handle} = params;
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
@@ -49,7 +56,6 @@ export default function Collection() {
   };
 
   const {collection} = useLoaderData();
-  console.log(collection);
 
   return (
     <div className="collection">
