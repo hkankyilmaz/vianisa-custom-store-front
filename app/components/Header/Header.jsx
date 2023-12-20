@@ -124,7 +124,7 @@ export function HeaderMenu({menu, viewport, setMegaMenu, startAnimate}) {
         const url =
           item.url.includes('myshopify.com') ||
           item.url.includes(publicStoreDomain)
-            ? new URL(item.url).pathname
+            ? item.url
             : item.url;
         return (
           <NavLink
@@ -187,7 +187,7 @@ function HeaderCtas({isLoggedIn, cart}) {
 
 function HeaderMenuMobileToggle() {
   return (
-    <a className="header-menu-mobile-toggle" href="#mobile-menu-aside">
+    <a className="header-menu-mobile-toggle left-1" href="#mobile-menu-aside">
       <h3>☰</h3>
     </a>
   );

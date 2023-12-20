@@ -10,7 +10,14 @@
   font-family: 'playFair';
   src: url('../assets/PlayfairDisplay-VariableFont_wght.ttf');
 }
-
+@font-face {
+  font-family: 'zapHuman';
+  src: url('../assets/ZapfHumanist601BT-Roman.otf');
+}
+@font-face {
+  font-family: 'avenir';
+  src: url('../assets/AVENIR-MEDIUM.woff');
+}
 :root {
   --x: 0;
   --mega-menu-column: 2;
@@ -166,7 +173,7 @@ Product Image Carausel
   --slide-spacing: 1rem;
   --slide-size: 100%;
   --slide-height: 'auto';
-  padding: 1.6rem;
+  /* padding: 1.6rem; */
   padding-top: 0;
 }
 .slider-product .embla__viewport {
@@ -246,6 +253,7 @@ Product Image Carausel
     flex: 0 0 18%;
   }
 }
+
 .slider-product .embla-thumbs__slide__button {
   -webkit-appearance: none;
   background-color: transparent;

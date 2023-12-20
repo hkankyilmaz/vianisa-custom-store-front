@@ -11,6 +11,8 @@ export default {
       montserratMd: ['montserratmedium', 'sans-serif'],
       playfair: ['playfair', 'serif'],
       questrial: ['Questrial', 'sans-serif'],
+      body: ['avenir', 'sans-serif'],
+      title: ['zapHuman', 'sans-serif'],
     },
   },
 };
