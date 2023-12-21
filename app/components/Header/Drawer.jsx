@@ -1,6 +1,8 @@
-import React, {useRef, useEffect, useState} from 'react';
-import {cubicBezier, motion} from 'framer-motion';
-import {Link} from '@remix-run/react';
+import {useRef, useEffect, useState} from 'react';
+import {Link, useMatches} from '@remix-run/react';
+import gsap from 'gsap';
+import CustomEase from 'gsap/CustomEase';
+import useIsomorphicLayoutEffect, {stripUrl} from '~/utils';
 
 const Drawer = ({
   placement = 'left',
@@ -16,61 +18,127 @@ const Drawer = ({
     bottom: 'bottom-0 left-0 w-screen',
     left: 'top-0 left-0 h-screen',
   };
-  const variants = {
-    open: {
-      x: 0,
-      transition: {
-        duration: 0.5,
-        ease: cubicBezier(0.645, 0.045, 0.355, 1),
-      },
-    },
-    closed: {
-      x: '-100%',
-      transition: {
-        duration: 0.5,
-        ease: cubicBezier(0.645, 0.045, 0.355, 1),
-      },
-    },
-  };
   const sizes = {
     sm: 'w-[calc(100vw_-_65px)] sm:w-[340px]',
     md: 'w-80',
     lg: 'w-96',
     full: 'w-screen',
   };
-  const drawerRef = useRef(null);
+  const drawer = useRef(null);
+  const drawerMain = useRef(null);
+  const drawerHeader = useRef(null);
+  const drawerFooter = useRef(null);
+  const [ctx] = useState(gsap.context(() => {}));
 
   useEffect(() => {
-    drawerRef.current.setAttribute('data-open', isOpen);
+    gsap.registerPlugin(CustomEase);
+    CustomEase.create('css-ease', '0.25, 0.1, 0.25, 1');
+    CustomEase.create('footer', '0.25, 0.46, 0.45, 0.94');
+
+    ctx.add(() => {
+      gsap.set(drawer.current, {x: '-100%'});
+      gsap.set(drawerHeader.current, {x: '-100%', opacity: 0});
+      gsap.set(drawerMain.current, {x: '-100%', opacity: 0});
+      gsap.set(drawerFooter.current, {y: '100%', opacity: 0});
+    });
+
+    ctx.add('open', () => {
+      gsap
+        .timeline()
+        .fromTo(
+          drawer.current,
+          {x: '-100%'},
+          {x: 0, duration: 0.5, ease: 'power1.inOut'},
+        )
+        .fromTo(
+          drawerHeader.current,
+          {x: '-100%', opacity: 0},
+          {x: 0, opacity: 1, duration: 0.5, ease: 'css-ease'},
+          0.25,
+        )
+        .fromTo(
+          drawerMain.current,
+          {x: '-100%', opacity: 0},
+          {x: 0, opacity: 1, duration: 0.5, ease: 'css-ease'},
+          0.25,
+        )
+        .fromTo(
+          drawerFooter.current,
+          {y: '100%', opacity: 0},
+          {y: 0, opacity: 1, duration: 0.25, ease: 'footer'},
+          0.45,
+        );
+    });
+
+    ctx.add('close', () => {
+      gsap
+        .timeline()
+        .to(drawer.current, {x: '-100%', duration: 0.5, ease: 'power1.inOut'});
+    });
+
+    const handleClickOutside = (event) => {
+      if (drawer.current && !drawer.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      ctx.revert();
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    drawer.current.setAttribute('data-open', isOpen);
     const overlay = document.querySelector('#mobile-menu-aside');
     overlay.style.visibility = isOpen ? 'visible' : 'hidden';
     overlay.style.opacity = isOpen ? '.5' : '0';
     overlay.style.background = '#363636';
     overlay.style.zIndex = '50';
     document.documentElement.style.overflow = isOpen ? 'hidden' : 'auto';
+
+    if (isOpen) {
+      ctx.open();
+    } else {
+      ctx.close();
+    }
   }, [isOpen]);
 
   return (
-    <motion.div
+    <div
       className={`absolute bg-[var(--drawer-bg-color)] z-50 flex flex-col drawer ${placements[placement]} ${sizes[size]} ${className}`}
       aria-hidden={!isOpen}
-      variants={variants}
-      initial="closed"
-      animate={isOpen ? 'open' : 'closed'}
-      ref={drawerRef}
+      ref={drawer}
     >
-      <div className="flex justify-start items-center max-h-[80px] min-h-[60px] w-full">
+      <div
+        className="flex justify-start items-center max-h-[80px] min-h-[60px] w-full"
+        ref={drawerHeader}
+      >
         <CloseButton onClick={onClose} />
       </div>
-      <div className="flex-1 flex flex-col pl-[18px] sm:pl-[30px] pr-[24px] sm:pr-[30px]">
+      <div
+        className="flex-1 flex flex-col pl-[18px] sm:pl-[30px] pr-[24px] sm:pr-[30px]"
+        ref={drawerMain}
+      >
         {menu.items.map((item, index) => (
           <Collapsible key={index} item={item} />
         ))}
+        <Link
+          to="/account"
+          className="text-[var(--drawer-text-color-light)] hover:text-[var(--drawer-text-color)] hover:underline w-full uppercase font-questrial text-[13px] font-normal block mt-[28px]"
+        >
+          Account
+        </Link>
       </div>
-      <div className="flex justify-center items-center min-h-[48px] shadow-[0_1px_var(--drawer-border-color)_inset]">
+      <div
+        className="flex justify-center items-center min-h-[48px] shadow-[0_1px_var(--drawer-border-color)_inset]"
+        ref={drawerFooter}
+      >
         <InstagramButton />
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -120,56 +188,95 @@ const InstagramButton = () => {
   );
 };
 
-const Collapsible = ({item, className = '', classNames = {}}) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const variants = {
-    open: {
-      height: '100%',
-      overflow: 'visible',
-      //visibility: 'visible',
-      transition: {
+const Collapsible = ({
+  item,
+  className = '',
+  classNames = {},
+  expendad = false,
+}) => {
+  const button = useRef(null);
+  const container = useRef(null);
+  const expendable = useRef(null);
+  const [ctx] = useState(gsap.context(() => {}));
+  const [isExpanded, setIsExpanded] = useState(expendad);
+  //const [root] = useMatches();
+
+  useIsomorphicLayoutEffect(() => {
+    ctx.add(() => {
+      gsap.set(expendable.current, {height: 0});
+    });
+
+    ctx.add('open', () => {
+      gsap.to(expendable.current, {
+        height: 'auto',
         duration: 0.35,
-        ease: 'easeInOut', //cubicBezier(0.645, 0.045, 0.355, 1),
-      },
-    },
-    closed: {
-      height: 0,
-      overflow: 'hidden',
-      //visibility: 'hidden',
-      transition: {
+        ease: 'power1.inOut',
+      });
+    });
+
+    ctx.add('close', () => {
+      gsap.to(expendable.current, {
+        height: 0,
         duration: 0.35,
-        ease: 'easeInOut', //cubicBezier(0.645, 0.045, 0.355, 1),
-      },
-    },
+        ease: 'power1.inOut',
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  useEffect(() => {
+    if (isExpanded) {
+      ctx.open();
+    } else {
+      ctx.close();
+    }
+  }, [isExpanded]);
+
+  const handleOnClick = () => {
+    setIsExpanded((prev) => !prev);
+    const parent = container.current.parentElement;
+    const expendadSiblings = parent.querySelectorAll('[aria-expanded="true"]');
+
+    expendadSiblings.forEach((item) => {
+      if (item !== button.current) {
+        item.click();
+      }
+    });
   };
+
+  // const stripUrl = (url) => {
+  //   const publicStoreDomain = root?.data?.publicStoreDomain;
+  //   const newUrl =
+  //     url.includes('myshopify.com') || url.includes(publicStoreDomain)
+  //       ? new URL(url).pathname
+  //       : url;
+
+  //   return newUrl;
+  // };
 
   return (
     <div
-      className={`border-b border-solid border-[var(--drawer-border-color)] ${
-        isExpanded ? 'overflow-hidden' : 'overflow-visible'
-      } ${className}`}
+      ref={container}
+      className={`border-b border-solid border-[var(--drawer-border-color)] overflow-hidden ${className}`}
     >
       <button
+        ref={button}
         className={`text-[var(--drawer-text-color)] text-xs leading-[18px] uppercase tracking-[.2em] w-full relative text-left cursor-pointer py-[20px] font-montserratMd font-bold collapsible ${
           classNames['button'] ?? ''
         }`}
         aria-expanded={isExpanded}
-        onClick={() => setIsExpanded((prev) => !prev)}
+        onClick={handleOnClick}
       >
         {item.title}
         <span className="absolute w-[11px] h-[11px] right-0 top-1/2 -translate-y-1/2 plus"></span>
       </button>
-      <motion.div
-        // className={`overflow-hidden max-h-0 h-full ${
-        //   isExpanded ? '!overflow-visible !max-h-[1000px]' : ''
-        // }`}
-        // animate={isExpanded ? 'open' : 'closed'}
-        // style={{transition: 'max-height .35s ease-in-out'}}
-        initial="closed"
-        variants={variants}
-        animate={isExpanded ? 'open' : 'closed'}
-      >
-        <div /* className="pb-[18px]" */>
+      <div ref={expendable}>
+        <div
+          className={`pb-[18px] ${
+            isExpanded ? 'overflow-visible' : 'overflow-hidden'
+          }`}
+        >
           {item.items[0].items &&
             item.items.map((subItem, index) => (
               <Collapsible
@@ -191,7 +298,7 @@ const Collapsible = ({item, className = '', classNames = {}}) => {
                   key={subItem.title + index}
                 >
                   <Link
-                    to={subItem.url}
+                    to={stripUrl(subItem.url)}
                     className="text-[var(--drawer-text-color-light)] hover:text-[var(--drawer-text-color)] hover:underline w-full uppercase font-questrial text-[13px] font-normal block"
                   >
                     {subItem.title}
@@ -201,7 +308,7 @@ const Collapsible = ({item, className = '', classNames = {}}) => {
             </div>
           )}
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
