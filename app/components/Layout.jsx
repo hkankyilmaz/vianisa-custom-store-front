@@ -27,7 +27,6 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
     <>
       {isLoaded && (
         <>
-          {/* <PageTransition /> */}
           <CartAside cart={cart} />
           <SearchAside />
           <MobileMenuAside menu={header.menu} />
@@ -93,15 +92,5 @@ function MobileMenuAside({menu}) {
     <Aside id="mobile-menu-aside" heading="MENU">
       <HeaderMenu menu={menu} viewport="mobile" />
     </Aside>
-  );
-}
-
-function PageTransition() {
-  return (
-    <div
-      className="w-full h-full top-0 left-0 fixed bg-white pointer-events-none z-[1000] opacity-100 page-transition"
-      //style={{transition: 'all .25s ease'}}
-      style={{animation: 'pageTransition 0.25s ease forwards'}}
-    ></div>
   );
 }
