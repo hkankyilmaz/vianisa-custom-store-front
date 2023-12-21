@@ -34,11 +34,11 @@ const EmblaCarousel = (props) => {
   }, [emblaMainApi, onSelect]);
 
   return (
-    <div className="embla slider-product max-md:hidden">
+    <div className="embla slider-product max-md:hidden ml-[50px]">
       <div className="embla__viewport" ref={emblaMainRef}>
         <div className="embla__container">
           {slides.map((index) => (
-            <div className="embla__slide" key={index}>
+            <div className="embla__slide h-full" key={index}>
               <div className="embla__slide__number">
                 <span>{index + 1}</span>
               </div>

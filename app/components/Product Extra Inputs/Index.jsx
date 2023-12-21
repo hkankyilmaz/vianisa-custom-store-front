@@ -13,7 +13,7 @@ export function ProductExtraInputType({product}) {
       if (resultType.inputType == 'select') {
         return (
 
-            <div className="relative my-3 w-full text-[#595959] tracking-wide">
+            <div className="relative w-full text-[#595959] tracking-wide mt-[10px] mb-[15px]">
               <select
                 data-labelOnProduct={resultType.labelOnProduct}
                 data-name={resultType.name}
@@ -65,14 +65,14 @@ export function ProductExtraInputTag({product}) {
     return resultTag.map((inputObj) => (
       <div className="text-[#595959] tracking-wide">
         {inputObj.inputNumber == 1 && inputObj.inputType == 'text' ? (
-          <div className="relative my-3 h-[41.5px]">
+          <div className="relative mb-3 h-[41.5px]">
             <input
               className="w-full bg-transparent h-[41.5px] focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
               data-labelOnProduct={inputObj.labelOnProduct}
               data-name={inputObj.name}
               placeholder={inputObj.placeHolder}
             />
-            <AiOutlineDown className="absolute right-4top-[50%] translate-y-[-50%] text-lg z-[-1]" />
+            <AiOutlineDown className="absolute right-4 first-letter:top-[50%] translate-y-[-50%] text-lg z-[-1]" />
           </div>
         ) : inputObj.inputNumber == 1 && inputObj.inputType == 'select' ? (
           <div className="relative my-3 h-[41.5px]">
@@ -106,7 +106,18 @@ export function ProductExtraInputTag({product}) {
             {inputObj.inputs.map((inputObjSub) =>
               inputObjSub.inputType == 'checkbox' ? (
                 <div className="flex items-center">
-                  <Checkbox
+                  <input 
+                    className="w-[18px] h-[18px] focus:ring-0 focus:ring-offset-0 mr-[10px]"
+                    type="checkbox" 
+                    data-labelOnProduct={inputObjSub.labelOnProduct} 
+                    data-name={inputObj.name} 
+                    value={open} 
+                    name="chck" 
+                    id="chck" 
+                    onChange={() => setopen(!open)} 
+                  />
+
+                  {/* <Checkbox
                     data-labelOnProduct={inputObjSub.labelOnProduct}
                     data-name={inputObj.name}
                     value={open}
@@ -114,18 +125,18 @@ export function ProductExtraInputTag({product}) {
                     id="chck"
                     className="p-0"
                     onChange={() => setopen(!open)}
-                  />
-                  <label className="ml-1" for={'chck'}>
+                  /> */}
+                  <label className="font-body text-[13px]" for={'chck'}>
                     {' '}
                     {inputObjSub.placeHolder}{' '}
                   </label>
                 </div>
               ) : inputObjSub.inputType == 'select' && open ? (
-                <div className="relative my-3 h-[41.5px]">
+                <div className="relative mt-[15px] h-[41.5px]">
                   <select
                     data-labelOnProduct={inputObjSub.labelOnProduct}
                     data-name={inputObjSub.name}
-                    className=" w-full h-[41.5px] cursor-pointer bg-transparent  focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
+                    className=" w-full h-[41.5px] cursor-pointer bg-transparent  focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-3"
                   >
                     <option value={null}> {inputObjSub.placeHolder} </option>
                     {inputObjSub.options.delimeter
@@ -147,12 +158,12 @@ export function ProductExtraInputTag({product}) {
                           <option value={i}> {i} </option>
                         ))}
                   </select>
-                  <AiOutlineDown className="absolute right-4 top-[50%] translate-y-[-50%] text-[13px] z-[-1]" />
+                  <AiOutlineDown className="absolute right-4 top-[50%] translate-y-[-50%] text-sm text-black z-[-1]" />
                 </div>
               ) : inputObjSub.inputType == 'text' && open ? (
-                <div className="relative my-3 h-[41.5px]">
+                <div className="relative mt-[15px] h-[41.5px]">
                   <input
-                    className="w-full text-[13px] px-4 bg-transparent h-[41.5px] focus:border-transparent focus:outline-none border-2 border-[#E5E7EB] z-3"
+                    className="placeholder-neutral-400 w-full text-[13px] px-[15px] py-[10px] bg-transparent h-[41.5px] focus:border-transparent focus:outline-none border border-[#E5E7EB] z-3"
                     data-labelOnProduct={inputObjSub.labelOnProduct}
                     data-name={inputObjSub.name}
                     placeholder={inputObjSub.placeHolder}

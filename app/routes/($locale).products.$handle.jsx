@@ -25,6 +25,8 @@ import {
 } from '../components/Product Extra Inputs/Index';
 import gsap from 'gsap';
 import BasicBreadcrumbs from '../components/Breadcrumbs/Index';
+import { duration } from '@mui/material';
+import WishlistButton from '~/components/Wishlist Button/WishlistButton';
 
 export const meta = ({data}) => {
   return [{title: `${data.product?.title}`}];
@@ -135,11 +137,11 @@ export default function Product() {
   return (
     <>
       <BasicBreadcrumbs
-        className="product max-w-[1300px] pl-[1.6rem] m-auto text-[13px] gap-x-2 max-md:pt-2 mt-[30px]"
+        className="product max-w-[1330px] pl-[50px] m-auto text-[13px] gap-x-2 max-md:pt-2 mt-[15px] mb-[15px]"
         product={product}
       />
 
-      <div className="product max-w-[1300px] m-auto  sm: flex">
+      <div className="product max-w-[1330px] m-auto  sm: flex">
         {/* <ProductImage image={selectedVariant?.image} /> */}
 
         <EmblaCarousel
@@ -187,7 +189,7 @@ function ProductMain({selectedVariant, product, variants}) {
 
   return (
     <div className="product-main-wrapper">
-      <div className="product-main w-[400px] mr-[100px] ml-[50px]  lg:mr-[100px]">
+      <div className="product-main w-[400px] mr-[50px] ml-[50px]  lg:mr-[50px]">
         <h1 className="text-[18px] font-[500] uppercase font-body text-[#2f2f2f] tracking-[3.6px] text-left">
           {title}
         </h1>
@@ -281,7 +283,7 @@ function ProductMain({selectedVariant, product, variants}) {
         {_.includes(matches, 'moissanite') ||
         _.includes(matches, 'lab-grown-diamond') ? (
           <ClickAwayListener onClickAway={() => setIsGemStoneOpt(false)}>
-            <div className="relative my-3 w-full text-[#595959] tracking-wide">
+            <div className="relative mt-3 mb-[17px] w-full text-[#595959] tracking-wide">
               <select className="text-[#595959] font-body align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10">
                 <option> Gemstone: Moissanite </option>
                 <option> Gemstone: Lab Grown Diamond </option>
@@ -350,29 +352,34 @@ function ProductMain({selectedVariant, product, variants}) {
             )}
           </Await>
         </Suspense>
-        <br />
-        <br />
-        <div className="justify-center justify-items-center items-center	content-center	flex  flex-col	">
+        <div className="flex justify-center text-[#2f2f2f] text-[13px] font-body mt-3">
+          <button className="link-underline link-underline-black">More payment options</button>
+        </div>
+        <div className="justify-center justify-items-center items-center	content-center	flex  flex-col mt-[10px] mb-[5px] font-body text-[#2f2f2f]">
           <div className="flex gap-1 justify-center	align-center items-center w-auto">
             <img
-              className="w-32"
+              className="w-[115px]"
               src="https://cdn.shopify.com/s/files/1/0484/1429/4167/files/One_Tree_Planted_horizontal_logo_1.png?v=1662472737"
               alt=""
             />
             <p>For each purchase</p>
           </div>
-          <div className='w-auto"'>
+          <div className='w-auto text-[13px]'>
             <a href="/pages/plant-a-tree" target="_blank" className="underline">
               Learn more
             </a>
           </div>
-          <div className="flex justify-start items-center border-b pb-6 border-[#bfbfbf] text-[13px]">
-            {/* <FcShipped className="text-5xl mr-3" /> */}
-            <span className="">
-              Order this item now and we will ship by{' '}
-              <span className="font-bold underline">{shipDtae}</span>
-            </span>{' '}
-          </div>
+        </div>
+        <div className="flex justify-center text-[5px]">
+          <WishlistButton/>
+        </div>
+        
+        <div className="flex justify-center items-center my-[10px] text-[13px] font-body text-[#2f2f2f]">
+          {/* <FcShipped className="text-5xl mr-3" /> */}
+          <span className="">
+            Order this item now and we will ship by{' '}
+            <span className="font-bold">{shipDtae}</span>
+          </span>{' '}
         </div>
       </div>
     </div>
@@ -411,7 +418,7 @@ function ProductPrice({selectedVariant}) {
 
 function ProductForm({product, selectedVariant, variants}) {
   return (
-    <div className="product-form  border-b pb-6 border-[#bfbfbf] font-body">
+    <div className="product-form border-[#bfbfbf] font-body">
       <div className=" gap-x-3 grid grid-cols-2 max-sm:flex flex-col gap-y-3  ">
         <VariantSelector
           handle={product.handle}
@@ -429,7 +436,6 @@ function ProductForm({product, selectedVariant, variants}) {
       </div>
       <ProductExtraInputType product={product} />
       <ProductExtraInputTag product={product} />
-      <br />
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}
         onClick={() => {
@@ -455,7 +461,7 @@ function ProductForm({product, selectedVariant, variants}) {
         {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
       </AddToCartButton>
       <ShopPayButton
-        className="mt-3 text-xs"
+        className="mt-[20px] text-xs"
         width="100%"
         storeDomain="vianisa.myshopify.com"
         variantIds={selectedVariant ? [selectedVariant.id] : ''}
@@ -520,7 +526,10 @@ function AddToCartButton({analytics, children, disabled, lines, onClick}) {
             value={JSON.stringify(analytics)}
           />
           <button
-            className="border w-full px-2 py-3 h-[42px] text- uppercase  rounded-md bg-black border-black tracking-wider text-white"
+            className="border flex items-center justify-center w-full align-middle 
+            mt-[15px] px-2 py-3 h-auto text-[11px] font-bold uppercase bg-[#2f2f2f]
+          border-[#2f2f2f] tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-[#2f2f2f]"
+            style={{transition:"all ease 150ms"}}
             type="submit"
             onClick={onClick}
             disabled={disabled ?? fetcher.state !== 'idle'}

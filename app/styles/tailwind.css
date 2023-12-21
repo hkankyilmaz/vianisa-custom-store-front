@@ -192,7 +192,7 @@ Product Image Carausel
 .slider-product .embla__slide {
   flex: 0 0 var(--slide-size);
   min-width: 0;
-  padding-left: var(--slide-spacing);
+  /* padding-left: var(--slide-spacing); */
   position: relative;
 }
 .slider-product .embla__slide__img {
@@ -234,7 +234,7 @@ Product Image Carausel
   bottom: 0;
 }
 .slider-product .embla-thumbs {
-  --thumbs-slide-spacing: 0.8rem;
+  --thumbs-slide-spacing: 20px;
   --thumbs-slide-height: 9rem;
   margin-top: var(--thumbs-slide-spacing);
 }
@@ -243,13 +243,16 @@ Product Image Carausel
 }
 .slider-product .embla-thumbs__container {
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
   flex-direction: row;
   margin-left: calc(var(--thumbs-slide-spacing) * -1);
 }
 .slider-product .embla-thumbs__slide {
-  flex: 0 0 28%;
+  flex: 0 0 70px;
   min-width: 0;
-  padding-left: var(--thumbs-slide-spacing);
+  /* padding-left: var(--thumbs-slide-spacing); */
   position: relative;
 }
 @media (min-width: 576px) {
@@ -337,4 +340,24 @@ Product Image Carausel
 }
 .product-description-detail div > p + p {
   margin-bottom: 20px
+}
+
+
+/* Text underline animation*/
+.link-underline {
+  border-bottom-width: 0;
+  background-image: linear-gradient(transparent, transparent), linear-gradient(#fff, #fff);
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 200ms ease-in-out;
+}
+
+.link-underline-black {
+  background-image: linear-gradient(transparent, transparent), linear-gradient(#2f2f2f, #2f2f2f)
+}
+
+.link-underline:hover {
+  background-size: 0 1px;
+  background-position: 0 100%
 }
