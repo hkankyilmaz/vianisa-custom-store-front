@@ -59,6 +59,7 @@ const Carousel = ({items, itemsPerGroup = 1, loop = false}) => {
       },
     },
   };
+  const renderCount = useRef(0);
 
   const groupItems = (items, itemsPerGroup) => {
     return items.reduce((acc, item, index) => {
@@ -140,6 +141,11 @@ const Carousel = ({items, itemsPerGroup = 1, loop = false}) => {
         prevIsTabletSize.current = prev;
         return window.innerWidth < 1024;
       });
+
+      if (renderCount.current == 0 && window.innerWidth < 1024) {
+        renderCount.current++;
+        setItemGroups(groupItems(items, 1));
+      }
 
       if (window.innerWidth < 1024) {
         x.jump(0);
