@@ -8,7 +8,6 @@
   --color-light: #fff;
   --heading-color: #2f2f2f;
   --header-border-color: #e0e0e0;
-
   --drawer-bg-color: #fff0e7;
   --drawer-border-color: rgba(47, 47, 47, 0.25);
   --drawer-text-color-light: rgba(47, 47, 47, 0.5);
@@ -18,43 +17,6 @@
 body,
 html {
   overflow-x: hidden;
-}
-
-/*
-* --------------------------------------------------
-* components/Drawer
-* --------------------------------------------------
-*/
-
-.plus::before,
-.plus::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-90deg);
-  background-color: currentColor;
-  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
-}
-
-.plus::before {
-  width: 11px;
-  height: 1px;
-  opacity: 1;
-}
-
-.plus::after {
-  width: 1px;
-  height: 11px;
-}
-
-.collapsible[aria-expanded='true'] .plus::before,
-.collapsible[aria-expanded='true'] .plus::after {
-  transform: translate(-50%, -50%) rotate(90deg);
-}
-
-.collapsible[aria-expanded='true'] .plus::before {
-    opacity: 0;
 }
 
 /*
@@ -569,6 +531,43 @@ aside li {
   .prev-button:hover svg {
     animation: slideOutAndInLeft ease-in-out 0.4s forwards;
   }
+}
+
+/*
+* --------------------------------------------------
+* components/Drawer
+* --------------------------------------------------
+*/
+
+.plus::before,
+.plus::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  background-color: currentColor;
+  transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.plus::before {
+  width: 11px;
+  height: 1px;
+  opacity: 1;
+}
+
+.plus::after {
+  width: 1px;
+  height: 11px;
+}
+
+.collapsible[aria-expanded='true'] .plus::before,
+.collapsible[aria-expanded='true'] .plus::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.collapsible[aria-expanded='true'] .plus::before {
+  opacity: 0;
 }
 
 /* Collection Filter */
