@@ -1,4 +1,4 @@
-import {useLocation} from '@remix-run/react';
+import {useLocation, useMatches} from '@remix-run/react';
 import {useMemo} from 'react';
 
 import {useLayoutEffect, useEffect} from 'react';
@@ -36,6 +36,17 @@ export function getVariantUrl({
   const searchString = searchParams.toString();
 
   return path + (searchString ? '?' + searchParams.toString() : '');
+}
+
+export function stripUrl(url) {
+  const [root] = useMatches();
+  const publicStoreDomain = root?.data?.publicStoreDomain;
+  const newUrl =
+    url.includes('myshopify.com') || url.includes(publicStoreDomain)
+      ? new URL(url).pathname
+      : url;
+
+  return newUrl;
 }
 
 export const useIsomorphicLayoutEffect =
