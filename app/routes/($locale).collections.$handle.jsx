@@ -1,7 +1,7 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {json, redirect} from '@shopify/remix-oxygen';
 import {Form} from '@remix-run/react';
-import {useLoaderData, Link, useLocation} from '@remix-run/react';
+import {useLoaderData, Link, useLocation, useNavigate} from '@remix-run/react';
 import {
   Pagination,
   getPaginationVariables,
@@ -15,7 +15,6 @@ import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import useGetSearchParams from '~/hooks/useGetSearchParams';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
 import UseFindCollectionMaxAndMinPrice from '~/hooks/useFindCollectionMaxAndMinPrice';
-import {m} from 'framer-motion';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data.collection.title} Collection`}];
@@ -26,8 +25,15 @@ export async function loader({request, params, context}) {
   const url = new URL(request.url);
   const colors = url.searchParams.getAll('color');
   const meterials = url.searchParams.getAll('meterial');
+  const minPrice = url.searchParams.get('minprice');
+  const maxPrice = url.searchParams.get('maxprice');
   const searchParams = useGetSearchParams(colors, meterials);
-  const COLLECTION_QUERY = useGenerateCollectionQuery(searchParams);
+  const COLLECTION_QUERY = useGenerateCollectionQuery(
+    searchParams,
+    null,
+    minPrice,
+    maxPrice,
+  );
   //get handle from params for query
   const {handle} = params;
   const {storefront} = context;
@@ -79,6 +85,17 @@ export default function Collection() {
 
   const [openFilterDesk, setOpenFilterDesk] = useState(false);
   const [value, setValue] = useState([0, 1000]);
+
+  // user visit the page first time, back to page and forward to page --> set the min and max price from url
+  useEffect(() => {
+    let url = new URL(window.location.href);
+    let params = new URLSearchParams(url.search);
+    let minPrice = params.get('minprice');
+    let maxPrice = params.get('maxprice');
+    if (minPrice && maxPrice) {
+      setValue([+minPrice, +maxPrice]);
+    }
+  }, []);
 
   return (
     <div className="collection">
@@ -159,8 +176,21 @@ export default function Collection() {
 }
 
 function ProductsGrid({products, value, setValue, maxValue, minValue}) {
+  const navigate = useNavigate();
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleOnChangeCommitted = (event, newValue) => {
+    setValue(newValue);
+
+    let url = new URL(window.location.href);
+    let params = new URLSearchParams(url.search);
+
+    // Add a third parameter.
+    params.set('minprice', value[0]);
+    params.set('maxprice', value[1]);
+    navigate(`?${params.toString()}`);
   };
   return (
     <div className="grid grid-cols-[auto_auto] px-5">
@@ -173,6 +203,7 @@ function ProductsGrid({products, value, setValue, maxValue, minValue}) {
               sx={{color: 'gray'}}
               value={value}
               onChange={handleChange}
+              onChangeCommitted={handleOnChangeCommitted}
               valueLabelDisplay="auto"
               max={maxValue}
               min={0}
