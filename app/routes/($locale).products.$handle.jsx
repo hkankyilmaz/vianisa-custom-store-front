@@ -248,19 +248,25 @@ function ProductMain({selectedVariant, product, variants}) {
             <div className="h-full flex justify-center items-center gap-[5px]">
               <Link
                 style={{
+                  backgroundColor: matches.includes('-1-00-ct') ? 'white' : '',
                   border: matches.includes('-1-00-ct') ? '2px solid black' : '',
+                  color: matches.includes('-1-00-ct') ? 'black' : '',
+                  cursor: matches.includes('-1-00-ct') ? 'default' : '',
                 }}
                 prefetch="intent"
-                className=" border px-[12px] py-[15px] rounded-full shadow-lg hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
+                className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
                 to={`/products/${modifiedStringwithCarat}-1-00-ct`}
               >
                 1.0ct
               </Link>
               <Link
                 style={{
+                  backgroundColor: matches.includes('-1-50-ct') ? 'white' : '',
                   border: matches.includes('-1-50-ct') ? '2px solid black' : '',
+                  color: matches.includes('-1-50-ct') ? 'black' : '',
+                  cursor: matches.includes('-1-50-ct') ? 'default' : '',
                 }}
-                className=" border px-[12px] py-[15px] rounded-full shadow-lg hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
+                className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
                 prefetch="intent"
                 to={`/products/${modifiedStringwithCarat}-1-50-ct`}
               >
@@ -268,9 +274,12 @@ function ProductMain({selectedVariant, product, variants}) {
               </Link>
               <Link
                 style={{
+                  backgroundColor: matches.includes('-2-00-ct') ? 'white' : '',
                   border: matches.includes('-2-00-ct') ? '2px solid black' : '',
+                  color: matches.includes('-2-00-ct') ? 'black' : '',
+                  cursor: matches.includes('-2-00-ct') ? 'default' : '',
                 }}
-                className=" border px-[12px] py-[15px] rounded-full shadow-lg hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
+                className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
                 prefetch="intent"
                 to={`/products/${modifiedStringwithCarat}-2-00-ct`}
               >
