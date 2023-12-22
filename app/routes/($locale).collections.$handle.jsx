@@ -83,6 +83,7 @@ export default function Collection() {
 
   const [openFilterDesk, setOpenFilterDesk] = useState(false);
   const [value, setValue] = useState([0, 1000]);
+  const [grid, setGrid] = useState(true);
 
   // user visit the page first time, back to page and forward to page --> set the min and max price from url
   useEffect(() => {
@@ -107,7 +108,7 @@ export default function Collection() {
       </div>
 
       <div className="h-[75px] w-full border-y mb-10 flex justify-center items-center">
-        <GridChanger />
+        <GridChanger setGrid={setGrid} />
         <div className="w-full"></div>
         <div
           onClick={() => setOpenFilterDesk((prev) => !prev)}
@@ -140,6 +141,7 @@ export default function Collection() {
         {({nodes, isLoading, PreviousLink, NextLink}) => (
           <>
             <ProductsGrid
+              grid={grid}
               value={value}
               setValue={setValue}
               products={nodes}
@@ -157,7 +159,7 @@ export default function Collection() {
   );
 }
 
-function ProductsGrid({products, value, setValue, maxValue, minValue}) {
+function ProductsGrid({products, value, setValue, maxValue, grid}) {
   const navigate = useNavigate();
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -175,7 +177,7 @@ function ProductsGrid({products, value, setValue, maxValue, minValue}) {
     navigate(`?${params.toString()}`);
   };
   return (
-    <div className="grid grid-cols-[auto_auto] px-5">
+    <div className="grid grid-cols-[300px_auto] px-5">
       <div className="lg:min-w-[320px] pl-[30px]">
         <Form method="get">
           <div className="mb-4">
@@ -294,17 +296,31 @@ function ProductsGrid({products, value, setValue, maxValue, minValue}) {
           </button>
         </Form>
       </div>
-      <div className="grid grid-cols-4 gap-10">
-        {products.map((product, index) => {
-          return (
-            <ProductItem
-              key={product.id}
-              product={product}
-              loading={index < 8 ? 'eager' : undefined}
-            />
-          );
-        })}
-      </div>
+      {grid ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+          {products.map((product, index) => {
+            return (
+              <ProductItem
+                key={product.id}
+                product={product}
+                loading={index < 8 ? 'eager' : undefined}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10">
+          {products.map((product, index) => {
+            return (
+              <ProductItem
+                key={product.id}
+                product={product}
+                loading={index < 8 ? 'eager' : undefined}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

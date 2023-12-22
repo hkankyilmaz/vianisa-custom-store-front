@@ -1,7 +1,15 @@
-export default function GridChanger() {
+export default function GridChanger({setGrid}) {
+  const handleClick = (grid) => {
+    if (grid == 'narrow') setGrid(false);
+    else if (grid == 'wide') setGrid(true);
+  };
+
   return (
     <div className="flex w-[160px] justify-center items-center border-r h-full">
-      <div className="w-[35px] h-[35px] grid grid-cols-2 grid-rows-2 gap-[0.5px] mr-2">
+      <div
+        onClick={() => handleClick('narrow')}
+        className="w-[35px] h-[35px] grid grid-cols-2 grid-rows-2 gap-[0.5px] mr-2 cursor-pointer"
+      >
         {Array(4)
           .fill('')
           .map((idx) => (
@@ -9,7 +17,10 @@ export default function GridChanger() {
           ))}
       </div>
 
-      <div className="w-[35px] h-[35px] grid grid-cols-3 grid-rows-3 gap-[0.5px]">
+      <div
+        onClick={() => handleClick('wide')}
+        className="w-[35px] h-[35px] grid grid-cols-3 grid-rows-3 gap-[0.5px] cursor-pointer"
+      >
         {Array(9)
           .fill('')
           .map((idx) => (
