@@ -1,4 +1,4 @@
-export default function GridChanger({setGrid}) {
+export default function GridChanger({setGrid, grid}) {
   const handleClick = (grid) => {
     if (grid == 'narrow') setGrid(false);
     else if (grid == 'wide') setGrid(true);
@@ -13,7 +13,11 @@ export default function GridChanger({setGrid}) {
         {Array(4)
           .fill('')
           .map((idx) => (
-            <div key={idx} className="w-[15px] h-[15px] bg-slate-200"></div>
+            <div
+              style={{backgroundColor: !grid ? '#737373' : ''}}
+              key={idx}
+              className="w-[15px] h-[15px] bg-slate-200"
+            ></div>
           ))}
       </div>
 
@@ -24,7 +28,11 @@ export default function GridChanger({setGrid}) {
         {Array(9)
           .fill('')
           .map((idx) => (
-            <div key={idx} className="w-[10px] h-[10px] bg-slate-200"></div>
+            <div
+              style={{backgroundColor: grid ? '#737373' : ''}}
+              key={idx}
+              className="w-[10px] h-[10px] bg-slate-200"
+            ></div>
           ))}
       </div>
     </div>

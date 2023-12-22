@@ -108,7 +108,7 @@ export default function Collection() {
       </div>
 
       <div className="h-[75px] w-full border-y mb-10 flex justify-center items-center">
-        <GridChanger setGrid={setGrid} />
+        <GridChanger setGrid={setGrid} grid={grid} />
         <div className="w-full"></div>
         <div
           onClick={() => setOpenFilterDesk((prev) => !prev)}
