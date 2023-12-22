@@ -1,4 +1,5 @@
 function useGenerateCollectionQuery(combinedSearchParams, sortValue) {
+  //console.log('combinedSearchParams', combinedSearchParams);
   return `#graphql
  ${PRODUCT_ITEM_FRAGMENT}
   query Collection(
@@ -21,7 +22,6 @@ function useGenerateCollectionQuery(combinedSearchParams, sortValue) {
         last: $last,
         before: $startCursor,
         after: $endCursor
-        sortKey:BEST_SELLING
         filters : [
       ${(() => {
         if (combinedSearchParams.length > 0) {
@@ -42,7 +42,7 @@ function useGenerateCollectionQuery(combinedSearchParams, sortValue) {
                   : ''
               }"}}${idx !== combinedSearchParams.length - 1 ? ',' : ''}`;
             } else {
-              query += ` {variantOption: {name: "Meterial", value: "${
+              query += ` {variantOption: {name: "Material", value: "${
                 searchParam == '10kgold'
                   ? '10k Gold'
                   : searchParam == '14kgold'

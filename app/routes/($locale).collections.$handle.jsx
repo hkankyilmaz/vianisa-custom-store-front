@@ -25,7 +25,7 @@ export async function loader({request, params, context}) {
   const meterials = url.searchParams.getAll('meterial');
   const searchParams = useGetSearchParams(colors, meterials);
   const COLLECTION_QUERY = useGenerateCollectionQuery(searchParams);
-  console.log(COLLECTION_QUERY);
+
   const {handle} = params;
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
@@ -97,7 +97,10 @@ export default function Collection() {
           <ClickAwayListener onClickAway={handleCloseFilter}>
             <>
               {openFilterDesk ? (
-                <div className="clip-path-filter rounded-md [&>p:hover]:underline [&>p]:cursor-pointer [&>p]:mb-2 [&>p]:text-right sortabsolute absolute top-[105%] right-0 w-[300px] py-10 px-10 h-auto text-slate-600 bg-[#e5e7eb] shadow-md">
+                <Form
+                  method="get"
+                  className="clip-path-filter rounded-md [&>p:hover]:underline [&>p]:cursor-pointer [&>p]:mb-2 [&>p]:text-right sortabsolute absolute top-[105%] right-0 w-[300px] py-10 px-10 h-auto text-slate-600 bg-[#e5e7eb] shadow-md"
+                >
                   <p>FEATURED</p>
                   <p>BEST SELLING</p>
                   <p>ALPHABETICALLY, A-Z</p>
@@ -106,7 +109,7 @@ export default function Collection() {
                   <p>PRICE, HIGH TO LOW</p>
                   <p>DATE, OLD TO NEW</p>
                   <p>DATE, NEW TO OLD</p>
-                </div>
+                </Form>
               ) : undefined}
             </>
           </ClickAwayListener>
