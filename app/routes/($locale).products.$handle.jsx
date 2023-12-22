@@ -499,21 +499,23 @@ function ProductOptions({option}) {
             <span className="">{option.name}</span>:{' '}
             <span> {activeOption} </span>
             {isOpen ? (
-              <div className="absolute z-10 rounded-xl px-24  py-12 shadow-2xl right-[calc(100%+5px)] top-[50%] translate-y-[-50%] grid grid-col-1 gap-2 clip-path bg-[#e5e7eb]">
-                {option.values.map(({value, isAvailable, isActive, to}) => {
-                  return (
-                    <Link
-                      className=" text-slate-600 hover:underline text-center text-lg font-bold uppercase w-[200px]"
-                      key={option.name + value}
-                      prefetch="intent"
-                      preventScrollReset
-                      replace
-                      to={to}
-                    >
-                      {value}
-                    </Link>
-                  );
-                })}
+              <div className='modal-shadow absolute z-10 right-[calc(100%+5px)] top-[50%] translate-y-[-50%]'>
+                <div className="  rounded-xl h-[165px] w-[390px] flex justify-center items-center flex-col clip-path bg-[#efefef]">
+                  {option.values.map(({value, isAvailable, isActive, to}) => {
+                    return (
+                      <Link
+                        className=" text-[#2f2f2f] hover:underline text-center text-sm tracking-widest py-[10px] uppercase w-full active:bg-white select-none"
+                        key={option.name + value}
+                        prefetch="intent"
+                        preventScrollReset
+                        replace
+                        to={to}
+                      >
+                        {value}
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
             ) : undefined}
           </div>

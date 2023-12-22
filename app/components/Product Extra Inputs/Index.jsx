@@ -106,7 +106,7 @@ export function ProductExtraInputTag({product}) {
             {inputObj.inputs.map((inputObjSub) =>
               inputObjSub.inputType == 'checkbox' ? (
                 <div className="flex items-center">
-                  <input 
+                  {/* <input 
                     className="w-[18px] h-[18px] focus:ring-0 focus:ring-offset-0 mr-[10px]"
                     type="checkbox" 
                     data-labelOnProduct={inputObjSub.labelOnProduct} 
@@ -115,17 +115,18 @@ export function ProductExtraInputTag({product}) {
                     name="chck" 
                     id="chck" 
                     onChange={() => setopen(!open)} 
-                  />
+                  /> */}
 
-                  {/* <Checkbox
+                  <Checkbox
                     data-labelOnProduct={inputObjSub.labelOnProduct}
                     data-name={inputObj.name}
                     value={open}
                     name="chck"
                     id="chck"
+                    sx={{padding: 0, transform: "translateX(-3px)"}}
                     className="p-0"
                     onChange={() => setopen(!open)}
-                  /> */}
+                  />
                   <label className="font-body text-[13px]" for={'chck'}>
                     {' '}
                     {inputObjSub.placeHolder}{' '}
