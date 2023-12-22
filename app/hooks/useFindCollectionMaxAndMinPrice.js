@@ -1,4 +1,4 @@
-export default function UseFindCollectionMaxAndMinPrice(param) {
+export default function useFindCollectionMaxAndMinPrice(param) {
   return `#graphql
  ${PRODUCT_ITEM_FRAGMENT}
   query Collection(

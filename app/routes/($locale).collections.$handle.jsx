@@ -8,7 +8,7 @@ import {FaAngleDown} from 'react-icons/fa';
 import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import useGetSearchParams from '~/hooks/useGetSearchParams';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
-import UseFindCollectionMaxAndMinPrice from '~/hooks/useFindCollectionMaxAndMinPrice';
+import useFindCollectionMaxAndMinPrice from '~/hooks/useFindCollectionMaxAndMinPrice';
 import {
   ProductItem,
   GridChanger,
@@ -40,13 +40,13 @@ export async function loader({request, params, context}) {
     pageBy: 48,
   });
   // get the collection max price query
-  const MAX_PRICE_QUERY = UseFindCollectionMaxAndMinPrice('max');
+  const MAX_PRICE_QUERY = useFindCollectionMaxAndMinPrice('max');
   // get the collection which has the product that has max price
   const maxValueCollection = await storefront.query(MAX_PRICE_QUERY, {
     variables: {handle},
   });
   // get the collection min price query
-  const MIN_PRICE_QUERY = UseFindCollectionMaxAndMinPrice('min');
+  const MIN_PRICE_QUERY = useFindCollectionMaxAndMinPrice('min');
   // get the collection which has the product that has min price
   const minValueCollection = await storefront.query(MIN_PRICE_QUERY, {
     variables: {handle},
