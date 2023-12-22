@@ -185,7 +185,7 @@ function ProductsGrid({products, value, setValue, maxValue, grid}) {
   return (
     <div className="grid grid-cols-[300px_auto] px-5">
       <div className="lg:min-w-[320px] pl-[30px]">
-        <Form method="get">
+        <Form method="get" className="sticky">
           <div className="mb-4">
             <p className="font-bold mb-2">PRİCE</p>
             <Slider

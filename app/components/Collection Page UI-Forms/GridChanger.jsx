@@ -16,14 +16,14 @@ export default function GridChanger({setGrid, grid}) {
             <div
               style={{backgroundColor: !grid ? '#737373' : ''}}
               key={idx}
-              className="w-[15px] h-[15px] bg-slate-200"
+              className="w-[15px] h-[15px] bg-slate-200 transition-all duration-[0.7s]"
             ></div>
           ))}
       </div>
 
       <div
         onClick={() => handleClick('wide')}
-        className="w-[35px] h-[35px] grid grid-cols-3 grid-rows-3 gap-[0.5px] cursor-pointer"
+        className="w-[35px] h-[35px] grid grid-cols-3 grid-rows-3 gap-[0.5px] cursor-pointer "
       >
         {Array(9)
           .fill('')
@@ -31,7 +31,7 @@ export default function GridChanger({setGrid, grid}) {
             <div
               style={{backgroundColor: grid ? '#737373' : ''}}
               key={idx}
-              className="w-[10px] h-[10px] bg-slate-200"
+              className="w-[10px] h-[10px] bg-slate-200 transition-all duration-[0.7s]"
             ></div>
           ))}
       </div>
