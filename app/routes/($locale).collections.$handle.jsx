@@ -14,24 +14,39 @@ import {FaAngleDown} from 'react-icons/fa';
 import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import useGetSearchParams from '~/hooks/useGetSearchParams';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
+import UseFindCollectionMaxAndMinPrice from '~/hooks/useFindCollectionMaxAndMinPrice';
+import {m} from 'framer-motion';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data.collection.title} Collection`}];
 };
 
 export async function loader({request, params, context}) {
+  //get the url serach params and generate the query
   const url = new URL(request.url);
   const colors = url.searchParams.getAll('color');
   const meterials = url.searchParams.getAll('meterial');
   const searchParams = useGetSearchParams(colors, meterials);
   const COLLECTION_QUERY = useGenerateCollectionQuery(searchParams);
-
+  //get handle from params for query
   const {handle} = params;
   const {storefront} = context;
+  //set up pagination for query
   const paginationVariables = getPaginationVariables(request, {
-    pageBy: 15,
+    pageBy: 48,
   });
-
+  // get the collection max price query
+  const MAX_PRICE_QUERY = UseFindCollectionMaxAndMinPrice('max');
+  // get the collection which has the product that has max price
+  const maxValueCollection = await storefront.query(MAX_PRICE_QUERY, {
+    variables: {handle},
+  });
+  // get the collection min price query
+  const MIN_PRICE_QUERY = UseFindCollectionMaxAndMinPrice('min');
+  // get the collection which has the product that has min price
+  const minValueCollection = await storefront.query(MIN_PRICE_QUERY, {
+    variables: {handle},
+  });
   if (!handle) {
     return redirect('/collections');
   }
@@ -45,18 +60,25 @@ export async function loader({request, params, context}) {
       status: 404,
     });
   }
-  return json({collection});
+  return json({collection, maxValueCollection, minValueCollection});
 }
 
 export default function Collection() {
-  const [openFilterDesk, setOpenFilterDesk] = useState(false);
-  const [value, setValue] = useState([20, 37]);
-
   const handleCloseFilter = () => {
     setOpenFilterDesk(false);
   };
 
-  const {collection} = useLoaderData();
+  const {collection, maxValueCollection, minValueCollection} = useLoaderData();
+
+  const maxValue =
+    +maxValueCollection.collection.products.nodes[0].priceRange.maxVariantPrice
+      .amount;
+  const minValue =
+    +minValueCollection.collection.products.nodes[0].priceRange.minVariantPrice
+      .amount;
+
+  const [openFilterDesk, setOpenFilterDesk] = useState(false);
+  const [value, setValue] = useState([0, 1000]);
 
   return (
     <div className="collection">
@@ -118,7 +140,13 @@ export default function Collection() {
       <Pagination connection={collection.products}>
         {({nodes, isLoading, PreviousLink, NextLink}) => (
           <>
-            <ProductsGrid value={value} setValue={setValue} products={nodes} />
+            <ProductsGrid
+              value={value}
+              setValue={setValue}
+              products={nodes}
+              maxValue={maxValue}
+              minValue={minValue}
+            />
             <br />
             <NextLink>
               {isLoading ? 'Loading...' : <span>Load more ↓</span>}
@@ -130,7 +158,7 @@ export default function Collection() {
   );
 }
 
-function ProductsGrid({products, value, setValue}) {
+function ProductsGrid({products, value, setValue, maxValue, minValue}) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -143,10 +171,11 @@ function ProductsGrid({products, value, setValue}) {
             <Slider
               className="max-w-[80%] mb-1"
               sx={{color: 'gray'}}
-              getAriaLabel={() => 'Temperature range'}
               value={value}
               onChange={handleChange}
               valueLabelDisplay="auto"
+              max={maxValue}
+              min={0}
             />
             <div className="flex">
               <div className="border border-[#8c8c8c] border-solid w-[37%] h-[40px] relative text-right text-xl pr-2 flex justify-end items-center text-[#8c8c8c]">

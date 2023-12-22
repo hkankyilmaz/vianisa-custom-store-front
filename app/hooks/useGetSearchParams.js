@@ -1,6 +1,4 @@
 function useGetSearchParams(colors, materials) {
-  console.log('colors', colors);
-  console.log('materials', materials);
   let combinedSearchParams = [];
 
   if (
@@ -27,7 +25,7 @@ function useGetSearchParams(colors, materials) {
   } else {
     combinedSearchParams == false;
   }
-  console.log('combinedSearchParams', combinedSearchParams);
+
   return combinedSearchParams;
 }
 

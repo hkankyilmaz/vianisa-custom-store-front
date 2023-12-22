@@ -1,5 +1,4 @@
 function useGenerateCollectionQuery(combinedSearchParams, sortValue) {
-  //console.log('combinedSearchParams', combinedSearchParams);
   return `#graphql
  ${PRODUCT_ITEM_FRAGMENT}
   query Collection(
@@ -23,6 +22,7 @@ function useGenerateCollectionQuery(combinedSearchParams, sortValue) {
         before: $startCursor,
         after: $endCursor
         filters : [
+          { price: { min: 0, max: 3000 } },
       ${(() => {
         if (combinedSearchParams.length > 0) {
           let query = '';
