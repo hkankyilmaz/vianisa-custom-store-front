@@ -1,20 +1,18 @@
-import React, {useState, useRef, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {json, redirect} from '@shopify/remix-oxygen';
 import {Form} from '@remix-run/react';
-import {useLoaderData, Link, useLocation, useNavigate} from '@remix-run/react';
-import {
-  Pagination,
-  getPaginationVariables,
-  Image,
-  Money,
-} from '@shopify/hydrogen';
-import {useVariantUrl} from '~/utils';
+import {useLoaderData, useNavigate} from '@remix-run/react';
+import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
 import Slider from '@mui/material/Slider';
 import {FaAngleDown} from 'react-icons/fa';
 import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import useGetSearchParams from '~/hooks/useGetSearchParams';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
 import UseFindCollectionMaxAndMinPrice from '~/hooks/useFindCollectionMaxAndMinPrice';
+import {
+  ProductItem,
+  GridChanger,
+} from '~/components/Collection Page UI-Forms/Index';
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data.collection.title} Collection`}];
@@ -109,23 +107,7 @@ export default function Collection() {
       </div>
 
       <div className="h-[75px] w-full border-y mb-10 flex justify-center items-center">
-        <div className="flex w-[160px] justify-center items-center border-r h-full">
-          <div className="w-[35px] h-[35px] grid grid-cols-2 grid-rows-2 gap-[0.5px] mr-2">
-            {Array(4)
-              .fill('')
-              .map((idx) => (
-                <div key={idx} className="w-[15px] h-[15px] bg-slate-200"></div>
-              ))}
-          </div>
-
-          <div className="w-[35px] h-[35px] grid grid-cols-3 grid-rows-3 gap-[0.5px]">
-            {Array(9)
-              .fill('')
-              .map((idx) => (
-                <div key={idx} className="w-[10px] h-[10px] bg-slate-200"></div>
-              ))}
-          </div>
-        </div>
+        <GridChanger />
         <div className="w-full"></div>
         <div
           onClick={() => setOpenFilterDesk((prev) => !prev)}
@@ -324,27 +306,5 @@ function ProductsGrid({products, value, setValue, maxValue, minValue}) {
         })}
       </div>
     </div>
-  );
-}
-
-function ProductItem({product, loading}) {
-  const variant = product.variants.nodes[0];
-  const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
-  return (
-    <Link className="" key={product.id} prefetch="intent" to={variantUrl}>
-      {product.featuredImage && (
-        <Image
-          alt={product.featuredImage.altText || product.title}
-          aspectRatio="4/3"
-          data={product.featuredImage}
-          loading={loading}
-          sizes="(min-width: 45em) 400px, 100vw"
-        />
-      )}
-      <h4>{product.title}</h4>
-      <small>
-        <Money data={product.priceRange.minVariantPrice} />
-      </small>
-    </Link>
   );
 }
