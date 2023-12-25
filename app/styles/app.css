@@ -12,6 +12,8 @@
   --drawer-border-color: rgba(47, 47, 47, 0.25);
   --drawer-text-color-light: rgba(47, 47, 47, 0.5);
   --drawer-text-color: #2f2f2f;
+  --text-color-light: #2f2f2f;
+  --product-sale-price-color: #e22120;
 }
 
 body,

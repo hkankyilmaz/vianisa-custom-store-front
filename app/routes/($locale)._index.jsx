@@ -3,7 +3,7 @@ import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense, useEffect, useRef} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 import HomePageBanner from '~/components/HomePageBanner/Index';
-import FeaturedCollection from '~/components/Featured Collections/Index';
+import FeaturedCollection from '~/components/Featured Collections/FeaturedCollection';
 import CollectionList from '~/components/Cllection List/Index';
 import BannerSlider from '../components/Header/Slider';
 

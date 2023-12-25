@@ -1,24 +1,15 @@
 'use client';
 
-import React, {useRef, useState, useEffect} from 'react';
+import {useRef, useState, useEffect} from 'react';
 import {BsChevronRight, BsChevronLeft} from 'react-icons/bs';
 import {Image} from '@shopify/hydrogen';
 import {Link} from '@remix-run/react';
 import {Money} from '@shopify/hydrogen';
-import {
-  cubicBezier,
-  motion,
-  useAnimate,
-  useMotionValue,
-  useMotionValueEvent,
-  useSpring,
-} from 'framer-motion';
+import {cubicBezier, motion, useAnimate, useMotionValue} from 'framer-motion';
 
 function FeaturedCollection({data}) {
   const items = data.collection?.products?.nodes.map((product, index) => (
-    <div className="px-8">
-      <Item product={product} />
-    </div>
+    <Item product={product} key={index} />
   ));
 
   return (
@@ -26,7 +17,7 @@ function FeaturedCollection({data}) {
       <div className="text-xl text-center uppercase mb-5 w-full">
         {data.collection?.title}
       </div>
-      <div className="mx-[25px] xl:mx-[100px] 2xl:mx-[200px]">
+      <div className="lg:mx-[25px] xl:mx-[100px] 2xl:mx-[200px]">
         <Carousel items={items} itemsPerGroup={4} />
       </div>
     </section>
@@ -128,13 +119,18 @@ const Carousel = ({items, itemsPerGroup = 1, loop = false}) => {
   };
 
   useEffect(() => {
+    const marginRight =
+      (window.innerWidth / 100) * (window.innerWidth < 640 ? 19 : 26);
+
     setTimeout(() => {
-      setWidth(scope.current.scrollWidth - scope.current.offsetWidth);
+      setWidth(
+        scope.current.scrollWidth - scope.current.offsetWidth + marginRight,
+      );
     }, 200);
 
     const handleResize = () => {
       const {scrollWidth, offsetWidth} = scope.current;
-      const newWidth = scrollWidth - offsetWidth;
+      const newWidth = scrollWidth - offsetWidth + marginRight;
 
       setWidth(newWidth);
       setIsTabletSize((prev) => {
@@ -240,7 +236,7 @@ const CarouselItem = ({item}) => {
 const CarouselItemGroup = ({items, itemsPerGroup}) => {
   return (
     <motion.div
-      className="grid min-w-[50%] lg:min-w-full flex-1 max-lg:first-of-type:ml-[25%]"
+      className="grid min-w-[62%] px-[12px] sm:px-[15px] lg:px-0 sm:min-w-[48%] lg:min-w-full flex-1 max-lg:first-of-type:ml-[26%] max-sm:first-of-type:ml-[19%]"
       style={{gridTemplateColumns: `repeat(${itemsPerGroup}, minmax(0, 1fr))`}}
     >
       {items.map((item, index) => (
@@ -268,10 +264,12 @@ function Item({product, className = ''}) {
         setIsDragging(false);
       }}
     >
-      <div className="text-xs tracking-widest mb-1">ON SALE</div>
-      <div className="w-full relative overflow-hidden">
+      <div className="w-full relative overflow-hidden aspect-square h-auto flex items-center">
+        <div className="uppercase absolute top-1.5 left-2.5 my-1 py-0.5 px-1.5 text-xs tracking-[.2em] text-[var(--text-color-light)] font-montserratMd font-bold transition-[color] ease-css-ease-in-out duration-200 text-[8px] sm:text-[10px]">
+          on sale
+        </div>
         <Image
-          className="w-full h-auto hover:scale-[1.07] duration-500 ease-out"
+          className="w-full h-auto transition-opacity duration-300 css-ease opacity-100 hover:opacity-0"
           loading="eager"
           sizes="400px"
           src={product.images.nodes[0].url}
@@ -281,27 +279,33 @@ function Item({product, className = ''}) {
             }
           }}
         />
+        <Image
+          className="w-full h-auto transition-opacity duration-300 css-ease opacity-0 hover:opacity-100 absolute top-1/2 left-0 -translate-y-1/2"
+          loading="eager"
+          sizes="400px"
+          src={product.images.nodes[1].url}
+          onClick={(e) => {
+            if (isDragging) {
+              e.preventDefault();
+            }
+          }}
+        />
       </div>
-      <div className="flex justify-start items-center whitespace-normal tracking-widest line-clamp-2 font-title font-medium text-normal mt-2">
+      <div className="uppercase text-left whitespace-normal tracking-[.2em] text-[var(--heading-color)] font-montserratMd font-bold text-[10px] mt-5 mb-1 transition-[color] ease-css-ease-in-out duration-200">
         {product?.title}
       </div>
-      <div className="text-xs mt-1 ">
+      <div className="text-xs tracking-[.2em] font-montserratMd font-bold transition-[color] ease-css-ease-in-out duration-200 text-[var(--heading-color)] text-[10px]">
         {product.variants.nodes[0]?.compareAtPrice ? (
           <>
-            {/* <p>Sale</p>
-          <br /> */}
-            <div className="product-price-on-sale">
+            <div className="flex gap-2.5">
               {product.variants.nodes[0] ? (
                 <Money
-                  className="text-red-600 tracking-widest	font-body font-normal text-xs mt-1"
+                  className="text-[var(--product-sale-price-color)]"
                   data={product.variants.nodes[0].price}
                 />
               ) : null}
-              <s className="!text-black">
-                <Money
-                  className="font-body tracking-widest	 font-normal text-xs mt-1"
-                  data={product.variants.nodes[0].compareAtPrice}
-                />
+              <s>
+                <Money data={product.variants.nodes[0].compareAtPrice} />
               </s>
             </div>
           </>
