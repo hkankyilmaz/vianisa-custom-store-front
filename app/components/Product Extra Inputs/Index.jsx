@@ -12,34 +12,32 @@ export function ProductExtraInputType({product}) {
     if (resultType?.inputNumber == 1) {
       if (resultType.inputType == 'select') {
         return (
-
-            <div className="relative my-3 w-full text-[#595959] tracking-wide">
-              <select
-                data-labelOnProduct={resultType.labelOnProduct}
-                data-name={resultType.name}
-                className="align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10"
-              >
-                <option  value={null}> {resultType.placeHolder} </option>
-                {resultType.options.delimeter
-                  ? fill(Array(resultType.options.optionCount), '').map(
-                      (i, j) => (
-                        <option
-                          value={
-                            resultType.options.range[0] +
-                            j * resultType.options.delimeter
-                          }
-                        >
-                          Size{' '}
-                          {resultType.options.range[0] +
-                            j * resultType.options.delimeter}{' '}
-                        </option>
-                      ),
-                      )
-                      : undefined}
-              </select>
-              <AiOutlineDown className="absolute right-[15px] top-[14px] text-sm text-[#000] z-[-1]" />
-            </div>
-          
+          <div className="relative my-3 w-full text-[#595959] tracking-wide">
+            <select
+              data-labelOnProduct={resultType.labelOnProduct}
+              data-name={resultType.name}
+              className="align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10"
+            >
+              <option value={null}> {resultType.placeHolder} </option>
+              {resultType.options.delimeter
+                ? fill(Array(resultType.options.optionCount), '').map(
+                    (i, j) => (
+                      <option
+                        value={
+                          resultType.options.range[0] +
+                          j * resultType.options.delimeter
+                        }
+                      >
+                        Size{' '}
+                        {resultType.options.range[0] +
+                          j * resultType.options.delimeter}{' '}
+                      </option>
+                    ),
+                  )
+                : undefined}
+            </select>
+            <AiOutlineDown className="absolute right-[15px] top-[14px] text-sm text-[#000] z-[-1]" />
+          </div>
         );
       }
     }
@@ -106,13 +104,14 @@ export function ProductExtraInputTag({product}) {
             {inputObj.inputs.map((inputObjSub) =>
               inputObjSub.inputType == 'checkbox' ? (
                 <div className="flex items-center">
-                  <Checkbox
+                  <input
                     data-labelOnProduct={inputObjSub.labelOnProduct}
                     data-name={inputObj.name}
                     value={open}
                     name="chck"
+                    type="checkbox"
                     id="chck"
-                    className="p-0"
+                    className="p-0 appearance-auto"
                     onChange={() => setopen(!open)}
                   />
                   <label className="ml-1" for={'chck'}>

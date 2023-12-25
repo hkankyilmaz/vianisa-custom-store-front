@@ -6,7 +6,7 @@ export const meta = ({data}) => {
 };
 
 export async function loader({params, context}) {
-  if (!params.handle) {
+  /*  if (!params.handle) {
     throw new Error('Missing page handle');
   }
 
@@ -18,13 +18,13 @@ export async function loader({params, context}) {
 
   if (!page) {
     throw new Response('Not Found', {status: 404});
-  }
+  } */
 
-  return json({page});
+  return json({});
 }
 
 export default function Page() {
-  const {page} = useLoaderData();
+  // const {page} = useLoaderData();
 
   return (
     <div className="page max-w-5xl m-auto p-10 pb-20">

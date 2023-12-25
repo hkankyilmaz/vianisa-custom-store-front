@@ -190,25 +190,25 @@ export function ErrorBoundary() {
               </fieldset>
             )}
           </div> */}
-          {/* <div class="w-full h-screen flex flex-col lg:flex-row items-center justify-center space-y-16 lg:space-y-0 space-x-8 2xl:space-x-0">
-            <div class="w-full lg:w-1/2 flex flex-col items-center justify-center lg:px-2 xl:px-0 text-center">
-              <p class="text-7xl md:text-8xl lg:text-9xl font-bold tracking-wider text-gray-300">
+          {/* <div className="w-full h-screen flex flex-col lg:flex-row items-center justify-center space-y-16 lg:space-y-0 space-x-8 2xl:space-x-0">
+            <div className="w-full lg:w-1/2 flex flex-col items-center justify-center lg:px-2 xl:px-0 text-center">
+              <p className="text-7xl md:text-8xl lg:text-9xl font-bold tracking-wider text-gray-300">
                 404
               </p>
-              <p class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider text-gray-300 mt-2">
+              <p className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider text-gray-300 mt-2">
                 Page Not Found
               </p>
-              <p class="text-lg md:text-xl lg:text-2xl text-gray-500 my-12">
+              <p className="text-lg md:text-xl lg:text-2xl text-gray-500 my-12">
                 Sorry, the page you are looking for could not be found.
               </p>
               <a
                 href="#"
-                class="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded transition duration-150"
+                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-gray-100 px-4 py-2 rounded transition duration-150"
                 title="Return Home"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
+                  className="h-5 w-5"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -221,9 +221,9 @@ export function ErrorBoundary() {
                 <span>Return Home</span>
               </a>
             </div>
-            <div class="w-1/2 lg:h-full flex lg:items-end justify-center p-4">
+            <div className="w-1/2 lg:h-full flex lg:items-end justify-center p-4">
               <svg
-                class="w-full text-blue-600"
+                className="w-full text-blue-600"
                 xmlns="http://www.w3.org/2000/svg"
                 data-name="Layer 1"
                 viewBox="0 0 1120.59226 777.91584"
@@ -436,27 +436,27 @@ export function ErrorBoundary() {
               </svg>
             </div>
           </div> */}
-          <div class="bg-gradient-to-r from-purple-300 to-blue-200">
-            <div class="w-9/12 m-auto py-16 min-h-[600px] flex items-center justify-center">
-              <div class="bg-white shadow overflow-hidden sm:rounded-lg pb-8">
-                <div class="border-t border-gray-200 text-center pt-8">
-                  <h1 class="text-9xl font-bold text-purple-400">404</h1>
-                  <h1 class="text-6xl font-medium py-8">
+          <div className="bg-gradient-to-r from-purple-300 to-blue-200">
+            <div className="w-9/12 m-auto py-16 min-h-[600px] flex items-center justify-center">
+              <div className="bg-white shadow overflow-hidden sm:rounded-lg pb-8">
+                <div className="border-t border-gray-200 text-center pt-8">
+                  <h1 className="text-9xl font-bold text-purple-400">404</h1>
+                  <h1 className="text-6xl font-medium py-8">
                     oops! Page not found
                   </h1>
-                  <p class="text-2xl pb-8 px-12 font-medium">
+                  <p className="text-2xl pb-8 px-12 font-medium">
                     Oops! The page you are looking for does not exist. It might
                     have been moved or deleted.
                   </p>
                   <a
                     href="/"
-                    class="bg-gradient-to-r from-purple-400 to-blue-500 hover:from-pink-500 hover:to-orange-500 text-white font-semibold px-6 py-3 rounded-md mr-6"
+                    className="bg-gradient-to-r from-purple-400 to-blue-500 hover:from-pink-500 hover:to-orange-500 text-white font-semibold px-6 py-3 rounded-md mr-6"
                   >
                     HOME
                   </a>
                   <a
                     href="/blogs/contact-us"
-                    class="bg-gradient-to-r from-pink-500 to-orange-500 hover:from-purple-400 hover:to-blue-500 text-white font-semibold px-6 py-3 rounded-md"
+                    className="bg-gradient-to-r from-pink-500 to-orange-500 hover:from-purple-400 hover:to-blue-500 text-white font-semibold px-6 py-3 rounded-md"
                   >
                     Contact Us
                   </a>

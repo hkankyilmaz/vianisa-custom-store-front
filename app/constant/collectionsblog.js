@@ -4,7 +4,7 @@ export const blogs = [
     title: 'Gold Vermeil Birthstone Rings Collection',
     content:
       'At Eternate we promise to stand by our customers for a lifetime.That means alongside offering great service and communication, we also strive for ethical and affordable quality for all.Luxurious design meets affordable prices in Eternate’s collection of gold vermeil birthstone jewelry.So you don’t have to choose between style and quality.',
-    cont2: '<i class="fas fa-check">Intermediate</i>',
+    cont2: '<i className="fas fa-check">Intermediate</i>',
     faqTitle: 'Gold Vermeil Birthstone Rings FAQs',
     name: 'ringSizes',
     questions: [

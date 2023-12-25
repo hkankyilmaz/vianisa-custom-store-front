@@ -1,4 +1,4 @@
-import Title from '../components/Blogs/Title';
+import Title from '../../components/Blogs/Title';
 
 export const meta = ({data}) => {
   return [{title: 'Contact'}];

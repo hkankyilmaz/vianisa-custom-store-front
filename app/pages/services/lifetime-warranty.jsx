@@ -1,6 +1,6 @@
 import {json} from '@shopify/remix-oxygen';
 import {Link, useLoaderData} from '@remix-run/react';
-import Schema1 from '../components/Blogs/Schema1';
+import Schema1 from '../../components/Blogs/Schema1';
 export const meta = ({data}) => {
   return [{title: `Refund Policy`}];
 };
@@ -22,12 +22,64 @@ export default function Policy() {
       context:
         "At Vianisa, we want you to cherish every jewelry piece you purchase from us. Hence, we extend a 30-day window for hassle-free returns and exchanges, starting from the date of shipping. If, within this period, you find yourself not completely satisfied with your purchase, take advantage of our complimentary return and exchange service - it's all about ensuring your happiness.",
     },
+    {
+      title: 'For Exchanges: Simple Steps to Discover the Perfect Piece',
+      body: [
+        {
+          title: 'Reach Out to Our Dedicated Customer Service Team:',
+          context:
+            'To initiate the exchange process, all you need to do is contact our dedicated customer service team at hello@vianisa.com. They are always ready to assist you with warmth and professionalism.',
+        },
+        {
+          title: 'Prepaid Return Shipping Label:',
+          context:
+            "We understand the importance of convenience, which is why we'll send you a prepaid return shipping label. This way, you can effortlessly send the item back to us for exchange.",
+        },
+        {
+          title: 'Enjoy Your New Item:',
+          context:
+            "Once we receive the returned item, we won't keep you waiting. We promptly send you the new item of your choice, ensuring you find the perfect piece to complement your style.",
+        },
+      ],
+    },
+    {
+      title: 'For Returns: A Straightforward Approach to Ease Your Mind',
+      body: [
+        {
+          title: 'Initiate the Return Process: ',
+          context:
+            "If you decide to return an item, our customer service team is just an email away. Reach out to them at hello@vianisa.com, and they'll guide you through the return process with utmost care.",
+        },
+        {
+          title: 'Prepaid Return Shipping Label:',
+          context:
+            "We value your time, and that's why we provide you with a prepaid return shipping label. Experience a hassle-free return, as we've got everything covered for you.",
+        },
+        {
+          title: 'Refund Processing: ',
+          context:
+            'Once we receive the returned item, we process the refund promptly. Our refund process typically takes 3-5 business days, ensuring you receive your money back swiftly.',
+        },
+      ],
+    },
   ];
+
   let newkomp = text.map((it) => {
     return (
       <div className="mb-[20.8px] ">
-        <h3 className="mb-[20.8px]">{it.title}</h3>
-        <p className="text-[13px]">{it.context}</p>
+        <h3 className="mb-[20.8px] font-title">{it.title}</h3>
+        {it.body ? (
+          <ul className="mb-[20.8px] text-[13px] font-body pl-9">
+            {it.body.map((punk) => (
+              <li>
+                <strong>{punk.title}</strong> {''}
+                {punk.context}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-[13px]">{it.context}</p>
+        )}
       </div>
     );
   });
