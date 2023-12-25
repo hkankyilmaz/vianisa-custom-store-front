@@ -69,19 +69,22 @@ const DotCarousel = (props) => {
         <div className="embla__buttons"></div>
       </div>
 
-      <div className="embla__dots">
-        <PrevButton onClick={scrollPrev} disabled={prevBtnDisabled} />
+      <div className="embla__dots mt-5 h-7">
+        <PrevButton className="w-4 flex justify-center" onClick={scrollPrev} disabled={prevBtnDisabled} />
 
+        <div className='flex flex-wrap justify-center items-center max-[300px]:w-[50vw]'>
         {scrollSnaps.map((_, index) => (
           <DotButton
-            key={index}
-            onClick={() => scrollTo(index)}
-            className={'embla__dot'.concat(
-              index === selectedIndex ? ' embla__dot--selected' : '',
+          key={index}
+          onClick={() => scrollTo(index)}
+          className={'embla__dot w-3 h-3 max-sm:w-[10px] max-sm:h-[10px]'.concat(
+            index === selectedIndex ? ' embla__dot--selected' : '',
             )}
-          />
-        ))}
-        <NextButton onClick={scrollNext} disabled={nextBtnDisabled} />
+            />
+            ))}
+        </div>
+        
+        <NextButton className="w-4 flex justify-center" onClick={scrollNext} disabled={nextBtnDisabled} />
       </div>
     </>
   );

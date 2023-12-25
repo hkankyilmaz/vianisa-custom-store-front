@@ -137,11 +137,11 @@ export default function Product() {
   return (
     <>
       <BasicBreadcrumbs
-        className="product max-w-[1330px] pl-[50px] m-auto text-[13px] gap-x-2 max-md:pt-2 mt-[15px] mb-[15px]"
+        className="product max-w-[1330px] pl-[50px] m-auto text-[13px] gap-x-2 mt-[15px] mb-[15px]"
         product={product}
       />
 
-      <div className="product max-w-[1330px] m-auto  sm: flex">
+      <div className="product max-w-[1330px] m-auto">
         {/* <ProductImage image={selectedVariant?.image} /> */}
 
         <EmblaCarousel
@@ -150,7 +150,7 @@ export default function Product() {
           imageByIndex={imageByIndex}
         />
 
-        <div className="flex flex-wrap flex-col	md:hidden">
+        <div className="flex flex-wrap flex-col max-sm:mb-[28px] mb-[65px] lg:hidden">
           <DotCarousel
             slides={SLIDES}
             options={OPTIONS}
@@ -188,9 +188,9 @@ function ProductMain({selectedVariant, product, variants}) {
   }, [matches]);
 
   return (
-    <div className="product-main-wrapper">
-      <div className="product-main w-[400px] mr-[50px] ml-[50px]  lg:mr-[50px]">
-        <h1 className="text-[18px] font-[500] uppercase font-body text-[#2f2f2f] tracking-[3.6px] text-left">
+    <div className="product-main-wrapper sm:flex sm:justify-center">
+      <div className="product-main max-sm:w-auto max-sm:max-w-[500px] w-[400px] max-lg:w-[500px] max-lg:mx-auto max-2xl:mr-[100px] ml-[50px] mr-[50px] max-lg:px-6">
+        <h1 className="text-[18px] font-[500] uppercase font-body text-[#2f2f2f] tracking-[3.6px] text-left max-lg:text-center">
           {title}
         </h1>
 
@@ -403,7 +403,7 @@ function ProductPrice({selectedVariant}) {
           {/*  <p className="text-xs underline text-black tracking-normal mb-1">
             Sale
           </p> */}
-          <div className="product-price-on-sale  sm: flex flex-row	justify-items-center justify-start mt-[15px]">
+          <div className="product-price-on-sale flex flex-row	justify-items-center justify-start max-lg:justify-center mt-[15px]">
             {selectedVariant ? (
               <Money
                 className="text-red-600 text-[16px] mr-2 "
@@ -566,7 +566,7 @@ function ProductDescription({descriptionHtml}) {
       gsap.to(refVertical.current, {rotate: 180, duration: 0.4});
     } else {
       isReverse.current = false;
-      gsap.to(ref.current, {height: '70px'});
+      gsap.to(ref.current, {height: window.innerWidth < 1024 ? '58px' : '70px'});
       gsap.to(refHorizontal.current, {rotate: 90, duration: 0.4, opacity: 1});
       gsap.to(refVertical.current, {rotate: 0, duration: 0.4});
     }
@@ -575,11 +575,11 @@ function ProductDescription({descriptionHtml}) {
   return (
     <div
       ref={ref}
-      className="h-[70px] overflow-hidden border-y text-[var] text-xs font-medium tracking-wide"
+      className="h-[70px] max-lg:h-[58px] overflow-hidden border-y text-[var] text-xs font-medium tracking-wide"
     >
       <p
         onClick={() => handleAnimate()}
-        className="uppercase relative cursor-pointer font-body tracking-[2px] py-[26px] flex justify-between items-center text-[#2f2f2f]"
+        className="uppercase relative cursor-pointer font-body tracking-[2px] py-[26px] max-lg:py-5 flex justify-between items-center text-[#2f2f2f]"
       >
         <strong>Description</strong>
         <span
