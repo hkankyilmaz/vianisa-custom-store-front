@@ -107,10 +107,6 @@ export default function App() {
         <Links />
       </head>
       <body>
-<<<<<<< HEAD
-
-=======
->>>>>>> 892bae1fceaed9010bd4c0d0aea3e3adc799c526
         <Layout {...data}>
           <Outlet />
         </Layout>
