@@ -79,7 +79,6 @@ const MegaMenu = forwardRef((props, ref) => {
 
   useEffect(() => {
     if (!props.isHeaderHover) {
-      console.log('remove megamenu');
       props.setMegaMenu({...props.megaMenu, isOpen: false});
       ctx.removeMegamenu();
     }

@@ -1,9 +1,8 @@
-import {Await, useMatches} from '@remix-run/react';
-import {Suspense, useRef, useEffect} from 'react';
+import {Await} from '@remix-run/react';
+import {Suspense, useRef, useEffect, useState} from 'react';
 import {Aside} from '~/components/Aside';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header/Header';
-import useIsomorphicLayoutEffect from '~/utils';
 import {
   PredictiveSearchForm,
   PredictiveSearchResults,
@@ -14,31 +13,35 @@ import gsap from 'gsap';
 
 export function Layout({cart, children = null, footer, header, isLoggedIn}) {
   const ref = useRef();
-  const matches = useMatches();
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  useIsomorphicLayoutEffect(() => {
-    const height = ref.current.offsetHeight;
-    gsap.set('.homepage-banner', {
-      '--header-announcemed-height': `calc(100vh - ${height}px)`,
-    });
-    //ref.current.style.setProperty('header-announcemed-height', height);
+  useEffect(() => {
+    // const height = ref.current.offsetHeight;
+    // gsap.set('.homepage-banner', {
+    //   '--header-announcemed-height': `calc(100vh - ${height}px)`,
+    // });
+    setIsLoaded(true);
   }, []);
 
   return (
     <>
-      <CartAside cart={cart} />
-      <SearchAside />
-      <MobileMenuAside menu={header.menu} />
-      <div ref={ref}>
-        <AnnouncementBar />
-        <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />
-      </div>
-      <main>{children}</main>
-      <Suspense>
-        <Await resolve={footer}>
-          {(footer) => <Footer menu={footer.menu} />}
-        </Await>
-      </Suspense>
+      {isLoaded && (
+        <>
+          <CartAside cart={cart} />
+          <SearchAside />
+          <MobileMenuAside menu={header.menu} />
+          <div ref={ref}>
+            <AnnouncementBar />
+            <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />
+          </div>
+          <main>{children}</main>
+          <Suspense>
+            <Await resolve={footer}>
+              {(footer) => <Footer menu={footer.menu} />}
+            </Await>
+          </Suspense>
+        </>
+      )}
     </>
   );
 }
