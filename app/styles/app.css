@@ -14,6 +14,10 @@
   --drawer-text-color: #2f2f2f;
   --text-color-light: #2f2f2f;
   --product-sale-price-color: #e22120;
+  --featured-collection-button-fg-color: #2f2f2f;
+  --featured-collection-button-bg-color: #fff;
+  --featured-collection-button-box-shadow: #36363626;
+  --featured-collection-button-top-offset: 45px;
 }
 
 body,
