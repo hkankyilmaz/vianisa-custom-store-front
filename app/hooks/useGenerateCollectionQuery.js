@@ -3,6 +3,8 @@ function useGenerateCollectionQuery(
   sortValue,
   minPrice,
   maxPrice,
+  sortKey,
+  reverse,
 ) {
   return `#graphql
  ${PRODUCT_ITEM_FRAGMENT}
@@ -22,10 +24,12 @@ function useGenerateCollectionQuery(
       title
       description
       products(
-        first: $first,
-        last: $last,
-        before: $startCursor,
+        first: $first
+        last: $last
+        before: $startCursor
         after: $endCursor
+        sortKey: ${sortKey ? sortKey : 'COLLECTION_DEFAULT'}
+        reverse: ${reverse ? reverse : 'false'}
         filters : [
         ${
           maxPrice && minPrice

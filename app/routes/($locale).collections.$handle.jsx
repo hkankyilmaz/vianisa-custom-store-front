@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import {json, redirect} from '@shopify/remix-oxygen';
-import {Form} from '@remix-run/react';
-import {useLoaderData, useNavigate} from '@remix-run/react';
+import {Form, useLocation} from '@remix-run/react';
+import {useLoaderData, useNavigate, useSubmit} from '@remix-run/react';
 import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
 import Slider from '@mui/material/Slider';
 import {FaAngleDown, FaLongArrowAltDown} from 'react-icons/fa';
@@ -12,6 +12,7 @@ import useFindCollectionMaxAndMinPrice from '~/hooks/useFindCollectionMaxAndMinP
 import {
   ProductItem,
   GridChanger,
+  SorthForm,
 } from '~/components/Collection Page UI-Forms/Index';
 
 export const meta = ({data}) => {
@@ -25,12 +26,16 @@ export async function loader({request, params, context}) {
   const meterials = url.searchParams.getAll('meterial');
   const minPrice = url.searchParams.get('minprice');
   const maxPrice = url.searchParams.get('maxprice');
+  const sortkey = url.searchParams.get('sortkey');
+  const reverse = url.searchParams.get('reverse');
   const searchParams = useGetSearchParams(colors, meterials);
   const COLLECTION_QUERY = useGenerateCollectionQuery(
     searchParams,
     null,
     minPrice,
     maxPrice,
+    sortkey,
+    reverse,
   );
   //get handle from params for query
   const {handle} = params;
@@ -117,23 +122,7 @@ export default function Collection() {
           SORT
           <FaAngleDown color="gray" className="ml-1 translate-y-[1px]" />
           <ClickAwayListener onClickAway={handleCloseFilter}>
-            <>
-              {openFilterDesk ? (
-                <Form
-                  method="get"
-                  className="clip-path-filter rounded-md [&>p:hover]:underline [&>p]:cursor-pointer [&>p]:mb-2 [&>p]:text-right sortabsolute absolute top-[105%] right-0 w-[300px] py-10 px-10 h-auto text-slate-600 bg-[#e5e7eb] shadow-md"
-                >
-                  <p>FEATURED</p>
-                  <p>BEST SELLING</p>
-                  <p>ALPHABETICALLY, A-Z</p>
-                  <p>ALPHABETICALLY, Z-A</p>
-                  <p>PRICE, LOW TO HIGH</p>
-                  <p>PRICE, HIGH TO LOW</p>
-                  <p>DATE, OLD TO NEW</p>
-                  <p>DATE, NEW TO OLD</p>
-                </Form>
-              ) : undefined}
-            </>
+            <>{openFilterDesk ? <SorthForm /> : undefined}</>
           </ClickAwayListener>
         </div>
       </div>
@@ -147,6 +136,7 @@ export default function Collection() {
               products={nodes}
               maxValue={maxValue}
               minValue={minValue}
+              handle={collection.handle}
             />
             <br />
             <NextLink className="flex justify-center w-full text-xl my-5">
@@ -165,18 +155,17 @@ export default function Collection() {
   );
 }
 
-function ProductsGrid({products, value, setValue, maxValue, grid}) {
+function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
+  const submit = useSubmit();
   const navigate = useNavigate();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  let url = useLocation();
+  let params = new URLSearchParams(url.search);
   const handleOnChangeCommitted = (event, newValue) => {
     setValue(newValue);
-
-    let url = new URL(window.location.href);
-    let params = new URLSearchParams(url.search);
-
     // Add a third parameter.
     params.set('minprice', value[0]);
     params.set('maxprice', value[1]);
@@ -185,7 +174,11 @@ function ProductsGrid({products, value, setValue, maxValue, grid}) {
   return (
     <div className="grid grid-cols-[300px_auto] px-5">
       <div className="lg:min-w-[320px] pl-[30px]">
-        <Form method="get" className="sticky">
+        <Form
+          method="get"
+          onChange={(e) => submit(e.currentTarget)}
+          className="sticky"
+        >
           <div className="mb-4">
             <p className="font-bold mb-2">PRİCE</p>
             <Slider
@@ -289,14 +282,13 @@ function ProductsGrid({products, value, setValue, maxValue, grid}) {
             </p>
           </div>
           <button
-            className="border block border-solid border-black w-[150px] h-[40px]  mt-4 hover:bg-black hover:text-white"
-            type="submit"
-          >
-            Filter
-          </button>
-          <button
+            style={{display: params.size > 0 ? 'block' : 'none'}}
             className="block border border-solid border-black  w-[150px] h-[40px]   mt-4 hover:bg-black hover:text-white"
             type="reset"
+            onClick={() => {
+              setValue([0, 1000]);
+              navigate(`/collections/${handle}`);
+            }}
           >
             Reset
           </button>
