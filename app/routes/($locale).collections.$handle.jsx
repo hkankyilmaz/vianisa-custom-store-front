@@ -15,6 +15,7 @@ import {
   SorthForm,
   LoadMoreButton,
   PageHeader,
+  FilterForm,
 } from '~/components/Collection Page UI-Forms/Index';
 
 export const meta = ({data}) => {
@@ -110,6 +111,7 @@ export default function Collection() {
       <div className="h-[75px] w-full border-y mb-10 flex justify-center items-center">
         <GridChanger setGrid={setGrid} grid={grid} />
         <div className="w-full"></div>
+
         <div
           onClick={() => setOpenFilterDesk((prev) => !prev)}
           className="w-[160px] h-full border-l flex justify-center items-center relative cursor-pointer select-none"
@@ -119,6 +121,9 @@ export default function Collection() {
           <ClickAwayListener onClickAway={handleCloseFilter}>
             <>{openFilterDesk ? <SorthForm /> : undefined}</>
           </ClickAwayListener>
+        </div>
+        <div className="w-[160px] h-full border-l flex justify-center items-center relative cursor-pointer select-none lg:hidden">
+          FILTER
         </div>
       </div>
       <Pagination connection={collection.products}>
@@ -161,12 +166,12 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
     navigate(`?${params.toString()}`);
   };
   return (
-    <div className="grid grid-cols-[300px_auto] px-5">
+    <div className="grid grid-cols-[300px_auto] max-lg:grid-cols-1 px-5">
       <div className="lg:min-w-[320px] pl-[30px]">
         <Form
           method="get"
           onChange={(e) => submit(e.currentTarget)}
-          className="sticky"
+          className="max-lg:hidden"
         >
           <div className="mb-4">
             <p className="font-bold mb-2">PRİCE</p>
@@ -181,93 +186,42 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
               min={0}
             />
             <div className="flex">
-              <div className="border border-[#8c8c8c] border-solid w-[37%] h-[40px] relative text-right text-xl pr-2 flex justify-end items-center text-[#8c8c8c]">
-                <span className="absolute left-2 top-[50%] translate-y-[-50%] text-xl ">
-                  $
-                </span>
-                {value[0]}
-              </div>
-              <div className="flex justify-center items-center mx-[3%] text-[#8c8c8c]">
-                -
-              </div>
-              <div className="border border-[#8c8c8c] border-solid w-[37%] h-[40px] relative text-right text-xl pr-2 flex justify-end items-center text-[#8c8c8c]">
-                <span className="absolute left-2 top-[50%] translate-y-[-50%] text-xl ">
-                  $
-                </span>
-                {value[1]}
-              </div>
+              <FilterForm.PriceInput value={value} idx={0} />
+              <FilterForm.Seperator />
+              <FilterForm.PriceInput value={value} idx={1} />
             </div>
           </div>
           <div className="mb-4">
             <p className="mb-2 font-bold">COLOR</p>
             <p className="mb-1">
-              <input
-                className="hidden"
-                type="checkbox"
-                id="rose"
-                name="color"
-                value="rose"
-              />
-              <span className="hidden rose"></span>
-              <label htmlFor="rose">ROSE</label>
+              <FilterForm.ColorOrMetarialInput value="rose" name="color" />
             </p>
             <p className="mb-1">
-              <input
-                className="hidden"
-                type="checkbox"
-                id="white"
-                name="color"
-                value="white"
-              />
-              <span className="hidden white"></span>
-              <label htmlFor="white">WHİTE</label>
+              <FilterForm.ColorOrMetarialInput value="white" name="color" />
             </p>
             <p className="mb-1">
-              <input
-                className="hidden"
-                type="checkbox"
-                id="yellow"
-                name="color"
-                value="yellow"
-              />
-              <span className="hidden yellow"></span>
-              <label htmlFor="yellow">YELLOW</label>
+              <FilterForm.ColorOrMetarialInput value="yellow" name="color" />
             </p>
           </div>
           <div>
             <p className="mb-2 font-bold">METERİAL</p>
             <p className="mb-1">
-              <input
-                className="hidden"
-                type="checkbox"
-                id="_10kgold"
-                name="meterial"
+              <FilterForm.ColorOrMetarialInput
                 value="10kgold"
+                name="meterial"
               />
-              <span className="hidden _10kgold"></span>
-              <label htmlFor="_10kgold">10K GOLD</label>
             </p>
             <p className="mb-1">
-              <input
-                className="hidden"
-                type="checkbox"
-                id="_14kgold"
-                name="meterial"
+              <FilterForm.ColorOrMetarialInput
                 value="14kgold"
+                name="meterial"
               />
-              <span className="hidden _14kgold"></span>
-              <label htmlFor="_14kgold">14K GOLD</label>
             </p>
             <p className="mb-1">
-              <input
-                className="hidden"
-                type="checkbox"
-                id="_18kgold"
-                name="meterial"
+              <FilterForm.ColorOrMetarialInput
                 value="18kgold"
+                name="meterial"
               />
-              <span className="hidden _18kgold"></span>
-              <label htmlFor="_18kgold">18K GOLD</label>
             </p>
           </div>
           <button
@@ -284,7 +238,7 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
         </Form>
       </div>
       {grid ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
           {products.map((product, index) => {
             return (
               <ProductItem
@@ -296,7 +250,7 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
           })}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10">
           {products.map((product, index) => {
             return (
               <ProductItem

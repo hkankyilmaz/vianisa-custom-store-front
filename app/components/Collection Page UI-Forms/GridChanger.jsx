@@ -5,7 +5,7 @@ export default function GridChanger({setGrid, grid}) {
   };
 
   return (
-    <div className="flex w-[160px] justify-center items-center border-r h-full">
+    <div className="flex lg:w-[160px] justify-center items-center border-r h-full">
       <div
         onClick={() => handleClick('narrow')}
         className="w-[35px] h-[35px] grid grid-cols-2 grid-rows-2 gap-[0.5px] mr-2 cursor-pointer"
