@@ -4,7 +4,7 @@ import {Form, useLocation} from '@remix-run/react';
 import {useLoaderData, useNavigate, useSubmit} from '@remix-run/react';
 import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
 import Slider from '@mui/material/Slider';
-import {FaAngleDown, FaLongArrowAltDown} from 'react-icons/fa';
+import {FaAngleDown} from 'react-icons/fa';
 import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import useGetSearchParams from '~/hooks/useGetSearchParams';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
@@ -13,6 +13,8 @@ import {
   ProductItem,
   GridChanger,
   SorthForm,
+  LoadMoreButton,
+  PageHeader,
 } from '~/components/Collection Page UI-Forms/Index';
 
 export const meta = ({data}) => {
@@ -103,14 +105,7 @@ export default function Collection() {
 
   return (
     <div className="collection">
-      <div className="my-10">
-        <h1 className="text-center text-4xl">{collection.title}</h1>
-        <p className="flex justify-center">
-          <span className="lg:max-w-lg w-full text-center">
-            {collection.description}
-          </span>
-        </p>
-      </div>
+      <PageHeader collection={collection} />
 
       <div className="h-[75px] w-full border-y mb-10 flex justify-center items-center">
         <GridChanger setGrid={setGrid} grid={grid} />
@@ -140,13 +135,7 @@ export default function Collection() {
             />
             <br />
             <NextLink className="flex justify-center w-full text-xl my-5">
-              {isLoading ? (
-                'Loading...'
-              ) : (
-                <span className="flex hover:text-[#333333] hover:border-[#333333] transition-all duration-[0.7s]   text-[gray] justify-center items-center space-x-1 border border-1px px-6 py-3">
-                  <span>Load More</span> <FaLongArrowAltDown />
-                </span>
-              )}
+              {isLoading ? 'Loading...' : <LoadMoreButton />}
             </NextLink>
           </>
         )}
