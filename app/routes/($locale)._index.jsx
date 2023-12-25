@@ -70,7 +70,7 @@ export default function Homepage() {
       <div
         ref={MessengerRef}
         id="fb-customer-chat"
-        class="fb-customerchat"
+        className="fb-customerchat"
       ></div> */}
     </div>
   );

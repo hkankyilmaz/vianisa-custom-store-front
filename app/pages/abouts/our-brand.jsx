@@ -1,4 +1,4 @@
-import Schema1 from '../components/Blogs/Schema1';
+import Schema1 from '../../components/Blogs/Schema1';
 
 export const meta = ({data}) => {
   return [{title: 'Our Brand'}];

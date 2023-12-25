@@ -1,7 +1,11 @@
 import {json} from '@shopify/remix-oxygen';
 import {Link, useLoaderData} from '@remix-run/react';
 import {Image, Pagination, getPaginationVariables} from '@shopify/hydrogen';
-
+import Conflict from '../pages/abouts/conflict-free-diamonds';
+import ContactUs from '../pages/abouts/contact-us';
+import OurBrand from '../pages/abouts/our-brand';
+import OurValues from '../pages/abouts/our-values';
+import ShipAndRet from '../pages/policy/shipping-and-returns';
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data.blog.title} blog`}];
 };
@@ -34,38 +38,21 @@ export const loader = async ({request, params, context: {storefront}}) => {
 export default function Blog() {
   const {blog} = useLoaderData();
   const {articles} = blog;
-
-  return (
-    <div className="blog">
-      <h1>{blog.title}</h1>
-      <div className="blog-grid">
-        {/*     <Pagination connection={articles}>
-          {({nodes, isLoading, PreviousLink, NextLink}) => {
-            return (
-              <>
-                <PreviousLink>
-                  {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
-                </PreviousLink>
-                {nodes.map((article, index) => {
-                  return (
-                    <ArticleItem
-                      article={article}
-                      key={article.id}
-                      loading={index < 2 ? 'eager' : 'lazy'}
-                    />
-                  );
-                })}
-                <NextLink>
-                  {isLoading ? 'Loading...' : <span>Load more ↓</span>}
-                </NextLink>
-              </>
-            );
-          }}
-        </Pagination> */}
-        {articles.data.pageByHandle.body}
-      </div>
-    </div>
-  );
+  function main() {
+    switch (handle) {
+      case 'conflict-free-diamonds':
+        return <Conflict />;
+      case 'contact-us':
+        return <ContactUs />;
+      case 'our-brand':
+        return <OurBrand />;
+      case 'our-values':
+        return <OurValues />;
+      default:
+        throw new Response('Not Found', {status: 404});
+    }
+  }
+  return main();
 }
 
 function ArticleItem({article, loading}) {

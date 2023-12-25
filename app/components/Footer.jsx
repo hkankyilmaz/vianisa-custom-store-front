@@ -2,16 +2,61 @@ import {Divider} from '@mui/material';
 import {useMatches, NavLink} from '@remix-run/react';
 
 export function Footer({menu}) {
+  let array = [
+    {
+      title: 'services',
+      route: 'services',
+      children: [
+        'jewelry-care',
+        'ring-size-conversion-chart',
+        'lifetime-warranty',
+        'custom-made',
+        'financing-options-with-affirm-and-shoppay',
+      ],
+    },
+    {
+      title: 'education',
+      route: 'education',
+      children: [
+        'wedding-ring-guide',
+        'engagement-ring-guide',
+        'birthstone-jewelry-guide',
+        'how-to-measure-your-ring-size',
+        'lab-grown-vs-natural-diamonds',
+        'moissanite-vs-diamond',
+      ],
+    },
+    {
+      title: 'about us',
+      route: 'about',
+      children: [
+        'our-brand',
+        'our-values',
+        'conflict-free-diamonds',
+        'contact-us',
+      ],
+    },
+    {
+      title: 'policies',
+      route: 'policies',
+      children: [
+        'shipping-and-returns',
+        'refund-policy',
+        'terms-of-service',
+        'privacy-policy',
+      ],
+    },
+  ];
   return (
     <footer>
       <div className="footer pt-20 ">
-        <nav>
+        {/* <nav>
           <p>SERVİCES</p>
           <ul>
             <li>
               <NavLink
                 end
-                to={'/pages/jewelry-care'}
+                to={'/services/jewelry-care'}
                 prefetch="intent"
                 style={activeLinkStyle}
               >
@@ -20,7 +65,7 @@ export function Footer({menu}) {
             </li>
             <li>
               <NavLink
-                to={'/pages/ring-size-conversion-chart'}
+                to={'/services/ring-size-conversion-chart'}
                 end
                 prefetch="intent"
                 style={activeLinkStyle}
@@ -30,7 +75,7 @@ export function Footer({menu}) {
             </li>
             <li>
               <NavLink
-                to={'/pages/lifetime-warranty'}
+                to={'/services/lifetime-warranty'}
                 end
                 prefetch="intent"
                 style={activeLinkStyle}
@@ -40,7 +85,7 @@ export function Footer({menu}) {
             </li>
             <li>
               <NavLink
-                to={'/pages/custom-made'}
+                to={'/services/custom-made'}
                 end
                 prefetch="intent"
                 style={activeLinkStyle}
@@ -50,7 +95,7 @@ export function Footer({menu}) {
             </li>
             <li>
               <NavLink
-                to={'/pages/financing-options-with-affirm-and-shoppay'}
+                to={'/services/financing-options-with-affirm-and-shoppay'}
                 end
                 prefetch="intent"
                 style={activeLinkStyle}
@@ -214,8 +259,33 @@ export function Footer({menu}) {
               </NavLink>
             </li>
           </ul>
-        </nav>
-
+        </nav> */}
+        {/* flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: flex-start; */}
+        {array.map((item) => (
+          <nav className="mb-3">
+            <p>{item.title.toUpperCase()}</p>
+            <ul className="flex flex-nowrap items-start justify-center content-center flex-col gap-3">
+              {item.children.map((alt) => (
+                <li>
+                  <NavLink
+                    end
+                    to={'/' + item.route + '/' + alt}
+                    prefetch="intent"
+                    style={activeLinkStyle}
+                  >
+                    {alt == 'refund-policy'
+                      ? 'RETURN & EXCHANGE POLICY'
+                      : alt.split('-').join(' ').toUpperCase()}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))}
         <nav>
           <p>CONTACT INFO</p>
           <ul className="text-[gray]">

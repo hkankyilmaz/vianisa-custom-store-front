@@ -1,5 +1,5 @@
-import Title from '../components/Blogs/Title';
-import Schema1 from '../components/Blogs/Schema1';
+import Title from '../../components/Blogs/Title';
+import Schema1 from '../../components/Blogs/Schema1';
 
 export const meta = ({data}) => {
   return [{title: 'Our Values'}];

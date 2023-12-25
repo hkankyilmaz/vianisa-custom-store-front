@@ -208,7 +208,7 @@ function ProductMain({selectedVariant, product, variants}) {
               <svg
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
-                class="shop-pay-logo"
+                className="shop-pay-logo"
                 viewBox="0 0 341 81"
                 fill="none"
               >
