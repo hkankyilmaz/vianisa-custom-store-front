@@ -18,14 +18,14 @@ import {
   ShopPayButton,
 } from '@shopify/hydrogen';
 import {getVariantUrl} from '~/utils';
-import FeaturedCollection from '~/components/Featured Collections/Index';
+import FeaturedCollection from '~/components/Featured Collections/FeaturedCollection';
 import {
   ProductExtraInputType,
   ProductExtraInputTag,
 } from '../components/Product Extra Inputs/Index';
 import gsap from 'gsap';
 import BasicBreadcrumbs from '../components/Breadcrumbs/Index';
-import { duration } from '@mui/material';
+import {duration} from '@mui/material';
 import WishlistButton from '~/components/Wishlist Button/WishlistButton';
 
 export const meta = ({data}) => {
@@ -362,7 +362,9 @@ function ProductMain({selectedVariant, product, variants}) {
           </Await>
         </Suspense>
         <div className="flex justify-center text-[#2f2f2f] text-[13px] font-body mt-3">
-          <button className="link-underline link-underline-black">More payment options</button>
+          <button className="link-underline link-underline-black">
+            More payment options
+          </button>
         </div>
         <div className="justify-center justify-items-center items-center	content-center	flex  flex-col mt-[10px] mb-[5px] font-body text-[#2f2f2f]">
           <div className="flex gap-1 justify-center	align-center items-center w-auto">
@@ -373,16 +375,16 @@ function ProductMain({selectedVariant, product, variants}) {
             />
             <p>For each purchase</p>
           </div>
-          <div className='w-auto text-[13px]'>
+          <div className="w-auto text-[13px]">
             <a href="/pages/plant-a-tree" target="_blank" className="underline">
               Learn more
             </a>
           </div>
         </div>
         <div className="flex justify-center text-[5px]">
-          <WishlistButton/>
+          <WishlistButton />
         </div>
-        
+
         <div className="flex justify-center items-center my-[10px] text-[13px] font-body text-[#2f2f2f]">
           {/* <FcShipped className="text-5xl mr-3" /> */}
           <span className="">
@@ -499,7 +501,7 @@ function ProductOptions({option}) {
             <span className="">{option.name}</span>:{' '}
             <span> {activeOption} </span>
             {isOpen ? (
-              <div className='modal-shadow absolute z-10 right-[calc(100%+5px)] top-[50%] translate-y-[-50%]'>
+              <div className="modal-shadow absolute z-10 right-[calc(100%+5px)] top-[50%] translate-y-[-50%]">
                 <div className="  rounded-xl h-[165px] w-[390px] flex justify-center items-center flex-col clip-path bg-[#efefef]">
                   {option.values.map(({value, isAvailable, isActive, to}) => {
                     return (
@@ -540,7 +542,7 @@ function AddToCartButton({analytics, children, disabled, lines, onClick}) {
             className="border flex items-center justify-center w-full align-middle 
             mt-[15px] px-2 py-3 h-auto text-[11px] font-bold uppercase bg-[#2f2f2f]
           border-[#2f2f2f] tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-[#2f2f2f]"
-            style={{transition:"all ease 150ms"}}
+            style={{transition: 'all ease 150ms'}}
             type="submit"
             onClick={onClick}
             disabled={disabled ?? fetcher.state !== 'idle'}
@@ -566,7 +568,9 @@ function ProductDescription({descriptionHtml}) {
       gsap.to(refVertical.current, {rotate: 180, duration: 0.4});
     } else {
       isReverse.current = false;
-      gsap.to(ref.current, {height: window.innerWidth < 1024 ? '58px' : '70px'});
+      gsap.to(ref.current, {
+        height: window.innerWidth < 1024 ? '58px' : '70px',
+      });
       gsap.to(refHorizontal.current, {rotate: 90, duration: 0.4, opacity: 1});
       gsap.to(refVertical.current, {rotate: 0, duration: 0.4});
     }

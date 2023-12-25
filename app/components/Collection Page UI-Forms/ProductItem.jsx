@@ -17,9 +17,8 @@ export default function ProductItem({product, loading}) {
         />
       )}
       <h4>{product.title}</h4>
-      <small>
-        <Money data={product.priceRange.minVariantPrice} />
-      </small>
+
+      <Money data={product.priceRange.minVariantPrice} />
     </Link>
   );
 }
