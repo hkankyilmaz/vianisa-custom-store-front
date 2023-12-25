@@ -21,8 +21,8 @@ function SorthForm() {
       <p onClick={() => handleClick('TITLE', true)}>ALPHABETICALLY, Z-A</p>
       <p onClick={() => handleClick('PRICE', false)}>PRICE, LOW TO HIGH</p>
       <p onClick={() => handleClick('PRICE', true)}>PRICE, HIGH TO LOW</p>
-      <p onClick={() => handleClick('CREATED', fasle)}>DATE, OLD TO NEW</p>
-      <p onClick={() => handleClick('CREATED', fasle)}>DATE, NEW TO OLD</p>
+      <p onClick={() => handleClick('CREATED', false)}>DATE, OLD TO NEW</p>
+      <p onClick={() => handleClick('CREATED', false)}>DATE, NEW TO OLD</p>
     </div>
   );
 }

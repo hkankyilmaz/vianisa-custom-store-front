@@ -135,7 +135,7 @@ export default function Collection() {
             />
             <br />
             <NextLink className="flex justify-center w-full text-xl my-5">
-              {isLoading ? 'Loading...' : <LoadMoreButton />}
+              <LoadMoreButton isLoading={isLoading} />
             </NextLink>
           </>
         )}
