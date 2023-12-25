@@ -10,21 +10,18 @@ function useGetSearchParams(colors, materials) {
     combinedSearchParams = [...colors, ...materials];
   } else if (
     typeof colors == 'object' &&
-    colors.length > 0 &&
-    typeof materials == 'string'
-  ) {
-    combinedSearchParams = [...colors];
-    combinedSearchParams.push(materials);
-  } else if (
-    typeof colors == 'string' &&
+    colors.length == 0 &&
     typeof materials == 'object' &&
     materials.length > 0
   ) {
-    combinedSearchParams = [...materials];
-    combinedSearchParams.push(colors);
-  } else if (typeof colors == 'string' && typeof materials == 'string') {
-    combinedSearchParams.push(colors);
-    combinedSearchParams.push(materials);
+    combinedSearchParams = materials;
+  } else if (
+    typeof materials == 'object' &&
+    materials.length == 0 &&
+    typeof colors == 'object' &&
+    colors.length > 0
+  ) {
+    combinedSearchParams = colors;
   } else {
     combinedSearchParams == false;
   }
