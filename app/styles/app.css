@@ -15,6 +15,14 @@
   --description-height: 70px; /* Default height */
   --text-color-light: #2f2f2f;
   --product-sale-price-color: #e22120;
+  --feat-col-nav-btn-fg: #2f2f2f;
+  --feat-col-nav-btn-bg: #fff;
+  --feat-col-nav-btn-box-shadow: #36363626;
+  --feat-col-nav-btn-top-offset: 45px;
+  --feat-col-prod-btn-bg: #2f2f2f;
+  --feat-col-prod-btn-fg: #fff;
+  --feat-col-prod-btn-bg-hover: #fff0e7;
+  --feat-col-prod-btn-fg-hover: #2f2f2f;
 }
 
 @media (max-width: 1024px) {
