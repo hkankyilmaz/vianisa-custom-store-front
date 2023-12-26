@@ -60,7 +60,7 @@ export default function Homepage() {
   return (
     <div className="home">
       <BannerSlider />
-      <FeaturedCollection data={data.featuredCollection} />
+      <FeaturedCollection data={data.featuredCollection} showButton />
       <CollectionList />
       <FeaturedCollection data={data.featuredCollectionTwo} />
       {/* <FeaturedCollection collection={data.featuredCollection} />
