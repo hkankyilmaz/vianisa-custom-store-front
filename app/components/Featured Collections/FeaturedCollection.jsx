@@ -198,10 +198,8 @@ const Carousel = ({items, itemsPerGroup = 1, loop = false}) => {
   }, []);
 
   useEffect(() => {
-    console.log('windowSize', windowSize, 'prev', prevWindowSize.current);
     if (windowSize == 'mobile' && prevWindowSize.current != 'mobile') {
-      //animate(scope.current, {translateX: '0%'});
-      setActiveIndex(0); //jump kullanınca burada çalışmıyor animate kullanınca çalışıyor
+      setActiveIndex(0);
       x.jump(0);
       setItemGroups(groupItems(items, itemsPerWindowSize.mobile));
     }
