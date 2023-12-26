@@ -108,7 +108,7 @@ const Drawer = ({
 
   return (
     <div
-      className={`absolute bg-[var(--drawer-bg-color)] z-50 flex flex-col drawer ${placements[placement]} ${sizes[size]} ${className}`}
+      className={`fixed bg-[var(--drawer-bg-color)] z-50 flex flex-col drawer ${placements[placement]} ${sizes[size]} ${className}`}
       aria-hidden={!isOpen}
       ref={drawer}
     >
