@@ -9,7 +9,7 @@ function FilterBarMobile() {
   };
 
   return (
-    <div className="filter-bar-container absolute w-full h-[calc(100vh)] bg-black/50 z-20 flex justify-between items-center">
+    <div className="filter-bar-container absolute w-full h-[100vh] bg-black/50 z-20 flex justify-between items-center">
       <div onClick={() => handleClick()} className="w-[50%] h-full">
         Input
       </div>
