@@ -25,6 +25,9 @@
   --feat-col-prod-btn-fg-hover: #2f2f2f;
   --product-options-container-visibility: hidden;
   --product-options-form-position: translateY(100%);
+
+  --filter-container-visibility: hidden;
+  --filter-form-position: translateX(100%);
 }
 
 @media (max-width: 1024px) {
@@ -38,7 +41,7 @@
 
 body,
 html {
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
 
 /*
@@ -637,4 +640,18 @@ form label {
 .product-form-mobile {
   transform: var(--product-options-form-position);
   transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+/*
+* --------------------------------------------------
+* components/FilterBar (Mobile)
+* --------------------------------------------------
+*/
+
+.filter-bar-container {
+  visibility: var(--filter-container-visibility);
+  transition: all 0.5s ease-in-out;
+}
+.filter-form-mobile {
+  transform: var(--filter-form-position);
+  transition: all 0.5s ease-in-out;
 }

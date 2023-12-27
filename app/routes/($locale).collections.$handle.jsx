@@ -16,6 +16,7 @@ import {
   LoadMoreButton,
   PageHeader,
   FilterForm,
+  FilterBarMobile,
 } from '~/components/Collection Page UI-Forms/Index';
 
 export const meta = ({data}) => {
@@ -104,6 +105,13 @@ export default function Collection() {
     }
   }, []);
 
+  const handleMobileFilter = () => {
+    let root_ = document.documentElement.style;
+    root_.setProperty('--filter-container-visibility', 'visible');
+    root_.setProperty('--filter-form-position', 'translateX(0%)');
+    document.documentElement.style.overflowY = 'hidden';
+  };
+
   return (
     <div className="collection">
       <PageHeader collection={collection} />
@@ -122,7 +130,10 @@ export default function Collection() {
             <>{openFilterDesk ? <SorthForm /> : undefined}</>
           </ClickAwayListener>
         </div>
-        <div className="w-[160px] h-full border-l flex justify-center items-center relative cursor-pointer select-none lg:hidden">
+        <div
+          onClick={() => handleMobileFilter()}
+          className="w-[160px] h-full border-l flex justify-center items-center relative cursor-pointer select-none lg:hidden"
+        >
           FILTER
         </div>
       </div>

@@ -3,6 +3,7 @@ import ProductItem from './ProductItem';
 import SorthForm from './SorthForm';
 import LoadMoreButton from './LoadMoreButton';
 import PageHeader from './PageHeader';
+import FilterBarMobile from './FilterBarMobile';
 import * as FilterForm from './FilterForm';
 
 export {
@@ -11,5 +12,6 @@ export {
   SorthForm,
   LoadMoreButton,
   PageHeader,
+  FilterBarMobile,
   FilterForm,
 };
