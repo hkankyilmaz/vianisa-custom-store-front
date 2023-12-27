@@ -30,20 +30,23 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
     <>
       {isLoaded && (
         <>
-          <FilterBarMobile />
-          <CartAside cart={cart} />
-          <SearchAside />
-          <MobileMenuAside menu={header.menu} />
-          <div ref={ref}>
-            <AnnouncementBar />
-            <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />
-          </div>
-          <main className="relative">{children}</main>
-          <Suspense>
-            <Await resolve={footer}>
-              {(footer) => <Footer menu={footer.menu} />}
-            </Await>
-          </Suspense>
+          <ProductContextProvider>
+            <FilterBarMobile />
+            <CartAside cart={cart} />
+            <SearchAside />
+            <MobileMenuAside menu={header.menu} />
+            <ProductModal />
+            <div ref={ref}>
+              <AnnouncementBar />
+              <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />
+            </div>
+            <main className="relative">{children}</main>
+            <Suspense>
+              <Await resolve={footer}>
+                {(footer) => <Footer menu={footer.menu} />}
+              </Await>
+            </Suspense>
+          </ProductContextProvider>
         </>
       )}
     </>
