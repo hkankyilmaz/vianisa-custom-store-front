@@ -10,7 +10,7 @@ function SorthForm() {
 
     params.set('sortkey', sort);
     params.set('reverse', reverse);
-    console.log(params.toString());
+
     navigate(`?${params.toString()}`);
   };
   return (

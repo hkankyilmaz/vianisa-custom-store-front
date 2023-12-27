@@ -1,4 +1,4 @@
-import {Suspense, useState, useEffect, useRef} from 'react';
+import {Suspense, useState, useEffect, useRef, useContext} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import {Await, Link, useLoaderData, useMatches} from '@remix-run/react';
 import _ from 'lodash';
@@ -8,6 +8,8 @@ import {FcShipped} from 'react-icons/fc';
 import useCalculateShipDay from '~/hooks/useCalculateShipDay';
 import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import {AiOutlineDown} from 'react-icons/ai';
+import ProductModal from '~/components/Product Popover/ProductModal';
+import ProductOptionContext from '~/store/productOptionsContext';
 
 import {
   Image,
@@ -189,7 +191,7 @@ function ProductMain({selectedVariant, product, variants}) {
 
   return (
     <div className="product-main-wrapper sm:flex sm:justify-center">
-      <div className="product-main max-sm:w-auto max-sm:max-w-[500px] w-[400px] max-lg:w-[500px] max-lg:mx-auto max-2xl:mr-[100px] ml-[50px] mr-[50px] max-lg:px-6">
+      <div className="product-main max-sm:w-auto max-sm:max-w-[500px] w-[400px] max-lg:w-[500px] max-lg:mx-auto max-2xl:mr-[100px] ml-[50px] mr-[50px] max-sm:px-6">
         <h1 className="text-[18px] font-[500] uppercase font-body text-[#2f2f2f] tracking-[3.6px] text-left max-lg:text-center">
           {title}
         </h1>
@@ -430,7 +432,7 @@ function ProductPrice({selectedVariant}) {
 function ProductForm({product, selectedVariant, variants}) {
   return (
     <div className="product-form border-[#bfbfbf] font-body">
-      <div className=" gap-x-3 grid grid-cols-2 max-sm:flex flex-col gap-y-3  ">
+      <div className=" gap-x-3 grid grid-cols-2 max-sm:flex flex-col gap-y-3">
         <VariantSelector
           handle={product.handle}
           options={product.options}
@@ -486,22 +488,52 @@ function ProductOptions({option}) {
     setIsOpen(false);
   }, [option]);
 
+  const value = useContext(ProductOptionContext);
+
+  const handleOptionsParam = (color) => {
+    value.setOption(color);
+    console.log('value:', value);
+  };
+
   const [isOpen, setIsOpen] = useState(false);
   let activeOption = _.find(option.values, {isActive: true}).value;
+  let root_ = document.documentElement.style;
 
   return (
     <>
-      <ClickAwayListener onClickAway={() => setIsOpen(false)}>
+      <ClickAwayListener
+        onClickAway={() => {
+          setIsOpen(false);
+        }}
+      >
         <div
           className="flex justify-between relative items-center px-[14px] py-[10px]  text-[13px] border cursor-pointer text-[#595959] tracking-wide"
           key={option.name}
-          onClick={() => setIsOpen((prev) => !prev)}
+          onClick={() => {
+            setIsOpen((prev) => !prev);
+            handleOptionsParam(option.name);
+
+            if (window.innerWidth < 1024) {
+              root_.setProperty(
+                '--product-options-container-visibility',
+                'visible',
+              );
+
+              root_.setProperty(
+                '--product-options-form-position',
+                'translateY(0%)',
+              );
+            }
+
+            document.documentElement.style.overflowY =
+              window.innerWidth < 1024 ? 'hidden' : 'auto';
+          }}
         >
           <div>
             <span className="">{option.name}</span>:{' '}
             <span> {activeOption} </span>
             {isOpen ? (
-              <div className="modal-shadow absolute z-10 right-[calc(100%+5px)] top-[50%] translate-y-[-50%]">
+              <div className="modal-shadow absolute z-10 right-[calc(100%+5px)] top-[50%] translate-y-[-50%] max-lg:hidden">
                 <div className="  rounded-xl h-[165px] w-[390px] flex justify-center items-center flex-col clip-path bg-[#efefef]">
                   {option.values.map(({value, isAvailable, isActive, to}) => {
                     return (
@@ -524,6 +556,7 @@ function ProductOptions({option}) {
           <AiOutlineDown className="text-sm text-[#000]" />
         </div>
       </ClickAwayListener>
+      {/* <ProductModal /> */}
     </>
   );
 }

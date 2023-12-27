@@ -15,6 +15,8 @@
   --description-height: 70px; /* Default height */
   --text-color-light: #2f2f2f;
   --product-sale-price-color: #e22120;
+  --product-options-container-visibility: hidden;
+  --product-options-form-position: translateY(100%);
 }
 
 @media (max-width: 1024px) {
@@ -618,4 +620,13 @@ form label {
 
 #sort:checked ~ .sortabsolute {
   display: initial;
+}
+
+/* Product variant options modal*/
+.product-bar-container {
+  visibility: var(--product-options-container-visibility);
+}
+.product-form-mobile {
+  transform: var(--product-options-form-position);
+  transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
 }

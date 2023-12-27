@@ -8,8 +8,6 @@ function handleClick(event) {
 }
 
 export default function BasicBreadcrumbs({className, product}) {
-  console.log(rules);
-  console.log(product);
   /*  const [sel, setsel] = useState([]);
   let selected;
   useEffect(() => {
