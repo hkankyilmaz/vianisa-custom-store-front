@@ -134,7 +134,7 @@ function Script({questions}) {
       }),
     ],
   };
-  console.log(JSON.stringify(scrpt));
+
   return <script type="application/ld+json">{JSON.stringify(scrpt)}</script>;
 }
 /*

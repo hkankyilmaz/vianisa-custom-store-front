@@ -10,6 +10,8 @@ import {
 import {CartMain} from './Cart';
 import AnnouncementBar from './AnnouncementBar';
 import gsap from 'gsap';
+import ProductModal from './Product Popover/ProductModal';
+import {ProductContextProvider} from '~/store/productOptionsContext';
 
 export function Layout({cart, children = null, footer, header, isLoggedIn}) {
   const ref = useRef();
@@ -27,19 +29,22 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
     <>
       {isLoaded && (
         <>
-          <CartAside cart={cart} />
-          <SearchAside />
-          <MobileMenuAside menu={header.menu} />
-          <div ref={ref}>
-            <AnnouncementBar />
-            <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />
-          </div>
-          <main>{children}</main>
-          <Suspense>
-            <Await resolve={footer}>
-              {(footer) => <Footer menu={footer.menu} />}
-            </Await>
-          </Suspense>
+          <ProductContextProvider>
+            <CartAside cart={cart} />
+            <SearchAside />
+            <MobileMenuAside menu={header.menu} />
+            <ProductModal />
+            <div ref={ref}>
+              <AnnouncementBar />
+              <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />
+            </div>
+            <main>{children}</main>
+            <Suspense>
+              <Await resolve={footer}>
+                {(footer) => <Footer menu={footer.menu} />}
+              </Await>
+            </Suspense>
+          </ProductContextProvider>
         </>
       )}
     </>

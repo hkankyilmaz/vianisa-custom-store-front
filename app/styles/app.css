@@ -23,6 +23,8 @@
   --feat-col-prod-btn-fg: #fff;
   --feat-col-prod-btn-bg-hover: #fff0e7;
   --feat-col-prod-btn-fg-hover: #2f2f2f;
+  --product-options-container-visibility: hidden;
+  --product-options-form-position: translateY(100%);
 }
 
 @media (max-width: 1024px) {
@@ -626,4 +628,13 @@ form label {
 
 #sort:checked ~ .sortabsolute {
   display: initial;
+}
+
+/* Product variant options modal*/
+.product-bar-container {
+  visibility: var(--product-options-container-visibility);
+}
+.product-form-mobile {
+  transform: var(--product-options-form-position);
+  transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
