@@ -179,18 +179,21 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
     navigate(`?${params.toString()}`);
   };
   return (
-    <div className="grid grid-cols-[300px_auto] max-lg:grid-cols-1 px-5 mt-[50px]">
-      <div className="lg:min-w-[320px] pl-[30px]">
+    <div className="mt-[50px] flex">
+      <div className="lg:min-w-[200px] max-[1140px]:ml-6 max-[1140px]:mr-4 ml-[50px] mr-[10px]">
         <Form
           method="get"
           onChange={(e) => submit(e.currentTarget)}
           className="max-lg:hidden"
         >
-          <div className="mb-4">
-            <p className="font-bold mb-2">PRİCE</p>
+          <div className="mb-8">
+            <p className="font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] mb-2">
+              PRICE
+            </p>
             <Slider
-              className="max-w-[80%] mb-1"
+              className="max-w-[100%] mb-1"
               sx={{color: 'gray'}}
+              size="small"
               value={value}
               onChange={handleChange}
               onChangeCommitted={handleOnChangeCommitted}
@@ -198,39 +201,43 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
               max={maxValue}
               min={0}
             />
-            <div className="flex">
+            <div className="flex justify-between ">
               <FilterForm.PriceInput value={value} idx={0} />
               <FilterForm.Seperator />
               <FilterForm.PriceInput value={value} idx={1} />
             </div>
           </div>
           <div className="mb-4">
-            <p className="mb-2 font-bold">COLOR</p>
-            <p className="mb-1">
+            <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
+              COLOR
+            </p>
+            <p className="mb-3 font-questrial">
               <FilterForm.ColorOrMetarialInput value="rose" name="color" />
             </p>
-            <p className="mb-1">
+            <p className="mb-3 font-questrial">
               <FilterForm.ColorOrMetarialInput value="white" name="color" />
             </p>
-            <p className="mb-1">
+            <p className="mb-8 font-questrial">
               <FilterForm.ColorOrMetarialInput value="yellow" name="color" />
             </p>
           </div>
-          <div>
-            <p className="mb-2 font-bold">METERİAL</p>
-            <p className="mb-1">
+          <div className="mb-8">
+            <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
+              MATERIAL
+            </p>
+            <p className="mb-3 font-questrial">
               <FilterForm.ColorOrMetarialInput
                 value="10kgold"
                 name="meterial"
               />
             </p>
-            <p className="mb-1">
+            <p className="mb-3 font-questrial">
               <FilterForm.ColorOrMetarialInput
                 value="14kgold"
                 name="meterial"
               />
             </p>
-            <p className="mb-1">
+            <p className="mb-8 font-questrial">
               <FilterForm.ColorOrMetarialInput
                 value="18kgold"
                 name="meterial"
@@ -238,8 +245,13 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
             </p>
           </div>
           <button
-            style={{display: params.size > 0 ? 'block' : 'none'}}
-            className="block border border-solid border-black  w-[150px] h-[40px]   mt-4 hover:bg-black hover:text-white"
+            style={{
+              display: params.size > 0 ? 'block' : 'none',
+              transition: 'all ease 0.35s',
+            }}
+            className="border flex items-center justify-center w-min h-full align-middle 
+            mt-14 px-7 py-[14px] text-[11px] font-bold font-montserratMd uppercase bg-black
+          border-black tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-black"
             type="reset"
             onClick={() => {
               setValue([0, 1000]);

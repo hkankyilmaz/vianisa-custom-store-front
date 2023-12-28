@@ -2,10 +2,8 @@ import React from 'react';
 
 export function PriceInput({value, idx}) {
   return (
-    <div className="border border-[#8c8c8c] border-solid w-[37%] h-[40px] relative text-right text-xl pr-2 flex justify-end items-center text-[#8c8c8c]">
-      <span className="absolute left-2 top-[50%] translate-y-[-50%] text-xl ">
-        $
-      </span>
+    <div className="border border-[#e0e0e0] border-solid w-[100%] h-full px-[10px] py-[7px] text-[14px] flex justify-between items-center text-[#2f2f2f] font-questrial">
+      <span className="text-[14px] font-questrial">$</span>
       {value[idx]}
     </div>
   );
@@ -13,7 +11,7 @@ export function PriceInput({value, idx}) {
 
 export function Seperator() {
   return (
-    <div className="flex justify-center items-center mx-[3%] text-[#8c8c8c]">
+    <div className="flex justify-center text-center items-center mx-[15px] text-[#8c8c8c]">
       -
     </div>
   );

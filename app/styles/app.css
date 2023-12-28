@@ -655,3 +655,19 @@ form label {
   transform: var(--filter-form-position);
   transition: all 0.5s ease-in-out;
 }
+
+/*Collections slider*/
+.MuiSlider-thumb {
+  color: #2f2f2f;
+}
+.css-14pt78w-MuiSlider-rail {
+  opacity: 1 !important;
+}
+
+.MuiSlider-rail {
+  color: #e0e0e0;
+}
+.MuiSlider-track {
+  color: #6d6d6d;
+  margin-bottom: 20px !important;
+}
