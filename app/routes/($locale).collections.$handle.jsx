@@ -9,6 +9,7 @@ import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import useGetSearchParams from '~/hooks/useGetSearchParams';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
 import useFindCollectionMaxAndMinPrice from '~/hooks/useFindCollectionMaxAndMinPrice';
+import {AiOutlineDown} from 'react-icons/ai';
 import {
   ProductItem,
   GridChanger,
@@ -116,25 +117,26 @@ export default function Collection() {
     <div className="collection">
       <PageHeader collection={collection} />
 
-      <div className="h-[75px] w-full border-y mb-10 flex justify-center items-center">
+      <div className="w-full h-[54px] border-y flex justify-between items-center">
         <GridChanger setGrid={setGrid} grid={grid} />
-        <div className="w-full"></div>
 
-        <div
-          onClick={() => setOpenFilterDesk((prev) => !prev)}
-          className="w-[160px] h-full border-l flex justify-center items-center relative cursor-pointer select-none"
-        >
-          SORT
-          <FaAngleDown color="gray" className="ml-1 translate-y-[1px]" />
-          <ClickAwayListener onClickAway={handleCloseFilter}>
-            <>{openFilterDesk ? <SorthForm /> : undefined}</>
-          </ClickAwayListener>
-        </div>
-        <div
-          onClick={() => handleMobileFilter()}
-          className="w-[160px] h-full border-l flex justify-center items-center relative cursor-pointer select-none lg:hidden"
-        >
-          FILTER
+        <div className="flex">
+          <div
+            onClick={() => setOpenFilterDesk((prev) => !prev)}
+            className="w-min h-[54px] border-l flex justify-center items-center relative cursor-pointer select-none px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] "
+          >
+            SORT
+            <AiOutlineDown className=" text-xs ml-2 text-[#2f2f2f] z-[-1]" />
+            <ClickAwayListener onClickAway={handleCloseFilter}>
+              <>{openFilterDesk ? <SorthForm /> : undefined}</>
+            </ClickAwayListener>
+          </div>
+          <div
+            onClick={() => handleMobileFilter()}
+            className="w-min h-[54px] border-l flex justify-center items-center relative cursor-pointer select-none px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] lg:hidden "
+          >
+            FILTER
+          </div>
         </div>
       </div>
       <Pagination connection={collection.products}>
@@ -177,7 +179,7 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
     navigate(`?${params.toString()}`);
   };
   return (
-    <div className="grid grid-cols-[300px_auto] max-lg:grid-cols-1 px-5">
+    <div className="grid grid-cols-[300px_auto] max-lg:grid-cols-1 px-5 mt-[50px]">
       <div className="lg:min-w-[320px] pl-[30px]">
         <Form
           method="get"
