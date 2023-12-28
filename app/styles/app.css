@@ -25,9 +25,9 @@
   --feat-col-prod-btn-fg-hover: #2f2f2f;
   --product-options-container-visibility: hidden;
   --product-options-form-position: translateY(100%);
-
   --filter-container-visibility: hidden;
   --filter-form-position: translateX(100%);
+  --col-list-btn-fg: #363636;
 }
 
 @media (max-width: 1024px) {
