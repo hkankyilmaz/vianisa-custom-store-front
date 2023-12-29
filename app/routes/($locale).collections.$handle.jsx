@@ -179,8 +179,8 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
     navigate(`?${params.toString()}`);
   };
   return (
-    <div className="mt-[50px] flex">
-      <div className="lg:min-w-[200px] max-[1140px]:ml-6 max-[1140px]:mr-4 ml-[50px] mr-[10px]">
+    <div className="mt-[50px] flex max-lg:gap-0 max-[1139px]:gap-4 max-lg:m-0 max-[1139px]:ml-6 ml-[50px]">
+      <div className="lg:min-w-[200px]">
         <Form
           method="get"
           onChange={(e) => submit(e.currentTarget)}
@@ -275,7 +275,7 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
           })}
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
           {products.map((product, index) => {
             return (
               <ProductItem

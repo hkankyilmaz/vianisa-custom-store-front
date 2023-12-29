@@ -114,10 +114,15 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
     }
     variants(first: 1) {
       nodes {
+        compareAtPrice {
+          amount
+          currencyCode
+        }
         selectedOptions {
           name
           value
         }
+        
       }
     }
   }

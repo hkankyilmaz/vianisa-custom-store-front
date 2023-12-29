@@ -400,6 +400,7 @@ function ProductMain({selectedVariant, product, variants}) {
 }
 
 function ProductPrice({selectedVariant}) {
+  console.log('selected variant', selectedVariant);
   return (
     <div className="product-price font-body font-medium tracking-[2px]  	">
       {selectedVariant?.compareAtPrice ? (
