@@ -117,13 +117,13 @@ export default function Collection() {
     <div className="collection">
       <PageHeader collection={collection} />
 
-      <div className="w-full h-[54px] border-y flex justify-between items-center">
+      <div className="w-full max-sm:h-[44px] sm:h-[54px] border-y flex justify-between max-sm:flex-row-reverse items-center">
         <GridChanger setGrid={setGrid} grid={grid} />
 
-        <div className="flex">
+        <div className="flex max-sm:grow max-sm:flex-row-reverse">
           <div
             onClick={() => setOpenFilterDesk((prev) => !prev)}
-            className="w-min h-[54px] border-l flex justify-center items-center relative cursor-pointer select-none px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] "
+            className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] "
           >
             SORT
             <AiOutlineDown className=" text-xs ml-2 text-[#2f2f2f] z-[-1]" />
@@ -133,7 +133,7 @@ export default function Collection() {
           </div>
           <div
             onClick={() => handleMobileFilter()}
-            className="w-min h-[54px] border-l flex justify-center items-center relative cursor-pointer select-none px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] lg:hidden "
+            className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] lg:hidden "
           >
             FILTER
           </div>
