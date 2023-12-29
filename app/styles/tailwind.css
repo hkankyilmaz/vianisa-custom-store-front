@@ -332,21 +332,21 @@ Product Image Carausel
     font-size: 11px !important;
   }
   div + p {
-    margin-bottom: 20px
+    margin-bottom: 20px;
   }
   p {
     @apply font-questrial;
   }
 }
 .product-description-detail div > p + p {
-  margin-bottom: 20px
+  margin-bottom: 20px;
 }
-
 
 /* Text underline animation*/
 .link-underline {
   border-bottom-width: 0;
-  background-image: linear-gradient(transparent, transparent), linear-gradient(#fff, #fff);
+  background-image: linear-gradient(transparent, transparent),
+    linear-gradient(#fff, #fff);
   background-size: 100% 1px;
   background-position: 0 100%;
   background-repeat: no-repeat;
@@ -354,10 +354,46 @@ Product Image Carausel
 }
 
 .link-underline-black {
-  background-image: linear-gradient(transparent, transparent), linear-gradient(#2f2f2f, #2f2f2f)
+  background-image: linear-gradient(transparent, transparent),
+    linear-gradient(#2f2f2f, #2f2f2f);
 }
 
 .link-underline:hover {
   background-size: 0 1px;
-  background-position: 0 100%
+  background-position: 0 100%;
+}
+
+/*collections page dynamic margin-top*/
+@media screen and (max-width: 640px) {
+  .dynamic-margin-top {
+    margin-top: clamp(38px, calc(38px + (60 - 38) * ((100vw) / (640))), 56px);
+  }
+}
+@media screen and (min-width: 640px) {
+  .dynamic-margin-top {
+    margin-top: clamp(
+      38px,
+      calc(38px + (60 - 38) * ((100vw - 640px) / (1024 - 640))),
+      56px
+    );
+  }
+}
+@media screen and (min-width: 1024px) {
+  .dynamic-margin-top {
+    margin-top: clamp(
+      38px,
+      calc(38px + (60 - 38) * ((100vw - 1024px) / (1140 - 1024))),
+      56px
+    );
+  }
+}
+
+@media screen and (min-width: 1140px) {
+  .dynamic-margin-top {
+    margin-top: clamp(
+      38px,
+      calc(38px + (60 - 38) * ((100vw - 1140px) / (1440 - 1140))),
+      56px
+    );
+  }
 }

@@ -7,7 +7,7 @@ export default function ProductItem({product, loading}) {
   const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
   return (
     <Link className="" key={product.id} prefetch="intent" to={variantUrl}>
-      <div className="font-montserratMd max-sm:text-[8px] text-[10px] tracking-[2px] text-[#2f2f2f] mb-3 ml-4">
+      <div className="font-montserratMd max-sm:text-[8px] text-[10px] tracking-[2px] text-[#2f2f2f] max-lg:mb-0 mb-3 ml-4">
         ON SALE
       </div>
       {product.featuredImage && (
@@ -19,7 +19,7 @@ export default function ProductItem({product, loading}) {
           sizes="(min-width: 45em) 400px, 100vw"
         />
       )}
-      <h4 className="mt-14 mb-1 font-montserratMd max-sm:text-[10px] text-[11px] tracking-[2.2px] text-[#2f2f2f] uppercase">
+      <h4 className="dynamic-margin-top mt-14 mb-1 font-montserratMd max-sm:text-[10px] text-[11px] tracking-[2.2px] text-[#2f2f2f] uppercase">
         {product.title}
       </h4>
 
