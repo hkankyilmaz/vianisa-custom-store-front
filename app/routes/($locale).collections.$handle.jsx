@@ -211,13 +211,13 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
             <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
               COLOR
             </p>
-            <p className="mb-3 font-questrial">
+            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
               <FilterForm.ColorOrMetarialInput value="rose" name="color" />
             </p>
-            <p className="mb-3 font-questrial">
+            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
               <FilterForm.ColorOrMetarialInput value="white" name="color" />
             </p>
-            <p className="mb-8 font-questrial">
+            <p className="mb-8 font-questrial hover:underline hover:cursor-pointer">
               <FilterForm.ColorOrMetarialInput value="yellow" name="color" />
             </p>
           </div>
@@ -225,19 +225,19 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
             <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
               MATERIAL
             </p>
-            <p className="mb-3 font-questrial">
+            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
               <FilterForm.ColorOrMetarialInput
                 value="10kgold"
                 name="meterial"
               />
             </p>
-            <p className="mb-3 font-questrial">
+            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
               <FilterForm.ColorOrMetarialInput
                 value="14kgold"
                 name="meterial"
               />
             </p>
-            <p className="mb-8 font-questrial">
+            <p className="mb-8 font-questrial hover:underline hover:cursor-pointer">
               <FilterForm.ColorOrMetarialInput
                 value="18kgold"
                 name="meterial"

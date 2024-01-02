@@ -614,19 +614,40 @@ form label {
   cursor: pointer;
 }
 
+span.rose,
+span.white,
+span.yellow,
+span._10kgold,
+span._14kgold,
+span._18kgold {
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+
+  & + label {
+    transition: all 0.2s ease-in-out;
+    margin-left: 0;
+  }
+}
+
 #rose:checked ~ span.rose,
 #white:checked ~ span.white,
 #yellow:checked ~ span.yellow,
 #_10kgold:checked ~ span._10kgold,
 #_14kgold:checked ~ span._14kgold,
 #_18kgold:checked ~ span._18kgold {
+  position: absolute;
+  top: 6px;
+  left: 0;
   display: inline-flex;
   width: 6px;
   height: 6px;
+  opacity: 1;
   background-color: #000;
   border-radius: 100%;
-  margin-right: 10px;
-  transform: translateY(-2px);
+
+  & + label {
+    margin-left: 18px;
+  }
 }
 
 #sort:checked ~ .sortabsolute {

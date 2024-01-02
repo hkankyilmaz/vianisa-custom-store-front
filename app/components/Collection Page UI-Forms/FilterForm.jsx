@@ -29,22 +29,22 @@ export function ColorOrMetarialInput({value, name}) {
   }
   return (
     <>
-      <input
-        className="hidden"
-        type="checkbox"
-        id={name == 'color' ? value : `_${value}`}
-        name={name}
-        value={value}
-      />
-      <span
-        className={`hidden ${name == 'color' ? value : `_${value}`}`}
-      ></span>
-      <label
-        className="uppercase"
-        htmlFor={`${name == 'color' ? value : `_${value}`}`}
-      >
-        {name == 'color' ? value : _value}
-      </label>
+      <div className="relative">
+        <input
+          className="hidden"
+          type="checkbox"
+          id={name == 'color' ? value : `_${value}`}
+          name={name}
+          value={value}
+        />
+        <span className={`${name == 'color' ? value : `_${value}`}`}></span>
+        <label
+          className=" uppercase"
+          htmlFor={`${name == 'color' ? value : `_${value}`}`}
+        >
+          {name == 'color' ? value : _value}
+        </label>
+      </div>
     </>
   );
 }

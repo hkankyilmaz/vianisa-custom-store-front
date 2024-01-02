@@ -104,6 +104,15 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
       width
       height
     }
+    images(first:2){
+      nodes{
+        id
+            altText
+            url
+            width
+            height
+      }
+    }
     priceRange {
       minVariantPrice {
         ...MoneyProductItem
@@ -112,8 +121,15 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
         ...MoneyProductItem
       }
     }
-    variants(first: 1) {
+    variants(first: 30) {
       nodes {
+        image{
+          id
+          altText
+          url
+          width
+          height
+        }
         compareAtPrice {
           amount
           currencyCode
