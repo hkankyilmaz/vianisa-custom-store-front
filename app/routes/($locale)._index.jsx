@@ -116,9 +116,25 @@ export default function Homepage() {
         }
       </script> */}
       <BannerSlider />
-      <FeaturedCollection data={data.featuredCollection} />
+      <FeaturedCollection data={data.featuredCollection} showButton />
       <CollectionList />
+ feature/blogs
       <FeaturedCollection data={data.featuredCollectionTwo} />
+
+      <FeaturedCollection
+        data={data.featuredCollectionTwo}
+        className="!py-0 lg:!py-0"
+      />
+      {/* <FeaturedCollection collection={data.featuredCollection} />
+      <RecommendedProducts products={data.recommendedProducts} /> */}
+      {/* <div id="fb-root"></div>
+
+      <div
+        ref={MessengerRef}
+        id="fb-customer-chat"
+        className="fb-customerchat"
+      ></div> */}
+
     </div>
   );
 }

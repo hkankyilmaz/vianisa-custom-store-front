@@ -9,6 +9,7 @@ import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import useGetSearchParams from '~/hooks/useGetSearchParams';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
 import useFindCollectionMaxAndMinPrice from '~/hooks/useFindCollectionMaxAndMinPrice';
+import {AiOutlineDown} from 'react-icons/ai';
 import {
   ProductItem,
   GridChanger,
@@ -16,6 +17,7 @@ import {
   LoadMoreButton,
   PageHeader,
   FilterForm,
+  FilterBarMobile,
 } from '~/components/Collection Page UI-Forms/Index';
 
 export const meta = ({data}) => {
@@ -92,6 +94,7 @@ export default function Collection() {
   const [openFilterDesk, setOpenFilterDesk] = useState(false);
   const [value, setValue] = useState([0, 1000]);
   const [grid, setGrid] = useState(true);
+  let root_ = document.documentElement.style;
 
   // user visit the page first time, back to page and forward to page --> set the min and max price from url
   useEffect(() => {
@@ -104,26 +107,36 @@ export default function Collection() {
     }
   }, []);
 
+  const handleMobileFilter = () => {
+    root_.setProperty('--filter-container-visibility', 'visible');
+    root_.setProperty('--filter-form-position', 'translateX(0%)');
+    document.documentElement.style.overflowY = 'hidden';
+  };
+
+  const openMobileSort = () => {
+    root_.setProperty('--sort-modal-visibility', 'visible');
+    root_.setProperty('--sort-modal-position', 'translateY(0%)');
+    document.documentElement.style.overflowY = 'hidden';
+  };
+  const closeMobileSort = () => {
+    root_.setProperty('--sort-modal-visibility', 'hidden');
+    root_.setProperty('--sort-modal-position', 'translateY(100%)');
+    document.documentElement.style.overflowY = 'auto';
+  };
+
   return (
     <div className="collection">
       <PageHeader collection={collection} />
 
-      <div className="h-[75px] w-full border-y mb-10 flex justify-center items-center">
+      <div className="w-full max-sm:h-[44px] sm:h-[54px] border-y flex justify-between max-sm:flex-row-reverse items-center">
         <GridChanger setGrid={setGrid} grid={grid} />
-        <div className="w-full"></div>
 
-        <div
-          onClick={() => setOpenFilterDesk((prev) => !prev)}
-          className="w-[160px] h-full border-l flex justify-center items-center relative cursor-pointer select-none"
-        >
-          SORT
-          <FaAngleDown color="gray" className="ml-1 translate-y-[1px]" />
-          <ClickAwayListener onClickAway={handleCloseFilter}>
-            <>{openFilterDesk ? <SorthForm /> : undefined}</>
-          </ClickAwayListener>
-        </div>
-        <div className="w-[160px] h-full border-l flex justify-center items-center relative cursor-pointer select-none lg:hidden">
-          FILTER
+        <div className="flex max-sm:grow max-sm:flex-row-reverse">
+          <SortButton
+            openMobileSort={openMobileSort}
+            closeMobileSort={closeMobileSort}
+          />
+          <FilterButton handleMobileFilter={handleMobileFilter} />
         </div>
       </div>
       <Pagination connection={collection.products}>
@@ -149,6 +162,39 @@ export default function Collection() {
   );
 }
 
+function SortButton({openMobileSort, closeMobileSort}) {
+  return (
+    //<ClickAwayListener>
+    <>
+      <div
+        //onClick={() => setOpenFilterDesk((prev) => !prev)}
+        onClick={openMobileSort}
+        className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] "
+      >
+        SORT
+        <AiOutlineDown className=" text-xs ml-2 text-[#2f2f2f]" />
+        <SorthForm closeMobileSort={closeMobileSort} />
+      </div>
+      <span
+        onClick={closeMobileSort}
+        className="sort-modal-overlay max-lg:bg-[#363636]/50 fixed left-0 top-0 bottom-0 right-0 z-10"
+      ></span>
+    </>
+    //</ClickAwayListener>
+  );
+}
+
+function FilterButton({handleMobileFilter}) {
+  return (
+    <div
+      onClick={handleMobileFilter}
+      className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] lg:hidden "
+    >
+      FILTER
+    </div>
+  );
+}
+
 function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
   const submit = useSubmit();
   const navigate = useNavigate();
@@ -166,18 +212,21 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
     navigate(`?${params.toString()}`);
   };
   return (
-    <div className="grid grid-cols-[300px_auto] max-lg:grid-cols-1 px-5">
-      <div className="lg:min-w-[320px] pl-[30px]">
+    <div className="mt-[50px] flex max-lg:gap-0 max-[1139px]:gap-4 max-lg:m-0 max-[1139px]:ml-6 ml-[50px]">
+      <div className="lg:min-w-[200px]">
         <Form
           method="get"
           onChange={(e) => submit(e.currentTarget)}
           className="max-lg:hidden"
         >
-          <div className="mb-4">
-            <p className="font-bold mb-2">PRİCE</p>
+          <div className="mb-8">
+            <p className="font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] mb-2">
+              PRICE
+            </p>
             <Slider
-              className="max-w-[80%] mb-1"
+              className="max-w-[100%] mb-1"
               sx={{color: 'gray'}}
+              size="small"
               value={value}
               onChange={handleChange}
               onChangeCommitted={handleOnChangeCommitted}
@@ -185,39 +234,43 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
               max={maxValue}
               min={0}
             />
-            <div className="flex">
+            <div className="flex justify-between ">
               <FilterForm.PriceInput value={value} idx={0} />
               <FilterForm.Seperator />
               <FilterForm.PriceInput value={value} idx={1} />
             </div>
           </div>
           <div className="mb-4">
-            <p className="mb-2 font-bold">COLOR</p>
-            <p className="mb-1">
+            <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
+              COLOR
+            </p>
+            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
               <FilterForm.ColorOrMetarialInput value="rose" name="color" />
             </p>
-            <p className="mb-1">
+            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
               <FilterForm.ColorOrMetarialInput value="white" name="color" />
             </p>
-            <p className="mb-1">
+            <p className="mb-8 font-questrial hover:underline hover:cursor-pointer">
               <FilterForm.ColorOrMetarialInput value="yellow" name="color" />
             </p>
           </div>
-          <div>
-            <p className="mb-2 font-bold">METERİAL</p>
-            <p className="mb-1">
+          <div className="mb-8">
+            <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
+              MATERIAL
+            </p>
+            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
               <FilterForm.ColorOrMetarialInput
                 value="10kgold"
                 name="meterial"
               />
             </p>
-            <p className="mb-1">
+            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
               <FilterForm.ColorOrMetarialInput
                 value="14kgold"
                 name="meterial"
               />
             </p>
-            <p className="mb-1">
+            <p className="mb-8 font-questrial hover:underline hover:cursor-pointer">
               <FilterForm.ColorOrMetarialInput
                 value="18kgold"
                 name="meterial"
@@ -225,8 +278,13 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
             </p>
           </div>
           <button
-            style={{display: params.size > 0 ? 'block' : 'none'}}
-            className="block border border-solid border-black  w-[150px] h-[40px]   mt-4 hover:bg-black hover:text-white"
+            style={{
+              display: params.size > 0 ? 'block' : 'none',
+              transition: 'all ease 0.35s',
+            }}
+            className="border flex items-center justify-center w-min h-full align-middle 
+            mt-14 px-7 py-[14px] text-[11px] font-bold font-montserratMd uppercase bg-black
+          border-black tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-black"
             type="reset"
             onClick={() => {
               setValue([0, 1000]);
@@ -238,7 +296,7 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
         </Form>
       </div>
       {grid ? (
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+        <div className="grid max-sm:grid-cols-2 max-[1139px]:grid-cols-3 grid-cols-4 max-sm:gap-x-[10px] max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
           {products.map((product, index) => {
             return (
               <ProductItem
@@ -250,7 +308,7 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
           })}
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
           {products.map((product, index) => {
             return (
               <ProductItem

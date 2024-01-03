@@ -108,7 +108,7 @@ const Drawer = ({
 
   return (
     <div
-      className={`absolute bg-[var(--drawer-bg-color)] z-50 flex flex-col drawer ${placements[placement]} ${sizes[size]} ${className}`}
+      className={`fixed bg-[var(--drawer-bg-color)] z-50 flex flex-col drawer ${placements[placement]} ${sizes[size]} ${className}`}
       aria-hidden={!isOpen}
       ref={drawer}
     >
@@ -123,7 +123,7 @@ const Drawer = ({
         ref={drawerMain}
       >
         {menu.items.map((item, index) => (
-          <Collapsible key={index} item={item} />
+          <Collapsible key={index} item={item} onClose={onClose} />
         ))}
         <Link
           to="/account"
@@ -193,13 +193,13 @@ const Collapsible = ({
   className = '',
   classNames = {},
   expendad = false,
+  onClose,
 }) => {
   const button = useRef(null);
   const container = useRef(null);
   const expendable = useRef(null);
   const [ctx] = useState(gsap.context(() => {}));
   const [isExpanded, setIsExpanded] = useState(expendad);
-  //const [root] = useMatches();
 
   useIsomorphicLayoutEffect(() => {
     ctx.add(() => {
@@ -245,16 +245,6 @@ const Collapsible = ({
     });
   };
 
-  // const stripUrl = (url) => {
-  //   const publicStoreDomain = root?.data?.publicStoreDomain;
-  //   const newUrl =
-  //     url.includes('myshopify.com') || url.includes(publicStoreDomain)
-  //       ? new URL(url).pathname
-  //       : url;
-
-  //   return newUrl;
-  // };
-
   return (
     <div
       ref={container}
@@ -287,6 +277,7 @@ const Collapsible = ({
                   button:
                     '!py-[13px] !text-[11px] !text-[var(--drawer-text-color-light)] hover:!text-[var(--drawer-text-color)]',
                 }}
+                onClose={onClose}
               />
             ))}
           {!item.items[0].items && (
@@ -299,6 +290,7 @@ const Collapsible = ({
                 >
                   <Link
                     to={stripUrl(subItem.url)}
+                    onClick={onClose}
                     className="text-[var(--drawer-text-color-light)] hover:text-[var(--drawer-text-color)] hover:underline w-full uppercase font-questrial text-[13px] font-normal block"
                   >
                     {subItem.title}
