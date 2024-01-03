@@ -17,6 +17,7 @@ import {
   VariantSelector,
   getSelectedProductOptions,
   CartForm,
+  Script,
   ShopPayButton,
 } from '@shopify/hydrogen';
 import {getVariantUrl} from '~/utils';
@@ -383,9 +384,9 @@ function ProductMain({selectedVariant, product, variants}) {
             </a>
           </div>
         </div>
-        <div className="flex justify-center text-[5px]">
+        {/* <div className="flex justify-center text-[5px]">
           <WishlistButton />
-        </div>
+        </div> */}
 
         <div className="flex justify-center items-center my-[10px] text-[13px] font-body text-[#2f2f2f]">
           {/* <FcShipped className="text-5xl mr-3" /> */}
@@ -430,6 +431,23 @@ function ProductPrice({selectedVariant}) {
 }
 
 function ProductForm({product, selectedVariant, variants}) {
+  const [size, setsize] = useState({});
+  function logs(event) {
+    console.log(event.target.name + ' ' + event.target.value);
+    setsize({...size, [event.target.name]: event.target.value});
+  }
+  function objectToArray(obj) {
+    return Object.keys(obj).map((item) => ({
+      key: item,
+      value: obj[item],
+    }));
+  }
+
+  useEffect(() => {
+    console.log(size);
+    console.log(objectToArray(size));
+  }, [size]);
+
   return (
     <div className="product-form border-[#bfbfbf] font-body">
       <div className=" gap-x-3 grid grid-cols-2 max-sm:flex flex-col gap-y-3">
@@ -447,8 +465,8 @@ function ProductForm({product, selectedVariant, variants}) {
           )}
         </VariantSelector>
       </div>
-      <ProductExtraInputType product={product} />
-      <ProductExtraInputTag product={product} />
+      <ProductExtraInputType product={product} cardInfo={logs} />
+      <ProductExtraInputTag product={product} cardInfo={logs} />
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}
         onClick={() => {
@@ -460,12 +478,7 @@ function ProductForm({product, selectedVariant, variants}) {
                 {
                   merchandiseId: selectedVariant.id,
                   quantity: 1,
-                  attributes: [
-                    {
-                      key: 'leng',
-                      value: 'hasdasakan',
-                    },
-                  ],
+                  attributes: objectToArray(size),
                 },
               ]
             : []
@@ -476,7 +489,7 @@ function ProductForm({product, selectedVariant, variants}) {
       <ShopPayButton
         className="mt-[20px] text-xs"
         width="100%"
-        storeDomain="vianisa.myshopify.com"
+        storeDomain="http://vianisa.myshopify.com"
         variantIds={selectedVariant ? [selectedVariant.id] : ''}
       />
     </div>

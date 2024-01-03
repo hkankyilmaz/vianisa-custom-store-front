@@ -4,7 +4,7 @@ import {tags} from '../../constant/sizes';
 import {AiOutlineDown} from 'react-icons/ai';
 import Checkbox from '@mui/material/Checkbox';
 
-export function ProductExtraInputType({product}) {
+export function ProductExtraInputType({product, cardInfo}) {
   const productType = product.productType.toLowerCase();
   let resultType = find(tags, (i) => includes(i.productType, productType));
 
@@ -16,6 +16,8 @@ export function ProductExtraInputType({product}) {
             <select
               data-labelOnProduct={resultType.labelOnProduct}
               data-name={resultType.name}
+              name={resultType.labelOnProduct.toUpperCase()}
+              onChange={cardInfo}
               className="align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10"
             >
               <option value={null}> {resultType.placeHolder} </option>
@@ -44,7 +46,7 @@ export function ProductExtraInputType({product}) {
   }
 }
 
-export function ProductExtraInputTag({product}) {
+export function ProductExtraInputTag({product, cardInfo}) {
   const productTags = product.tags;
   const [open, setopen] = useState(false);
   // console.log('productTags : ', productTags);
@@ -68,6 +70,8 @@ export function ProductExtraInputTag({product}) {
               className="w-full bg-transparent h-[41.5px] focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
               data-labelOnProduct={inputObj.labelOnProduct}
               data-name={inputObj.name}
+              name={inputObj.labelOnProduct}
+              onChange={cardInfo}
               placeholder={inputObj.placeHolder}
             />
             <AiOutlineDown className="absolute right-4 first-letter:top-[50%] translate-y-[-50%] text-lg z-[-1]" />
@@ -77,6 +81,8 @@ export function ProductExtraInputTag({product}) {
             <select
               data-labelOnProduct={inputObj.labelOnProduct}
               data-name={inputObj.name}
+              name={inputObj.labelOnProduct}
+              onChange={cardInfo}
               className=" w-full h-[41.5px] cursor-pointer bg-transparent focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
             >
               <option value={null}> {inputObj.placeHolder} </option>
@@ -125,6 +131,8 @@ export function ProductExtraInputTag({product}) {
                   <select
                     data-labelOnProduct={inputObjSub.labelOnProduct}
                     data-name={inputObjSub.name}
+                    name={inputObjSub.labelOnProduct}
+                    onChange={cardInfo}
                     className=" w-full h-[41.5px] cursor-pointer bg-transparent  focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-3"
                   >
                     <option value={null}> {inputObjSub.placeHolder} </option>
@@ -154,6 +162,8 @@ export function ProductExtraInputTag({product}) {
                   <input
                     className="placeholder-neutral-400 w-full text-[13px] px-[15px] py-[10px] bg-transparent h-[41.5px] focus:border-transparent focus:outline-none border border-[#E5E7EB] z-3"
                     data-labelOnProduct={inputObjSub.labelOnProduct}
+                    name={inputObjSub.labelOnProduct}
+                    onChange={cardInfo}
                     data-name={inputObjSub.name}
                     placeholder={inputObjSub.placeHolder}
                   />

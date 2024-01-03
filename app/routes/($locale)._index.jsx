@@ -1,7 +1,7 @@
 import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense, useEffect, useRef} from 'react';
-import {Image, Money, useLoadScript} from '@shopify/hydrogen';
+import {Image, Money, Script, useLoadScript, useNonce} from '@shopify/hydrogen';
 import HomePageBanner from '~/components/HomePageBanner/Index';
 import FeaturedCollection from '~/components/Featured Collections/FeaturedCollection';
 import CollectionList from '~/components/Cllection List/Index';
@@ -32,7 +32,7 @@ export async function loader({context}) {
 
 export default function Homepage() {
   const data = useLoaderData();
-
+  const nonce = useNonce();
   /*const MessengerRef = useRef(null);
     useEffect(() => {
     MessengerRef.current.setAttribute('page_id', '111320718694277');
@@ -122,6 +122,18 @@ export default function Homepage() {
         data={data.featuredCollectionTwo}
         className="!py-0 lg:!py-0"
       />
+      <Script
+        nonce={nonce}
+        src="https://cdn.etsy.reputon.com/assets/widget.js?shop=vianisa.myshopify.com"
+      />
+      <div
+        className="reputon-etsy-reviews-widget"
+        data-theme="light"
+        data-type="standard"
+        data-show-product-picture="true"
+        data-show-date="true"
+        data-show-avatar="true"
+      ></div>
       {/* <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} /> */}
       {/* <div id="fb-root"></div>
