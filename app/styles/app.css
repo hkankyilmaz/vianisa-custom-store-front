@@ -28,6 +28,10 @@
   --filter-container-visibility: hidden;
   --filter-form-position: translateX(100%);
   --col-list-btn-fg: #363636;
+  --footer-heading-color: #2f2f2f;
+  --footer-link-color: #2f2f2f;
+  --footer-text-color: #2f2f2f;
+  --footer-border-color: #e0e0e0;
 }
 
 @media (max-width: 1024px) {

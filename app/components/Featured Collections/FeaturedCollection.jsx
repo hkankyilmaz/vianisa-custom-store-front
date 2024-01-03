@@ -7,7 +7,7 @@ import {Link} from '@remix-run/react';
 import {Money} from '@shopify/hydrogen';
 import {cubicBezier, motion, useAnimate, useMotionValue} from 'framer-motion';
 
-function FeaturedCollection({data, showButton = false}) {
+function FeaturedCollection({data, showButton = false, className = ''}) {
   const items = data.collection?.products?.nodes.map((product, index) => (
     <Item product={product} key={index} />
   ));
@@ -17,7 +17,9 @@ function FeaturedCollection({data, showButton = false}) {
   };
 
   return (
-    <section className="py-[50px] lg:py-[80px] font-montserratMd">
+    <section
+      className={`py-[50px] lg:py-[80px] font-montserratMd ${className}`}
+    >
       <div className="mb-[40px] lg:mb-[70px] w-full">
         <h2 className="text-[16px] !font-medium font-montserratMd sm:font-[sans-serif] tracking-[.2em] uppercase text-center text-[var(--heading-color)] -mt-[0.325em]">
           {data.collection?.title}
