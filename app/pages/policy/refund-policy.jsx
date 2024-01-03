@@ -137,12 +137,14 @@ export default function Policy() {
   let newkomp = text.map((it) => {
     return (
       <div className="mb-[20.8px] ">
-        <h3 className="mb-[20.8px] font-title">{it.title}</h3>
+        <h3 className="mb-[20.8px] font-optima">{it.title}</h3>
         {it.context
-          ? it.context.map((ss) => <p className="text-[13px]">{ss}</p>)
+          ? it.context.map((ss) => (
+              <p className="text-sm  font-body_light">{ss}</p>
+            ))
           : ''}
         {it.body ? (
-          <ul className="mb-[20.8px] text-[13px] font-body pl-9">
+          <ul className="mb-[20.8px] text-sm font-body_light pl-9">
             {it.body.map((punk) => (
               <li>
                 <strong>{punk.title}</strong> {''}

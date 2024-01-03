@@ -6,7 +6,7 @@ export const meta = ({data}) => {
 };
 
 export default function Product() {
-  let texts = [
+  /*   let texts = [
     {
       title: 'ORIGIN OF DIAMONDS',
       body: "Diamonds, known for their exceptional rarity and beauty, have a remarkable journey that spans hundreds of millions of years. Formed deep within the Earth, approximately 100 miles (161 km) beneath the surface, diamonds endure extreme temperatures of 2100℉ (1150℃) and pressures 45,000 times greater than at sea level. These conditions were made possible by ancient volcanic activity. Today, diamonds are primarily sourced from vertical rock formations called 'kimberlite pipes,' which were formed through intense volcanic eruptions. The largest kimberlite pipes are found in South Africa, Australia, Siberia, and Northwest Canada.",
@@ -31,7 +31,7 @@ export default function Product() {
   let newkomp = texts.map((text) => {
     return (
       <>
-        <h4 className="font-title mb-[20.8px] text-[13px] font-semibold text-[#2f2f2f]">
+        <h4 className="font-optima mb-[20.8px] text-[13px] font-semibold text-[#2f2f2f]">
           {text.title}
         </h4>
         <p className="font-body mb-[40px] text-[13px] text-[#2f2f2f]">
@@ -40,10 +40,93 @@ export default function Product() {
         <br />
       </>
     );
-  });
+  }); */
+  function newkomp() {
+    return (
+      <div>
+        <div>
+          <h3 className="font-optima mb-[20.8px] text-[13px] font-semibold text-[#2f2f2f]">
+            ORIGIN OF DIAMONDS
+          </h3>
+          <p className="font-body mb-[40px] text-[13px] text-[#2f2f2f]">
+            Diamonds, known for their exceptional rarity and beauty, have a
+            remarkable journey that spans hundreds of millions of years. Formed
+            deep within the Earth, approximately 100 miles (161 km) beneath the
+            surface, diamonds endure extreme temperatures of 2100℉ (1150℃) and
+            pressures 45,000 times greater than at sea level. These conditions
+            were made possible by ancient volcanic activity. Today, diamonds are
+            primarily sourced from vertical rock formations called "kimberlite
+            pipes," which were formed through intense volcanic eruptions. The
+            largest kimberlite pipes are found in South Africa, Australia,
+            Siberia, and Northwest Canada.
+          </p>
+        </div>
+        <div>
+          <h3 className="font-optima mb-[20.8px] text-[13px] font-semibold text-[#2f2f2f]">
+            ORIGIN OF ETERNATE'S DIAMONDS
+          </h3>
+          <p className="font-body mb-[40px] text-[13px] text-[#2f2f2f]">
+            At Eternate, we have curated a collection of diamonds sourced from
+            reputable suppliers who adhere to strict ethical guidelines,
+            including documentation in accordance with the Kimberley Process.
+            Our diamonds predominantly come from mines in Australia, Africa, and
+            Canada.
+          </p>
+        </div>
+        <div>
+          <h3 className="font-optima mb-[20.8px] text-[13px] font-semibold text-[#2f2f2f]">
+            UNDERSTANDING THE KIMBERLEY PROCESS
+          </h3>
+          <p className="font-body mb-[40px] text-[13px] text-[#2f2f2f]">
+            Eternate operates in full compliance with the Kimberley Process, an
+            international agreement among governments aimed at eliminating the
+            trade of conflict diamonds. Established in 2003, the Kimberley
+            Process unites 83 governments and implements stringent guidelines
+            for the inspection and tracking of diamond exports and imports. By
+            engaging exclusively with certified diamonds, Eternate promotes
+            transparency within the diamond industry.
+          </p>
+        </div>
+        <div>
+          <h3 className="font-optima mb-[20.8px] text-[13px] font-semibold text-[#2f2f2f]">
+            THE IMPORTANCE OF THE KIMBERLEY PROCESS
+          </h3>
+          <p className="font-body mb-[40px] text-[13px] text-[#2f2f2f]">
+            The Kimberley Process plays a crucial role in ensuring transparency
+            and accountability in the fine diamond and jewelry industry. Its
+            purpose is to guarantee that diamonds are obtained ethically and are
+            free from exploitation and corruption. By participating in the
+            Kimberley Process, we not only fulfill our responsibility but also
+            collaborate with like-minded individuals and organizations.
+            Ultimately, these collective efforts enable our customers to trace
+            and authenticate their diamonds, providing confidence from the
+            origin of the diamond to its final delivery.
+          </p>
+        </div>
+        <div>
+          <h3 className="font-optima mb-[20.8px] text-[13px] font-semibold text-[#2f2f2f]">
+            THE EMERGENCE OF THE KIMBERLEY PROCESS
+          </h3>
+          <p className="font-body mb-[40px] text-[13px] text-[#2f2f2f]">
+            The concept of conflict diamonds gained global attention during the
+            devastating conflict in Sierra Leone in the late 1990s. Conflict
+            diamonds are defined by the United Nations as diamonds mined in
+            areas controlled by illegitimate forces opposing legitimate and
+            internationally recognized governments. The issue lies with rebel
+            groups that exploit diamonds and other natural resources to fund
+            their illicit activities, rather than with diamonds themselves.
+            Through the Kimberley Process Certification Scheme and the dedicated
+            efforts of its participants, the trade in conflict diamonds has been
+            significantly reduced and monitored, ensuring a more responsible
+            diamond industry.
+          </p>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
-      <Schema1 children={newkomp} title={'Conflict Free Diamonds'} />
+      <Schema1 children={newkomp()} title={'Conflict Free Diamonds'} />
     </>
   );
 }

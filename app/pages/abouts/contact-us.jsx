@@ -9,7 +9,7 @@ export default function Product() {
     <>
       <div className="px-[80px] flex flex-col flex-nowrap justify-center text-center items-center max-md:px-[1%]">
         <Title
-          className=" text-center font-title my-[50px] uppercase "
+          className=" text-center font-optima my-[50px] uppercase "
           title="Contact"
         />
         <div className="mx-[22%] mb-10 max-w-[680px] flex flex-col justify-center items-center max-md: max-w-full mx-[1%]">
