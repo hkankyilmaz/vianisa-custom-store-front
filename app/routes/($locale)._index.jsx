@@ -62,7 +62,10 @@ export default function Homepage() {
       <BannerSlider />
       <FeaturedCollection data={data.featuredCollection} showButton />
       <CollectionList />
-      <FeaturedCollection data={data.featuredCollectionTwo} />
+      <FeaturedCollection
+        data={data.featuredCollectionTwo}
+        className="!py-0 lg:!py-0"
+      />
       {/* <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} /> */}
       {/* <div id="fb-root"></div>

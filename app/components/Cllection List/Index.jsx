@@ -1,82 +1,65 @@
-import React from 'react';
+import {Link} from '@remix-run/react';
 
-import photo from '../../assets/E_0021.png';
 import photo1 from '../../assets/1.webp';
 import photo2 from '../../assets/2.webp';
 import photo3 from '../../assets/3.webp';
 import photo4 from '../../assets/4.webp';
 
-import {Image} from '@shopify/hydrogen';
-import {Link} from '@remix-run/react';
-
-function CollectionList() {
+function CollectionList({
+  className = '',
+  classNames = {
+    item: '',
+  },
+}) {
+  const items = [
+    {
+      title: 'MOISSANITE ENGAGEMENT RINGS',
+      photo: photo1,
+      to: 'collections/moissanite-engagement-rings',
+    },
+    {
+      title: 'MOISSANITE BANDS',
+      photo: photo2,
+      to: 'collections/moissanite-bands',
+    },
+    {
+      title: 'PLAIN GOLD BANDS',
+      photo: photo3,
+      to: 'classic-wedding-bands',
+    },
+    {
+      title: 'BRACELETS',
+      photo: photo4,
+      to: 'collections/bracelets',
+    },
+  ];
   return (
-    <div
-      style={{fontFamily: 'montserratmedium'}}
-      className="res-margine flex flex-col"
-    >
-      <div className="w-full flex max-md:flex-col max-md:px-2">
-        {/* <div
-          className={`w-full md:w-[50%] bg-[#DEA595] mr-2 mb-2 flex items-center max-md:text-[12px] max-md:pt-[88.6%] relative`}
-        >
-          <div className="flex flex-col justify-center text-white ml-3 md:ml-7 absolute bottom-[50%] translate-y-[50%]">
-            <span className="text-sm">TRENDING</span>
-            <span className="text-2xl">GIFT IDEAS</span>
-            <span>
-              Explore newest solid gold jewelry and find the perfect gift
-            </span>
-            <span>from customizable name jewelry to colored birthstones</span>
-            <span>engravable signet rings and diamond masterpieces.</span>
-          </div>
-        </div> */}
-        <Item
-          width="50%"
-          to={'collections/moissanite-engagement-rings'}
-          title={'MOISSANITE ENGAGEMENT RINGS'}
-          photo={photo1}
-        />
-        <Item
-          width="50%"
-          title={'MOISSANITE BANDS'}
-          photo={photo2}
-          to={'collections/moissanite-bands'}
-        />
-      </div>
-      <div className="w-full flex max-md:flex-wrap [&>div:nth-child(odd)]:max-md:pl-2 [&>div:nth-child(odd)]:max-md:pr-1 [&>div:nth-child(even)]:max-md:pl-1 [&>div:nth-child(even)]:max-md:pr-2">
-        <Item
-          to={'classic-wedding-bands'}
-          width="50%"
-          title={'PLAIN GOLD BANDS'}
-          photo={photo3}
-        />
-        <Item
-          to={'collections/bracelets'}
-          width="50%"
-          title={'BRACELETS'}
-          photo={photo4}
-        />
+    <div className={`mb-[100px] font-montserratMd w-full h-full ${className}`}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 m-3 sm:m-[15px]">
+        {items.map((item, index) => (
+          <Item key={index} {...item} className={classNames.item} />
+        ))}
       </div>
     </div>
   );
 }
 
-function Item({title, photo, to, width}) {
+function Item({title, photo, to, className = ''}) {
   return (
     <div
-      // style={{width: `${width}`}}
-      className={`md:mr-2 mb-2 relative overflow-hidden cursor-pointer ${
-        width == '50%' ? 'w-[50%]' : 'w-[33%]'
-      } ${width == '50%' ? 'max-md:w-full' : 'max-md:w-[50%]'}`}
+      className={`m-3 sm:m-[15px] overflow-hidden cursor-pointer ${className}`}
     >
-      <Link to={to}>
+      <Link to={to} className="relative group">
         <img
-          className="w-full max-h-[600px] object-center duration-500 ease-out bg-fill hover:scale-[1.07]"
+          className="w-full h-[500px] object-center object-cover duration-300 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-125 overflow-hidden"
           src={photo}
         />
 
-        <div className="flex flex-col  text-white absolute bg-center bg-cover  left-5 bottom-5">
-          <span className="mb-1 tracking-wide">{title} </span>
-          <button className="text-sm w-[150px] py-[5px] px-[20px] border-solid bg-white hover:bg-transparent hover:text-white border-white border-[1px] text-black">
+        <div className="absolute left-0 bottom-6 px-6 sm:bottom-10 sm:px-10 min-[1140px]:bottom-[50px] min-[1140px]:px-[50px] flex flex-col gap-5 lg:gap-[30px] font-montserratMd z-10">
+          <h2 className="text-white -mt-[0.325em] !font-medium text-left text-[16px] sm:text-[21px] transition-[color] duration-200 ease-css-ease-in-out uppercase tracking-[.2em]">
+            {title}
+          </h2>
+          <button className="text-[11px] py-[14px] px-[28px] border border-solid border-white font-extrabold text-[var(--col-list-btn-fg)] bg-white hover:text-white hover:bg-transparent transition-all duration-[350ms] ease-css-ease uppercase tracking-[.2em] max-w-fit">
             See More
           </button>
         </div>
