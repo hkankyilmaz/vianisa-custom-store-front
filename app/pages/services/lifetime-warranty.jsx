@@ -12,71 +12,77 @@ export async function loader({params, context}) {
 export default function Policy() {
   let text = [
     {
-      title:
-        'Discover Timeless Jewelry with Vianisa: Embrace Joyful Memories and Hassle-free Returns',
+      title: "WHAT DOES A LIFETIME MANUFACTURER'S WARRANTY MEAN?",
       context:
-        "At Vianisa, our mission is simple yet profound - to bring our valued customers timeless pieces of jewelry that evoke joy and create lasting memories. We understand that preferences can change, and to ensure your utmost satisfaction, we offer a complimentary 30-day return and exchange policy for all our customers in the US. Whether you wish to exchange an item for a different size or style, or opt for a refund, rest assured, we've got you covered. In this article, we will walk you through our seamless process for returns and exchanges, as well as highlight some essential guidelines to ensure a smooth and delightful experience.",
+        "A lifetime manufacturer's warranty signifies that the manufacturer stands by their products. It involves offering repair or replacement for products that have been damaged or contain defects resulting from the manufacturing process.",
     },
     {
-      title: 'Complimentary Returns and Exchanges: Your Happiness Matters',
-      context:
-        "At Vianisa, we want you to cherish every jewelry piece you purchase from us. Hence, we extend a 30-day window for hassle-free returns and exchanges, starting from the date of shipping. If, within this period, you find yourself not completely satisfied with your purchase, take advantage of our complimentary return and exchange service - it's all about ensuring your happiness.",
-    },
-    {
-      title: 'For Exchanges: Simple Steps to Discover the Perfect Piece',
-      body: [
-        {
-          title: 'Reach Out to Our Dedicated Customer Service Team:',
-          context:
-            'To initiate the exchange process, all you need to do is contact our dedicated customer service team at hello@vianisa.com. They are always ready to assist you with warmth and professionalism.',
-        },
-        {
-          title: 'Prepaid Return Shipping Label:',
-          context:
-            "We understand the importance of convenience, which is why we'll send you a prepaid return shipping label. This way, you can effortlessly send the item back to us for exchange.",
-        },
-        {
-          title: 'Enjoy Your New Item:',
-          context:
-            "Once we receive the returned item, we won't keep you waiting. We promptly send you the new item of your choice, ensuring you find the perfect piece to complement your style.",
-        },
+      title: "DO I HAVE A LIFETIME MANUFACTURER'S WARRANTY WITH VIANISA?",
+      context: [
+        "Certainly! At Vianisa, all our products come with a lifetime manufacturer's warranty. We provide this assurance to our customers with confidence because our products are meticulously crafted and free from manufacturing defects. If you believe your jewelry has been damaged due to manufacturing, you can send it to us for evaluation. Once the defects are assessed and confirmed as manufacturing-related, we will repair them free of charge or replace the item if necessary.",
+        'Additionally, as your personal jeweler, we offer care services at Vianisa. We are committed to being there for you even years after your purchase. Our care services include prong tightening, re-polishing, rhodium plating, and cleaning. If you wish to utilize your lifetime warranty or require additional repair work, you can simply mail us your jewelry, and we will gladly take care of it.',
       ],
     },
     {
-      title: 'For Returns: A Straightforward Approach to Ease Your Mind',
+      title: 'CONDITIONS AND EXCLUSIONS',
+      type: 2,
       body: [
-        {
-          title: 'Initiate the Return Process: ',
-          context:
-            "If you decide to return an item, our customer service team is just an email away. Reach out to them at hello@vianisa.com, and they'll guide you through the return process with utmost care.",
-        },
-        {
-          title: 'Prepaid Return Shipping Label:',
-          context:
-            "We value your time, and that's why we provide you with a prepaid return shipping label. Experience a hassle-free return, as we've got everything covered for you.",
-        },
-        {
-          title: 'Refund Processing: ',
-          context:
-            'Once we receive the returned item, we process the refund promptly. Our refund process typically takes 3-5 business days, ensuring you receive your money back swiftly.',
-        },
+        "The lifetime manufacturer's warranty and complimentary services mentioned above are only applicable to the individual who purchased the covered product from Vianisa.",
+        "If you have any maintenance, repair, sizing, or other service performed by someone other than Vianisa, your manufacturer's warranty will become void.",
+        "It's important to note that fine jewelry is not indestructible and can be affected by daily wear, activities, and physical damage. Regular usage of our hands exposes jewelry to various risks. Vianisa does not offer warranties for everyday wear and tear, product loss, stone loss, or theft. Damages or losses resulting from a failure to maintain the product adequately are also not covered. Here are some examples of situations that would not be considered as manufacturing defects:",
+        [
+          'Discoloration caused by exposure to chemicals such as bleach, body lotions, or swimming pools.',
+          'Prongs and precious metals used in daily wear require cleaning and polishing every six months or once a year due to build-up.',
+          'Prongs that have been bent, worn out, or distorted due to physical damage or regular wear may result in stone loss.',
+        ],
       ],
+    },
+    {
+      title: 'WHAT IS JEWELRY INSURANCE?',
+      context:
+        'Jewelry insurance is a service that provides coverage for the total value of your insured jewelry, protecting you against loss, theft, damage, and mysterious disappearance.',
+    },
+    {
+      title: 'SHOULD I INSURE MY JEWELRY, WEDDING RING, OR ENGAGEMENT RING?',
+      context:
+        'Insuring your Vianisa jewelry allows you the freedom to wear your cherished pieces without worry, knowing they are protected by a legally binding arrangement. The decision to insure your jewelry is entirely up to you and your personal preferences. However, it is advisable to seek insurance services from professional insurance groups. Vianisa does not provide or collaborate with any insurance providers. Nevertheless, we do provide the necessary documentation, such as invoices and appraisals, for insurance purposes.',
     },
   ];
-
   let newkomp = text.map((it) => {
     return (
       <div className="mb-[20.8px] ">
-        <h3 className="mb-[20.8px] font-title">{it.title}</h3>
-        {it.body ? (
-          <ul className="mb-[20.8px] text-[13px] font-body pl-9">
-            {it.body.map((punk) => (
-              <li>
-                <strong>{punk.title}</strong> {''}
-                {punk.context}
-              </li>
-            ))}
-          </ul>
+        <h3 className="mb-[20.8px] font-optima">{it.title}</h3>
+
+        {it.body && it.type == 2 ? (
+          <>
+            {it.body.map((tex) =>
+              typeof tex == 'string' ? (
+                <>
+                  <p>{tex}</p>
+                  <br />
+                </>
+              ) : (
+                <ul className="mb-[20.8px] text-[13px] font-body pl-9">
+                  {tex.map((punk1) => (
+                    <li>{punk1}</li>
+                  ))}
+                </ul>
+              ),
+            )}
+          </>
+        ) : typeof it.context == 'object' ? (
+          it.context.map((item, idx) => (
+            <>
+              <p className="text-[13px]">{item}</p>
+              {idx < it.context.length - 1 ? (
+                <>
+                  <br />
+                </>
+              ) : (
+                ''
+              )}
+            </>
+          ))
         ) : (
           <p className="text-[13px]">{it.context}</p>
         )}
@@ -85,41 +91,7 @@ export default function Policy() {
   });
   return (
     <div className=" page max-w- m-auto px-[20px] pb-20">
-      <Schema1 title="refund policy" children={newkomp}></Schema1>
+      <Schema1 title="lifetime warranty" children={newkomp}></Schema1>
     </div>
   );
 }
-
-// NOTE: https://shopify.dev/docs/api/storefront/latest/objects/Shop
-const POLICY_CONTENT_QUERY = `#graphql
-  fragment Policy on ShopPolicy {
-    body
-    handle
-    id
-    title
-    url
-  }
-  query Policy(
-    $country: CountryCode
-    $language: LanguageCode
-    $privacyPolicy: Boolean!
-    $refundPolicy: Boolean!
-    $shippingPolicy: Boolean!
-    $termsOfService: Boolean!
-  ) @inContext(language: $language, country: $country) {
-    shop {
-      privacyPolicy @include(if: $privacyPolicy) {
-        ...Policy
-      }
-      shippingPolicy @include(if: $shippingPolicy) {
-        ...Policy
-      }
-      termsOfService @include(if: $termsOfService) {
-        ...Policy
-      }
-      refundPolicy @include(if: $refundPolicy) {
-        ...Policy
-      }
-    }
-  }
-`;

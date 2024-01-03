@@ -1,7 +1,7 @@
 import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense, useEffect, useRef} from 'react';
-import {Image, Money} from '@shopify/hydrogen';
+import {Image, Money, useLoadScript} from '@shopify/hydrogen';
 import HomePageBanner from '~/components/HomePageBanner/Index';
 import FeaturedCollection from '~/components/Featured Collections/FeaturedCollection';
 import CollectionList from '~/components/Cllection List/Index';
@@ -32,6 +32,7 @@ export async function loader({context}) {
 
 export default function Homepage() {
   const data = useLoaderData();
+
   /*const MessengerRef = useRef(null);
     useEffect(() => {
     MessengerRef.current.setAttribute('page_id', '111320718694277');
@@ -59,9 +60,67 @@ export default function Homepage() {
   // fb((FB) => FB.CustomerChat.show(true));
   return (
     <div className="home">
+      {/* <script
+        async
+        src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=YvBnBA"
+      ></script>
+      <script>
+        {
+          !(function () {
+            if (!window.klaviyo) {
+              window._klOnsite = window._klOnsite || [];
+              try {
+                window.klaviyo = new Proxy(
+                  {},
+                  {
+                    get: function (n, i) {
+                      return 'push' === i
+                        ? function () {
+                            var n;
+                            (n = window._klOnsite).push.apply(n, arguments);
+                          }
+                        : function () {
+                            for (
+                              var n = arguments.length, o = new Array(n), w = 0;
+                              w < n;
+                              w++
+                            )
+                              o[w] = arguments[w];
+                            var t =
+                                'function' == typeof o[o.length - 1]
+                                  ? o.pop()
+                                  : void 0,
+                              e = new Promise(function (n) {
+                                window._klOnsite.push(
+                                  [i].concat(o, [
+                                    function (i) {
+                                      t && t(i), n(i);
+                                    },
+                                  ]),
+                                );
+                              });
+                            return e;
+                          };
+                    },
+                  },
+                );
+              } catch (n) {
+                (window.klaviyo = window.klaviyo || []),
+                  (window.klaviyo.push = function () {
+                    var n;
+                    (n = window._klOnsite).push.apply(n, arguments);
+                  });
+              }
+            }
+          })()
+        }
+      </script> */}
       <BannerSlider />
       <FeaturedCollection data={data.featuredCollection} showButton />
       <CollectionList />
+ feature/blogs
+      <FeaturedCollection data={data.featuredCollectionTwo} />
+
       <FeaturedCollection
         data={data.featuredCollectionTwo}
         className="!py-0 lg:!py-0"
@@ -75,6 +134,7 @@ export default function Homepage() {
         id="fb-customer-chat"
         className="fb-customerchat"
       ></div> */}
+
     </div>
   );
 }

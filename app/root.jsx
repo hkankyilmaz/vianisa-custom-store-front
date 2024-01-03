@@ -1,4 +1,4 @@
-import {useNonce} from '@shopify/hydrogen';
+import {useNonce, Script} from '@shopify/hydrogen';
 import {defer} from '@shopify/remix-oxygen';
 import {
   Links,
@@ -97,12 +97,14 @@ export async function loader({context}) {
 
 export default function App() {
   const nonce = useNonce();
+
   const data = useLoaderData();
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+
         <Meta />
         <Links />
       </head>
@@ -110,6 +112,11 @@ export default function App() {
         <Layout {...data}>
           <Outlet />
         </Layout>
+        <Script
+          nonce={nonce}
+          src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=YvBnBA"
+        />
+
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
         <LiveReload nonce={nonce} />
