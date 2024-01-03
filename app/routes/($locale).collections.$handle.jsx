@@ -4,8 +4,6 @@ import {Form, useLocation} from '@remix-run/react';
 import {useLoaderData, useNavigate, useSubmit} from '@remix-run/react';
 import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
 import Slider from '@mui/material/Slider';
-import {FaAngleDown} from 'react-icons/fa';
-import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import useGetSearchParams from '~/hooks/useGetSearchParams';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
 import useFindCollectionMaxAndMinPrice from '~/hooks/useFindCollectionMaxAndMinPrice';
@@ -13,11 +11,10 @@ import {AiOutlineDown} from 'react-icons/ai';
 import {
   ProductItem,
   GridChanger,
-  SorthForm,
+  SortForm,
   LoadMoreButton,
   PageHeader,
   FilterForm,
-  FilterBarMobile,
 } from '~/components/Collection Page UI-Forms/Index';
 
 export const meta = ({data}) => {
@@ -78,10 +75,6 @@ export async function loader({request, params, context}) {
 }
 
 export default function Collection() {
-  const handleCloseFilter = () => {
-    setOpenFilterDesk(false);
-  };
-
   const {collection, maxValueCollection, minValueCollection} = useLoaderData();
 
   const maxValue =
@@ -158,29 +151,26 @@ export default function Collection() {
           </>
         )}
       </Pagination>
+      <SortForm closeMobileSort={closeMobileSort} />
     </div>
   );
 }
 
 function SortButton({openMobileSort, closeMobileSort}) {
   return (
-    //<ClickAwayListener>
     <>
       <div
-        //onClick={() => setOpenFilterDesk((prev) => !prev)}
         onClick={openMobileSort}
         className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] "
       >
         SORT
         <AiOutlineDown className=" text-xs ml-2 text-[#2f2f2f]" />
-        <SorthForm closeMobileSort={closeMobileSort} />
       </div>
       <span
         onClick={closeMobileSort}
         className="sort-modal-overlay max-lg:bg-[#363636]/50 fixed left-0 top-0 bottom-0 right-0 z-10"
       ></span>
     </>
-    //</ClickAwayListener>
   );
 }
 

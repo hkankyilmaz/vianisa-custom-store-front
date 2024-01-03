@@ -1,8 +1,9 @@
 import React from 'react';
 import {useNavigate} from '@remix-run/react';
 
-function SorthForm({closeMobileSort}) {
+function SortForm({closeMobileSort}) {
   const navigate = useNavigate();
+
   const handleClick = (sort, reverse) => {
     let url = new URL(window.location.href);
     let params = new URLSearchParams(url.search);
@@ -10,20 +11,13 @@ function SorthForm({closeMobileSort}) {
     params.set('sortkey', sort);
     params.set('reverse', reverse);
 
-    closeMobileSort();
-
-    //bug
-    let root_ = document.documentElement.style;
-    root_.setProperty('--sort-modal-visibility', 'hidden');
-    root_.setProperty('--sort-modal-position', 'translateY(100%)');
-    document.documentElement.style.overflowY = 'auto';
-
     navigate(`?${params.toString()}`);
+    closeMobileSort();
   };
   return (
     <>
-      <div className="modal-shadow translate-y-2 max-lg:hidden w-max z-20  rounded-md [&>p:hover]:underline cursor-[initial] [&>p]:mb-2 absolute top-[105%] right-0  h-auto">
-        <div className="sort-modal-desktop rounded-xl flex justify-center items-center flex-col py-7 clip-path-filter bg-[#efefef] [&>p]:text-right">
+      <div className="sort-modal-desktop modal-shadow translate-y-2 max-lg:hidden w-max z-20 rounded-md [&>p:hover]:underline cursor-[initial] [&>p]:mb-2 absolute top-[130px] right-0 h-auto">
+        <div className=" rounded-xl flex justify-center items-center flex-col py-7 clip-path-filter bg-[#efefef] [&>p]:text-right">
           <p
             className="sort-btn"
             onClick={() => handleClick('COLLECTION_DEFAULT', false)}
@@ -97,4 +91,4 @@ function SorthForm({closeMobileSort}) {
   );
 }
 
-export default SorthForm;
+export default SortForm;
