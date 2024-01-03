@@ -8,10 +8,7 @@ function ProductModal() {
   const matches = useMatches();
   const value = useContext(ProductOptionContext);
   const location = useLocation();
-  // console.log(location);
   const options = matches;
-  console.log(options);
-  /*  console.log(value); */
   const handleClick = () => {
     let root_ = document.documentElement.style;
     root_.setProperty('--product-options-container-visibility', 'hidden');

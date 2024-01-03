@@ -94,6 +94,7 @@ export default function Collection() {
   const [openFilterDesk, setOpenFilterDesk] = useState(false);
   const [value, setValue] = useState([0, 1000]);
   const [grid, setGrid] = useState(true);
+  let root_ = document.documentElement.style;
 
   // user visit the page first time, back to page and forward to page --> set the min and max price from url
   useEffect(() => {
@@ -107,10 +108,20 @@ export default function Collection() {
   }, []);
 
   const handleMobileFilter = () => {
-    let root_ = document.documentElement.style;
     root_.setProperty('--filter-container-visibility', 'visible');
     root_.setProperty('--filter-form-position', 'translateX(0%)');
     document.documentElement.style.overflowY = 'hidden';
+  };
+
+  const openMobileSort = () => {
+    root_.setProperty('--sort-modal-visibility', 'visible');
+    root_.setProperty('--sort-modal-position', 'translateY(0%)');
+    document.documentElement.style.overflowY = 'hidden';
+  };
+  const closeMobileSort = () => {
+    root_.setProperty('--sort-modal-visibility', 'hidden');
+    root_.setProperty('--sort-modal-position', 'translateY(100%)');
+    document.documentElement.style.overflowY = 'auto';
   };
 
   return (
@@ -121,22 +132,11 @@ export default function Collection() {
         <GridChanger setGrid={setGrid} grid={grid} />
 
         <div className="flex max-sm:grow max-sm:flex-row-reverse">
-          <div
-            onClick={() => setOpenFilterDesk((prev) => !prev)}
-            className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] "
-          >
-            SORT
-            <AiOutlineDown className=" text-xs ml-2 text-[#2f2f2f] z-[-1]" />
-            <ClickAwayListener onClickAway={handleCloseFilter}>
-              <>{openFilterDesk ? <SorthForm /> : undefined}</>
-            </ClickAwayListener>
-          </div>
-          <div
-            onClick={() => handleMobileFilter()}
-            className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] lg:hidden "
-          >
-            FILTER
-          </div>
+          <SortButton
+            openMobileSort={openMobileSort}
+            closeMobileSort={closeMobileSort}
+          />
+          <FilterButton handleMobileFilter={handleMobileFilter} />
         </div>
       </div>
       <Pagination connection={collection.products}>
@@ -158,6 +158,39 @@ export default function Collection() {
           </>
         )}
       </Pagination>
+    </div>
+  );
+}
+
+function SortButton({openMobileSort, closeMobileSort}) {
+  return (
+    //<ClickAwayListener>
+    <>
+      <div
+        //onClick={() => setOpenFilterDesk((prev) => !prev)}
+        onClick={openMobileSort}
+        className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] "
+      >
+        SORT
+        <AiOutlineDown className=" text-xs ml-2 text-[#2f2f2f]" />
+        <SorthForm closeMobileSort={closeMobileSort} />
+      </div>
+      <span
+        onClick={closeMobileSort}
+        className="sort-modal-overlay max-lg:bg-[#363636]/50 fixed left-0 top-0 bottom-0 right-0 z-10"
+      ></span>
+    </>
+    //</ClickAwayListener>
+  );
+}
+
+function FilterButton({handleMobileFilter}) {
+  return (
+    <div
+      onClick={handleMobileFilter}
+      className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] lg:hidden "
+    >
+      FILTER
     </div>
   );
 }

@@ -28,6 +28,9 @@
 
   --filter-container-visibility: hidden;
   --filter-form-position: translateX(100%);
+
+  --sort-modal-visibility: hidden;
+  --sort-modal-position: translateY(100%);
 }
 
 @media (max-width: 1024px) {
@@ -501,9 +504,9 @@ aside li {
     0% 47.75%
   );
 }
-/* .clip-path-filter {
+.clip-path-filter {
   clip-path: polygon(0 3%, 80% 3%, 85% 0, 90% 3%, 100% 3%, 100% 100%, 0 100%);
-} */
+}
 
 .modal-shadow {
   filter: drop-shadow(5px -7px 5px rgba(0, 0, 0, 0.05))
@@ -675,6 +678,19 @@ span._18kgold {
 .filter-form-mobile {
   transform: var(--filter-form-position);
   transition: all 0.5s ease-in-out;
+}
+
+/*sort modal mobile*/
+.sort-modal {
+  transform: var(--sort-modal-position);
+  transition: all 0.5s ease-in-out;
+}
+.sort-modal-overlay {
+  visibility: var(--sort-modal-visibility);
+}
+/*sort modal desktop*/
+.sort-modal-desktop {
+  visibility: var(--sort-modal-visibility);
 }
 
 /*Collections slider*/

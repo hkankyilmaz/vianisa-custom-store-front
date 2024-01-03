@@ -3,8 +3,6 @@ import {Link} from '@remix-run/react';
 import {Image, Money} from '@shopify/hydrogen';
 
 export default function ProductItem({product, loading}) {
-  console.log(product);
-
   const variant = product.variants.nodes[0];
   const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
   return (
