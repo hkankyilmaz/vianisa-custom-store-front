@@ -51,7 +51,7 @@ export default function Policy() {
   let newkomp = text.map((it) => {
     return (
       <div className="mb-[20.8px] ">
-        <h3 className="mb-[20.8px] font-title">{it.title}</h3>
+        <h3 className="mb-[20.8px] font-optima">{it.title}</h3>
 
         {it.body && it.type == 2 ? (
           <>

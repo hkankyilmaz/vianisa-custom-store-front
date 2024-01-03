@@ -12,7 +12,9 @@ export default {
       playfair: ['playfair', 'serif'],
       questrial: ['Questrial', 'sans-serif'],
       body: ['avenir', 'sans-serif'],
+      body_light: ['avenir-light', 'sans-serif'],
       title: ['zapHuman', 'sans-serif'],
+      optima: ['optima', 'sans-serif'],
     },
     extend: {
       transitionTimingFunction: {

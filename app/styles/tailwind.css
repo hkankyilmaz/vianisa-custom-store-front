@@ -22,6 +22,53 @@
   font-family: 'avenir';
   src: url('../assets/AVENIR-MEDIUM.woff');
 }
+
+
+@font-face {
+  font-family: 'avenir-black';
+  src: url('../assets/fonts/AVENIR-BLACK.ttf');
+}
+@font-face {
+  font-family: 'avenir-blackoblique';
+  src: url('../assets/fonts/AVENIR-BLACKOBLIQUE.ttf');
+}
+@font-face {
+  font-family: 'avenir-book';
+  src: url('../assets/fonts/AVENIR-BOOK.ttf');
+}
+@font-face {
+  font-family: 'avenir-bookoblique';
+  src: url('../assets/fonts/AVENIR-BOOKOBLIQUE.ttf');
+}
+@font-face {
+  font-family: 'avenir-heavy';
+  src: url('../assets/fonts/AVENIR-HEAVY.ttf');
+}
+@font-face {
+  font-family: 'avenir-heavyoblique';
+  src: url('../assets/fonts/AVENIR-HEAVYOBLIQUE.ttf');
+}
+@font-face {
+  font-family: 'avenir-light';
+  src: url('../assets/fonts/AVENIR-LIGHT.ttf');
+}
+@font-face {
+  font-family: 'avenir-lightoblique';
+  src: url('../assets/fonts/AVENIR-LIGHTOBLIQUE.ttf');
+}
+@font-face {
+  font-family: 'avenir-mediumoblique';
+  src: url('../assets/fonts/AVENIR-MEDIUMOBLIQUE.ttf');
+}
+@font-face {
+  font-family: 'avenir-oblique';
+  src: url('../assets/fonts/AVENIR-OBLIQUE.ttf');
+}
+@font-face {
+  font-family: 'avenir-roman';
+  src: url('../assets/fonts/AVENIR-ROMAN.ttf');
+}
+
 :root {
   --x: 0;
   --mega-menu-column: 2;
@@ -30,6 +77,16 @@
 @layer components {
   .res-margine {
     @apply my-16 lg:mx-[25px] xl:mx-[100px] 2xl:mx-[200px];
+  }
+  .main_parag {
+    @apply flex flex-col text-left mb-5 max-sm:mx-5 ;
+  }
+  .birthguidetitle{
+    @apply font-optima mb-5 ;
+  }
+  .birthguidep{
+    @apply font-body_light mb-5 text-base max-sm:text-sm;
+
   }
 }
 

@@ -73,7 +73,7 @@ export default function Page() {
     <div>
       {text.map((it) => (
         <div className="mb-[20.8px] ">
-          <h3 className="mb-[20.8px] font-title">{it.title}</h3>
+          <h3 className="mb-[20.8px] font-optima">{it.title}</h3>
           {it.type === 0 ? (
             it.context.map((item) => <p>{item}</p>)
           ) : it.type === 1 ? (

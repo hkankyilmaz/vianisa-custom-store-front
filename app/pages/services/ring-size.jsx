@@ -15,11 +15,8 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
     backgroundColor: theme.palette.common.white,
     color: theme.palette.common.black,
   },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
+  [`&.${tableCellClasses.body}`]: {},
 }));
-
 const StyledTableRow = styled(TableRow)(({theme}) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
@@ -94,91 +91,110 @@ function CustomizedTables() {
     createData(2.8, 71.0, 22.6, 13.5, null, 'Z+2', null),
   ];
   return (
-    <Paper sx={{width: '100%'}}>
-      <TableContainer>
-        <Table aria-label="customized table">
-          <TableHead>
-            <TableRow>
+    <TableContainer className="overflow-scroll 2xl:min-w-[1000px]">
+      <Table aria-label="customized table" className=" max-sm:!w-[1000px]">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell
+              align="center"
+              colspan="2"
+              className="max-md:!text-xs !p-2"
+            >
+              Inside Circumference
+            </StyledTableCell>
+            <StyledTableCell
+              align="center"
+              className="max-md:!text-xs !p-2"
+              sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
+            >
+              Inside Diameter
+            </StyledTableCell>
+            <StyledTableCell
+              align="center"
+              rowspan="2"
+              className="max-md:!text-xs !p-2"
+              sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
+            >
+              US &amp; Canada
+            </StyledTableCell>
+            <StyledTableCell
+              align="center"
+              className="max-md:!text-xs !p-2"
+              rowspan="2"
+              sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
+            >
+              Europe
+            </StyledTableCell>
+            <StyledTableCell
+              align="center"
+              rowspan="2"
+              className="max-md:!text-xs !p-2"
+              sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
+            >
+              UK &amp; Australia
+            </StyledTableCell>
+            <StyledTableCell
+              align="center"
+              rowspan="2"
+              className="max-md:!text-xs !p-2"
+              sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
+            >
+              Japan &amp; Singapore
+            </StyledTableCell>
+          </TableRow>
+          <TableRow>
+            <StyledTableCell align="center" className="max-md:!text-xs !p-2">
+              IN
+            </StyledTableCell>
+            <StyledTableCell
+              align="center"
+              className="max-md:!text-xs !p-2"
+              sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
+            >
+              MM
+            </StyledTableCell>
+            <StyledTableCell
+              align="center"
+              className="max-md:!text-xs !p-2"
+              sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
+            >
+              MM
+            </StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row, idex) => (
+            <StyledTableRow key={idex}>
               <StyledTableCell
-                align="center"
-                colspan="2"
-                // sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
+                className="max-md:!text-xs !p-2"
+                component="th"
+                scope="row"
               >
-                Inside Circumference
+                {row.inside_in}
               </StyledTableCell>
-              <StyledTableCell
-                align="center"
-                sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
-              >
-                Inside Diameter
+              <StyledTableCell className="max-md:!text-xs !p-2" align="center">
+                {row.inside_mm}
               </StyledTableCell>
-              <StyledTableCell
-                align="center"
-                rowspan="2"
-                sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
-              >
-                US &amp; Canada
+              <StyledTableCell className="max-md:!text-xs !p-2" align="center">
+                {row.diameter}
               </StyledTableCell>
-              <StyledTableCell
-                align="center"
-                rowspan="2"
-                sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
-              >
-                Europe
+              <StyledTableCell className="max-md:!text-xs !p-2" align="center">
+                {row.us_canada}
               </StyledTableCell>
-              <StyledTableCell
-                align="center"
-                rowspan="2"
-                sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
-              >
-                UK &amp; Australia
+              <StyledTableCell className="max-md:!text-xs !p-2" align="center">
+                {row.europa}
               </StyledTableCell>
-              <StyledTableCell
-                align="center"
-                rowspan="2"
-                sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
-              >
-                Japan &amp; Singapore
+              <StyledTableCell className="max-md:!text-xs !p-2" align="center">
+                {row.uk_aust}
               </StyledTableCell>
-            </TableRow>
-            <TableRow>
-              <StyledTableCell align="center">IN</StyledTableCell>
-              <StyledTableCell
-                align="center"
-                sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
-              >
-                MM
+              <StyledTableCell className="max-md:!text-xs !p-2" align="center">
+                {row.japan}
               </StyledTableCell>
-              <StyledTableCell
-                align="center"
-                sx={{borderLeft: 1, borderColor: 'rgb(224,224,224,1)'}}
-              >
-                MM
-              </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row, idex) => (
-              <StyledTableRow key={idex}>
-                <StyledTableCell component="th" scope="row">
-                  {row.inside_in}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.inside_mm}
-                </StyledTableCell>
-                <StyledTableCell align="center">{row.diameter}</StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.us_canada}
-                </StyledTableCell>
-                <StyledTableCell align="center">{row.europa}</StyledTableCell>
-                <StyledTableCell align="center">{row.uk_aust}</StyledTableCell>
-                <StyledTableCell align="center">{row.japan}</StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Paper>
+            </StyledTableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
 export default function Page() {
@@ -607,7 +623,7 @@ export default function Page() {
     <div className=" page max-w-[1920px] m-auto px-[20px] pb-20 ">
       <Schema1
         title="refund policy"
-        className="max-w-[1400px] overflow-x-visible"
+        className=" !max-w-[1400px] overflow-x-visible"
         children={CustomizedTables()}
       />
     </div>

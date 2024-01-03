@@ -133,18 +133,12 @@ export default function Policy() {
       ],
     },
   ];
-  let coo = (
-    <p>
-      This Privacy Policy describes how eternate.com (the “Site” or “we”)
-      collects, uses, and discloses your Personal Information when you visit or
-      make a purchase from the Site.
-    </p>
-  );
+
   let newkomp = text.map((it, idxx) => {
     return (
       <>
         {idxx === 0 ? (
-          <p>
+          <p className="text-sm font-body_light">
             This Privacy Policy describes how eternate.com (the “Site” or “we”)
             collects, uses, and discloses your Personal Information when you
             visit or make a purchase from the Site.
@@ -152,13 +146,15 @@ export default function Policy() {
         ) : (
           ''
         )}
-        <div className="mb-[20.8px] ">
-          <h3 className="mb-[20.8px] font-title">{it.title}</h3>
+        <div className="mb-5 ">
+          <h3 className="mb-5 font-optima">{it.title}</h3>
           {it.context
-            ? it.context.map((ss) => <p className="text-[13px]">{ss}</p>)
+            ? it.context.map((ss) => (
+                <p className="text-sm font-body_light">{ss}</p>
+              ))
             : ''}
           {it.body ? (
-            <ul className="mb-[20.8px] text-[13px] font-body pl-9">
+            <ul className="mb-5 text-sm font-body_light pl-9">
               {it.body.map((punk) => (
                 <li>
                   <strong>{punk.title}</strong> {''}
@@ -174,7 +170,7 @@ export default function Policy() {
     );
   });
   return (
-    <div className=" page  m-auto px-[20px] pb-20">
+    <div className=" page  m-auto px-5 pb-20">
       <Schema1 title="privacy policy" children={newkomp}></Schema1>
     </div>
   );

@@ -194,13 +194,13 @@ export default function Policy() {
 
   let newkomp = (
     <>
-      <div className="mb-[20.8px] text-[13px]">
-        <h3 className="mb-[3px] font-title uppercase">
+      <div className="mb-[20.8px] text-sm">
+        <h3 className="mb-[3px] font-optima uppercase">
           <strong>{text.title}</strong>
         </h3>
         {text.context.map((parag) => (
           <>
-            <p key={parag} className="text-[13px] text-[#2f2f2f]">
+            <p key={parag} className="font-body_light text-sm text-[#2f2f2f]">
               {parag}
             </p>
             <br />
@@ -209,11 +209,11 @@ export default function Policy() {
       </div>
       {text.body.map((it, idxx) => (
         <div className="mb-[20.8px] " key={idxx}>
-          <h3 className="mb-[20.8px] font-title uppercase">
+          <h3 className="mb-[20.8px] font-optima uppercase">
             section {idxx + 1} - {it.title}
           </h3>
           {it.context.map((parag) => (
-            <p className="text-[13px] text-[#2f2f2f]">{parag}</p>
+            <p className="font-body_light text-sm text-[#2f2f2f]">{parag}</p>
           ))}
         </div>
       ))}
