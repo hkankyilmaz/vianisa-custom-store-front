@@ -5,36 +5,70 @@ export default function GridChanger({setGrid, grid}) {
   };
 
   return (
-    <div className="flex lg:w-[160px] justify-center items-center border-r h-full">
-      <div
-        onClick={() => handleClick('narrow')}
-        className="w-[35px] h-[35px] grid grid-cols-2 grid-rows-2 gap-[0.5px] mr-2 cursor-pointer"
-      >
-        {Array(4)
-          .fill('')
-          .map((idx) => (
-            <div
-              style={{backgroundColor: !grid ? '#737373' : ''}}
-              key={idx}
-              className="w-[15px] h-[15px] bg-slate-200 transition-all duration-[0.7s]"
-            ></div>
-          ))}
+    <>
+      <div className="sm:hidden flex justify-center items-center max-sm:border-l sm:border-r h-[44px] w-[95px]">
+        <div
+          onClick={() => handleClick('narrow')}
+          className="w-[18px] h-[18px] items-center justify-items-center gap-[3px] mx-[6px] cursor-pointer"
+        >
+          {Array(1)
+            .fill('')
+            .map((idx) => (
+              <div
+                style={{backgroundColor: !grid ? '#2f2f2f' : ''}}
+                key={idx}
+                className="w-[18px] h-[18px] bg-[#d5d5d5] transition-all duration-[0.35s] ease-in-out"
+              ></div>
+            ))}
+        </div>
+
+        <div
+          onClick={() => handleClick('wide')}
+          className="w-[18px] h-[18px] grid grid-cols-2 grid-rows-2 items-center justify-items-center gap-[3px] mx-[6px] cursor-pointer "
+        >
+          {Array(4)
+            .fill('')
+            .map((idx) => (
+              <div
+                style={{backgroundColor: grid ? '#2f2f2f' : ''}}
+                key={idx}
+                className="w-2 h-2 bg-[#d5d5d5] transition-all duration-[0.35s] ease-in-out"
+              ></div>
+            ))}
+        </div>
       </div>
 
-      <div
-        onClick={() => handleClick('wide')}
-        className="w-[35px] h-[35px] grid grid-cols-3 grid-rows-3 gap-[0.5px] cursor-pointer "
-      >
-        {Array(9)
-          .fill('')
-          .map((idx) => (
-            <div
-              style={{backgroundColor: grid ? '#737373' : ''}}
-              key={idx}
-              className="w-[10px] h-[10px] bg-slate-200 transition-all duration-[0.7s]"
-            ></div>
-          ))}
+      <div className="max-sm:hidden flex justify-center items-center max-sm:border-l sm:border-r h-full w-[115px]">
+        <div
+          onClick={() => handleClick('narrow')}
+          className="w-[18px] h-[18px] grid grid-cols-2 grid-rows-2 items-center justify-items-center gap-[3px] mx-[6px] cursor-pointer"
+        >
+          {Array(4)
+            .fill('')
+            .map((idx) => (
+              <div
+                style={{backgroundColor: !grid ? '#2f2f2f' : ''}}
+                key={idx}
+                className="w-2 h-2 bg-[#d5d5d5] transition-all duration-[0.35s] ease-in-out"
+              ></div>
+            ))}
+        </div>
+
+        <div
+          onClick={() => handleClick('wide')}
+          className="w-[18px] h-[18px] grid grid-cols-3 grid-rows-3 items-center justify-items-center gap-[3px] mx-[6px] cursor-pointer "
+        >
+          {Array(9)
+            .fill('')
+            .map((idx) => (
+              <div
+                style={{backgroundColor: grid ? '#2f2f2f' : ''}}
+                key={idx}
+                className="w-1 h-1 bg-[#d5d5d5] transition-all duration-[0.35s] ease-in-out"
+              ></div>
+            ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
