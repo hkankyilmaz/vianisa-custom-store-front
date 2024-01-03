@@ -22,10 +22,10 @@ export default async function handleRequest(
     styleSrc: [
       "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; ",
       "script-src * data: blob: 'unsafe-inline' 'unsafe-eval';",
-      "connect-src * data: blob: 'unsafe-inline';",
+      // "connect-src * data: blob: 'unsafe-inline';",
       "img-src * data: blob: 'unsafe-inline';",
       'frame-src * data: blob: ;',
-      "style-src * data: blob: 'unsafe-inline';",
+      // "style-src * data: blob: 'unsafe-inline';",
       "font-src * data: blob: 'unsafe-inline';",
     ],
   });
@@ -47,6 +47,7 @@ export default async function handleRequest(
   if (isbot(request.headers.get('user-agent'))) {
     await body.allReady;
   }
+  console.log(header);
   responseHeaders.set('Content-Type', 'text/html');
   responseHeaders.set('Content-Security-Policy', header);
 
