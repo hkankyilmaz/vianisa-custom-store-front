@@ -100,9 +100,15 @@ export default function Collection() {
     }
   }, []);
 
-  const handleMobileFilter = () => {
+  const openMobileFilter = () => {
     root_.setProperty('--filter-container-visibility', 'visible');
     root_.setProperty('--filter-form-position', 'translateX(0%)');
+    root_.setProperty('--see-result-button-position', 'translateY(0%)');
+    root_.setProperty('--see-result-button-opacity', '1');
+    root_.setProperty(
+      '--see-result-button-transition',
+      'transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.35s, opacity 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.35s',
+    );
     document.documentElement.style.overflowY = 'hidden';
   };
 
@@ -129,7 +135,7 @@ export default function Collection() {
             openMobileSort={openMobileSort}
             closeMobileSort={closeMobileSort}
           />
-          <FilterButton handleMobileFilter={handleMobileFilter} />
+          <FilterButton openMobileFilter={openMobileFilter} />
         </div>
       </div>
       <Pagination connection={collection.products}>
@@ -174,10 +180,10 @@ function SortButton({openMobileSort, closeMobileSort}) {
   );
 }
 
-function FilterButton({handleMobileFilter}) {
+function FilterButton({openMobileFilter}) {
   return (
     <div
-      onClick={handleMobileFilter}
+      onClick={openMobileFilter}
       className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] lg:hidden "
     >
       FILTER
@@ -201,15 +207,37 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
     params.set('maxprice', value[1]);
     navigate(`?${params.toString()}`);
   };
+
+  const closeMobileFilter = () => {
+    let root_ = document.documentElement.style;
+    root_.setProperty('--filter-container-visibility', 'hidden');
+    root_.setProperty('--filter-form-position', 'translateX(100%)');
+    root_.setProperty('--see-result-button-position', 'translateY(100%)');
+    root_.setProperty('--see-result-button-opacity', '0');
+    root_.setProperty(
+      '--see-result-button-transition',
+      'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+    );
+
+    document.documentElement.style.overflowY = 'auto';
+  };
+
   return (
     <div className="mt-[50px] flex max-lg:gap-0 max-[1139px]:gap-4 max-lg:m-0 max-[1139px]:ml-6 ml-[50px]">
       <div className="lg:min-w-[200px]">
+        <span
+          onClick={() => closeMobileFilter()}
+          className="filter-modal-overlay max-lg:bg-[#363636]/50 fixed left-0 top-0 bottom-0 right-0 z-10"
+        ></span>
         <Form
           method="get"
           onChange={(e) => submit(e.currentTarget)}
-          className="max-lg:hidden"
+          className="filter-form-mobile max-lg:fixed right-0 top-0 bottom-0 max-sm:left-[65px] max-sm:w-auto  max-lg:bg-[#efefef] max-lg:z-10 max-lg:w-[400px]"
         >
-          <div className="mb-8">
+          <header className="lg:hidden h-[60px] flex justify-center items-center font-playfair text-xl tracking-[4px] font-bold mb-[35px] border-b border-[#e0e0e0]">
+            <span>FILTERS</span>
+          </header>
+          <div className="mb-8  max-lg:px-6">
             <p className="font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] mb-2">
               PRICE
             </p>
@@ -230,7 +258,7 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
               <FilterForm.PriceInput value={value} idx={1} />
             </div>
           </div>
-          <div className="mb-4">
+          <div className="mb-4  max-lg:px-6">
             <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
               COLOR
             </p>
@@ -244,7 +272,7 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
               <FilterForm.ColorOrMetarialInput value="yellow" name="color" />
             </p>
           </div>
-          <div className="mb-8">
+          <div className="mb-8  max-lg:px-6">
             <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
               MATERIAL
             </p>
@@ -267,22 +295,37 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
               />
             </p>
           </div>
-          <button
-            style={{
-              display: params.size > 0 ? 'block' : 'none',
-              transition: 'all ease 0.35s',
-            }}
-            className="border flex items-center justify-center w-min h-full align-middle 
+          <div className="max-lg:hidden">
+            <button
+              style={{
+                display: params.size > 0 ? 'block' : 'none',
+                transition: 'all ease 0.35s',
+              }}
+              className="border flex items-center justify-center w-min h-full align-middle 
             mt-14 px-7 py-[14px] text-[11px] font-bold font-montserratMd uppercase bg-black
-          border-black tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-black"
-            type="reset"
-            onClick={() => {
-              setValue([0, 1000]);
-              navigate(`/collections/${handle}`);
-            }}
-          >
-            Reset
-          </button>
+            border-black tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-black"
+              type="reset"
+              onClick={() => {
+                setValue([0, 1000]);
+                navigate(`/collections/${handle}`);
+              }}
+            >
+              Reset
+            </button>
+          </div>
+          <div className="lg:hidden px-[30px] py-6 see-result-button absolute bottom-0 left-0 right-0 border-t border-[#e0e0e0]">
+            <button
+              style={{
+                transition: 'all ease 0.35s',
+              }}
+              className="max-sm:w-[200px] border flex items-center justify-center align-middle max-sm:ml-5 ml-8
+              px-7 py-[14px] text-[11px] font-bold font-montserratMd uppercase bg-[#2f2f2f]
+            border-[#2f2f2f] tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-[#2f2f2f]"
+              onClick={() => closeMobileFilter()}
+            >
+              SEE RESULTS
+            </button>
+          </div>
         </Form>
       </div>
       {grid ? (

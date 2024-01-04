@@ -31,7 +31,7 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
       {isLoaded && (
         <>
           <ProductContextProvider>
-            <FilterBarMobile />
+            {/* <FilterBarMobile /> */}
             <CartAside cart={cart} />
             <SearchAside />
             <MobileMenuAside menu={header.menu} />

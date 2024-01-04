@@ -27,6 +27,9 @@
   --product-options-form-position: translateY(100%);
   --filter-container-visibility: hidden;
   --filter-form-position: translateX(100%);
+  --see-result-button-position: translateY(100%);
+  --see-result-button-opacity: 0;
+  --see-result-button-transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --sort-modal-visibility: hidden;
   --sort-modal-position: translateY(100%);
   --col-list-btn-fg: #363636;
@@ -674,19 +677,29 @@ span._18kgold {
 * --------------------------------------------------
 */
 
-.filter-bar-container {
-  visibility: var(--filter-container-visibility);
-  transition: all 0.5s ease-in-out;
+@media not all and (min-width: 1024px) {
+  .filter-form-mobile {
+    transform: var(--filter-form-position);
+    transition: transform 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }
 }
-.filter-form-mobile {
-  transform: var(--filter-form-position);
-  transition: all 0.5s ease-in-out;
+
+.filter-modal-overlay {
+  visibility: var(--filter-container-visibility);
+}
+.filter-modal-desktop {
+  visibility: var(--filter-container-visibility);
+}
+.see-result-button {
+  transform: var(--see-result-button-position);
+  opacity: var(--see-result-button-opacity);
+  transition: var(--see-result-button-transition);
 }
 
 /*sort modal mobile*/
 .sort-modal {
   transform: var(--sort-modal-position);
-  transition: all 0.5s ease-in-out;
+  transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 .sort-modal-overlay {
   visibility: var(--sort-modal-visibility);
