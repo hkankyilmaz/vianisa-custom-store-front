@@ -1,5 +1,6 @@
 import React from 'react';
 import {useNavigate} from '@remix-run/react';
+import {CloseButton} from '../Header/Drawer';
 
 function SortForm({closeMobileSort}) {
   const navigate = useNavigate();
@@ -51,12 +52,15 @@ function SortForm({closeMobileSort}) {
         </div>
       </div>
       <div className="modal-shadow lg:hidden w-full z-20 [&>p:hover]:underline cursor-[initial] [&>p]:mb-2 fixed left-0 right-0 bottom-0">
-        <div className="sort-modal absolute bottom-0 right-0 left-0 flex justify-center h-min items-center flex-col py-[18px] bg-[#efefef] ">
-          <header className="w-full text-center px-5 py-[13px]  text-[#2f2f2f] text-xl font-playfair tracking-[4px] font-bold">
+        <div className="sort-modal absolute bottom-0 right-0 left-0 flex justify-center h-min items-center flex-col pb-[18px] bg-[#efefef] ">
+          <header className="w-full text-center px-5 py-[13px]  text-[#2f2f2f] text-xl font-playfair tracking-[4px] font-bold border-b">
+            <div className="absolute left-[-10px]">
+              <CloseButton onClick={() => closeMobileSort()} />
+            </div>
             SORT
           </header>
           <p
-            className="sort-btn"
+            className="sort-btn mt-[13px]"
             onClick={() => handleClick('COLLECTION_DEFAULT', false)}
           >
             FEATURED

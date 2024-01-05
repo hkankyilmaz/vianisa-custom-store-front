@@ -80,7 +80,7 @@ Collections Page Sort Form
 -----------------------------------------
 */
 .sort-btn {
-  @apply text-[#2f2f2f] hover:underline text-center text-sm tracking-widest px-14 py-[10px] uppercase w-full active:bg-white select-none cursor-pointer;
+  @apply text-[#2f2f2f] hover:underline text-center text-xs font-montserratMd tracking-widest px-14 py-[12px] uppercase w-full active:bg-white select-none cursor-pointer;
 }
 /*
 ----------------------------------------- 
