@@ -655,7 +655,7 @@ span._18kgold {
   border-radius: 100%;
 
   & + label {
-    margin-left: 18px;
+    padding-left: 18px;
   }
 }
 
@@ -723,4 +723,25 @@ span._18kgold {
 .MuiSlider-track {
   color: #6d6d6d;
   margin-bottom: 20px !important;
+}
+
+@media not all and (min-width: 640px) {
+  .MuiSlider-valueLabel::before {
+    display: none !important;
+  }
+  .MuiSlider-valueLabel::before {
+    background-color: 'unset' !important;
+  }
+  .MuiSlider-thumb {
+    box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+.accordion__details {
+  overflow: hidden;
+  height: 0;
+}
+
+.open .accordion__details {
+  height: auto;
 }

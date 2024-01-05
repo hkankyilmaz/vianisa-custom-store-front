@@ -142,7 +142,7 @@ const Drawer = ({
   );
 };
 
-const CloseButton = ({onClick}) => {
+export function CloseButton({onClick}) {
   return (
     <button
       className="ml-[18px] sm:ml-[30px] cursor-pointer relative before:cursor-pointer before:-inset-y-[8px] before:-inset-x-[12px] before:absolute"
@@ -162,7 +162,7 @@ const CloseButton = ({onClick}) => {
       </svg>
     </button>
   );
-};
+}
 
 const InstagramButton = () => {
   return (

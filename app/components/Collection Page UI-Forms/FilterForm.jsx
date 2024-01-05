@@ -27,6 +27,7 @@ export function ColorOrMetarialInput({value, name}) {
       originalString.slice(index)
     );
   }
+
   return (
     <>
       <div className="relative">
@@ -39,7 +40,7 @@ export function ColorOrMetarialInput({value, name}) {
         />
         <span className={`${name == 'color' ? value : `_${value}`}`}></span>
         <label
-          className=" uppercase"
+          className="uppercase w-full block"
           htmlFor={`${name == 'color' ? value : `_${value}`}`}
         >
           {name == 'color' ? value : _value}

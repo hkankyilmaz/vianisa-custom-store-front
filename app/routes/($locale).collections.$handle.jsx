@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useRef, useState, useEffect} from 'react';
 import {json, redirect} from '@shopify/remix-oxygen';
 import {Form, useLocation} from '@remix-run/react';
 import {useLoaderData, useNavigate, useSubmit} from '@remix-run/react';
@@ -8,6 +8,13 @@ import useGetSearchParams from '~/hooks/useGetSearchParams';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
 import useFindCollectionMaxAndMinPrice from '~/hooks/useFindCollectionMaxAndMinPrice';
 import {AiOutlineDown} from 'react-icons/ai';
+
+import {Link, useMatches} from '@remix-run/react';
+import gsap from 'gsap';
+import CustomEase from 'gsap/CustomEase';
+import useIsomorphicLayoutEffect, {stripUrl} from '~/utils';
+import {CloseButton} from '~/components/Header/Drawer';
+
 import {
   ProductItem,
   GridChanger,
@@ -197,7 +204,6 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   let url = useLocation();
   let params = new URLSearchParams(url.search);
   const handleOnChangeCommitted = (event, newValue) => {
@@ -222,6 +228,70 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
     document.documentElement.style.overflowY = 'auto';
   };
 
+  const [openAccordion, setOpenAccordion] = useState(null);
+  const accordionRefs = useRef([]);
+  const refsHorizontal = Array.from({length: 3}, () => useRef(null));
+  const refsVertical = Array.from({length: 3}, () => useRef(null));
+
+  const handleAccordionClick = (index) => {
+    const refHorizontal = refsHorizontal[index];
+    const refVertical = refsVertical[index];
+    if (index !== openAccordion) {
+      if (openAccordion !== null) {
+        const currentRefHorizontal = refsHorizontal[openAccordion];
+        const currentRefVertical = refsVertical[openAccordion];
+        gsap.to(currentRefHorizontal.current, {
+          rotate: 90,
+          duration: 0.4,
+          opacity: 1,
+        });
+        gsap.to(currentRefVertical.current, {rotate: 0, duration: 0.4});
+      }
+    }
+    if (index !== openAccordion) {
+      setOpenAccordion(index);
+      gsap.to(refHorizontal.current, {rotate: 270, duration: 0.4, opacity: 0});
+      gsap.to(refVertical.current, {rotate: 180, duration: 0.4});
+    } else {
+      setOpenAccordion(null);
+      gsap.to(refHorizontal.current, {rotate: 90, duration: 0.4, opacity: 1});
+      gsap.to(refVertical.current, {rotate: 0, duration: 0.4});
+    }
+    if (index === openAccordion) {
+      gsap.to(
+        accordionRefs.current[index].querySelector('.accordion__details'),
+        {
+          height: 0,
+          duration: 0.35,
+          ease: 'power1.inOut',
+        },
+      );
+    } else {
+      if (openAccordion !== null) {
+        gsap.to(
+          accordionRefs.current[openAccordion].querySelector(
+            '.accordion__details',
+          ),
+          {
+            height: 0,
+            duration: 0.35,
+            ease: 'power1.inOut',
+          },
+        );
+      }
+      setOpenAccordion(index);
+      gsap.fromTo(
+        accordionRefs.current[index].querySelector('.accordion__details'),
+        {height: 0},
+        {
+          height: 'auto',
+          duration: 0.35,
+          ease: 'power1.inOut',
+        },
+      );
+    }
+  };
+
   return (
     <div className="mt-[50px] flex max-lg:gap-0 max-[1139px]:gap-4 max-lg:m-0 max-[1139px]:ml-6 ml-[50px]">
       <div className="lg:min-w-[200px]">
@@ -234,66 +304,158 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
           onChange={(e) => submit(e.currentTarget)}
           className="filter-form-mobile max-lg:fixed right-0 top-0 bottom-0 max-sm:left-[65px] max-sm:w-auto  max-lg:bg-[#efefef] max-lg:z-10 max-lg:w-[400px]"
         >
-          <header className="lg:hidden h-[60px] flex justify-center items-center font-playfair text-xl tracking-[4px] font-bold mb-[35px] border-b border-[#e0e0e0]">
+          <header className="lg:hidden h-[60px] flex justify-center items-center font-playfair text-xl tracking-[4px] font-bold sm:mb-[35px] border-b border-[#e0e0e0]">
             <span>FILTERS</span>
-          </header>
-          <div className="mb-8  max-lg:px-6">
-            <p className="font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] mb-2">
-              PRICE
-            </p>
-            <Slider
-              className="max-w-[100%] mb-1"
-              sx={{color: 'gray'}}
-              size="small"
-              value={value}
-              onChange={handleChange}
-              onChangeCommitted={handleOnChangeCommitted}
-              valueLabelDisplay="auto"
-              max={maxValue}
-              min={0}
-            />
-            <div className="flex justify-between ">
-              <FilterForm.PriceInput value={value} idx={0} />
-              <FilterForm.Seperator />
-              <FilterForm.PriceInput value={value} idx={1} />
+            <div className="absolute right-[30px]">
+              <CloseButton onClick={() => closeMobileFilter()} />
             </div>
-          </div>
-          <div className="mb-4  max-lg:px-6">
-            <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
-              COLOR
-            </p>
-            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
-              <FilterForm.ColorOrMetarialInput value="rose" name="color" />
-            </p>
-            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
-              <FilterForm.ColorOrMetarialInput value="white" name="color" />
-            </p>
-            <p className="mb-8 font-questrial hover:underline hover:cursor-pointer">
-              <FilterForm.ColorOrMetarialInput value="yellow" name="color" />
-            </p>
-          </div>
-          <div className="mb-8  max-lg:px-6">
-            <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
-              MATERIAL
-            </p>
-            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
-              <FilterForm.ColorOrMetarialInput
-                value="10kgold"
-                name="meterial"
-              />
-            </p>
-            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
-              <FilterForm.ColorOrMetarialInput
-                value="14kgold"
-                name="meterial"
-              />
-            </p>
-            <p className="mb-8 font-questrial hover:underline hover:cursor-pointer">
-              <FilterForm.ColorOrMetarialInput
-                value="18kgold"
-                name="meterial"
-              />
-            </p>
+          </header>
+          <div className="accordion__container ">
+            <div
+              className={`accordion__item max-sm:border-b border-[#e0e0e0] ${
+                openAccordion === 0 ? 'open' : ''
+              }`}
+              ref={(e) => (accordionRefs.current[0] = e)}
+            >
+              <div
+                className="accordion__header px-6 py-5 cursor-pointer sm:hidden"
+                onClick={() => handleAccordionClick(0)}
+              >
+                <p className=" relative accordion__name  font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
+                  PRICE
+                  <span
+                    ref={refsHorizontal[0]}
+                    className='absolute bottom-2 right-0 after:content-[""] w-[11px] h-[1px] bg-[#2f2f2f] rotate-90'
+                  ></span>
+                  <span
+                    ref={refsVertical[0]}
+                    className='absolute bottom-2 right-0 after:content-[""] w-[11px] h-[1px] bg-[#2f2f2f]'
+                  ></span>
+                </p>
+              </div>
+              <div className="accordion__details sm:!overflow-visible sm:!h-auto">
+                <div className="mb-8  max-lg:px-6">
+                  <p className="font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] mb-2 max-sm:hidden">
+                    PRICE
+                  </p>
+                  <Slider
+                    className="max-w-[100%] mb-1"
+                    sx={{color: 'gray'}}
+                    size="small"
+                    value={value}
+                    onChange={handleChange}
+                    onChangeCommitted={handleOnChangeCommitted}
+                    valueLabelDisplay="auto"
+                    max={maxValue}
+                    min={0}
+                  />
+                  <div className="flex justify-between ">
+                    <FilterForm.PriceInput value={value} idx={0} />
+                    <FilterForm.Seperator />
+                    <FilterForm.PriceInput value={value} idx={1} />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className={`accordion__item max-sm:border-b border-[#e0e0e0]  ${
+                openAccordion === 1 ? 'open' : ''
+              }`}
+              ref={(e) => (accordionRefs.current[1] = e)}
+            >
+              <div
+                className="accordion__header px-6 py-5 cursor-pointer sm:hidden"
+                onClick={() => handleAccordionClick(1)}
+              >
+                <p className="relative accordion__name  font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
+                  COLOR
+                  <span
+                    ref={refsHorizontal[1]}
+                    className='absolute bottom-2 right-0 after:content-[""] w-[11px] h-[1px] bg-[#2f2f2f] rotate-90'
+                  ></span>
+                  <span
+                    ref={refsVertical[1]}
+                    className='absolute bottom-2 right-0 after:content-[""] w-[11px] h-[1px] bg-[#2f2f2f]'
+                  ></span>
+                </p>
+              </div>
+              <div className="accordion__details sm:!h-auto">
+                <div className="mb-4  max-lg:px-6">
+                  <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] max-sm:hidden">
+                    COLOR
+                  </p>
+                  <p
+                    htmlFor="rose"
+                    className="mb-3 font-questrial hover:underline hover:cursor-pointer"
+                  >
+                    <FilterForm.ColorOrMetarialInput
+                      value="rose"
+                      name="color"
+                    />
+                  </p>
+                  <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
+                    <FilterForm.ColorOrMetarialInput
+                      value="white"
+                      name="color"
+                    />
+                  </p>
+                  <p className="mb-8 font-questrial hover:underline hover:cursor-pointer">
+                    <FilterForm.ColorOrMetarialInput
+                      value="yellow"
+                      name="color"
+                    />
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              className={`accordion__item max-sm:border-b border-[#e0e0e0]  ${
+                openAccordion === 2 ? 'open' : ''
+              }`}
+              ref={(e) => (accordionRefs.current[2] = e)}
+            >
+              <div
+                className="accordion__header px-6 py-5 cursor-pointer sm:hidden"
+                onClick={() => handleAccordionClick(2)}
+              >
+                <p className="relative accordion__name  font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
+                  MATERIAL
+                  <span
+                    ref={refsHorizontal[2]}
+                    className='absolute bottom-2 right-0 after:content-[""] w-[11px] h-[1px] bg-[#2f2f2f] rotate-90'
+                  ></span>
+                  <span
+                    ref={refsVertical[2]}
+                    className='absolute bottom-2 right-0 after:content-[""] w-[11px] h-[1px] bg-[#2f2f2f]'
+                  ></span>
+                </p>
+              </div>
+              <div className="accordion__details sm:!h-auto">
+                <div className="mb-8  max-lg:px-6">
+                  <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] max-sm:hidden">
+                    MATERIAL
+                  </p>
+                  <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
+                    <FilterForm.ColorOrMetarialInput
+                      value="10kgold"
+                      name="meterial"
+                    />
+                  </p>
+                  <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
+                    <FilterForm.ColorOrMetarialInput
+                      value="14kgold"
+                      name="meterial"
+                    />
+                  </p>
+                  <p className="mb-8 font-questrial hover:underline hover:cursor-pointer">
+                    <FilterForm.ColorOrMetarialInput
+                      value="18kgold"
+                      name="meterial"
+                    />
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="max-lg:hidden">
             <button
