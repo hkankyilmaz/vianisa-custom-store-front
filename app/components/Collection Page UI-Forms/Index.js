@@ -1,17 +1,15 @@
 import GridChanger from './GridChanger';
 import ProductItem from './ProductItem';
-import SorthForm from './SorthForm';
+import SortForm from './SortForm';
 import LoadMoreButton from './LoadMoreButton';
 import PageHeader from './PageHeader';
-import FilterBarMobile from './FilterBarMobile';
 import * as FilterForm from './FilterForm';
 
 export {
   GridChanger,
   ProductItem,
-  SorthForm,
+  SortForm,
   LoadMoreButton,
   PageHeader,
-  FilterBarMobile,
   FilterForm,
 };

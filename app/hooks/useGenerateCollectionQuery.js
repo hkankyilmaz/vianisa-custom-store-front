@@ -121,7 +121,11 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
         ...MoneyProductItem
       }
     }
-    variants(first: 30) {
+    options(first:250){
+      name
+      values
+    }
+    variants(first: 250) {
       nodes {
         image{
           id

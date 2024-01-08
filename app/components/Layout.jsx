@@ -9,7 +9,6 @@ import {
 } from '~/components/Search';
 import {CartMain} from './Cart';
 import AnnouncementBar from './AnnouncementBar';
-import FilterBarMobile from './Collection Page UI-Forms/FilterBarMobile';
 import gsap from 'gsap';
 import ProductModal from './Product Popover/ProductModal';
 import {ProductContextProvider} from '~/store/productOptionsContext';
@@ -31,7 +30,6 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
       {isLoaded && (
         <>
           <ProductContextProvider>
-            <FilterBarMobile />
             <CartAside cart={cart} />
             <SearchAside />
             <MobileMenuAside menu={header.menu} />
