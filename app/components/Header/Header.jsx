@@ -297,7 +297,7 @@ function HeaderCtas({isLoggedIn, cart}) {
         </svg>
       </NavLink>
       <SearchToggle />
-      <WishlistToggle />
+      {/* <WishlistToggle /> */}
       <CartToggle />
     </nav>
   );

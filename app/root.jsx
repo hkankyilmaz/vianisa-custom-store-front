@@ -117,6 +117,10 @@ export default function App() {
           src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=YvBnBA"
         />
 
+        {/* <script
+        type="text/javascript"
+        src="https://cdn.etsy.reputon.com/assets/widget.js?shop=vianisa.myshopify.com"
+      ></script> */}
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
         <LiveReload nonce={nonce} />
