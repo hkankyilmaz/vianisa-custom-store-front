@@ -6,6 +6,7 @@ import HomePageBanner from '~/components/HomePageBanner/Index';
 import FeaturedCollection from '~/components/Featured Collections/FeaturedCollection';
 import CollectionList from '~/components/Cllection List/Index';
 import BannerSlider from '../components/Header/Slider';
+import EtsyList from '../components/EtsyReviews/Index';
 
 export const meta = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -67,7 +68,9 @@ export default function Homepage() {
         data={data.featuredCollectionTwo}
         className="!py-0 lg:!py-0"
       />
-
+      <div className="my-10  flex flex-row text-center justify-center items-center">
+        <EtsyList className="grid  grid-cols-4  gap-4" />
+      </div>
       {/* <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} /> */}
       {/* <div id="fb-root"></div>
