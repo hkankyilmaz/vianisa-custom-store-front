@@ -32,12 +32,12 @@ export async function loader({request, params, context}) {
   //get the url serach params and generate the query
   const url = new URL(request.url);
   const colors = url.searchParams.getAll('color');
-  const meterials = url.searchParams.getAll('meterial');
+  const material = url.searchParams.getAll('material');
   const minPrice = url.searchParams.get('minprice');
   const maxPrice = url.searchParams.get('maxprice');
   const sortkey = url.searchParams.get('sortkey');
   const reverse = url.searchParams.get('reverse');
-  const searchParams = useGetSearchParams(colors, meterials);
+  const searchParams = useGetSearchParams(colors, material);
   const COLLECTION_QUERY = useGenerateCollectionQuery(
     searchParams,
     null,
@@ -93,6 +93,7 @@ export default function Collection() {
 
   const [openFilterDesk, setOpenFilterDesk] = useState(false);
   const [value, setValue] = useState([0, 1000]);
+  /* const [colorValue, setColorValue] = useState('yellow'); */
   const [grid, setGrid] = useState(true);
   let root_ = document.documentElement.style;
 
@@ -102,6 +103,12 @@ export default function Collection() {
     let params = new URLSearchParams(url.search);
     let minPrice = params.get('minprice');
     let maxPrice = params.get('maxprice');
+    /*  let color = params.get('color');
+    console.log('useeffect color', colorValue);
+    console.log('useeffect maxprice', maxPrice); */
+    /* if (colorValue) {
+      setColorValue(colorValue);
+    } */
     if (minPrice && maxPrice) {
       setValue([+minPrice, +maxPrice]);
     }
@@ -152,6 +159,8 @@ export default function Collection() {
               grid={grid}
               value={value}
               setValue={setValue}
+              /*  colorValue={colorValue}
+              setColorValue={setColorValue} */
               products={nodes}
               maxValue={maxValue}
               minValue={minValue}
@@ -198,19 +207,36 @@ function FilterButton({openMobileFilter}) {
   );
 }
 
-function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
+function ProductsGrid({
+  products,
+  value,
+  setValue,
+  colorValue,
+  setColorValue,
+  maxValue,
+  grid,
+  handle,
+}) {
   const submit = useSubmit();
   const navigate = useNavigate();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  /*   let array = products.map((product) => product.options);
+  console.log(array);
+  let mater = array.map((item) => item.find((it) => it.name === 'Material'));
+  let cole = array.map((item) => item.find((it) => it.name === 'Color'));
+  console.log(mater);
+  console.log(groupedData); */
   let url = useLocation();
   let params = new URLSearchParams(url.search);
   const handleOnChangeCommitted = (event, newValue) => {
     setValue(newValue);
+    /*  console.log('colorvalue', colorValue); */
     // Add a third parameter.
     params.set('minprice', value[0]);
     params.set('maxprice', value[1]);
+    /*  params.set('color', colorValue); */
     navigate(`?${params.toString()}`);
   };
 
@@ -301,7 +327,12 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
         ></span>
         <Form
           method="get"
-          onChange={(e) => submit(e.currentTarget)}
+          onChange={(e) => {
+            /* params.set('minprice', value[0]);
+            params.set('maxprice', value[1]); */
+            submit(e.currentTarget);
+            console.log(e);
+          }}
           className="filter-form-mobile max-lg:fixed right-0 top-0 bottom-0 max-sm:left-[65px] max-sm:w-auto  max-lg:bg-[#efefef] max-lg:z-10 max-lg:w-[400px]"
         >
           <header className="lg:hidden h-[60px] flex justify-center items-center font-playfair text-xl tracking-[4px] font-bold sm:mb-[35px] border-b border-[#e0e0e0]">
@@ -438,19 +469,19 @@ function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
                   <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
                     <FilterForm.ColorOrMetarialInput
                       value="10kgold"
-                      name="meterial"
+                      name="material"
                     />
                   </p>
                   <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
                     <FilterForm.ColorOrMetarialInput
                       value="14kgold"
-                      name="meterial"
+                      name="material"
                     />
                   </p>
                   <p className="mb-8 font-questrial hover:underline hover:cursor-pointer">
                     <FilterForm.ColorOrMetarialInput
                       value="18kgold"
-                      name="meterial"
+                      name="material"
                     />
                   </p>
                 </div>
