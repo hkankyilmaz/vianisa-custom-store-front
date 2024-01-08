@@ -19,10 +19,6 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // const height = ref.current.offsetHeight;
-    // gsap.set('.homepage-banner', {
-    //   '--header-announcemed-height': `calc(100vh - ${height}px)`,
-    // });
     setIsLoaded(true);
   }, []);
 
