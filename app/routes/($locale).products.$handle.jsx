@@ -668,7 +668,6 @@ function ProductForm({product, selectedVariant, variants}) {
   let array = product.options
     .map((option) => (option.values.length === 1 ? option : null))
     .filter((x) => x !== null);
-  console.log(array);
   // setotherop(array);
   return (
     <div className="product-form border-[#bfbfbf] font-body">
@@ -697,7 +696,7 @@ function ProductForm({product, selectedVariant, variants}) {
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}
         onClick={() => {
-          window.location.href = window.location.href + '#cart-aside';
+          // window.location.href = window.location.href + '#cart-aside';
         }}
         lines={
           selectedVariant

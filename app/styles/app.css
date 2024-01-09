@@ -2,6 +2,10 @@
   --aside-width: 400px;
   --cart-aside-summary-height-with-discount: 300px;
   --cart-aside-summary-height: 250px;
+  --cart-overlay-opacity: 0;
+  --cart-overlay-visibility: hidden;
+  --cart-aside-position: translateX(100%);
+  --cart-aside-visibility: hidden;
   --grid-item-width: 355px;
   --header-height: 90px;
   --color-dark: #000;
@@ -53,6 +57,10 @@ html {
   overflow-x: hidden !important;
 }
 
+select {
+  background-image: none;
+}
+
 /*
 * --------------------------------------------------
 * components/Aside
@@ -68,6 +76,31 @@ aside {
   right: calc(-1 * var(--aside-width));
   top: 0;
   transition: transform 200ms ease-in-out;
+}
+
+.cart-overlay {
+  opacity: var(--cart-overlay-opacity);
+  visibility: var(--cart-overlay-visibility);
+  transition: opacity 0.4s cubic-bezier(0.645, 0.045, 0.355, 1),
+    visibility 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.cart-aside {
+  background-color: #fff;
+  box-shadow: 2px 0 10px #36363633, -2px 0 10px #36363633;
+  height: 100vh;
+  max-width: var(--aside-width);
+  min-width: var(--aside-width);
+  position: fixed;
+  right: 0;
+  transform: var(--cart-aside-position);
+  visibility: var(--cart-aside-visibility);
+  transition: transform 500ms cubic-bezier(0.645, 0.045, 0.355, 1),
+    visibility 500ms cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+#cart-aside {
+  z-index: 50;
 }
 
 aside header {
