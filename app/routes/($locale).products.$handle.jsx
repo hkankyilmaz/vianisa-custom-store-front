@@ -183,10 +183,15 @@ function ViewPlanMain({price, className, close}) {
         className
       }
     >
-      <div className="w-[432px] my-4 rounded-md mx-36 overflow-y-scroll h-[767px]  p-8 bg-slate-100">
+      <div className="w-[432px] my-4 rounded-md mx-36 h-[767px] p-8 bg-white">
         <div className="flex  items-center content-center justify-between">
-          <p className="font-optima text-2xl">Get it now, pay later</p>
-          <button className="p-2  hover:bg-slate-300 " onClick={close}>
+          <p className="font-optima text-[30px] font-bold tracking-[0.6px]">
+            Get it now, pay later
+          </p>
+          <button
+            className="p-3 rounded-lg  hover:bg-[#f4f1fe] "
+            onClick={close}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               x="0px"
@@ -200,83 +205,107 @@ function ViewPlanMain({price, className, close}) {
           </button>
         </div>
         <div className="mt-4">
-          <p className="font-body_light text-base text-left">
-            Sample plans for {price.currencyCode == 'USD' ? '$' : NULL}
-            {price.amount} purchase
+          <p className="mb-4 font-body_light text-[19px] text-left text-[#121212B3]">
+            Sample plans for{' '}
+            <b>
+              {price.currencyCode == 'USD' ? '$' : NULL}
+              {price.amount}
+            </b>{' '}
+            purchase
           </p>
         </div>
-        <div className="mt-5 border border-[#D9D9D9] bg-[#ebebeb] rounded-md	text-left">
-          <div className="üst p-3 border-b-2 border-[#D9D9D9] ">
-            <div className="flex justify-between">
-              <div className="flex ">
-                <p className="font-body_light text-gray-500">
+        <div className="px-[21px] py-[17px] border border-[#D9D9D9] bg-[#F5F5F5] rounded-md text-left">
+          <div className="pb-[21px] üst border-b border-[#D9D9D9] ">
+            <div className="flex justify-between mb-3">
+              <div className="flex justify-center items-end">
+                <b className="font-body_light text-[#121212B3] text-[18px]">
                   {price.currencyCode == 'USD' ? '$' : NULL}
                   {price.amount / 4}
+                </b>
+                <p className="font-body_light text-[#121212B3] text-[16px]">
+                  &nbsp;/ 2 weeks
                 </p>
-                <p className="font-body_light text-gray-500"> / 2 weeks</p>
               </div>
-              <p className="font-body_light text-gray-500">8 weeks</p>
+              <p className="font-body_light  text-[#121212B3] text-[15px] bg-[#F0F2F4] py-[2px]">
+                8 weeks
+              </p>
             </div>
-            <div className="flex justify-between pr-14 ">
-              <div>
-                <p className="font-body_light text-gray-500">APR</p>
-                <p className="font-body_light text-gray-500">0%</p>
+            <div className="flex">
+              <div className="w-[80px] mr-3">
+                <p className="font-body_light text-[#121212B3]">APR</p>
+                <p className="font-body_light text-[#121212B3] text-[18px]">
+                  0%
+                </p>
               </div>
-              <div>
-                <p className="font-body_light text-gray-500">Interest</p>
-                <p className="font-body_light text-gray-500">$0.00</p>
+              <div className="w-[80px] mr-3">
+                <p className="font-body_light text-[#121212B3]">Interest</p>
+                <p className="font-body_light text-[#121212B3] text-[18px]">
+                  $0.00
+                </p>
               </div>
-              <div className="">
-                <p className="font-body_light text-gray-500">Total</p>
-                <p className="font-body_light text-gray-500">
+              <div className="w-[80px] mr-3">
+                <p className="font-body_light text-[#121212B3]">Total</p>
+                <p className="font-body_light text-[#121212B3] text-[18px]">
                   {price.currencyCode == 'USD' ? '$' : NULL}
                   {price.amount}
                 </p>
               </div>
             </div>
           </div>
-          <div className="alt p-3   rounded-md	 ">
-            <div className="flex justify-between">
-              <div className="flex ">
-                <p className="font-body_light text-gray-500">
+          <div className="pt-[21px] alt rounded-md">
+            <div className="flex justify-between mb-3">
+              <div className="flex items-end">
+                <b className="font-body_light text-[#121212B3] text-[18px]">
                   ${yuvarlanmisSayi}0
+                </b>
+                <p className="font-body_light text-[#121212B3] text-[16px]">
+                  &nbsp;/ month
                 </p>
-                <p className="font-body_light text-gray-500"> / month</p>
               </div>
-              <p className="font-body_light text-gray-500">12 month</p>
+              <p className="font-body_light  text-[#121212B3] text-[15px] bg-[#F0F2F4] py-[2px]">
+                12 month
+              </p>
             </div>
-            <div className="flex justify-between pr-14">
-              <div>
-                <p className="font-body_light text-gray-500">APR</p>
-                <p className="font-body_light text-gray-500">15%</p>
+            <div className="flex">
+              <div className="w-[80px] mr-3">
+                <p className="font-body_light text-[#121212B3]">APR</p>
+                <p className="font-body_light text-[#121212B3] text-[18px]">
+                  15%
+                </p>
               </div>
-              <div>
-                <p className="font-body_light text-gray-500">Interest</p>
-                <p className="font-body_light text-gray-500">${toplam_faiz}</p>
+              <div className="w-[80px] mr-3">
+                <p className="font-body_light text-[#121212B3]">Interest</p>
+                <p className="font-body_light text-[#121212B3] text-[18px]">
+                  ${toplam_faiz}
+                </p>
               </div>
-              <div className="">
-                <p className="font-body_light text-gray-500">Total</p>
-                <p className="font-body_light text-gray-500">${geriodeme}</p>
+              <div className="w-[80px] mr-3">
+                <p className="font-body_light text-[#121212B3]">Total</p>
+                <p className="font-body_light text-[#121212B3] text-[18px]">
+                  ${geriodeme}
+                </p>
               </div>
             </div>
           </div>
         </div>
-        <div className="bg-[#5a31f4] text-white rounded-md mt-3">
-          <button className="text-xs p-2 ">Continue to checkout</button>
+        <div className="bg-[#5a31f4] hover:bg-[#3c0def] text-white rounded-[4px] mt-3 ">
+          <button className="text-[13px] p-2 h-[42px] w-full">
+            Continue to checkout
+          </button>
         </div>
         <div>
-          <p className="text-xs m-2">
+          <p className="text-[11px] m-[5px] text-[#121212B3]">
             Checking your eligibility won’t affect your credit.
           </p>
         </div>
-        <div className="text-left mt-10">
-          <p className="text-xs text-gray-500">
+        <div className="text-left mt-8">
+          <p className="text-[11px] text-[#121212] tracking-[0.52px] text-opacity-60">
             The estimated payment amount excludes taxes and shipping. Rates
             range from 0-36% APR. Payment options through Shop Pay Installments
             are subject to an eligibility check and are provided by these
             lending partners:{' '}
             <a
-              class="underline"
+              className="hover:text-[#3f22ab] underline"
               href="https://www.affirm.com/lenders"
               target="_blank"
               aria-describedby="shopify-payment-terms-modal-warning-text"
@@ -287,7 +316,7 @@ function ViewPlanMain({price, className, close}) {
             required. More options may be available upon approval. State notices
             to consumers:{' '}
             <a
-              class="underline"
+              className="hover:text-[#3f22ab] underline"
               href="https://www.affirm.com/licenses"
               target="_blank"
               aria-describedby="shopify-payment-terms-modal-warning-text"
@@ -297,14 +326,14 @@ function ViewPlanMain({price, className, close}) {
             .
           </p>
         </div>
-        <div className="my-5 flex items-center justify-center ">
+        <div className="mt-[19px] mb-3 flex items-center justify-center ">
           <svg
+            className="w-[88px] "
             xmlns:xlink="http://www.w3.org/1999/xlink"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 145 35"
-            width="72"
-            height="17"
+            preserveAspectRatio="xMidYMin slice"
           >
             <path
               fill="#5A31F4"
@@ -317,7 +346,7 @@ function ViewPlanMain({price, className, close}) {
           </svg>
         </div>
         <div className="flex">
-          <p className="text-xs text-gray-500">
+          <p className="text-[#121212] text-[11px] text-opacity-60">
             Installments in partnership with
             <svg
               xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -830,7 +859,15 @@ function AddToCartButton({analytics, children, disabled, lines, onClick}) {
           border-[#2f2f2f] tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-[#2f2f2f]"
             style={{transition: 'all ease 150ms'}}
             type="submit"
-            onClick={onClick}
+            onClick={() => {
+              onClick();
+              let root_ = document.documentElement.style;
+              root_.setProperty('--cart-overlay-opacity', '1');
+              root_.setProperty('--cart-overlay-visibility', 'visible');
+              root_.setProperty('--cart-aside-position', 'translateX(0%)');
+              root_.setProperty('--cart-aside-visibility', 'visible');
+              document.documentElement.style.overflowY = 'hidden';
+            }}
             disabled={disabled ?? fetcher.state !== 'idle'}
           >
             {children}
