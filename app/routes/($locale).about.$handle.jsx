@@ -1,64 +1,57 @@
 import {json} from '@shopify/remix-oxygen';
-import {Link, useLoaderData} from '@remix-run/react';
-import OurValuesPage from '../pages/abouts/our-values';
-import OurBrandPage from '../pages/abouts/our-brand';
-import ContactUsPage from '../pages/abouts/contact-us';
-import ConflictFreePage from '../pages/abouts/conflict-free-diamonds';
+import {useLoaderData} from '@remix-run/react';
+import {
+  OurValuesPage,
+  OurBrandPage,
+  ContactUsPage,
+  ConflictFreePage,
+} from '~/pages/abouts';
+
 export const meta = ({params}) => {
-  return [{title: params.handle.split('-').join(' ').toUpperCase()}];
-};
-export async function loader({params, context}) {
-  /*  if (!params.handle) {
-    throw new Response('No handle was passed in', {status: 404});
-  }
+  const pageName = params.handle
+    .split('-')
+    .map((el) => el.charAt(0).toUpperCase() + el.slice(1))
+    .join(' ');
+  const pageTitle = pageName.includes('Contact')
+    ? 'Contact - Vianisa'
+    : `${pageName} - Vianisa`;
 
-  const policyName = params.handle.replace(/-([a-z])/g, (_, m1) =>
-    m1.toUpperCase(),
-  );
-
-  console.log(policyName);
-
-  const data = await context.storefront.query(POLICY_CONTENT_QUERY, {
-    variables: {
-      privacyPolicy: false,
-      shippingPolicy: false,
-      termsOfService: false,
-      refundPolicy: false,
-      [policyName]: true,
-      language: context.storefront.i18n?.language,
+  return [
+    {
+      title: pageTitle,
     },
-  });
+  ];
+};
 
-  const policy = data.shop?.[policyName];
-
-  if (!policy) {
-    throw new Response('Could not find the policy', {status: 404});
-  }
- */
-
-  return json({params});
+export async function loader({params}) {
+  const {handle} = params;
+  return json({handle});
 }
-export default function Policy() {
-  const {params} = useLoaderData();
-  let hn = params.handle;
-  let policyComp;
 
-  switch (hn) {
+export default function Page() {
+  const {handle} = useLoaderData();
+  let about;
+
+  switch (handle) {
     case 'our-values':
-      policyComp = <OurValuesPage />;
+      about = <OurValuesPage />;
       break;
-    case 'our-brand':
-      policyComp = <OurBrandPage />;
-      break;
-    case 'contact-us':
-      policyComp = <ContactUsPage />;
-      break;
-    case 'conflict-free-diamonds':
-      policyComp = <ConflictFreePage />;
 
+    case 'our-brand':
+      about = <OurBrandPage />;
       break;
+
+    case 'contact-us':
+      about = <ContactUsPage />;
+      break;
+
+    case 'conflict-free-diamonds':
+      about = <ConflictFreePage />;
+      break;
+
     default:
       throw new Response('Not Found', {status: 404});
   }
-  return policyComp;
+
+  return about;
 }

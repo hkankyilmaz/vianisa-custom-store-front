@@ -10,7 +10,6 @@ import {
 import {CartMain} from './Cart';
 import AnnouncementBar from './AnnouncementBar';
 import FilterBarMobile from './Collection Page UI-Forms/FilterBarMobile';
-import gsap from 'gsap';
 import ProductModal from './Product Popover/ProductModal';
 import {ProductContextProvider} from '~/store/productOptionsContext';
 
@@ -19,10 +18,6 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // const height = ref.current.offsetHeight;
-    // gsap.set('.homepage-banner', {
-    //   '--header-announcemed-height': `calc(100vh - ${height}px)`,
-    // });
     setIsLoaded(true);
   }, []);
 

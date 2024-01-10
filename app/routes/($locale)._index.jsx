@@ -1,8 +1,7 @@
 import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link} from '@remix-run/react';
-import {Suspense, useEffect, useRef} from 'react';
-import {Image, Money, useLoadScript} from '@shopify/hydrogen';
-import HomePageBanner from '~/components/HomePageBanner/Index';
+import {Suspense} from 'react';
+import {Image, Money} from '@shopify/hydrogen';
 import FeaturedCollection from '~/components/Featured Collections/FeaturedCollection';
 import CollectionList from '~/components/Cllection List/Index';
 import BannerSlider from '../components/Header/Slider';

@@ -12,7 +12,6 @@
   --drawer-border-color: rgba(47, 47, 47, 0.25);
   --drawer-text-color-light: rgba(47, 47, 47, 0.5);
   --drawer-text-color: #2f2f2f;
-  --description-height: 70px; /* Default height */
   --text-color-light: #2f2f2f;
   --product-sale-price-color: #e22120;
   --feat-col-nav-btn-fg: #2f2f2f;
@@ -34,20 +33,28 @@
   --footer-link-color: #2f2f2f;
   --footer-text-color: #2f2f2f;
   --footer-border-color: #e0e0e0;
+  --blog-text-color: #2f2f2f;
+  --blog-border-color: #e0e0e0;
+  --btn-primary-bg: #2f2f2f;
+  --btn-primary-fg: #fff;
+  --btn-primary-bg-hover: #fff0e7;
+  --blog-default-spacing: 1.6em;
 }
 
-@media (max-width: 1024px) {
-  :root {
-    --description-height: 58px; /* Override height for screens smaller than 1000px */
-  }
-}
-.product-description {
-  height: var(--description-height);
-}
+/*
+* --------------------------------------------------
+* Core
+* --------------------------------------------------
+*/
 
 body,
 html {
   overflow-x: hidden !important;
+}
+
+p {
+  font-family: 'avenir';
+  font-size: 13px;
 }
 
 /*
@@ -106,10 +113,7 @@ aside p {
     margin: 0;
   }
 }
-p {
-  font-family: 'avenir';
-  font-size: 13px;
-}
+
 aside li {
   margin-bottom: 0.125rem;
 }

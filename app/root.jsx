@@ -14,7 +14,6 @@ import {
 } from '@remix-run/react';
 
 import favicon from '../public/favicon.webp';
-import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
 import {Layout} from '~/components/Layout';
 import tailwindCss from './styles/tailwind.css';
@@ -38,7 +37,6 @@ export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
 export function links() {
   return [
     {rel: 'stylesheet', href: tailwindCss},
-    // {rel: 'stylesheet', href: resetStyles},
     {rel: 'stylesheet', href: appStyles},
     {rel: 'stylesheet', href: dotSliderStyles},
     {
