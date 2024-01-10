@@ -10,7 +10,7 @@ export function CartMain({layout, cart}) {
   const className = `cart-main ${withDiscount ? 'with-discount' : ''}`;
 
   return (
-    <div className={className}>
+    <div className={className + ' z-auto h-full'}>
       <CartEmpty hidden={linesCount} layout={layout} />
       <CartDetails cart={cart} layout={layout} />
     </div>
@@ -21,12 +21,15 @@ function CartDetails({layout, cart}) {
   const cartHasItems = !!cart && cart.totalQuantity > 0;
 
   return (
-    <div className="cart-details">
+    <div className="cart-details px-[30px]">
       <CartLines lines={cart?.lines} layout={layout} />
       {cartHasItems && (
         <CartSummary cost={cart.cost} layout={layout}>
-          <CartDiscounts discountCodes={cart.discountCodes} />
-          <CartCheckoutActions checkoutUrl={cart.checkoutUrl} />
+          {/* <CartDiscounts discountCodes={cart.discountCodes} /> */}
+          <CartCheckoutActions
+            checkoutUrl={cart.checkoutUrl}
+            cost={cart.cost}
+          />
         </CartSummary>
       )}
     </div>
@@ -45,26 +48,26 @@ function CartLines({lines, layout}) {
     </div>
   );
 }
-
+//fix css wrap bug
 function CartLineItem({layout, line}) {
   const {id, merchandise} = line;
   const {product, title, image, selectedOptions} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
 
   return (
-    <li key={id} className="cart-line">
+    <li key={id} className="flex items-center py-[30px] overflow-hidden">
       {image && (
         <Image
           alt={title}
-          aspectRatio="1/1"
+          aspectRatio="4/3"
           data={image}
           height={100}
           loading="lazy"
-          width={100}
+          width={120}
         />
       )}
 
-      <div>
+      <div className="pl-[25px] max-w-[220px]">
         <Link
           prefetch="intent"
           to={lineItemUrl}
@@ -75,33 +78,55 @@ function CartLineItem({layout, line}) {
             }
           }}
         >
-          <p>
-            <strong>{product.title}</strong>
+          <p className="uppercase whitespace-nowrap overflow-hidden text-ellipsis font-questrial font-semibold text-[12px] tracking-[2.2px] mb-[5px]">
+            {product.title}
           </p>
         </Link>
-        <CartLinePrice line={line} as="span" />
-        <ul>
-          {selectedOptions.map((option) => (
+        <p className="uppercase font-questrial text-[12px] tracking-[2px]">
+          {selectedOptions.map((option) => option.value).join(' / ')}
+          {/*  {selectedOptions.map((option) => (
             <li key={option.name}>
               <small>
                 {option.name}: {option.value}
               </small>
             </li>
-          ))}
-        </ul>
+          ))} */}
+        </p>
+
         <CartLineQuantity line={line} />
       </div>
     </li>
   );
 }
 
-function CartCheckoutActions({checkoutUrl}) {
+function CartCheckoutActions({checkoutUrl, cost}) {
   if (!checkoutUrl) return null;
 
   return (
-    <div>
+    <div
+      className="border flex items-center justify-center w-full align-middle 
+      mt-[15px] px-2 py-3 h-auto text-[11px] font-bold uppercase bg-[#2f2f2f]
+    border-[#2f2f2f] tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-[#2f2f2f]"
+      style={{transition: 'all ease 150ms'}}
+    >
       <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
+        {/* <p>Continue to Checkout &rarr;</p> */}
+        <div className="flex self-center items-center text-center justify-center">
+          <p className="uppercase text-[11px]">Checkout </p>
+          <p className="uppercase mx-[18px] text-lg flex items-center h-1">·</p>
+          {cost?.subtotalAmount?.amount ? (
+            <>
+              <Money
+                className="uppercase font-questrial text-[12px]"
+                data={cost?.subtotalAmount}
+              />
+              &nbsp;
+              <p className="font-questrial text-[12px]">USD</p>
+            </>
+          ) : (
+            '-'
+          )}
+        </div>
       </a>
       <br />
     </div>
@@ -114,16 +139,23 @@ export function CartSummary({cost, layout, children = null}) {
 
   return (
     <div aria-labelledby="cart-summary" className={className}>
-      <h4>Totals</h4>
+      {/* <h4>Totals</h4> */}
       <dl className="cart-subtotal">
-        <dt>Subtotal</dt>
-        <dd>
+        {/* <dt>Subtotal</dt> */}
+        <div className="flex flex-col">
+          <p className="font-questrial text-[#2f2f2f]">Add Order Note</p>
+
+          <p className="font-questrial text-[#2f2f2f] mt-1 mb-2">
+            Shipping & taxes calculated at checkout
+          </p>
+        </div>
+        {/* <dd>
           {cost?.subtotalAmount?.amount ? (
-            <Money data={cost?.subtotalAmount} />
+            <Money className="" data={cost?.subtotalAmount} />
           ) : (
             '-'
           )}
-        </dd>
+        </dd> */}
       </dl>
       {children}
     </div>
@@ -137,7 +169,12 @@ function CartLineRemoveButton({lineIds}) {
       action={CartForm.ACTIONS.LinesRemove}
       inputs={{lineIds}}
     >
-      <button type="submit">Remove</button>
+      <button
+        className="uppercase font-questrial text-[10px] text-[#2f2f2f] tracking-[2px] link-underline link-underline-black "
+        type="submit"
+      >
+        Remove
+      </button>
     </CartForm>
   );
 }
@@ -149,38 +186,43 @@ function CartLineQuantity({line}) {
   const nextQuantity = Number((quantity + 1).toFixed(0));
 
   return (
-    <div className="cart-line-quantiy">
-      <div className="flex flex-col gap-1">
-        {attributes.map((attribute) => (
-          <small>
-            {attribute.key}: {attribute.value}
-          </small>
-        ))}
-
-        <small>Quantity: {quantity} &nbsp;&nbsp;</small>
-      </div>
-      <div className="flex items-end	">
-        <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
-          <button
-            aria-label="Decrease quantity"
-            disabled={quantity <= 1}
-            name="decrease-quantity"
-            value={prevQuantity}
-          >
-            <span>&#8722; </span>
-          </button>
-        </CartLineUpdateButton>
-        &nbsp;
-        <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
-          <button
-            aria-label="Increase quantity"
-            name="increase-quantity"
-            value={nextQuantity}
-          >
-            <span>&#43;</span>
-          </button>
-        </CartLineUpdateButton>
-        &nbsp;
+    <div className="flex flex-col">
+      {attributes.map((attribute) => (
+        <small className="uppercase font-questrial text-[12px] italic tracking-[2px] mb-[4.5px]">
+          {attribute.key}: {attribute.value}
+        </small>
+      ))}
+      {/* <div className="cart-line-quantiy flex flex-col ">
+         <small>Quantity: {quantity} &nbsp;&nbsp;</small> 
+      </div> */}
+      <CartLinePrice line={line} as="span" />
+      <div className="flex justify-between items-center mt-[20px]">
+        <div className="flex border ">
+          <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
+            <button
+              className="px-[14px] pr-[20px] py-[3px] text-xl font-montserratMd text-[#6a6a6a]"
+              aria-label="Decrease quantity"
+              disabled={quantity <= 1}
+              name="decrease-quantity"
+              value={prevQuantity}
+            >
+              <span>&#8722; </span>
+            </button>
+          </CartLineUpdateButton>
+          <p className="font-questrial font-semibold text-[12px] flex justify-center items-center">
+            {quantity}
+          </p>
+          <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
+            <button
+              className="px-[14px] pl-[20px] py-[3px] text-xl font-montserratMd text-[#6a6a6a]"
+              aria-label="Increase quantity"
+              name="increase-quantity"
+              value={nextQuantity}
+            >
+              <span>&#43;</span>
+            </button>
+          </CartLineUpdateButton>
+        </div>
         <CartLineRemoveButton lineIds={[lineId]} />
       </div>
     </div>
@@ -200,21 +242,30 @@ function CartLinePrice({line, priceType = 'regular', ...passthroughProps}) {
   }
 
   return (
-    <div>
-      <Money withoutTrailingZeros {...passthroughProps} data={moneyV2} />
+    <div className="tracking-[1px] leading-[8px]">
+      <Money
+        className="uppercase font-questrial text-[12px]"
+        withoutTrailingZeros
+        {...passthroughProps}
+        data={moneyV2}
+      />
     </div>
   );
 }
 
 export function CartEmpty({hidden = false, layout = 'aside'}) {
   return (
-    <div hidden={hidden}>
-      <br />
-      <p>
+    <div hidden={hidden} className="h-full ">
+      <div className="h-full flex items-center justify-center">
+        <p className="font-montserratMd text-[13px] tracking-[2.6px] text-[#2f2f2f]">
+          YOUR CART IS EMPTY
+        </p>
+      </div>
+      {/* <p>
         Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
         started!
       </p>
-      <br />
+
       <Link
         to="/collections"
         onClick={() => {
@@ -224,7 +275,7 @@ export function CartEmpty({hidden = false, layout = 'aside'}) {
         }}
       >
         Continue shopping →
-      </Link>
+      </Link> */}
     </div>
   );
 }

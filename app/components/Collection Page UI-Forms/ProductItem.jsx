@@ -3,6 +3,20 @@ import {Link} from '@remix-run/react';
 import {Image, Money} from '@shopify/hydrogen';
 
 export default function ProductItem({product, loading}) {
+  let url = new URL(window.location.href);
+  let params = new URLSearchParams(url.search);
+  let minPrice = params.get('minprice');
+  let maxPrice = params.get('maxprice');
+  let color = params.getAll('color');
+  color = color[color.length - 1];
+  let selectedVariant = color
+    ? product.variants.nodes.find((variant) =>
+        variant.selectedOptions.find(
+          (item) => item.value.toLowerCase() === color,
+        ),
+      )
+    : null;
+
   const variant = product.variants.nodes[0];
   const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
   return (
@@ -12,22 +26,45 @@ export default function ProductItem({product, loading}) {
       </div>
       {product.featuredImage && (
         <div className="w-full relative overflow-hidden ">
-          <Image
-            className="transition-opacity opacity-100 hover:opacity-0"
-            alt={product.featuredImage.altText || product.title}
-            aspectRatio="4/3"
-            data={product.featuredImage}
-            loading={loading}
-            sizes="(min-width: 45em) 400px, 100vw"
-          />
-          <Image
-            className="transition-opacity opacity-0 hover:opacity-100 absolute top-0 "
-            alt={product.images.nodes[1].altText || product.title}
-            aspectRatio="4/3"
-            data={product.images.nodes[1]}
-            loading={loading}
-            sizes="(min-width: 45em) 400px, 100vw"
-          />
+          {selectedVariant ? (
+            <>
+              <Image
+                className="transition-opacity opacity-100 hover:opacity-0"
+                alt={selectedVariant.altText || product.title}
+                aspectRatio="4/3"
+                data={selectedVariant.image}
+                loading={loading}
+                sizes="(min-width: 45em) 400px, 100vw"
+              />
+              <Image
+                className="transition-opacity opacity-0 hover:opacity-100 absolute top-0 "
+                alt={product.images.nodes[1].altText || product.title}
+                aspectRatio="4/3"
+                data={product.images.nodes[1]}
+                loading={loading}
+                sizes="(min-width: 45em) 400px, 100vw"
+              />
+            </>
+          ) : (
+            <>
+              <Image
+                className="transition-opacity opacity-100 hover:opacity-0"
+                alt={product.featuredImage.altText || product.title}
+                aspectRatio="4/3"
+                data={product.featuredImage}
+                loading={loading}
+                sizes="(min-width: 45em) 400px, 100vw"
+              />
+              <Image
+                className="transition-opacity opacity-0 hover:opacity-100 absolute top-0 "
+                alt={product.images.nodes[1].altText || product.title}
+                aspectRatio="4/3"
+                data={product.images.nodes[1]}
+                loading={loading}
+                sizes="(min-width: 45em) 400px, 100vw"
+              />
+            </>
+          )}
         </div>
       )}
       <h4 className="dynamic-margin-top mt-14 mb-1 font-montserratMd max-sm:text-[10px] text-[11px] tracking-[2.2px] text-[#2f2f2f] uppercase">

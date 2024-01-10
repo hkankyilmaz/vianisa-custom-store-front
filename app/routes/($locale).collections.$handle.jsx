@@ -1,23 +1,27 @@
-import {useState, useEffect} from 'react';
+import {useRef, useState, useEffect} from 'react';
 import {json, redirect} from '@shopify/remix-oxygen';
 import {Form, useLocation} from '@remix-run/react';
 import {useLoaderData, useNavigate, useSubmit} from '@remix-run/react';
 import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
 import Slider from '@mui/material/Slider';
-import {FaAngleDown} from 'react-icons/fa';
-import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import useGetSearchParams from '~/hooks/useGetSearchParams';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
 import useFindCollectionMaxAndMinPrice from '~/hooks/useFindCollectionMaxAndMinPrice';
 import {AiOutlineDown} from 'react-icons/ai';
+
+import {Link, useMatches} from '@remix-run/react';
+import gsap from 'gsap';
+import CustomEase from 'gsap/CustomEase';
+import useIsomorphicLayoutEffect, {stripUrl} from '~/utils';
+import {CloseButton} from '~/components/Header/Drawer';
+
 import {
   ProductItem,
   GridChanger,
-  SorthForm,
+  SortForm,
   LoadMoreButton,
   PageHeader,
   FilterForm,
-  FilterBarMobile,
 } from '~/components/Collection Page UI-Forms/Index';
 
 export const meta = ({data}) => {
@@ -28,12 +32,12 @@ export async function loader({request, params, context}) {
   //get the url serach params and generate the query
   const url = new URL(request.url);
   const colors = url.searchParams.getAll('color');
-  const meterials = url.searchParams.getAll('meterial');
+  const material = url.searchParams.getAll('material');
   const minPrice = url.searchParams.get('minprice');
   const maxPrice = url.searchParams.get('maxprice');
   const sortkey = url.searchParams.get('sortkey');
   const reverse = url.searchParams.get('reverse');
-  const searchParams = useGetSearchParams(colors, meterials);
+  const searchParams = useGetSearchParams(colors, material);
   const COLLECTION_QUERY = useGenerateCollectionQuery(
     searchParams,
     null,
@@ -78,10 +82,6 @@ export async function loader({request, params, context}) {
 }
 
 export default function Collection() {
-  const handleCloseFilter = () => {
-    setOpenFilterDesk(false);
-  };
-
   const {collection, maxValueCollection, minValueCollection} = useLoaderData();
 
   const maxValue =
@@ -93,6 +93,7 @@ export default function Collection() {
 
   const [openFilterDesk, setOpenFilterDesk] = useState(false);
   const [value, setValue] = useState([0, 1000]);
+  /* const [colorValue, setColorValue] = useState('yellow'); */
   const [grid, setGrid] = useState(true);
   let root_ = document.documentElement.style;
 
@@ -102,14 +103,26 @@ export default function Collection() {
     let params = new URLSearchParams(url.search);
     let minPrice = params.get('minprice');
     let maxPrice = params.get('maxprice');
+    /*  let color = params.get('color');
+    console.log('useeffect color', colorValue);
+    console.log('useeffect maxprice', maxPrice); */
+    /* if (colorValue) {
+      setColorValue(colorValue);
+    } */
     if (minPrice && maxPrice) {
       setValue([+minPrice, +maxPrice]);
     }
   }, []);
 
-  const handleMobileFilter = () => {
+  const openMobileFilter = () => {
     root_.setProperty('--filter-container-visibility', 'visible');
     root_.setProperty('--filter-form-position', 'translateX(0%)');
+    root_.setProperty('--see-result-button-position', 'translateY(0%)');
+    root_.setProperty('--see-result-button-opacity', '1');
+    root_.setProperty(
+      '--see-result-button-transition',
+      'transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.35s, opacity 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.35s',
+    );
     document.documentElement.style.overflowY = 'hidden';
   };
 
@@ -136,7 +149,7 @@ export default function Collection() {
             openMobileSort={openMobileSort}
             closeMobileSort={closeMobileSort}
           />
-          <FilterButton handleMobileFilter={handleMobileFilter} />
+          <FilterButton openMobileFilter={openMobileFilter} />
         </div>
       </div>
       <Pagination connection={collection.products}>
@@ -146,6 +159,8 @@ export default function Collection() {
               grid={grid}
               value={value}
               setValue={setValue}
+              /*  colorValue={colorValue}
+              setColorValue={setColorValue} */
               products={nodes}
               maxValue={maxValue}
               minValue={minValue}
@@ -158,36 +173,33 @@ export default function Collection() {
           </>
         )}
       </Pagination>
+      <SortForm closeMobileSort={closeMobileSort} />
     </div>
   );
 }
 
 function SortButton({openMobileSort, closeMobileSort}) {
   return (
-    //<ClickAwayListener>
     <>
       <div
-        //onClick={() => setOpenFilterDesk((prev) => !prev)}
         onClick={openMobileSort}
         className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] "
       >
         SORT
         <AiOutlineDown className=" text-xs ml-2 text-[#2f2f2f]" />
-        <SorthForm closeMobileSort={closeMobileSort} />
       </div>
       <span
         onClick={closeMobileSort}
         className="sort-modal-overlay max-lg:bg-[#363636]/50 fixed left-0 top-0 bottom-0 right-0 z-10"
       ></span>
     </>
-    //</ClickAwayListener>
   );
 }
 
-function FilterButton({handleMobileFilter}) {
+function FilterButton({openMobileFilter}) {
   return (
     <div
-      onClick={handleMobileFilter}
+      onClick={openMobileFilter}
       className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] lg:hidden "
     >
       FILTER
@@ -195,104 +207,318 @@ function FilterButton({handleMobileFilter}) {
   );
 }
 
-function ProductsGrid({products, value, setValue, maxValue, grid, handle}) {
+function ProductsGrid({
+  products,
+  value,
+  setValue,
+  colorValue,
+  setColorValue,
+  maxValue,
+  grid,
+  handle,
+}) {
   const submit = useSubmit();
   const navigate = useNavigate();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  /*   let array = products.map((product) => product.options);
+  console.log(array);
+  let mater = array.map((item) => item.find((it) => it.name === 'Material'));
+  let cole = array.map((item) => item.find((it) => it.name === 'Color'));
+  console.log(mater);
+  console.log(groupedData); */
   let url = useLocation();
   let params = new URLSearchParams(url.search);
   const handleOnChangeCommitted = (event, newValue) => {
     setValue(newValue);
+    /*  console.log('colorvalue', colorValue); */
     // Add a third parameter.
     params.set('minprice', value[0]);
     params.set('maxprice', value[1]);
+    /*  params.set('color', colorValue); */
     navigate(`?${params.toString()}`);
   };
+
+  const closeMobileFilter = () => {
+    let root_ = document.documentElement.style;
+    root_.setProperty('--filter-container-visibility', 'hidden');
+    root_.setProperty('--filter-form-position', 'translateX(100%)');
+    root_.setProperty('--see-result-button-position', 'translateY(100%)');
+    root_.setProperty('--see-result-button-opacity', '0');
+    root_.setProperty(
+      '--see-result-button-transition',
+      'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+    );
+
+    document.documentElement.style.overflowY = 'auto';
+  };
+
+  const [openAccordion, setOpenAccordion] = useState(null);
+  const accordionRefs = useRef([]);
+  const refsHorizontal = Array.from({length: 3}, () => useRef(null));
+  const refsVertical = Array.from({length: 3}, () => useRef(null));
+
+  const handleAccordionClick = (index) => {
+    const refHorizontal = refsHorizontal[index];
+    const refVertical = refsVertical[index];
+    if (index !== openAccordion) {
+      if (openAccordion !== null) {
+        const currentRefHorizontal = refsHorizontal[openAccordion];
+        const currentRefVertical = refsVertical[openAccordion];
+        gsap.to(currentRefHorizontal.current, {
+          rotate: 90,
+          duration: 0.4,
+          opacity: 1,
+        });
+        gsap.to(currentRefVertical.current, {rotate: 0, duration: 0.4});
+      }
+    }
+    if (index !== openAccordion) {
+      setOpenAccordion(index);
+      gsap.to(refHorizontal.current, {rotate: 270, duration: 0.4, opacity: 0});
+      gsap.to(refVertical.current, {rotate: 180, duration: 0.4});
+    } else {
+      setOpenAccordion(null);
+      gsap.to(refHorizontal.current, {rotate: 90, duration: 0.4, opacity: 1});
+      gsap.to(refVertical.current, {rotate: 0, duration: 0.4});
+    }
+    if (index === openAccordion) {
+      gsap.to(
+        accordionRefs.current[index].querySelector('.accordion__details'),
+        {
+          height: 0,
+          duration: 0.35,
+          ease: 'power1.inOut',
+        },
+      );
+    } else {
+      if (openAccordion !== null) {
+        gsap.to(
+          accordionRefs.current[openAccordion].querySelector(
+            '.accordion__details',
+          ),
+          {
+            height: 0,
+            duration: 0.35,
+            ease: 'power1.inOut',
+          },
+        );
+      }
+      setOpenAccordion(index);
+      gsap.fromTo(
+        accordionRefs.current[index].querySelector('.accordion__details'),
+        {height: 0},
+        {
+          height: 'auto',
+          duration: 0.35,
+          ease: 'power1.inOut',
+        },
+      );
+    }
+  };
+
   return (
     <div className="mt-[50px] flex max-lg:gap-0 max-[1139px]:gap-4 max-lg:m-0 max-[1139px]:ml-6 ml-[50px]">
       <div className="lg:min-w-[200px]">
+        <span
+          onClick={() => closeMobileFilter()}
+          className="filter-modal-overlay max-lg:bg-[#363636]/50 fixed left-0 top-0 bottom-0 right-0 z-10"
+        ></span>
         <Form
           method="get"
-          onChange={(e) => submit(e.currentTarget)}
-          className="max-lg:hidden"
+          onChange={(e) => {
+            /* params.set('minprice', value[0]);
+            params.set('maxprice', value[1]); */
+            submit(e.currentTarget);
+            console.log(e);
+          }}
+          className="filter-form-mobile max-lg:fixed right-0 top-0 bottom-0 max-sm:left-[65px] max-sm:w-auto  max-lg:bg-[#efefef] max-lg:z-10 max-lg:w-[400px]"
         >
-          <div className="mb-8">
-            <p className="font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] mb-2">
-              PRICE
-            </p>
-            <Slider
-              className="max-w-[100%] mb-1"
-              sx={{color: 'gray'}}
-              size="small"
-              value={value}
-              onChange={handleChange}
-              onChangeCommitted={handleOnChangeCommitted}
-              valueLabelDisplay="auto"
-              max={maxValue}
-              min={0}
-            />
-            <div className="flex justify-between ">
-              <FilterForm.PriceInput value={value} idx={0} />
-              <FilterForm.Seperator />
-              <FilterForm.PriceInput value={value} idx={1} />
+          <header className="lg:hidden h-[60px] flex justify-center items-center font-playfair text-xl tracking-[4px] font-bold sm:mb-[35px] border-b border-[#e0e0e0]">
+            <span>FILTERS</span>
+            <div className="absolute right-[30px]">
+              <CloseButton onClick={() => closeMobileFilter()} />
+            </div>
+          </header>
+          <div className="accordion__container ">
+            <div
+              className={`accordion__item max-sm:border-b border-[#e0e0e0] ${
+                openAccordion === 0 ? 'open' : ''
+              }`}
+              ref={(e) => (accordionRefs.current[0] = e)}
+            >
+              <div
+                className="accordion__header px-6 py-5 cursor-pointer sm:hidden"
+                onClick={() => handleAccordionClick(0)}
+              >
+                <p className=" relative accordion__name  font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
+                  PRICE
+                  <span
+                    ref={refsHorizontal[0]}
+                    className='absolute bottom-2 right-0 after:content-[""] w-[11px] h-[1px] bg-[#2f2f2f] rotate-90'
+                  ></span>
+                  <span
+                    ref={refsVertical[0]}
+                    className='absolute bottom-2 right-0 after:content-[""] w-[11px] h-[1px] bg-[#2f2f2f]'
+                  ></span>
+                </p>
+              </div>
+              <div className="accordion__details sm:!overflow-visible sm:!h-auto">
+                <div className="mb-8  max-lg:px-6">
+                  <p className="font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] mb-2 max-sm:hidden">
+                    PRICE
+                  </p>
+                  <Slider
+                    className="max-w-[100%] mb-1"
+                    sx={{color: 'gray'}}
+                    size="small"
+                    value={value}
+                    onChange={handleChange}
+                    onChangeCommitted={handleOnChangeCommitted}
+                    valueLabelDisplay="auto"
+                    max={maxValue}
+                    min={0}
+                  />
+                  <div className="flex justify-between ">
+                    <FilterForm.PriceInput value={value} idx={0} />
+                    <FilterForm.Seperator />
+                    <FilterForm.PriceInput value={value} idx={1} />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className={`accordion__item max-sm:border-b border-[#e0e0e0]  ${
+                openAccordion === 1 ? 'open' : ''
+              }`}
+              ref={(e) => (accordionRefs.current[1] = e)}
+            >
+              <div
+                className="accordion__header px-6 py-5 cursor-pointer sm:hidden"
+                onClick={() => handleAccordionClick(1)}
+              >
+                <p className="relative accordion__name  font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
+                  COLOR
+                  <span
+                    ref={refsHorizontal[1]}
+                    className='absolute bottom-2 right-0 after:content-[""] w-[11px] h-[1px] bg-[#2f2f2f] rotate-90'
+                  ></span>
+                  <span
+                    ref={refsVertical[1]}
+                    className='absolute bottom-2 right-0 after:content-[""] w-[11px] h-[1px] bg-[#2f2f2f]'
+                  ></span>
+                </p>
+              </div>
+              <div className="accordion__details sm:!h-auto">
+                <div className="mb-4  max-lg:px-6">
+                  <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] max-sm:hidden">
+                    COLOR
+                  </p>
+                  <p
+                    htmlFor="rose"
+                    className="mb-3 font-questrial hover:underline hover:cursor-pointer"
+                  >
+                    <FilterForm.ColorOrMetarialInput
+                      value="rose"
+                      name="color"
+                    />
+                  </p>
+                  <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
+                    <FilterForm.ColorOrMetarialInput
+                      value="white"
+                      name="color"
+                    />
+                  </p>
+                  <p className="mb-8 font-questrial hover:underline hover:cursor-pointer">
+                    <FilterForm.ColorOrMetarialInput
+                      value="yellow"
+                      name="color"
+                    />
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              className={`accordion__item max-sm:border-b border-[#e0e0e0]  ${
+                openAccordion === 2 ? 'open' : ''
+              }`}
+              ref={(e) => (accordionRefs.current[2] = e)}
+            >
+              <div
+                className="accordion__header px-6 py-5 cursor-pointer sm:hidden"
+                onClick={() => handleAccordionClick(2)}
+              >
+                <p className="relative accordion__name  font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
+                  MATERIAL
+                  <span
+                    ref={refsHorizontal[2]}
+                    className='absolute bottom-2 right-0 after:content-[""] w-[11px] h-[1px] bg-[#2f2f2f] rotate-90'
+                  ></span>
+                  <span
+                    ref={refsVertical[2]}
+                    className='absolute bottom-2 right-0 after:content-[""] w-[11px] h-[1px] bg-[#2f2f2f]'
+                  ></span>
+                </p>
+              </div>
+              <div className="accordion__details sm:!h-auto">
+                <div className="mb-8  max-lg:px-6">
+                  <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] max-sm:hidden">
+                    MATERIAL
+                  </p>
+                  <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
+                    <FilterForm.ColorOrMetarialInput
+                      value="10kgold"
+                      name="material"
+                    />
+                  </p>
+                  <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
+                    <FilterForm.ColorOrMetarialInput
+                      value="14kgold"
+                      name="material"
+                    />
+                  </p>
+                  <p className="mb-8 font-questrial hover:underline hover:cursor-pointer">
+                    <FilterForm.ColorOrMetarialInput
+                      value="18kgold"
+                      name="material"
+                    />
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="mb-4">
-            <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
-              COLOR
-            </p>
-            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
-              <FilterForm.ColorOrMetarialInput value="rose" name="color" />
-            </p>
-            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
-              <FilterForm.ColorOrMetarialInput value="white" name="color" />
-            </p>
-            <p className="mb-8 font-questrial hover:underline hover:cursor-pointer">
-              <FilterForm.ColorOrMetarialInput value="yellow" name="color" />
-            </p>
-          </div>
-          <div className="mb-8">
-            <p className="mb-4 font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
-              MATERIAL
-            </p>
-            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
-              <FilterForm.ColorOrMetarialInput
-                value="10kgold"
-                name="meterial"
-              />
-            </p>
-            <p className="mb-3 font-questrial hover:underline hover:cursor-pointer">
-              <FilterForm.ColorOrMetarialInput
-                value="14kgold"
-                name="meterial"
-              />
-            </p>
-            <p className="mb-8 font-questrial hover:underline hover:cursor-pointer">
-              <FilterForm.ColorOrMetarialInput
-                value="18kgold"
-                name="meterial"
-              />
-            </p>
-          </div>
-          <button
-            style={{
-              display: params.size > 0 ? 'block' : 'none',
-              transition: 'all ease 0.35s',
-            }}
-            className="border flex items-center justify-center w-min h-full align-middle 
+          <div className="max-lg:hidden">
+            <button
+              style={{
+                display: params.size > 0 ? 'block' : 'none',
+                transition: 'all ease 0.35s',
+              }}
+              className="border flex items-center justify-center w-min h-full align-middle 
             mt-14 px-7 py-[14px] text-[11px] font-bold font-montserratMd uppercase bg-black
-          border-black tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-black"
-            type="reset"
-            onClick={() => {
-              setValue([0, 1000]);
-              navigate(`/collections/${handle}`);
-            }}
-          >
-            Reset
-          </button>
+            border-black tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-black"
+              type="reset"
+              onClick={() => {
+                setValue([0, 1000]);
+                navigate(`/collections/${handle}`);
+              }}
+            >
+              Reset
+            </button>
+          </div>
+          <div className="lg:hidden px-[30px] py-6 see-result-button absolute bottom-0 left-0 right-0 border-t border-[#e0e0e0]">
+            <button
+              style={{
+                transition: 'all ease 0.35s',
+              }}
+              className="max-sm:w-[200px] border flex items-center justify-center align-middle max-sm:ml-5 ml-8
+              px-7 py-[14px] text-[11px] font-bold font-montserratMd uppercase bg-[#2f2f2f]
+            border-[#2f2f2f] tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-[#2f2f2f]"
+              onClick={() => closeMobileFilter()}
+            >
+              SEE RESULTS
+            </button>
+          </div>
         </Form>
       </div>
       {grid ? (

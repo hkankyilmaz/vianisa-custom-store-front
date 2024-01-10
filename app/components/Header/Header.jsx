@@ -8,7 +8,10 @@ import {AiOutlineShoppingCart} from 'react-icons/ai';
 import MegaMenu from './MegaMenu';
 import {motion, AnimatePresence} from 'framer-motion';
 import Drawer from './Drawer';
-
+import {
+  PredictiveSearchForm,
+  PredictiveSearchResults,
+} from '~/components/Search';
 export function Header({header, isLoggedIn, cart}) {
   const ref = React.useRef();
   const [megaMenu, setMegaMenu] = useState({isOpen: false, title: 'none'});
@@ -17,6 +20,7 @@ export function Header({header, isLoggedIn, cart}) {
   const matches = useMatches()[1].pathname;
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
+  const [searchbtn, setSearchbtn] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,54 +39,132 @@ export function Header({header, isLoggedIn, cart}) {
   }, []);
 
   return (
-    <header
-      className="bg-white text-[var(--heading-color)]"
-      onMouseMove={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
-    >
-      <Drawer
-        isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        className="peer"
-        menu={menu}
-      />
-      <div
-        className="relative w-full flex justify-between items-center py-[15px] sm:py-[10px] px-[18px] sm:px-[30px]  shadow-[0_-1px_var(--header-border-color)_inset] z-10"
-        onMouseEnter={() => {
-          setIsHover(true);
-        }}
-        onMouseLeave={() => {
-          setIsHover(false);
-        }}
+    <>
+      <header
+        className="bg-white text-[var(--heading-color)]"
+        onMouseMove={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
       >
-        <MenuToggle toggle={() => setIsDrawerOpen((prev) => !prev)} />
-        <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-          <span className="text-xl not-italic tracking-[.2em] uppercase text-[var(--heading-color)] font-bold font-playfair">
-            Vianisa
-          </span>
-        </NavLink>
-        <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
-      </div>
-      <div className="uppercase w-full flex justify-center pt-2 pb-[7px] shadow-[rgb(34,34,34)_0px_0px_2px_0px] text-center font-questrial mb-[2px] max-xl:hidden z-20 relative">
-        <HeaderMenu
-          startAnimate={ref?.current?.startAnimate}
-          setMegaMenu={setMegaMenu}
+        <Drawer
+          isOpen={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+          className="peer"
           menu={menu}
-          viewport="desktop"
-          isHeaderHover={isHover}
         />
-        <MegaMenu
-          ref={ref}
-          setMegaMenu={setMegaMenu}
-          megaMenu={megaMenu}
-          menu={menu}
-          isHeaderHover={isHover}
-        />
-      </div>
-    </header>
+        <div
+          className="relative w-full flex justify-between items-center py-[15px] sm:py-[10px] px-[18px] sm:px-[30px]  shadow-[0_-1px_var(--header-border-color)_inset] z-10"
+          onMouseEnter={() => {
+            setIsHover(true);
+          }}
+          onMouseLeave={() => {
+            setIsHover(false);
+          }}
+        >
+          <MenuToggle toggle={() => setIsDrawerOpen((prev) => !prev)} />
+          <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
+            <span className="text-xl not-italic tracking-[.2em] uppercase text-[var(--heading-color)] font-bold font-playfair">
+              Vianisa
+            </span>
+          </NavLink>
+          <HeaderCtas
+            isLoggedIn={isLoggedIn}
+            cart={cart}
+            searchbtn={() => setSearchbtn(!searchbtn)}
+          />
+        </div>
+        <div className="uppercase w-full flex justify-center pt-2 pb-[7px] shadow-[rgb(34,34,34)_0px_0px_2px_0px] text-center font-questrial mb-[2px] max-xl:hidden z-20 relative">
+          <HeaderMenu
+            startAnimate={ref?.current?.startAnimate}
+            setMegaMenu={setMegaMenu}
+            menu={menu}
+            viewport="desktop"
+            isHeaderHover={isHover}
+          />
+          <MegaMenu
+            ref={ref}
+            setMegaMenu={setMegaMenu}
+            megaMenu={megaMenu}
+            menu={menu}
+            isHeaderHover={isHover}
+          />
+        </div>
+      </header>
+      <SearchAside open={searchbtn} close={setSearchbtn} />
+    </>
   );
 }
+function SearchAside({open, close}) {
+  let url = new URL(window.location.href);
+  let hid = open ? '' : 'hidden';
 
+  return (
+    <div
+      id="search-asides"
+      className={'absolute bg-slate-50 h-min z-50 block w-full ' + hid}
+      heading="SEARCH"
+    >
+      <div className="predictive-searchs w-full ">
+        <PredictiveSearchForm className="w-full">
+          {({fetchResults, inputRef}) => (
+            <div className="flex justify-around">
+              <div className="w-full flex pl-12 justify-center items-center border border-x-0 border-[#e0e0e0] ">
+                <svg
+                  class="Icon Icon--search-desktop "
+                  role="presentation"
+                  viewBox="0 0 21 21"
+                  className="w-5 h-5 "
+                >
+                  <g
+                    transform="translate(1 1)"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    fill="none"
+                    fill-rule="evenodd"
+                    stroke-linecap="square"
+                  >
+                    <path d="M18 18l-5.7096-5.7096"></path>
+                    <circle cx="7.2" cy="7.2" r="7.2"></circle>
+                  </g>
+                </svg>
+                <input
+                  name="q"
+                  onChange={fetchResults}
+                  onFocus={fetchResults}
+                  placeholder="Search"
+                  ref={inputRef}
+                  autocomplete="off"
+                  type="search"
+                  className="w-full border-0 bg-transparent py-5 px-5 focus:!border-[#e0e0e0] focus:!shadow-none focus:!shadow-transparent	"
+                />
+                <button
+                  class="w-3 h-3 mr-5"
+                  data-action="close-search"
+                  aria-label="Close search"
+                  onClick={() => close(false)}
+                >
+                  <svg
+                    class="Icon Icon--close "
+                    role="presentation"
+                    viewBox="0 0 16 14"
+                  >
+                    <path
+                      d="M15 0L1 14m14 0L1 0"
+                      stroke="currentColor"
+                      fill="none"
+                      fill-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+                {/* <button type="submit">Search</button> */}
+              </div>
+            </div>
+          )}
+        </PredictiveSearchForm>
+        <PredictiveSearchResults />
+      </div>
+    </div>
+  );
+}
 export function MenuToggle({toggle}) {
   return (
     <div className="flex-[1_0_0] flex justify-start items-center">
@@ -111,6 +193,12 @@ export function MenuToggle({toggle}) {
     </div>
   );
 }
+function CloseAside() {
+  return (
+    /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
+    <a className="close" href="#" onChange={() => history.go(-1)}></a>
+  );
+}
 
 export function HeaderMenu({
   menu,
@@ -121,14 +209,12 @@ export function HeaderMenu({
 }) {
   const [root] = useMatches();
   const publicStoreDomain = root?.data?.publicStoreDomain;
-
   function closeAside(event) {
     if (viewport === 'mobile') {
       event.preventDefault();
       window.location.href = event.currentTarget.href;
     }
   }
-
   return (
     <nav className="flex gap-[42px]" role="navigation">
       {viewport === 'mobile' && (
@@ -266,7 +352,7 @@ function CustomLink({title, to, onClick, onHover, isHeaderHover}) {
   );
 }
 
-function HeaderCtas({isLoggedIn, cart}) {
+function HeaderCtas({isLoggedIn, cart, searchbtn}) {
   return (
     <nav
       className="flex items-center gap-[18px] sm:gap-[25px] text-[#808080cc] flex-[1_0_0] justify-end"
@@ -296,8 +382,8 @@ function HeaderCtas({isLoggedIn, cart}) {
           </g>
         </svg>
       </NavLink>
-      <SearchToggle />
-      <WishlistToggle />
+      <SearchToggle searchbtn={searchbtn} />
+      {/* <WishlistToggle /> */}
       <CartToggle />
     </nav>
   );
@@ -311,9 +397,9 @@ function HeaderMenuMobileToggle() {
   );
 }
 
-function SearchToggle() {
+function SearchToggle({searchbtn}) {
   return (
-    <a href="#search-aside">
+    <a onClickCapture={searchbtn} className="cursor-pointer">
       <svg
         role="presentation"
         className="w-[18px] h-[17px] sm:hidden"
@@ -397,8 +483,18 @@ function WishlistToggle() {
 }
 
 function CartToggle() {
+  let root_ = document.documentElement.style;
   return (
-    <a className="relative" href="#cart-aside">
+    <a
+      className="relative cursor-pointer"
+      onClick={() => {
+        root_.setProperty('--cart-overlay-opacity', '1');
+        root_.setProperty('--cart-overlay-visibility', 'visible');
+        root_.setProperty('--cart-aside-position', 'translateX(0%)');
+        root_.setProperty('--cart-aside-visibility', 'visible');
+        document.documentElement.style.overflowY = 'hidden';
+      }}
+    >
       <svg className="w-[17px] h-[20px] sm:hidden" viewBox="0 0 17 20">
         <path
           fill="currentColor"
