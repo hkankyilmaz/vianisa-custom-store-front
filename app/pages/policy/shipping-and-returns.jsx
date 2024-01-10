@@ -1,9 +1,4 @@
-import Schema1 from '~/components/Blogs/Schema1';
-import Title from '../../components/Blogs/Title';
-
-export const meta = ({data}) => {
-  return [{title: 'Our Brand'}];
-};
+import BlogSchema from '~/components/Blogs/BlogSchema';
 
 export default function Product() {
   let newkomp = (
@@ -78,7 +73,7 @@ export default function Product() {
 
   return (
     <>
-      <Schema1 children={newkomp} title={'free shipping'} />
+      <BlogSchema children={newkomp} title={'free shipping'} />
     </>
   );
 }

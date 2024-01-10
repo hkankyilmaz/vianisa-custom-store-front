@@ -7,6 +7,7 @@ import {Header, HeaderMenu} from '~/components/Header/Header';
 
 import {CartMain} from './Cart';
 import AnnouncementBar from './AnnouncementBar';
+import FilterBarMobile from './Collection Page UI-Forms/FilterBarMobile';
 import gsap from 'gsap';
 import ProductModal from './Product Popover/ProductModal';
 import {ProductContextProvider} from '~/store/productOptionsContext';

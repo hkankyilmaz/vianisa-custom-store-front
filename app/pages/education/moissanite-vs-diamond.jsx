@@ -1,5 +1,5 @@
 import {Divider} from '@mui/material';
-import Schema1 from '../../components/Blogs/Schema1';
+import BlogSchema from '../../components/Blogs/BlogSchema';
 import {Image} from '@shopify/hydrogen';
 export const meta = ({data}) => {
   return [{title: 'wedding ring guide'}];
@@ -105,7 +105,7 @@ export default function Product() {
   }
   return (
     <>
-      <Schema1
+      <BlogSchema
         children={newkomp()}
         title={'moissanite vs. diamond'}
         className={'!max-w-[1000px]'}

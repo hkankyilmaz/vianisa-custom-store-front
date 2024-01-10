@@ -1,75 +1,61 @@
 import {json} from '@shopify/remix-oxygen';
-import {Link, useLoaderData} from '@remix-run/react';
-import WeddingRing from '../pages/education/wedding-ring-guide';
-import EngRing from '../pages/education/engagement-ring-guide';
-import BirthJew from '../pages/education/birthstone-jewelry-guide';
-import LabNatDia from '../pages/education/lab-grown-vs-natural-diamonds';
-import HowMeas from '../pages/education/how-to-measure-your-ring-size';
-import MoisvsDia from '../pages/education/moissanite-vs-diamond';
+import {useLoaderData} from '@remix-run/react';
+import {
+  BirthJewelryPage,
+  EngagementRingPage,
+  WeddingRingPage,
+  DiamondComparisonPage,
+  GemStoneComparisonPage,
+  MeasurementPage,
+} from '~/pages/education';
 
 export const meta = ({params}) => {
-  let asd = params.handle.split('-');
-  let asv = asd.join(' ');
-
-  return [{title: asv.toUpperCase()}];
-};
-export async function loader({params, context}) {
-  /*  if (!params.handle) {
-    throw new Response('No handle was passed in', {status: 404});
-  }
-
-  const policyName = params.handle.replace(/-([a-z])/g, (_, m1) =>
-    m1.toUpperCase(),
-  );
-
-  console.log(policyName);
-
-  const data = await context.storefront.query(POLICY_CONTENT_QUERY, {
-    variables: {
-      privacyPolicy: false,
-      shippingPolicy: false,
-      termsOfService: false,
-      refundPolicy: false,
-      [policyName]: true,
-      language: context.storefront.i18n?.language,
+  return [
+    {
+      title: `${params.handle
+        .split('-')
+        .map((el) => el.charAt(0).toUpperCase() + el.slice(1))
+        .join(' ')} - Vianisa`,
     },
-  });
+  ];
+};
 
-  const policy = data.shop?.[policyName];
-
-  if (!policy) {
-    throw new Response('Could not find the policy', {status: 404});
-  }
- */
-
-  return json({params});
+export async function loader({params}) {
+  const {handle} = params;
+  return json({handle});
 }
-export default function Policy() {
-  const {params} = useLoaderData();
-  let hn = params.handle;
-  let policyComp;
 
-  switch (hn) {
+export default function Policy() {
+  const {handle} = useLoaderData();
+  let education;
+
+  switch (handle) {
     case 'wedding-ring-guide':
-      policyComp = <WeddingRing />;
+      education = <WeddingRingPage />;
       break;
+
     case 'engagement-ring-guide':
-      policyComp = <EngRing />;
+      education = <EngagementRingPage />;
       break;
+
     case 'birthstone-jewelry-guide':
-      policyComp = <BirthJew />;
+      education = <BirthJewelryPage />;
       break;
+
     case 'how-to-measure-your-ring-size':
-      policyComp = <HowMeas />;
+      education = <MeasurementPage />;
       break;
+
     case 'lab-grown-vs-natural-diamonds':
-      policyComp = <LabNatDia />;
+      education = <DiamondComparisonPage />;
       break;
+
     case 'moissanite-vs-diamond':
-      policyComp = <MoisvsDia />;
+      education = <GemStoneComparisonPage />;
       break;
+
     default:
       throw new Response('Not Found', {status: 404});
   }
-  return policyComp;
+  return education;
 }

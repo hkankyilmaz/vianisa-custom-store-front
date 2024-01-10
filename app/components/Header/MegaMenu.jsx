@@ -70,12 +70,6 @@ const MegaMenu = forwardRef((props, ref) => {
   const navElement = props.menu.items.filter(
     (item) => item.title === props.megaMenu.title,
   );
-  if (typeof window !== 'undefined') {
-    document.documentElement.style.setProperty(
-      '--mega-menu-column',
-      `${navElement[0]?.items.length}`,
-    );
-  }
 
   useEffect(() => {
     if (!props.isHeaderHover) {

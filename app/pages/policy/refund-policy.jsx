@@ -1,6 +1,6 @@
 import {json} from '@shopify/remix-oxygen';
 import {Link, useLoaderData} from '@remix-run/react';
-import Schema1 from '../../components/Blogs/Schema1';
+import BlogSchema from '../../components/Blogs/BlogSchema';
 
 export const meta = ({data}) => {
   return [{title: `Refund Policy`}];
@@ -160,7 +160,7 @@ export default function Policy() {
   });
   return (
     <div className=" page  m-auto px-[20px] pb-20">
-      <Schema1 title="refund policy" children={newkomp}></Schema1>
+      <BlogSchema title="refund policy" children={newkomp}></BlogSchema>
     </div>
   );
 }
