@@ -49,7 +49,7 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
 }
 
 function CartModal({cart}) {
-  const handleClick = () => {
+  const closeCart = () => {
     let root_ = document.documentElement.style;
     root_.setProperty('--cart-overlay-opacity', '0');
     root_.setProperty('--cart-overlay-visibility', 'hidden');
@@ -60,10 +60,10 @@ function CartModal({cart}) {
   return (
     <div className="cart-container">
       <div
-        onClick={() => handleClick()}
+        onClick={() => closeCart()}
         className="cart-overlay bg-[#363636]/50 w-[100%] z-50 translate-x-[0%] h-[100vh] fixed top-0 "
       ></div>
-      <CartAside>
+      <CartAside closeCart={closeCart}>
         <Suspense fallback={<p>Loading cart ...</p>}>
           <Await resolve={cart}>
             {(cart) => {
