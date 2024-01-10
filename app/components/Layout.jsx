@@ -4,10 +4,7 @@ import {Aside} from '~/components/Aside';
 import {CartAside} from '~/components/CartAside';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header/Header';
-import {
-  PredictiveSearchForm,
-  PredictiveSearchResults,
-} from '~/components/Search';
+
 import {CartMain} from './Cart';
 import AnnouncementBar from './AnnouncementBar';
 import gsap from 'gsap';
@@ -29,6 +26,7 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
           <ProductContextProvider>
             <CartModal cart={cart} />
             <SearchAside />
+
             <MobileMenuAside menu={header.menu} />
             <ProductModal />
             <div ref={ref}>
@@ -73,33 +71,6 @@ function CartModal({cart}) {
         </Suspense>
       </CartAside>
     </div>
-  );
-}
-
-function SearchAside() {
-  return (
-    <Aside id="search-aside" heading="SEARCH">
-      <div className="predictive-search">
-        <br />
-        <PredictiveSearchForm>
-          {({fetchResults, inputRef}) => (
-            <div>
-              <input
-                name="q"
-                onChange={fetchResults}
-                onFocus={fetchResults}
-                placeholder="Search"
-                ref={inputRef}
-                type="search"
-              />
-              &nbsp;
-              <button type="submit">Search</button>
-            </div>
-          )}
-        </PredictiveSearchForm>
-        <PredictiveSearchResults />
-      </div>
-    </Aside>
   );
 }
 
