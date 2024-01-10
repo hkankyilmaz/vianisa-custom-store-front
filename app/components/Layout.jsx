@@ -1,6 +1,7 @@
 import {Await} from '@remix-run/react';
 import {Suspense, useRef, useEffect, useState} from 'react';
 import {Aside} from '~/components/Aside';
+import {CartAside} from '~/components/CartAside';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header/Header';
 
@@ -23,7 +24,9 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
       {isLoaded && (
         <>
           <ProductContextProvider>
-            <CartAside cart={cart} />
+            <CartModal cart={cart} />
+            <SearchAside />
+
             <MobileMenuAside menu={header.menu} />
             <ProductModal />
             <div ref={ref}>
@@ -43,17 +46,31 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
   );
 }
 
-function CartAside({cart}) {
+function CartModal({cart}) {
+  const closeCart = () => {
+    let root_ = document.documentElement.style;
+    root_.setProperty('--cart-overlay-opacity', '0');
+    root_.setProperty('--cart-overlay-visibility', 'hidden');
+    root_.setProperty('--cart-aside-position', 'translateX(100%)');
+    root_.setProperty('--cart-aside-visibility', 'hidden');
+    document.documentElement.style.overflowY = 'auto';
+  };
   return (
-    <Aside id="cart-aside" heading="CART">
-      <Suspense fallback={<p>Loading cart ...</p>}>
-        <Await resolve={cart}>
-          {(cart) => {
-            return <CartMain cart={cart} layout="aside" />;
-          }}
-        </Await>
-      </Suspense>
-    </Aside>
+    <div className="cart-container">
+      <div
+        onClick={() => closeCart()}
+        className="cart-overlay bg-[#363636]/50 w-[100%] z-50 translate-x-[0%] h-[100vh] fixed top-0 "
+      ></div>
+      <CartAside closeCart={closeCart}>
+        <Suspense fallback={<p>Loading cart ...</p>}>
+          <Await resolve={cart}>
+            {(cart) => {
+              return <CartMain cart={cart} layout="aside" />;
+            }}
+          </Await>
+        </Suspense>
+      </CartAside>
+    </div>
   );
 }
 

@@ -483,8 +483,18 @@ function WishlistToggle() {
 }
 
 function CartToggle() {
+  let root_ = document.documentElement.style;
   return (
-    <a className="relative" href="#cart-aside">
+    <a
+      className="relative cursor-pointer"
+      onClick={() => {
+        root_.setProperty('--cart-overlay-opacity', '1');
+        root_.setProperty('--cart-overlay-visibility', 'visible');
+        root_.setProperty('--cart-aside-position', 'translateX(0%)');
+        root_.setProperty('--cart-aside-visibility', 'visible');
+        document.documentElement.style.overflowY = 'hidden';
+      }}
+    >
       <svg className="w-[17px] h-[20px] sm:hidden" viewBox="0 0 17 20">
         <path
           fill="currentColor"
