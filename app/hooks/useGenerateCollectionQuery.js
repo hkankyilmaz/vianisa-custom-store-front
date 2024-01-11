@@ -1,6 +1,5 @@
 function useGenerateCollectionQuery(
-  combinedSearchParams,
-  sortValue,
+  variantOptions,
   minPrice,
   maxPrice,
   sortKey,
@@ -37,41 +36,32 @@ function useGenerateCollectionQuery(
             : ''
         }
       ${(() => {
-        if (combinedSearchParams.length > 0) {
-          let query = '';
-          combinedSearchParams.map((searchParam, idx) => {
-            if (
-              searchParam == 'yellow' ||
-              searchParam == 'white' ||
-              searchParam == 'rose'
-            ) {
-              query += ` {variantOption: {name: "Color", value: "${
-                searchParam == 'yellow'
-                  ? 'Yellow'
-                  : searchParam == 'white'
-                  ? 'White'
-                  : searchParam == 'rose'
-                  ? 'Rose'
-                  : ''
-              }"}}${idx !== combinedSearchParams.length - 1 ? ',' : ''}`;
-            } else {
-              query += ` {variantOption: {name: "Material", value: "${
-                searchParam == '10kgold'
-                  ? '10k Gold'
-                  : searchParam == '14kgold'
-                  ? '14k Gold'
-                  : searchParam == '18kgold'
-                  ? '18k Gold'
-                  : ''
-              }"}}${idx !== combinedSearchParams.length - 1 ? ',' : ''}`;
-            }
+        if (variantOptions && variantOptions.length > 0) {
+          const variantQuery = variantOptions.map((option) => {
+            return `{variantOption: {name: "${
+              option.name
+            }", value: "${option.value
+              .split('-')
+              .map((word) => {
+                return word.charAt(0).toUpperCase() + word.slice(1);
+              })
+              .filter((word) => {
+                return word !== '';
+              })
+              .join(' ')}"}}`;
           });
-          return query;
+          return variantQuery.join(',');
         } else return '';
       })()}]
       ) {
         nodes {
           ...ProductItem
+        }
+        filters{
+          id
+          label
+          type
+          values{id label count input}
         }
         pageInfo {
           hasPreviousPage

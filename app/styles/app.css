@@ -53,6 +53,16 @@ html {
   overflow-x: hidden !important;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
 /*
 * --------------------------------------------------
 * components/Aside
@@ -614,9 +624,10 @@ aside li {
 #rose:checked ~ label,
 #white:checked ~ label,
 #yellow:checked ~ label,
-#_10kgold:checked ~ label,
-#_14kgold:checked ~ label,
-#_18kgold:checked ~ label {
+#_10k-gold:checked ~ label,
+#_14k-gold:checked ~ label,
+#_18k-gold:checked ~ label,
+#_platinum:checked ~ label {
   text-decoration: underline;
 }
 form label {
@@ -626,9 +637,10 @@ form label {
 span.rose,
 span.white,
 span.yellow,
-span._10kgold,
-span._14kgold,
-span._18kgold {
+span._10k-gold,
+span._14k-gold,
+span._18k-gold,
+span._platinum {
   opacity: 0;
   transition: all 0.2s ease-in-out;
 
@@ -641,9 +653,10 @@ span._18kgold {
 #rose:checked ~ span.rose,
 #white:checked ~ span.white,
 #yellow:checked ~ span.yellow,
-#_10kgold:checked ~ span._10kgold,
-#_14kgold:checked ~ span._14kgold,
-#_18kgold:checked ~ span._18kgold {
+#_10k-gold:checked ~ span._10k-gold,
+#_14k-gold:checked ~ span._14k-gold,
+#_18k-gold:checked ~ span._18k-gold,
+#_platinum:checked ~ span._platinum {
   position: absolute;
   top: 6px;
   left: 0;
