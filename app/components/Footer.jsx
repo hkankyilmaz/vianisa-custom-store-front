@@ -1,5 +1,4 @@
-import {Divider} from '@mui/material';
-import {useMatches, NavLink, Link} from '@remix-run/react';
+import {Link, NavLink} from '@remix-run/react';
 
 export function Footer({menu}) {
   let array = [
@@ -63,14 +62,17 @@ export function Footer({menu}) {
     <footer className="border-t border-solid border-[var(--footer-border-color)] py-[34px] sm:pt-[75px] sm:pb-[42px] mt-[100px]">
       <div className="px-6 sm:px-[10px] min-[1140px]:px-[40px]">
         <div className="flex flex-col sm:flex-row sm:justify-between flex-wrap gap-12 sm:gap-0">
-          {array.map((item) => (
-            <nav className="mb-0 sm:mb-[50px] px-0 sm:px-[25px] sm:flex-[1_1_50%] min-[1140px]:flex-[0_1_auto]">
+          {array.map((item, index) => (
+            <nav
+              className="mb-0 sm:mb-[50px] px-0 sm:px-[25px] sm:flex-[1_1_50%] min-[1140px]:flex-[0_1_auto]"
+              key={`1-${index}`}
+            >
               <p className="text-[var(--footer-heading-color)] text-[12px] tracking-[.2em] font-montserratMd font-bold transition-[color] duration-200 ease-css-ease-in-out mb-[20px]">
                 {item.title.toUpperCase()}
               </p>
               <ul className="flex flex-col items-start justify-center gap-3">
-                {item.children.map((alt) => (
-                  <li>
+                {item.children.map((alt, index) => (
+                  <li key={`2-${index}`}>
                     <NavLink
                       end
                       to={'/' + item.route + '/' + alt}
@@ -91,10 +93,11 @@ export function Footer({menu}) {
               {contactInfo.title.toUpperCase()}
             </p>
             <ul className="flex flex-col items-start justify-center gap-[1.6em]">
-              {contactInfo.items.map((item) => (
+              {contactInfo.items.map((item, index) => (
                 <li
                   className="text-[var(--footer-text-color)] text-[13px] font-questrial"
                   dangerouslySetInnerHTML={{__html: item}}
+                  key={`3-${index}`}
                 ></li>
               ))}
             </ul>
