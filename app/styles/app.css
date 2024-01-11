@@ -59,14 +59,14 @@ html {
   overflow-x: hidden !important;
 }
 
-
 p {
   font-family: 'avenir';
   font-size: 13px;
-  }
+}
 
 select {
   background-image: none;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

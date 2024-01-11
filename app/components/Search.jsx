@@ -16,18 +16,9 @@ import React, {useRef, useEffect, useState} from 'react';
 import {json, redirect} from '@shopify/remix-oxygen';
 import {useLoaderData, useNavigate, useSubmit} from '@remix-run/react';
 import Slider from '@mui/material/Slider';
-import useGetSearchParams from '~/hooks/useGetSearchParams';
-import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
-import useFindCollectionMaxAndMinPrice from '~/hooks/useFindCollectionMaxAndMinPrice';
 import {AiOutlineDown} from 'react-icons/ai';
 import {useVariantUrl} from '~/utils';
-import {
-  GridChanger,
-  SortForm,
-  LoadMoreButton,
-  PageHeader,
-  FilterForm,
-} from '~/components/Collection Page UI-Forms/Index';
+import {FilterForm} from './Collection Page UI-Forms';
 import gsap from 'gsap';
 import CustomEase from 'gsap/CustomEase';
 import useIsomorphicLayoutEffect, {stripUrl} from '~/utils';
