@@ -13,10 +13,10 @@ export default function GridChanger({setGrid, grid}) {
         >
           {Array(1)
             .fill('')
-            .map((idx) => (
+            .map((_, idx) => (
               <div
                 style={{backgroundColor: !grid ? '#2f2f2f' : ''}}
-                key={idx}
+                key={`1-${idx}`}
                 className="w-[18px] h-[18px] bg-[#d5d5d5] transition-all duration-[0.35s] ease-in-out"
               ></div>
             ))}
@@ -28,10 +28,10 @@ export default function GridChanger({setGrid, grid}) {
         >
           {Array(4)
             .fill('')
-            .map((idx) => (
+            .map((_, idx) => (
               <div
                 style={{backgroundColor: grid ? '#2f2f2f' : ''}}
-                key={idx}
+                key={`2-${idx}`}
                 className="w-2 h-2 bg-[#d5d5d5] transition-all duration-[0.35s] ease-in-out"
               ></div>
             ))}
@@ -45,10 +45,10 @@ export default function GridChanger({setGrid, grid}) {
         >
           {Array(4)
             .fill('')
-            .map((idx) => (
+            .map((_, idx) => (
               <div
                 style={{backgroundColor: !grid ? '#2f2f2f' : ''}}
-                key={idx}
+                key={`3-${idx}`}
                 className="w-2 h-2 bg-[#d5d5d5] transition-all duration-[0.35s] ease-in-out"
               ></div>
             ))}
@@ -60,10 +60,10 @@ export default function GridChanger({setGrid, grid}) {
         >
           {Array(9)
             .fill('')
-            .map((idx) => (
+            .map((_, idx) => (
               <div
                 style={{backgroundColor: grid ? '#2f2f2f' : ''}}
-                key={idx}
+                key={`4-${idx}`}
                 className="w-1 h-1 bg-[#d5d5d5] transition-all duration-[0.35s] ease-in-out"
               ></div>
             ))}
