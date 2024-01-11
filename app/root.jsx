@@ -1,24 +1,23 @@
-import {useNonce, Script} from '@shopify/hydrogen';
-import {defer} from '@shopify/remix-oxygen';
 import {
   Links,
+  LiveReload,
   Meta,
   Outlet,
   Scripts,
-  LiveReload,
-  useMatches,
-  useRouteError,
-  useLoaderData,
   ScrollRestoration,
   isRouteErrorResponse,
+  useLoaderData,
+  useMatches,
+  useRouteError,
 } from '@remix-run/react';
+import {Script, useNonce} from '@shopify/hydrogen';
+import {defer} from '@shopify/remix-oxygen';
 
-import favicon from '../public/favicon.svg';
-import resetStyles from './styles/reset.css';
-import appStyles from './styles/app.css';
 import {Layout} from '~/components/Layout';
-import tailwindCss from './styles/tailwind.css';
+import favicon from '../public/favicon.webp';
 import dotSliderStyles from './components/Product Carausel Image Dot Slider/embla.css';
+import appStyles from './styles/app.css';
+import tailwindCss from './styles/tailwind.css';
 
 // This is important to avoid re-fetching root queries on sub-navigations
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
@@ -49,7 +48,7 @@ export function links() {
       rel: 'preconnect',
       href: 'https://shop.app',
     },
-    {rel: 'icon', type: 'image/svg+xml', href: favicon},
+    {rel: 'icon', type: 'image/webp', href: favicon},
   ];
 }
 
