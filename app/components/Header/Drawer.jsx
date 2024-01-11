@@ -4,14 +4,14 @@ import gsap from 'gsap';
 import CustomEase from 'gsap/CustomEase';
 import useIsomorphicLayoutEffect, {stripUrl} from '~/utils';
 
-const Drawer = ({
+export function Drawer({
   placement = 'left',
   isOpen,
   onClose,
   size = 'sm',
   className = '',
   menu,
-}) => {
+}) {
   const placements = {
     top: 'top-0 left-0 w-screen',
     right: 'top-0 right-0 h-screen',
@@ -92,55 +92,63 @@ const Drawer = ({
 
   useEffect(() => {
     drawer.current.setAttribute('data-open', isOpen);
-    const overlay = document.querySelector('#mobile-menu-aside');
-    overlay.style.visibility = isOpen ? 'visible' : 'hidden';
-    overlay.style.opacity = isOpen ? '.5' : '0';
-    overlay.style.background = '#363636';
-    overlay.style.zIndex = '50';
-    document.documentElement.style.overflow = isOpen ? 'hidden' : 'auto';
-
+    let root_ = document.documentElement.style;
+    root_.setProperty('--search-overlay-opacity', '0');
+    root_.setProperty('--search-overlay-visibility', 'hidden');
+    root_.setProperty('--search-aside-position', 'translateY(-25px)');
+    root_.setProperty('--search-aside-visibility', 'hidden');
+    root_.setProperty('--search-aside-opacity', '0');
     if (isOpen) {
+      root_.setProperty('--drawer-overlay-opacity', '1');
+      root_.setProperty('--drawer-overlay-visibility', 'visible');
+      document.documentElement.style.overflow = 'hidden';
       ctx.open();
     } else {
+      root_.setProperty('--drawer-overlay-opacity', '0');
+      root_.setProperty('--drawer-overlay-visibility', 'hidden');
+      document.documentElement.style.overflow = 'auto';
       ctx.close();
     }
   }, [isOpen]);
 
   return (
-    <div
-      className={`fixed bg-[var(--drawer-bg-color)] z-50 flex flex-col drawer ${placements[placement]} ${sizes[size]} ${className}`}
-      aria-hidden={!isOpen}
-      ref={drawer}
-    >
+    <>
       <div
-        className="flex justify-start items-center max-h-[80px] min-h-[60px] w-full"
-        ref={drawerHeader}
+        className={`fixed bg-[var(--drawer-bg-color)] z-50 flex flex-col drawer ${placements[placement]} ${sizes[size]} ${className}`}
+        aria-hidden={!isOpen}
+        ref={drawer}
       >
-        <CloseButton onClick={onClose} />
-      </div>
-      <div
-        className="flex-1 flex flex-col pl-[18px] sm:pl-[30px] pr-[24px] sm:pr-[30px]"
-        ref={drawerMain}
-      >
-        {menu.items.map((item, index) => (
-          <Collapsible key={index} item={item} onClose={onClose} />
-        ))}
-        <Link
-          to="/account"
-          className="text-[var(--drawer-text-color-light)] hover:text-[var(--drawer-text-color)] hover:underline w-full uppercase font-questrial text-[13px] font-normal block mt-[28px]"
+        <div
+          className="flex justify-start items-center max-h-[80px] min-h-[60px] w-full"
+          ref={drawerHeader}
         >
-          Account
-        </Link>
+          <CloseButton onClick={onClose} />
+        </div>
+        <div
+          className="flex-1 flex flex-col pl-[18px] sm:pl-[30px] pr-[24px] sm:pr-[30px]"
+          ref={drawerMain}
+        >
+          {menu.items.map((item, index) => (
+            <Collapsible key={index} item={item} onClose={onClose} />
+          ))}
+          <Link
+            to="/account"
+            className="text-[var(--drawer-text-color-light)] hover:text-[var(--drawer-text-color)] hover:underline w-full uppercase font-questrial text-[13px] font-normal block mt-[28px]"
+          >
+            Account
+          </Link>
+        </div>
+        <div
+          className="flex justify-center items-center min-h-[48px] shadow-[0_1px_var(--drawer-border-color)_inset]"
+          ref={drawerFooter}
+        >
+          <InstagramButton />
+        </div>
       </div>
-      <div
-        className="flex justify-center items-center min-h-[48px] shadow-[0_1px_var(--drawer-border-color)_inset]"
-        ref={drawerFooter}
-      >
-        <InstagramButton />
-      </div>
-    </div>
+      <div className="drawer-overlay z-[15] bg-[#363636]/50 w-[100%] fixed left-0 top-0 right-0 bottom-0 "></div>
+    </>
   );
-};
+}
 
 export function CloseButton({onClick}) {
   return (

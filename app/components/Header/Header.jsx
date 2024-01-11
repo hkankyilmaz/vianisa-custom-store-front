@@ -1,10 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {Await, NavLink, useMatches} from '@remix-run/react';
 import {Suspense, useState} from 'react';
-
-import {GoPerson} from 'react-icons/go';
-import {AiOutlineSearch} from 'react-icons/ai';
-import {AiOutlineShoppingCart} from 'react-icons/ai';
 import MegaMenu from './MegaMenu';
 import {motion, AnimatePresence} from 'framer-motion';
 import Drawer from './Drawer';
@@ -41,7 +37,7 @@ export function Header({header, isLoggedIn, cart}) {
   return (
     <>
       <header
-        className="bg-white text-[var(--heading-color)]"
+        className="bg-white text-[var(--heading-color)] relative z-[52]"
         onMouseMove={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       >
@@ -93,26 +89,23 @@ export function Header({header, isLoggedIn, cart}) {
     </>
   );
 }
-function SearchAside({open, close}) {
-  let url = new URL(window.location.href);
-  let hid = open ? '' : 'hidden';
-
+function SearchAside() {
   return (
     <div
       id="search-asides"
-      className={'absolute bg-slate-50 h-min z-50 block w-full ' + hid}
+      className={'search-aside absolute bg-white h-min z-50 block w-full'}
       heading="SEARCH"
     >
       <div className="predictive-searchs w-full ">
         <PredictiveSearchForm className="w-full">
           {({fetchResults, inputRef}) => (
             <div className="flex justify-around">
-              <div className="w-full flex pl-12 justify-center items-center border border-x-0 border-[#e0e0e0] ">
+              <div className="w-full flex px-[50px] py-7 justify-center items-center  ">
                 <svg
                   class="Icon Icon--search-desktop "
                   role="presentation"
                   viewBox="0 0 21 21"
-                  className="w-5 h-5 "
+                  className="w-[22px] h-[22px] "
                 >
                   <g
                     transform="translate(1 1)"
@@ -130,17 +123,29 @@ function SearchAside({open, close}) {
                   name="q"
                   onChange={fetchResults}
                   onFocus={fetchResults}
-                  placeholder="Search"
+                  placeholder="SEARCH..."
                   ref={inputRef}
                   autocomplete="off"
                   type="search"
-                  className="w-full border-0 bg-transparent py-5 px-5 focus:!border-[#e0e0e0] focus:!shadow-none focus:!shadow-transparent	"
+                  className="w-full border-0 p-0 pl-5 bg-transparent focus:ring-0 focus:!border-[#e0e0e0] focus:!shadow-none focus:!shadow-transparent uppercase font-montserratMd text-[17px] text-[#2f2f2f] tracking-[3.4px]"
+                  autofocus
                 />
                 <button
-                  class="w-3 h-3 mr-5"
+                  class="w-4 h-4"
                   data-action="close-search"
                   aria-label="Close search"
-                  onClick={() => close(false)}
+                  onClick={() => {
+                    let root_ = document.documentElement.style;
+                    root_.setProperty('--search-overlay-opacity', '0');
+                    root_.setProperty('--search-overlay-visibility', 'hidden');
+                    root_.setProperty(
+                      '--search-aside-position',
+                      'translateY(-25px)',
+                    );
+                    root_.setProperty('--search-aside-visibility', 'hidden');
+                    root_.setProperty('--search-aside-opacity', '0');
+                    root_.overflowY = 'auto';
+                  }}
                 >
                   <svg
                     class="Icon Icon--close "
@@ -191,12 +196,6 @@ export function MenuToggle({toggle}) {
         </svg>
       </button>
     </div>
-  );
-}
-function CloseAside() {
-  return (
-    /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
-    <a className="close" href="#" onChange={() => history.go(-1)}></a>
   );
 }
 
@@ -398,8 +397,21 @@ function HeaderMenuMobileToggle() {
 }
 
 function SearchToggle({searchbtn}) {
+  let root_ = document.documentElement.style;
   return (
-    <a onClickCapture={searchbtn} className="cursor-pointer">
+    <a
+      onClick={() => {
+        console.log('test');
+        root_.setProperty('--search-overlay-opacity', '1');
+        root_.setProperty('--search-overlay-visibility', 'visible');
+        root_.setProperty('--search-aside-position', 'translateY(0%)');
+        root_.setProperty('--search-aside-visibility', 'visible');
+        root_.setProperty('--search-aside-opacity', '1');
+        document.documentElement.style.overflowY = 'hidden';
+      }}
+      onClickCapture={searchbtn}
+      className="cursor-pointer"
+    >
       <svg
         role="presentation"
         className="w-[18px] h-[17px] sm:hidden"
@@ -492,6 +504,11 @@ function CartToggle() {
         root_.setProperty('--cart-overlay-visibility', 'visible');
         root_.setProperty('--cart-aside-position', 'translateX(0%)');
         root_.setProperty('--cart-aside-visibility', 'visible');
+        root_.setProperty('--search-overlay-opacity', '0');
+        root_.setProperty('--search-overlay-visibility', 'hidden');
+        root_.setProperty('--search-aside-position', 'translateY(-25px)');
+        root_.setProperty('--search-aside-visibility', 'hidden');
+        root_.setProperty('--search-aside-opacity', '0');
         document.documentElement.style.overflowY = 'hidden';
       }}
     >

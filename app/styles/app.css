@@ -6,6 +6,13 @@
   --cart-overlay-visibility: hidden;
   --cart-aside-position: translateX(100%);
   --cart-aside-visibility: hidden;
+  --search-overlay-opacity: 0;
+  --search-overlay-visibility: hidden;
+  --search-aside-position: translateY(-25px);
+  --search-aside-visibility: hidden;
+  --search-aside-opacity: 0;
+  --drawer-overlay-opacity: 0;
+  --drawer-overlay-visibility: hidden;
   --grid-item-width: 355px;
   --header-height: 90px;
   --color-dark: #000;
@@ -311,6 +318,29 @@ aside li {
 * components/Search
 * --------------------------------------------------
 */
+
+.search-overlay {
+  opacity: var(--search-overlay-opacity);
+  visibility: var(--search-overlay-visibility);
+  transition: opacity 0.4s cubic-bezier(0.645, 0.045, 0.355, 1),
+    visibility 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.search-aside {
+  background-color: #fff;
+  box-shadow: 2px 0 10px #36363633, -2px 0 10px #36363633;
+  position: fixed;
+  transform: var(--search-aside-position);
+  visibility: var(--search-aside-visibility);
+  opacity: var(--search-aside-opacity);
+  transition: transform 250ms ease-in-out, visibility 250ms ease-in-out,
+    opacity 250ms ease-in-out;
+}
+
+input[type='search']::-webkit-search-cancel-button {
+  display: none;
+}
+
 .predictive-search {
   height: calc(100vh - var(--header-height) - 40px);
   overflow-y: auto;
@@ -621,6 +651,13 @@ aside li {
 * components/Drawer
 * --------------------------------------------------
 */
+
+.drawer-overlay {
+  opacity: var(--drawer-overlay-opacity);
+  visibility: var(--drawer-overlay-visibility);
+  transition: opacity 0.4s cubic-bezier(0.645, 0.045, 0.355, 1),
+    visibility 0.4s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
 
 .plus::before,
 .plus::after {
