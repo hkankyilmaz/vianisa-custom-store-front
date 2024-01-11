@@ -142,9 +142,11 @@ export default function SearchPage() {
   console.log(searchResults.results.products);
   return (
     <div className="search">
-      <div className="flex flex-col justify-center text-center">
-        <h1 className="uppercase">Search</h1>
-        <h2>
+      <div className="flex flex-col justify-center text-center my-[50px]">
+        <h1 className="uppercase tracking-[3.2px] font-[sans-serif] text-[#2f2f2f]">
+          Search
+        </h1>
+        <h2 className="font-questrial text-[13px] text-[#2f2f2f]">
           {searchResults.results.products.nodes.length} results for "
           {searchTerm}"
         </h2>

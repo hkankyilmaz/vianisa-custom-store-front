@@ -71,6 +71,7 @@ export function SearchForm({searchTerm}) {
         placeholder="Search…"
         ref={inputRef}
         type="search"
+        autofocus
       />
       &nbsp;
       <button type="submit">Search</button>
@@ -319,7 +320,7 @@ function ProductsGrid({
             /* params.set('minprice', value[0]);
             params.set('maxprice', value[1]); */
             submit(e.currentTarget);
-            console.log(e);
+            // console.log(e);
           }}
           className="filter-form-mobile max-lg:fixed right-0 top-0 bottom-0 max-sm:left-[65px] max-sm:w-auto  max-lg:bg-[#efefef] max-lg:z-10 max-lg:w-[400px]"
         >
@@ -538,7 +539,7 @@ function ProductsGrid({
   );
 }
 function SearchResultsProductsGrid({products}) {
-  console.log(products);
+  // console.log(products);
   return (
     <div className="search-result">
       <h3>Products</h3>
@@ -594,9 +595,9 @@ function ProductItem({product, loading}) {
   // const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
   return (
     <Link className="" key={product.id} prefetch="intent" to={product.handle}>
-      {/* <div className="font-montserratMd max-sm:text-[8px] text-[10px] tracking-[2px] text-[#2f2f2f] max-lg:mb-0 mb-3 ml-4">
+      <div className="font-montserratMd max-sm:text-[8px] text-[10px] tracking-[2px] text-[#2f2f2f] max-lg:mb-0 mb-3 ml-4">
         ON SALE
-      </div> */}
+      </div>
       {product.featuredImage && (
         <div className="w-full relative overflow-hidden ">
           {selectedVariant ? (
@@ -606,7 +607,7 @@ function ProductItem({product, loading}) {
                 alt={selectedVariant.altText || product.title}
                 aspectRatio="4/3"
                 data={selectedVariant.image}
-                loading={loading}
+                loading={'lazy'}
                 sizes="(min-width: 45em) 400px, 100vw"
               />
               <Image
@@ -614,7 +615,7 @@ function ProductItem({product, loading}) {
                 alt={product.images.nodes[1].altText || product.title}
                 aspectRatio="4/3"
                 data={product.images.nodes[1]}
-                loading={loading}
+                loading={'lazy'}
                 sizes="(min-width: 45em) 400px, 100vw"
               />
             </>
@@ -625,7 +626,7 @@ function ProductItem({product, loading}) {
                 alt={product.featuredImage.altText || product.title}
                 aspectRatio="4/3"
                 data={product.featuredImage}
-                loading={loading}
+                loading={'lazy'}
                 sizes="(min-width: 45em) 400px, 100vw"
               />
               <Image
@@ -633,7 +634,7 @@ function ProductItem({product, loading}) {
                 alt={product.images.nodes[1].altText || product.title}
                 aspectRatio="4/3"
                 data={product.images.nodes[1]}
-                loading={loading}
+                loading={'lazy'}
                 sizes="(min-width: 45em) 400px, 100vw"
               />
             </>
@@ -790,7 +791,7 @@ export function PredictiveSearchForm({
 export function PredictiveSearchResults() {
   const {results, totalResults, searchInputRef, searchResults, searchTerm} =
     usePredictiveSearch();
-  console.log(results);
+  // console.log(results);
   function goToSearchResult(event) {
     if (!searchInputRef.current) return;
     searchInputRef.current.blur();
@@ -802,9 +803,32 @@ export function PredictiveSearchResults() {
   if (!totalResults) {
     return <NoPredictiveSearchResults searchTerm={searchTerm} />;
   }
+
   return (
-    <div className="predictive-search-results">
-      <div>
+    <div className="predictive-search-results px-[50px]  mt-[42px]">
+      {/* view all results /search?q=term */}
+      <div className="mb-[34px] pb-[10px] border-b border-[#e0e0e0]">
+        {searchTerm.current && (
+          <Link
+            onClick={goToSearchResult}
+            to={`/search?q=${searchTerm.current}`}
+          >
+            <div className="flex justify-between">
+              <p className="font-montserratMd text-[11px] tracking-[2.2px] text-[#2f2f2f]">
+                {} RESULT
+              </p>
+              <p className="uppercase font-montserratMd text-[12px] tracking-[2.2px] text-[#2f2f2f]">
+                View All
+              </p>
+              {/* <p>
+              View all results for <q>{searchTerm.current}</q>
+              &nbsp; →
+              </p> */}
+            </div>
+          </Link>
+        )}
+      </div>
+      <div className="py-7">
         {results.map(({type, items}) => (
           <PredictiveSearchResult
             goToSearchResult={goToSearchResult}
@@ -815,15 +839,6 @@ export function PredictiveSearchResults() {
           />
         ))}
       </div>
-      {/* view all results /search?q=term */}
-      {searchTerm.current && (
-        <Link onClick={goToSearchResult} to={`/search?q=${searchTerm.current}`}>
-          <p>
-            View all results for <q>{searchTerm.current}</q>
-            &nbsp; →
-          </p>
-        </Link>
-      )}
     </div>
   );
 }
@@ -847,11 +862,11 @@ function PredictiveSearchResult({goToSearchResult, items, searchTerm, type}) {
   // console.log(items);
   return type === 'products' ? (
     <div className="predictive-search-result" key={type}>
-      <Link prefetch="intent" to={categoryUrl} onClick={goToSearchResult}>
+      {/* <Link prefetch="intent" to={categoryUrl} onClick={goToSearchResult}>
         <h5>{isSuggestions ? 'Suggestions' : type}</h5>
-      </Link>
-      <ul>
-        {items.map((item) => (
+      </Link> */}
+      <ul className="grid grid-cols-3 gap-[50px]">
+        {items.slice(0, 3).map((item) => (
           <SearchResultItem
             goToSearchResult={goToSearchResult}
             item={item}
@@ -904,36 +919,35 @@ function SearchResultItem({goToSearchResult, item}) {
   // console.log(item);
   return (
     <Link
-      className=""
+      className="flex-1"
       key={item.id}
       prefetch="intent"
       to={'products/' + item.handle}
     >
-      <div className="font-montserratMd max-sm:text-[8px] text-[10px] tracking-[2px] text-[#2f2f2f] max-lg:mb-0 mb-3 ml-4">
+      {/* <div className="font-montserratMd max-sm:text-[8px] text-[10px] tracking-[2px] text-[#2f2f2f] max-lg:mb-0 mb-3 ml-4">
         ON SALE
-      </div>
-      {item.featuredImage && (
-        <div className="w-full relative overflow-hidden ">
-          (
+      </div> */}
+      {item.image && (
+        <div className="w-full relative overflow-hidden">
           <>
+            {/* <div className="w-[120px] h-[120px] bg-red-400"></div> */}
             <Image
               className="transition-opacity opacity-100 hover:opacity-0"
               alt={item.image.altText || item.image.title}
               aspectRatio="4/3"
               data={item.image}
-              loading={loading}
+              loading={'lazy'}
               sizes="(min-width: 45em) 400px, 100vw"
             />
-            <Image
+            {/*  <Image
               className="transition-opacity opacity-0 hover:opacity-100 absolute top-0 "
               alt={item.images.nodes[1].altText || item.title}
               aspectRatio="4/3"
               data={item.images.nodes[1]}
-              loading={loading}
+              loading={'lazy'}
               sizes="(min-width: 45em) 400px, 100vw"
-            />
+            /> */}
           </>
-          )
         </div>
       )}
       <h4 className="dynamic-margin-top mt-14 mb-1 font-montserratMd max-sm:text-[10px] text-[11px] tracking-[2.2px] text-[#2f2f2f] uppercase">

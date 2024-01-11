@@ -1,6 +1,5 @@
 import {Await} from '@remix-run/react';
 import {Suspense, useRef, useEffect, useState} from 'react';
-import {Aside} from '~/components/Aside';
 import {CartAside} from '~/components/CartAside';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header/Header';
@@ -24,7 +23,7 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
         <>
           <ProductContextProvider>
             <CartModal cart={cart} />
-            <MobileMenuAside menu={header.menu} />
+            <SearchModal />
             <ProductModal />
             <div ref={ref}>
               <AnnouncementBar />
@@ -56,7 +55,7 @@ function CartModal({cart}) {
     <div className="cart-container">
       <div
         onClick={() => closeCart()}
-        className="cart-overlay bg-[#363636]/50 w-[100%] z-50 translate-x-[0%] h-[100vh] fixed top-0 "
+        className="cart-overlay bg-[#363636]/50 w-[100%] z-[55] translate-x-[0%] h-[100vh] fixed top-0 "
       ></div>
       <CartAside closeCart={closeCart}>
         <Suspense fallback={<p>Loading cart ...</p>}>
@@ -71,10 +70,10 @@ function CartModal({cart}) {
   );
 }
 
-function MobileMenuAside({menu}) {
+function SearchModal() {
   return (
-    <Aside id="mobile-menu-aside" heading="MENU">
-      <HeaderMenu menu={menu} viewport="mobile" />
-    </Aside>
+    <div className="search-container ">
+      <div class="search-overlay bg-[#363636]/50 w-[100%] z-50 translate-x-[0%] h-[100vh] fixed top-0 "></div>
+    </div>
   );
 }
