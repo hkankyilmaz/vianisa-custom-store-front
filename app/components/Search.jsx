@@ -908,8 +908,18 @@ function SearchResultItem({goToSearchResult, item}) {
   /*  const variant = item.variants.nodes[0];
   const variantUrl = useVariantUrl(item.handle, item.selectedOptions); */
   // console.log(item);
+
   return (
     <Link
+      onClick={() => {
+        let root_ = document.documentElement.style;
+        root_.setProperty('--search-overlay-opacity', '0');
+        root_.setProperty('--search-overlay-visibility', 'hidden');
+        root_.setProperty('--search-aside-position', 'translateY(-25px)');
+        root_.setProperty('--search-aside-visibility', 'hidden');
+        root_.setProperty('--search-aside-opacity', '0');
+        document.documentElement.style.overflowY = 'auto';
+      }}
       className="flex-1"
       key={item.id}
       prefetch="intent"
