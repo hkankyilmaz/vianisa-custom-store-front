@@ -14,7 +14,7 @@ export function ProductExtraInputType({product, cardInfo}) {
         return (
           <div className="relative w-full text-[#595959] tracking-wide mt-[10px] mb-[15px]">
             <select
-              data-labelOnProduct={resultType.labelOnProduct}
+              data-labelonproduct={resultType.labelOnProduct}
               data-name={resultType.name}
               name={resultType.labelOnProduct.toUpperCase()}
               onChange={cardInfo}
@@ -25,6 +25,7 @@ export function ProductExtraInputType({product, cardInfo}) {
                 ? fill(Array(resultType.options.optionCount), '').map(
                     (i, j) => (
                       <option
+                        key={j}
                         value={
                           resultType.options.range[0] +
                           j * resultType.options.delimeter
@@ -62,13 +63,13 @@ export function ProductExtraInputTag({product, cardInfo}) {
   // console.log('tag : ', resultTag);
 
   if (resultTag) {
-    return resultTag.map((inputObj) => (
-      <div className="text-[#595959] tracking-wide">
+    return resultTag.map((inputObj, index) => (
+      <div key={index} className="text-[#595959] tracking-wide">
         {inputObj.inputNumber == 1 && inputObj.inputType == 'text' ? (
           <div className="relative mb-3 h-[41.5px]">
             <input
               className="w-full bg-transparent h-[41.5px] focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
-              data-labelOnProduct={inputObj.labelOnProduct}
+              data-labelonproduct={inputObj.labelOnProduct}
               data-name={inputObj.name}
               name={inputObj.labelOnProduct}
               onChange={cardInfo}
@@ -79,7 +80,7 @@ export function ProductExtraInputTag({product, cardInfo}) {
         ) : inputObj.inputNumber == 1 && inputObj.inputType == 'select' ? (
           <div className="relative my-3 h-[41.5px]">
             <select
-              data-labelOnProduct={inputObj.labelOnProduct}
+              data-labelonproduct={inputObj.labelOnProduct}
               data-name={inputObj.name}
               name={inputObj.labelOnProduct}
               onChange={cardInfo}
@@ -89,6 +90,7 @@ export function ProductExtraInputTag({product, cardInfo}) {
               {inputObj.options.delimeter
                 ? fill(Array(inputObj.options.optionCount), '').map((i, j) => (
                     <option
+                      key={j}
                       value={
                         inputObj.options.range[0] +
                         j * inputObj.options.delimeter
@@ -100,18 +102,21 @@ export function ProductExtraInputTag({product, cardInfo}) {
                     </option>
                   ))
                 : inputObj.options.map((i, j) => (
-                    <option value={i}> {i} </option>
+                    <option key={j} value={i}>
+                      {' '}
+                      {i}{' '}
+                    </option>
                   ))}
             </select>
             <AiOutlineDown className="absolute right-4 top-[50%] translate-y-[-50%] text-[13px] z-[-1]" />
           </div>
         ) : (
           <>
-            {inputObj.inputs.map((inputObjSub) =>
+            {inputObj.inputs.map((inputObjSub, idx) =>
               inputObjSub.inputType == 'checkbox' ? (
-                <div className="flex items-center">
+                <div key={idx} className="flex items-center">
                   <Checkbox
-                    data-labelOnProduct={inputObjSub.labelOnProduct}
+                    data-labelonproduct={inputObjSub.labelOnProduct}
                     data-name={inputObj.name}
                     value={open}
                     name="chck"
@@ -121,15 +126,15 @@ export function ProductExtraInputTag({product, cardInfo}) {
                     className="p-0"
                     onChange={() => setopen(!open)}
                   />
-                  <label className="font-body text-[13px]" for={'chck'}>
+                  <label className="font-body text-[13px]" htmlFor={'chck'}>
                     {' '}
                     {inputObjSub.placeHolder}{' '}
                   </label>
                 </div>
               ) : inputObjSub.inputType == 'select' && open ? (
-                <div className="relative mt-[15px] h-[41.5px]">
+                <div key={idx} className="relative mt-[15px] h-[41.5px]">
                   <select
-                    data-labelOnProduct={inputObjSub.labelOnProduct}
+                    data-labelonproduct={inputObjSub.labelOnProduct}
                     data-name={inputObjSub.name}
                     name={inputObjSub.labelOnProduct}
                     onChange={cardInfo}
@@ -140,6 +145,7 @@ export function ProductExtraInputTag({product, cardInfo}) {
                       ? fill(Array(inputObjSub.options.optionCount), '').map(
                           (i, j) => (
                             <option
+                              key={j}
                               value={
                                 inputObjSub.options.range[0] +
                                 j * inputObjSub.options.delimeter
@@ -152,16 +158,19 @@ export function ProductExtraInputTag({product, cardInfo}) {
                           ),
                         )
                       : inputObjSub.options.map((i, j) => (
-                          <option value={i}> {i} </option>
+                          <option key={j} value={i}>
+                            {' '}
+                            {i}{' '}
+                          </option>
                         ))}
                   </select>
                   <AiOutlineDown className="absolute right-4 top-[50%] translate-y-[-50%] text-sm text-black z-[-1]" />
                 </div>
               ) : inputObjSub.inputType == 'text' && open ? (
-                <div className="relative mt-[15px] h-[41.5px]">
+                <div key={idx} className="relative mt-[15px] h-[41.5px]">
                   <input
                     className="placeholder-neutral-400 w-full text-[13px] px-[15px] py-[10px] bg-transparent h-[41.5px] focus:border-transparent focus:outline-none border border-[#E5E7EB] z-3"
-                    data-labelOnProduct={inputObjSub.labelOnProduct}
+                    data-labelonproduct={inputObjSub.labelOnProduct}
                     name={inputObjSub.labelOnProduct}
                     onChange={cardInfo}
                     data-name={inputObjSub.name}
