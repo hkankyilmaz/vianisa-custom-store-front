@@ -223,24 +223,24 @@ function ViewPlanMain({price, className, close}) {
                   {price.amount / 4}
                 </b>
                 <p className="font-body_light text-[#121212B3] text-[16px]">
-                  &nbsp;/ 2 weeks
+                  &nbsp;/ {price.amount < 1000 ? '2 weeks' : 'month'}
                 </p>
               </div>
               <p className="font-body_light  text-[#121212B3] text-[15px] bg-[#F0F2F4] py-[2px]">
-                8 weeks
+                {price.amount < 1000 ? '8 weeks' : '3 months'}
               </p>
             </div>
             <div className="flex">
               <div className="w-[80px] mr-3">
                 <p className="font-body_light text-[#121212B3]">APR</p>
                 <p className="font-body_light text-[#121212B3] text-[18px]">
-                  0%
+                  {price.amount < 1000 ? '0%' : '15%'}
                 </p>
               </div>
               <div className="w-[80px] mr-3">
                 <p className="font-body_light text-[#121212B3]">Interest</p>
                 <p className="font-body_light text-[#121212B3] text-[18px]">
-                  $0.00
+                  {price.amount < 1000 ? '$0.00' : `$${toplam_faiz}`}
                 </p>
               </div>
               <div className="w-[80px] mr-3">
