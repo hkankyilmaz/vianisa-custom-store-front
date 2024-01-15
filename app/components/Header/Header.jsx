@@ -65,7 +65,10 @@ export function Header({header, isLoggedIn, cart}) {
           <HeaderCtas
             isLoggedIn={isLoggedIn}
             cart={cart}
-            searchbtn={() => setSearchbtn(!searchbtn)}
+            searchbtn={() => {
+              setSearchbtn(!searchbtn);
+              console.log('input focus');
+            }}
           />
         </div>
         <div className="uppercase w-full flex justify-center pt-2 pb-[7px] shadow-[rgb(34,34,34)_0px_0px_2px_0px] text-center font-questrial mb-[2px] max-xl:hidden z-20 relative">
@@ -102,18 +105,17 @@ function SearchAside() {
             <div className="flex justify-around">
               <div className="w-full flex px-[50px] py-7 justify-center items-center  ">
                 <svg
-                  class="Icon Icon--search-desktop "
+                  className="Icon Icon--search-desktop w-[22px] h-[22px]"
                   role="presentation"
                   viewBox="0 0 21 21"
-                  className="w-[22px] h-[22px] "
                 >
                   <g
                     transform="translate(1 1)"
                     stroke="currentColor"
-                    stroke-width="2"
+                    strokeWidth="2"
                     fill="none"
-                    fill-rule="evenodd"
-                    stroke-linecap="square"
+                    fillRule="evenodd"
+                    strokeLinecap="square"
                   >
                     <path d="M18 18l-5.7096-5.7096"></path>
                     <circle cx="7.2" cy="7.2" r="7.2"></circle>
@@ -125,13 +127,13 @@ function SearchAside() {
                   onFocus={fetchResults}
                   placeholder="SEARCH..."
                   ref={inputRef}
-                  autocomplete="off"
+                  autoComplete="off"
                   type="search"
                   className="w-full border-0 p-0 pl-5 bg-transparent focus:ring-0 focus:!border-[#e0e0e0] focus:!shadow-none focus:!shadow-transparent uppercase font-montserratMd text-[17px] text-[#2f2f2f] tracking-[3.4px]"
-                  autofocus
+                  autoFocus
                 />
                 <button
-                  class="w-4 h-4"
+                  className="w-4 h-4"
                   data-action="close-search"
                   aria-label="Close search"
                   onClick={() => {
@@ -148,7 +150,7 @@ function SearchAside() {
                   }}
                 >
                   <svg
-                    class="Icon Icon--close "
+                    className="Icon Icon--close "
                     role="presentation"
                     viewBox="0 0 16 14"
                   >
@@ -156,7 +158,7 @@ function SearchAside() {
                       d="M15 0L1 14m14 0L1 0"
                       stroke="currentColor"
                       fill="none"
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                     ></path>
                   </svg>
                 </button>
@@ -398,10 +400,10 @@ function HeaderMenuMobileToggle() {
 
 function SearchToggle({searchbtn}) {
   let root_ = document.documentElement.style;
+
   return (
     <a
       onClick={() => {
-        console.log('test');
         root_.setProperty('--search-overlay-opacity', '1');
         root_.setProperty('--search-overlay-visibility', 'visible');
         root_.setProperty('--search-aside-position', 'translateY(0%)');

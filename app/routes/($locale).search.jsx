@@ -8,7 +8,7 @@ import {
   LoadMoreButton,
   PageHeader,
   FilterForm,
-} from '~/components/Collection Page UI-Forms/Index';
+} from '~/components/Collection Page UI-Forms';
 import React, {useRef, useEffect, useState} from 'react';
 import {SearchForm, SearchResults, NoSearchResults} from '~/components/Search';
 import {AiOutlineDown} from 'react-icons/ai';

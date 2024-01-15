@@ -839,9 +839,14 @@ function NoPredictiveSearchResults({searchTerm}) {
     return null;
   }
   return (
-    <p>
-      No results found for <q>{searchTerm.current}</q>
-    </p>
+    <div className="px-[50px] mt-[42px] mb-[76px] ">
+      <p className="pb-[10px] mb-[34px] font-montserratMd text-[11px] tracking-[2.2px] text-[#2f2f2f] border-b border-[#e0e0e0]">
+        PRODUCTS
+      </p>
+      <p className="text-[#2f2f2f] font-questrial">
+        No results found for <q>{searchTerm.current}</q>
+      </p>
+    </div>
   );
 }
 
@@ -908,8 +913,18 @@ function SearchResultItem({goToSearchResult, item}) {
   /*  const variant = item.variants.nodes[0];
   const variantUrl = useVariantUrl(item.handle, item.selectedOptions); */
   // console.log(item);
+
   return (
     <Link
+      onClick={() => {
+        let root_ = document.documentElement.style;
+        root_.setProperty('--search-overlay-opacity', '0');
+        root_.setProperty('--search-overlay-visibility', 'hidden');
+        root_.setProperty('--search-aside-position', 'translateY(-25px)');
+        root_.setProperty('--search-aside-visibility', 'hidden');
+        root_.setProperty('--search-aside-opacity', '0');
+        document.documentElement.style.overflowY = 'auto';
+      }}
       className="flex-1"
       key={item.id}
       prefetch="intent"

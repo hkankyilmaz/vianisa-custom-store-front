@@ -37,7 +37,9 @@ export const meta = ({data}) => {
 
 export async function loader({params, request, context}) {
   const {handle} = params;
-  const {storefront} = context;
+  const {storefront, session, cart} = context;
+  // console.log(cart.getCartId());
+  // const {storefront} = context;
   let randomNumber = _.random(0, 1);
 
   const selectedOptions = getSelectedProductOptions(request).filter(
@@ -100,7 +102,7 @@ export async function loader({params, request, context}) {
     variables: {handle},
   });
 
-  return defer({product, variants, featuredCollectionTwo});
+  return defer({product, variants, featuredCollectionTwo, cart});
 }
 
 function redirectToFirstVariant({product, request}) {
@@ -121,7 +123,7 @@ function redirectToFirstVariant({product, request}) {
 }
 
 export default function Product() {
-  const {product, variants, featuredCollectionTwo} = useLoaderData();
+  const {product, variants, featuredCollectionTwo, cart} = useLoaderData();
   const {selectedVariant} = product;
   const images = product.images.nodes;
   const imageByIndex = (index) => images[index % images.length];
@@ -157,6 +159,7 @@ export default function Product() {
           selectedVariant={selectedVariant}
           product={product}
           variants={variants}
+          cart={cart}
         />
       </div>
       <FeaturedCollection
@@ -175,7 +178,7 @@ function ViewPlanMain({price, className, close}) {
   let yuvarlanmisSayi = Math.ceil(faizharam * 100) / 100;
   let toplam_faiz = (yuvarlanmisSayi * 12 - Number(price.amount)).toFixed(2);
   let geriodeme = (yuvarlanmisSayi * 12).toFixed(2);
-  console.log(toplam_faiz, yuvarlanmisSayi);
+  //console.log(toplam_faiz, yuvarlanmisSayi);
   return (
     <div
       className={
@@ -223,24 +226,24 @@ function ViewPlanMain({price, className, close}) {
                   {price.amount / 4}
                 </b>
                 <p className="font-body_light text-[#121212B3] text-[16px]">
-                  &nbsp;/ 2 weeks
+                  &nbsp;/ {price.amount < 1000 ? '2 weeks' : 'month'}
                 </p>
               </div>
               <p className="font-body_light  text-[#121212B3] text-[15px] bg-[#F0F2F4] py-[2px]">
-                8 weeks
+                {price.amount < 1000 ? '8 weeks' : '3 months'}
               </p>
             </div>
             <div className="flex">
               <div className="w-[80px] mr-3">
                 <p className="font-body_light text-[#121212B3]">APR</p>
                 <p className="font-body_light text-[#121212B3] text-[18px]">
-                  0%
+                  {price.amount < 1000 ? '0%' : '15%'}
                 </p>
               </div>
               <div className="w-[80px] mr-3">
                 <p className="font-body_light text-[#121212B3]">Interest</p>
                 <p className="font-body_light text-[#121212B3] text-[18px]">
-                  $0.00
+                  {price.amount < 1000 ? '$0.00' : `$${toplam_faiz}`}
                 </p>
               </div>
               <div className="w-[80px] mr-3">
@@ -329,7 +332,7 @@ function ViewPlanMain({price, className, close}) {
         <div className="mt-[19px] mb-3 flex items-center justify-center ">
           <svg
             className="w-[88px] "
-            xmlns:xlink="http://www.w3.org/1999/xlink"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 145 35"
@@ -349,11 +352,11 @@ function ViewPlanMain({price, className, close}) {
           <p className="text-[#121212] text-[11px] text-opacity-60">
             Installments in partnership with
             <svg
-              xmlns:xlink="http://www.w3.org/1999/xlink"
+              xmlnsXlink="http://www.w3.org/1999/xlink"
               xmlns="http://www.w3.org/2000/svg"
               role="img"
               aria-labelledby="shopify-payment-terms-modal-affirm"
-              class="affirm-logo affirm-logo-inline inline-block mx-1"
+              className="affirm-logo affirm-logo-inline inline-block mx-1"
               width="40"
               height="22"
             >
@@ -390,7 +393,7 @@ function ViewPlanMain({price, className, close}) {
     </div>
   );
 }
-function ProductMain({selectedVariant, product, variants}) {
+function ProductMain({selectedVariant, product, variants, cart}) {
   const [isOpenGemStoneOpt, setIsGemStoneOpt] = useState(false);
   const ctArr = ['-1-50-ct', '-1-00-ct', '-2-00-ct'];
   const {title, descriptionHtml, tags} = product;
@@ -400,7 +403,8 @@ function ProductMain({selectedVariant, product, variants}) {
     ? _.replace(product.handle, 'moissanite', 'lab-grown-diamond')
     : _.replace(product.handle, 'lab-grown-diamond', 'moissanite');
   const shipDtae = useCalculateShipDay(tags);
-
+  //const crtId = cart.getCartId();
+  //console.log(cart);
   useEffect(() => {
     setIsGemStoneOpt(false);
   }, [matches]);
@@ -412,7 +416,7 @@ function ProductMain({selectedVariant, product, variants}) {
     setviewOp(false);
   }
   useEffect(() => {
-    console.log(viewOp);
+    // console.log(viewOp);
   }, [viewOp]);
   return (
     <>
@@ -431,7 +435,7 @@ function ProductMain({selectedVariant, product, variants}) {
 
           <style></style>
           <ProductPrice selectedVariant={selectedVariant} />
-          <p className="mt-3 text-[#2f2f2f]">
+          <p className="mt-3 mb-[20px] text-[#2f2f2f]">
             <span>
               4 interest-free installments, or from <strong>$53.88</strong>/mo
               with
@@ -448,8 +452,8 @@ function ProductMain({selectedVariant, product, variants}) {
                   fill="none"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M227.297 0C220.448 0 214.896 5.47237 214.896 12.2229V67.8125C214.896 74.563 220.448 80.0354 227.297 80.0354H328.357C335.206 80.0354 340.758 74.563 340.758 67.8125V12.2229C340.758 5.47237 335.206 0 328.357 0H227.297ZM244.999 55.8917V41.8012H253.993C262.21 41.8012 266.579 37.2604 266.579 30.379C266.579 23.4976 262.21 19.3782 253.993 19.3782H239.205V55.8917H244.999ZM244.999 24.8084H252.663C257.982 24.8084 260.595 26.9617 260.595 30.5663C260.595 34.1708 258.077 36.3242 252.9 36.3242H244.999V24.8084ZM276.795 56.6407C281.212 56.6407 284.109 54.7214 285.439 51.4445C285.819 55.0959 288.052 56.9684 292.896 55.7044L292.944 51.819C290.996 52.0063 290.616 51.3041 290.616 49.2912V39.7415C290.616 34.124 286.864 30.8003 279.93 30.8003C273.09 30.8003 269.148 34.1708 269.148 39.8819H274.468C274.468 37.1668 276.415 35.5284 279.835 35.5284C283.444 35.5284 285.107 37.0732 285.059 39.7415V40.9586L278.932 41.614C272.045 42.3629 268.246 44.9376 268.246 49.4316C268.246 53.1298 270.905 56.6407 276.795 56.6407ZM277.982 52.4276C274.99 52.4276 273.803 50.836 273.803 49.2443C273.803 47.091 276.273 46.1079 281.117 45.5462L284.917 45.1249C284.679 49.2443 281.877 52.4276 277.982 52.4276ZM310.537 57.7174C308.115 63.5221 304.22 65.2541 298.141 65.2541H295.528V60.4793H298.331C301.655 60.4793 303.27 59.4494 305.028 56.5002L294.246 31.5493H300.23L307.925 49.7593L314.764 31.5493H320.606L310.537 57.7174Z"
                     fill="rgb(90, 49, 244)"
                   ></path>
@@ -478,7 +482,7 @@ function ProductMain({selectedVariant, product, variants}) {
           </p>
 
           {ctArr.some((item) => product.handle.includes(item)) ? (
-            <div className="mt-[20px] mb-6 flex justify-start items-center gap-[5px]">
+            <div className=" mb-6 flex justify-start items-center gap-[5px]">
               <h5 className="h-full font-bold text-[13px] mr-5 flex justify-center items-center font-body text-[#2f2f2f] pt-[10px]">
                 Total Carat Weight:
               </h5>
@@ -497,6 +501,7 @@ function ProductMain({selectedVariant, product, variants}) {
                   prefetch="intent"
                   className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
                   to={`/products/${modifiedStringwithCarat}-1-00-ct`}
+                  preventScrollReset
                 >
                   1.0ct
                 </Link>
@@ -514,6 +519,7 @@ function ProductMain({selectedVariant, product, variants}) {
                   className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
                   prefetch="intent"
                   to={`/products/${modifiedStringwithCarat}-1-50-ct`}
+                  preventScrollReset
                 >
                   1.5ct
                 </Link>
@@ -531,6 +537,7 @@ function ProductMain({selectedVariant, product, variants}) {
                   className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
                   prefetch="intent"
                   to={`/products/${modifiedStringwithCarat}-2-00-ct`}
+                  preventScrollReset
                 >
                   2.0ct
                 </Link>
@@ -541,7 +548,7 @@ function ProductMain({selectedVariant, product, variants}) {
           {_.includes(matches, 'moissanite') ||
           _.includes(matches, 'lab-grown-diamond') ? (
             <ClickAwayListener onClickAway={() => setIsGemStoneOpt(false)}>
-              <div className="relative mt-3 mb-[17px] w-full text-[#595959] tracking-wide">
+              <div className="relative mt-3 w-full text-[#595959] tracking-wide">
                 <select className="text-[#595959] font-body align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10">
                   <option> Gemstone: Moissanite </option>
                   <option> Gemstone: Lab Grown Diamond </option>
@@ -611,7 +618,11 @@ function ProductMain({selectedVariant, product, variants}) {
             </Await>
           </Suspense>
           <div className="flex justify-center text-[#2f2f2f] text-[13px] font-body mt-3">
-            <button className="link-underline link-underline-black">
+            <button
+              //href={'vianisa.com/c1/' + crtId}
+              target="_self"
+              className="link-underline link-underline-black"
+            >
               More payment options
             </button>
           </div>
@@ -624,7 +635,7 @@ function ProductMain({selectedVariant, product, variants}) {
               />
               <p>For each purchase</p>
             </div>
-            <div className="w-auto text-[13px]">
+            {/* <div className="w-auto text-[13px]">
               <a
                 href="/pages/plant-a-tree"
                 target="_blank"
@@ -632,7 +643,7 @@ function ProductMain({selectedVariant, product, variants}) {
               >
                 Learn more
               </a>
-            </div>
+            </div> */}
           </div>
           {/* <div className="flex justify-center text-[5px]">
           <WishlistButton />
@@ -700,7 +711,7 @@ function ProductForm({product, selectedVariant, variants}) {
   // setotherop(array);
   return (
     <div className="product-form border-[#bfbfbf] font-body">
-      <div className=" gap-x-3 grid grid-cols-2 max-sm:flex flex-col gap-y-3">
+      <div className=" gap-x-3 grid grid-cols-2 max-sm:flex flex-col gap-y-3 mt-[17px]">
         <VariantSelector
           handle={product.handle}
           options={product.options}
@@ -803,7 +814,7 @@ function ProductOptions({option}) {
             <span> {activeOption} </span>
             {isOpen ? (
               <div className="modal-shadow absolute z-10 right-[calc(100%+5px)] top-[50%] translate-y-[-50%] max-lg:hidden">
-                <div className="  rounded-xl h-[165px] w-[390px] flex justify-center items-center flex-col clip-path bg-[#efefef]">
+                <div className="  rounded-xl h-full w-[390px] flex justify-center items-center flex-col clip-path bg-[#efefef]">
                   {option.values.length > 1
                     ? option.values.map(
                         ({value, isAvailable, isActive, to}) => {

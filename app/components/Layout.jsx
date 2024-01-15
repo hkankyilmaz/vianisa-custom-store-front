@@ -73,7 +73,7 @@ function CartModal({cart}) {
 function SearchModal() {
   return (
     <div className="search-container ">
-      <div class="search-overlay bg-[#363636]/50 w-[100%] z-50 translate-x-[0%] h-[100vh] fixed top-0 "></div>
+      <div className="search-overlay bg-[#363636]/50 w-[100%] z-50 translate-x-[0%] h-[100vh] fixed top-0 "></div>
     </div>
   );
 }
