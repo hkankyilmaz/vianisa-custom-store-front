@@ -37,7 +37,9 @@ export const meta = ({data}) => {
 
 export async function loader({params, request, context}) {
   const {handle} = params;
-  const {storefront} = context;
+  const {storefront, session, cart} = context;
+  // console.log(cart.getCartId());
+  // const {storefront} = context;
   let randomNumber = _.random(0, 1);
 
   const selectedOptions = getSelectedProductOptions(request).filter(
@@ -100,7 +102,7 @@ export async function loader({params, request, context}) {
     variables: {handle},
   });
 
-  return defer({product, variants, featuredCollectionTwo});
+  return defer({product, variants, featuredCollectionTwo, cart});
 }
 
 function redirectToFirstVariant({product, request}) {
@@ -121,7 +123,7 @@ function redirectToFirstVariant({product, request}) {
 }
 
 export default function Product() {
-  const {product, variants, featuredCollectionTwo} = useLoaderData();
+  const {product, variants, featuredCollectionTwo, cart} = useLoaderData();
   const {selectedVariant} = product;
   const images = product.images.nodes;
   const imageByIndex = (index) => images[index % images.length];
@@ -157,6 +159,7 @@ export default function Product() {
           selectedVariant={selectedVariant}
           product={product}
           variants={variants}
+          cart={cart}
         />
       </div>
       <FeaturedCollection
@@ -390,7 +393,7 @@ function ViewPlanMain({price, className, close}) {
     </div>
   );
 }
-function ProductMain({selectedVariant, product, variants}) {
+function ProductMain({selectedVariant, product, variants, cart}) {
   const [isOpenGemStoneOpt, setIsGemStoneOpt] = useState(false);
   const ctArr = ['-1-50-ct', '-1-00-ct', '-2-00-ct'];
   const {title, descriptionHtml, tags} = product;
@@ -400,7 +403,8 @@ function ProductMain({selectedVariant, product, variants}) {
     ? _.replace(product.handle, 'moissanite', 'lab-grown-diamond')
     : _.replace(product.handle, 'lab-grown-diamond', 'moissanite');
   const shipDtae = useCalculateShipDay(tags);
-
+  //const crtId = cart.getCartId();
+  //console.log(cart);
   useEffect(() => {
     setIsGemStoneOpt(false);
   }, [matches]);
@@ -614,7 +618,11 @@ function ProductMain({selectedVariant, product, variants}) {
             </Await>
           </Suspense>
           <div className="flex justify-center text-[#2f2f2f] text-[13px] font-body mt-3">
-            <button className="link-underline link-underline-black">
+            <button
+              //href={'vianisa.com/c1/' + crtId}
+              target="_self"
+              className="link-underline link-underline-black"
+            >
               More payment options
             </button>
           </div>
@@ -627,7 +635,7 @@ function ProductMain({selectedVariant, product, variants}) {
               />
               <p>For each purchase</p>
             </div>
-            <div className="w-auto text-[13px]">
+            {/* <div className="w-auto text-[13px]">
               <a
                 href="/pages/plant-a-tree"
                 target="_blank"
@@ -635,7 +643,7 @@ function ProductMain({selectedVariant, product, variants}) {
               >
                 Learn more
               </a>
-            </div>
+            </div> */}
           </div>
           {/* <div className="flex justify-center text-[5px]">
           <WishlistButton />
