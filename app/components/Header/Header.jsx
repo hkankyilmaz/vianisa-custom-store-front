@@ -65,7 +65,10 @@ export function Header({header, isLoggedIn, cart}) {
           <HeaderCtas
             isLoggedIn={isLoggedIn}
             cart={cart}
-            searchbtn={() => setSearchbtn(!searchbtn)}
+            searchbtn={() => {
+              setSearchbtn(!searchbtn);
+              console.log('input focus');
+            }}
           />
         </div>
         <div className="uppercase w-full flex justify-center pt-2 pb-[7px] shadow-[rgb(34,34,34)_0px_0px_2px_0px] text-center font-questrial mb-[2px] max-xl:hidden z-20 relative">
@@ -397,6 +400,7 @@ function HeaderMenuMobileToggle() {
 
 function SearchToggle({searchbtn}) {
   let root_ = document.documentElement.style;
+
   return (
     <a
       onClick={() => {

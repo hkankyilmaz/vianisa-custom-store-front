@@ -839,9 +839,14 @@ function NoPredictiveSearchResults({searchTerm}) {
     return null;
   }
   return (
-    <p>
-      No results found for <q>{searchTerm.current}</q>
-    </p>
+    <div className="px-[50px] mt-[42px] mb-[76px] ">
+      <p className="pb-[10px] mb-[34px] font-montserratMd text-[11px] tracking-[2.2px] text-[#2f2f2f] border-b border-[#e0e0e0]">
+        PRODUCTS
+      </p>
+      <p className="text-[#2f2f2f] font-questrial">
+        No results found for <q>{searchTerm.current}</q>
+      </p>
+    </div>
   );
 }
 

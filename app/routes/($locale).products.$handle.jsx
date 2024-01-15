@@ -431,7 +431,7 @@ function ProductMain({selectedVariant, product, variants}) {
 
           <style></style>
           <ProductPrice selectedVariant={selectedVariant} />
-          <p className="mt-3 text-[#2f2f2f]">
+          <p className="mt-3 mb-[20px] text-[#2f2f2f]">
             <span>
               4 interest-free installments, or from <strong>$53.88</strong>/mo
               with
@@ -478,7 +478,7 @@ function ProductMain({selectedVariant, product, variants}) {
           </p>
 
           {ctArr.some((item) => product.handle.includes(item)) ? (
-            <div className="mt-[20px] mb-6 flex justify-start items-center gap-[5px]">
+            <div className=" mb-6 flex justify-start items-center gap-[5px]">
               <h5 className="h-full font-bold text-[13px] mr-5 flex justify-center items-center font-body text-[#2f2f2f] pt-[10px]">
                 Total Carat Weight:
               </h5>
@@ -497,6 +497,7 @@ function ProductMain({selectedVariant, product, variants}) {
                   prefetch="intent"
                   className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
                   to={`/products/${modifiedStringwithCarat}-1-00-ct`}
+                  preventScrollReset
                 >
                   1.0ct
                 </Link>
@@ -514,6 +515,7 @@ function ProductMain({selectedVariant, product, variants}) {
                   className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
                   prefetch="intent"
                   to={`/products/${modifiedStringwithCarat}-1-50-ct`}
+                  preventScrollReset
                 >
                   1.5ct
                 </Link>
@@ -531,6 +533,7 @@ function ProductMain({selectedVariant, product, variants}) {
                   className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
                   prefetch="intent"
                   to={`/products/${modifiedStringwithCarat}-2-00-ct`}
+                  preventScrollReset
                 >
                   2.0ct
                 </Link>
@@ -541,7 +544,7 @@ function ProductMain({selectedVariant, product, variants}) {
           {_.includes(matches, 'moissanite') ||
           _.includes(matches, 'lab-grown-diamond') ? (
             <ClickAwayListener onClickAway={() => setIsGemStoneOpt(false)}>
-              <div className="relative mt-3 mb-[17px] w-full text-[#595959] tracking-wide">
+              <div className="relative mt-3 w-full text-[#595959] tracking-wide">
                 <select className="text-[#595959] font-body align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10">
                   <option> Gemstone: Moissanite </option>
                   <option> Gemstone: Lab Grown Diamond </option>
@@ -700,7 +703,7 @@ function ProductForm({product, selectedVariant, variants}) {
   // setotherop(array);
   return (
     <div className="product-form border-[#bfbfbf] font-body">
-      <div className=" gap-x-3 grid grid-cols-2 max-sm:flex flex-col gap-y-3">
+      <div className=" gap-x-3 grid grid-cols-2 max-sm:flex flex-col gap-y-3 mt-[17px]">
         <VariantSelector
           handle={product.handle}
           options={product.options}
@@ -803,7 +806,7 @@ function ProductOptions({option}) {
             <span> {activeOption} </span>
             {isOpen ? (
               <div className="modal-shadow absolute z-10 right-[calc(100%+5px)] top-[50%] translate-y-[-50%] max-lg:hidden">
-                <div className="  rounded-xl h-[165px] w-[390px] flex justify-center items-center flex-col clip-path bg-[#efefef]">
+                <div className="  rounded-xl h-full w-[390px] flex justify-center items-center flex-col clip-path bg-[#efefef]">
                   {option.values.length > 1
                     ? option.values.map(
                         ({value, isAvailable, isActive, to}) => {
