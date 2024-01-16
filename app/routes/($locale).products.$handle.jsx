@@ -175,7 +175,19 @@ function ViewPlanMain({price, className, close}) {
   let yuvarlanmisSayi = Math.ceil(faizharam * 100) / 100;
   let toplam_faiz = (yuvarlanmisSayi * 12 - Number(price.amount)).toFixed(2);
   let geriodeme = (yuvarlanmisSayi * 12).toFixed(2);
-  console.log(toplam_faiz, yuvarlanmisSayi);
+
+  //se
+  let aylık_faiz2 = 0.0125;
+  let ödeme_ay2 = 3;
+  let faizharam2 =
+    (Number(price.amount) *
+      aylık_faiz2 *
+      Math.pow(aylık_faiz2 + 1, ödeme_ay2)) /
+    (Math.pow(aylık_faiz2 + 1, ödeme_ay2) - 1);
+  let yuvarlanmisSayi2 = Math.ceil(faizharam2 * 100) / 100;
+  let toplam_faiz2 = (yuvarlanmisSayi2 * 3 - Number(price.amount)).toFixed(2);
+  let geriodeme2 = (yuvarlanmisSayi2 * 3).toFixed(2);
+
   return (
     <div
       className={
@@ -215,43 +227,85 @@ function ViewPlanMain({price, className, close}) {
           </p>
         </div>
         <div className="px-[21px] py-[17px] border border-[#D9D9D9] bg-[#F5F5F5] rounded-md text-left">
-          <div className="pb-[21px] üst border-b border-[#D9D9D9] ">
-            <div className="flex justify-between mb-3">
-              <div className="flex justify-center items-end">
-                <b className="font-body_light text-[#121212B3] text-[18px]">
-                  {price.currencyCode == 'USD' ? '$' : NULL}
-                  {price.amount / 4}
-                </b>
-                <p className="font-body_light text-[#121212B3] text-[16px]">
-                  &nbsp;/ 2 weeks
+          {Number(price.amount) < 1000 ? (
+            <div className="pb-[21px] üst border-b border-[#D9D9D9] ">
+              <div className="flex justify-between mb-3">
+                <div className="flex justify-center items-end">
+                  <b className="font-body_light text-[#121212B3] text-[18px]">
+                    {price.currencyCode == 'USD' ? '$' : NULL}
+                    {price.amount / 4}
+                  </b>
+                  <p className="font-body_light text-[#121212B3] text-[16px]">
+                    &nbsp;/ 2 weeks
+                  </p>
+                </div>
+                <p className="font-body_light  text-[#121212B3] text-[15px] bg-[#F0F2F4] py-[2px]">
+                  8 weeks
                 </p>
               </div>
-              <p className="font-body_light  text-[#121212B3] text-[15px] bg-[#F0F2F4] py-[2px]">
-                8 weeks
-              </p>
+              <div className="flex">
+                <div className="w-[80px] mr-3">
+                  <p className="font-body_light text-[#121212B3]">APR</p>
+                  <p className="font-body_light text-[#121212B3] text-[18px]">
+                    0%
+                  </p>
+                </div>
+                <div className="w-[80px] mr-3">
+                  <p className="font-body_light text-[#121212B3]">Interest</p>
+                  <p className="font-body_light text-[#121212B3] text-[18px]">
+                    $0.00
+                  </p>
+                </div>
+                <div className="w-[80px] mr-3">
+                  <p className="font-body_light text-[#121212B3]">Total</p>
+                  <p className="font-body_light text-[#121212B3] text-[18px]">
+                    {price.currencyCode == 'USD' ? '$' : NULL}
+                    {price.amount}
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="flex">
-              <div className="w-[80px] mr-3">
-                <p className="font-body_light text-[#121212B3]">APR</p>
-                <p className="font-body_light text-[#121212B3] text-[18px]">
-                  0%
+          ) : (
+            <div className="pb-[21px] üst border-b border-[#D9D9D9] ">
+              <div className="flex justify-between mb-3">
+                <div className="flex justify-center items-end">
+                  <b className="font-body_light text-[#121212B3] text-[18px]">
+                    {price.currencyCode == 'USD' ? '$' : NULL}
+                    {price.amount / 4}
+                  </b>
+                  <p className="font-body_light text-[#121212B3] text-[16px]">
+                    &nbsp;/ 1 month
+                  </p>
+                </div>
+                <p className="font-body_light  text-[#121212B3] text-[15px] bg-[#F0F2F4] py-[2px]">
+                  3 month
                 </p>
               </div>
-              <div className="w-[80px] mr-3">
-                <p className="font-body_light text-[#121212B3]">Interest</p>
-                <p className="font-body_light text-[#121212B3] text-[18px]">
-                  $0.00
-                </p>
-              </div>
-              <div className="w-[80px] mr-3">
-                <p className="font-body_light text-[#121212B3]">Total</p>
-                <p className="font-body_light text-[#121212B3] text-[18px]">
-                  {price.currencyCode == 'USD' ? '$' : NULL}
-                  {price.amount}
-                </p>
+              <div className="flex">
+                <div className="w-[80px] mr-3">
+                  <p className="font-body_light text-[#121212B3]">APR</p>
+                  <p className="font-body_light text-[#121212B3] text-[18px]">
+                    15%
+                  </p>
+                </div>
+                <div className="w-[80px] mr-3">
+                  <p className="font-body_light text-[#121212B3]">Interest</p>
+                  <p className="font-body_light text-[#121212B3] text-[18px]">
+                    {price.currencyCode == 'USD' ? '$' : NULL}
+
+                    {toplam_faiz2}
+                  </p>
+                </div>
+                <div className="w-[80px] mr-3">
+                  <p className="font-body_light text-[#121212B3]">Total</p>
+                  <p className="font-body_light text-[#121212B3] text-[18px]">
+                    {price.currencyCode == 'USD' ? '$' : NULL}
+                    {geriodeme2}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
           <div className="pt-[21px] alt rounded-md">
             <div className="flex justify-between mb-3">
               <div className="flex items-end">
