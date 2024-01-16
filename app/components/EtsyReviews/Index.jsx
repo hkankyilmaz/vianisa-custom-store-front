@@ -318,14 +318,15 @@ const TextWithToggle = ({text}) => {
   };
 
   const textClass = isExpanded ? 'line-clamp-none' : 'line-clamp-3';
+  const shadowClass = isExpandable ? (isExpanded ? '' : 'white-shadow') : '';
 
   return (
     <div>
       <p
         ref={textRef}
-        className={`text-sm text-[#777] leading-[1.45] ${textClass}`}
+        className={`text-sm text-[#777] leading-[1.45] ${textClass} relative w-full`}
       >
-        {text}
+        <div className={`${shadowClass}`}> {text}</div>
       </p>
 
       {isExpandable ? (
