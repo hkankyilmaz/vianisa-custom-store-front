@@ -52,6 +52,7 @@ function CollectionsGrid({collections}) {
 }
 
 function CollectionItem({collection, index}) {
+  console.log(collection);
   return (
     <Link
       className="collection-item"

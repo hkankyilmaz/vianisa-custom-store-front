@@ -11,7 +11,7 @@ import {json, redirect} from '@shopify/remix-oxygen';
 import {useRef, useState} from 'react';
 import {AiOutlineDown} from 'react-icons/ai';
 import useDefaultCollectionQuery from '~/hooks/useDefaultCollectionQuery';
-import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
+import useAllProductsQuery from '~/hooks/useAllProductsQuery';
 
 import gsap from 'gsap';
 import {CloseButton} from '~/components/Header/Drawer';
@@ -26,7 +26,7 @@ import {
 } from '~/components/Collection Page UI-Forms';
 
 export const meta = ({data}) => {
-  return [{title: `${data.collection.title} Collection`}];
+  return [{title: `All PRODUCTS`}];
 };
 
 export async function loader({request, params, context}) {
@@ -67,7 +67,7 @@ export async function loader({request, params, context}) {
     {},
   );
 
-  const COLLECTION_QUERY = useGenerateCollectionQuery(
+  const COLLECTION_QUERY = useAllProductsQuery(
     [...color, ...material],
     minPrice,
     maxPrice,
@@ -76,44 +76,44 @@ export async function loader({request, params, context}) {
   );
   const DEFAULT_COLLECTION_QUERY = useDefaultCollectionQuery();
 
-  const {handle} = params;
+  // const {handle} = params;
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
-    pageBy: 48,
+    pageBy: 2,
   });
 
-  if (!handle) {
-    return redirect('/collections');
-  }
+  // if (!handle) {
+  //   return redirect('/collections');
+  // }
 
-  const [{collection}, {collection: defaultCollection}] = await Promise.all([
+  const [{products}] = await Promise.all([
     storefront.query(COLLECTION_QUERY, {
-      variables: {handle, ...paginationVariables},
+      variables: {...paginationVariables},
       cache: storefront.CacheLong(),
     }),
-    storefront.query(DEFAULT_COLLECTION_QUERY, {
-      variables: {
-        handle: handle,
-      },
-      cache: storefront.CacheLong(),
-    }),
+    // storefront.query(DEFAULT_COLLECTION_QUERY, {
+    //   variables: {
+    //     handle: handle,
+    //   },
+    //   cache: storefront.CacheLong(),
+    // }),
   ]);
 
-  const defaultPriceRange = JSON.parse(
-    defaultCollection.products.filters[0].values[0].input,
-  ).price;
-  console.log(defaultPriceRange);
-  if (!collection) {
-    throw new Response(`Collection ${handle} not found`, {
-      status: 404,
-    });
-  }
-
-  return json({collection, values, defaultPriceRange});
+  // const defaultPriceRange = JSON.parse(
+  //   defaultCollection.products.filters[0].values[0].input,
+  // ).price;
+  const defaultPriceRange = {min: 0, max: 1471};
+  // if (!collection) {
+  //   throw new Response(`Collection all not found`, {
+  //     status: 404,
+  //   });
+  // }
+  console.log(products);
+  return json({products, values, defaultPriceRange});
 }
 
 export default function Collection() {
-  const {collection} = useLoaderData();
+  const {products} = useLoaderData();
   const [grid, setGrid] = useState(true);
   let root_ = document.documentElement.style;
 
@@ -141,8 +141,8 @@ export default function Collection() {
   };
 
   return (
-    <div className="collection" key={collection.handle}>
-      <PageHeader collection={collection} />
+    <div className="collection" key="allpro">
+      <PageHeader collection={{title: 'sa', description: 'hi'}} />
       <div className="w-full max-sm:h-[44px] sm:h-[54px] border-y flex justify-between max-sm:flex-row-reverse items-center">
         <GridChanger setGrid={setGrid} grid={grid} />
 
@@ -154,14 +154,10 @@ export default function Collection() {
           <FilterButton openMobileFilter={openMobileFilter} />
         </div>
       </div>
-      <Pagination connection={collection.products}>
+      <Pagination connection={products}>
         {({nodes, isLoading, PreviousLink, NextLink}) => (
           <>
-            <ProductsGrid
-              grid={grid}
-              products={nodes}
-              handle={collection.handle}
-            />
+            <ProductsGrid grid={grid} products={nodes} handle={'ata'} />
             <br />
             <NextLink className="flex justify-center w-full text-xl my-5">
               <LoadMoreButton isLoading={isLoading} />
@@ -204,7 +200,7 @@ function FilterButton({openMobileFilter}) {
 }
 
 function ProductsGrid({products, grid, handle}) {
-  const {collection, values, defaultPriceRange} = useLoaderData();
+  const {values, defaultPriceRange} = useLoaderData();
 
   const url = useLocation();
   const submit = useSubmit();
@@ -216,7 +212,7 @@ function ProductsGrid({products, grid, handle}) {
   const refsVertical = Array.from({length: 3}, () => useRef(null));
 
   const params = new URLSearchParams(url.search);
-  const filters = collection.products.filters;
+  const filters = products.filters;
 
   const [openAccordion, setOpenAccordion] = useState(null);
   const [sliderPriceRange, setSliderPriceRange] = useState([
@@ -383,7 +379,7 @@ function ProductsGrid({products, grid, handle}) {
                 </div>
               </div>
             </div>
-            {filters.slice(1).map((filter, index) => (
+            {filters?.slice(1).map((filter, index) => (
               <div
                 className={`accordion__item max-sm:border-b border-[#e0e0e0]  ${
                   openAccordion === index + 1 ? 'open' : ''
@@ -454,7 +450,7 @@ function ProductsGrid({products, grid, handle}) {
                   defaultPriceRange.min,
                   defaultPriceRange.max,
                 ]);
-                navigate(`/collections/${handle}`);
+                navigate(`/collectionsall`);
               }}
             >
               Reset

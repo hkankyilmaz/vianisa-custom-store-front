@@ -930,8 +930,10 @@ function ProductDescription({descriptionHtml}) {
         ></span>
       </p>
       <div
-        className="product-description-detail [&>div]:bg-[#f9fafb] pb-11 text-[13px] text-[#2f2f2f] leading-[19.5px] [&>p]:font-body"
-        dangerouslySetInnerHTML={{__html: descriptionHtml}}
+        className="product-description-detail  [&>div]:bg-[#f9fafb] pb-11 text-[13px] text-[#2f2f2f] leading-[19.5px] [&>p]:font-body"
+        dangerouslySetInnerHTML={{
+          __html: descriptionHtml.replace('absolute', ''),
+        }}
       />
     </div>
   );
