@@ -1,85 +1,52 @@
+import {useLoaderData} from '@remix-run/react';
 import {json} from '@shopify/remix-oxygen';
-import {Link, useLoaderData} from '@remix-run/react';
-import RefPage from '../pages/policy/refund-policy';
-import PrivacyPage from '../pages/policy/privacy-policy';
-import ShipRetPage from '../pages/policy/shipping-and-returns';
-import TermsPage from '../pages/policy/terms-of-service';
+import {
+  FreeShippingPage,
+  PrivacyPolicyPage,
+  RefundPolicyPage,
+  TermsOfServicePage,
+} from '~/pages/policy';
+
 export const meta = ({params}) => {
-  let policyComp = '';
-  let asd = params.handle.split('-');
-  let asv = asd.join(' ');
-  switch (params.handle) {
-    case 'refund-policy':
-      policyComp = 'a';
-      break;
-    case 'privacy-policy':
-      policyComp = 'b';
-      break;
-    case 'terms-of-service':
-      policyComp = 'c';
-      break;
-    case 'shipping-and-returns':
-      policyComp = 'd';
-    default:
-      policyComp = 'e4';
-
-      break;
-  }
-  return [{title: asv.toUpperCase()}];
-};
-export async function loader({params, context}) {
-  /*  if (!params.handle) {
-    throw new Response('No handle was passed in', {status: 404});
-  }
-
-  const policyName = params.handle.replace(/-([a-z])/g, (_, m1) =>
-    m1.toUpperCase(),
-  );
-
-  console.log(policyName);
-
-  const data = await context.storefront.query(POLICY_CONTENT_QUERY, {
-    variables: {
-      privacyPolicy: false,
-      shippingPolicy: false,
-      termsOfService: false,
-      refundPolicy: false,
-      [policyName]: true,
-      language: context.storefront.i18n?.language,
+  return [
+    {
+      title: `${params.handle
+        .split('-')
+        .map((el) => el.charAt(0).toUpperCase() + el.slice(1))
+        .join(' ')} - Vianisa`,
     },
-  });
+  ];
+};
 
-  const policy = data.shop?.[policyName];
-
-  if (!policy) {
-    throw new Response('Could not find the policy', {status: 404});
-  }
- */
-
-  return json({params});
+export async function loader({params}) {
+  const {handle} = params;
+  return json({handle});
 }
-export default function Policy() {
-  const {params} = useLoaderData();
-  let hn = params.handle;
-  let policyComp;
 
-  switch (hn) {
+export default function Page() {
+  const {handle} = useLoaderData();
+  let policy;
+
+  switch (handle) {
     case 'refund-policy':
-      policyComp = <RefPage />;
+      policy = <RefundPolicyPage />;
       break;
+
     case 'privacy-policy':
-      policyComp = <PrivacyPage />;
+      policy = <PrivacyPolicyPage />;
       break;
+
     case 'terms-of-service':
-      policyComp = <TermsPage />;
+      policy = <TermsOfServicePage />;
       break;
-    case 'shipping-and-returns':
-      policyComp = <ShipRetPage />;
+
+    case 'free-shipping':
+      policy = <FreeShippingPage />;
       break;
+
     default:
       throw new Response('Not Found', {status: 404});
   }
-  return policyComp;
-}
 
-// NOTE: https://shopify.dev/docs/api/storefront/latest/objects/Shop
+  return policy;
+}

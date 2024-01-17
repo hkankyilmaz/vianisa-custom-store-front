@@ -1,6 +1,6 @@
 import {BlogContent, BlogSchema} from '~/components/Blogs';
 
-export default function Page() {
+export default function Blog() {
   const content = [
     {
       type: 'space',
@@ -32,12 +32,17 @@ export default function Page() {
     {
       type: 'largeTitle',
       content: 'POLISHED',
+      tag: 'h3',
     },
     {
       type: 'text',
       content: [
         'Polished finish rings boast a shiny, reflective surface that catches the eye. Crafted by using polishing compounds and a fast-spinning brush, this finish is the most common choice for wedding bands and jewelry overall. While polished surfaces are smooth to the touch, they may show scratches more explicitly than matte-finished bands. However, periodic touch-ups can restore their original luster, just like any other finish.',
       ],
+    },
+    {
+      type: 'space',
+      className: '!mb-0',
     },
     {
       type: 'image',
@@ -51,12 +56,16 @@ export default function Page() {
     {
       type: 'largeTitle',
       content: 'MATTE',
+      tag: 'h3',
     },
     {
       type: 'text',
       content: [
         'Matte brushed finish offers a smooth texture and exudes an elegant charm. It reflects light in a softer manner compared to polished rings. Achieved by brushing the gold surface in a consistent direction with a fine-grit surface, this finish requires less maintenance than polished finishes due to its naturally dulled sheen.',
       ],
+    },
+    {
+      type: 'space',
     },
     {
       type: 'image',
@@ -70,12 +79,14 @@ export default function Page() {
     {
       type: 'largeTitle',
       content: 'HAMMERED',
+      tag: 'h3',
     },
     {
       type: 'text',
       content: [
         'The Hammered finish showcases an exquisite and distinctive appearance that preserves the inherent character of gold. Crafted by delicately tapping the smoothed-out gold surface with a polished hammer, this finish is polished further to achieve the desired effect.',
       ],
+      className: '!mb-0',
     },
     {
       type: 'image',
@@ -89,6 +100,7 @@ export default function Page() {
     {
       type: 'largeTitle',
       content: 'STARDUST',
+      tag: 'h3',
     },
     {
       type: 'text',
@@ -108,12 +120,14 @@ export default function Page() {
     {
       type: 'largeTitle',
       content: 'ICE MATTE',
+      tag: 'h3',
     },
     {
       type: 'text',
       content: [
         'The Ice matte finish epitomizes sophistication and masculinity, presenting a timeless option. Similar to matte brushed finish, but with brushing done in various directions, this finish is highly durable and able to withstand everyday wear.',
       ],
+      className: '!mb-0',
     },
     {
       type: 'image',
@@ -137,6 +151,7 @@ export default function Page() {
     {
       type: 'largeTitle',
       content: 'DOME',
+      tag: 'h3',
     },
     {
       type: 'image',
@@ -152,10 +167,12 @@ export default function Page() {
       content: [
         'The Dome profile wedding band is a popular choice for both genders, available in all sizes and widths. This profile features a curved design on both the inside and outside, providing a comfortable fit and a rounded appearance.',
       ],
+      className: '!mb-0',
     },
     {
       type: 'largeTitle',
       content: 'FLAT',
+      tag: 'h3',
     },
     {
       type: 'image',
@@ -171,6 +188,7 @@ export default function Page() {
       content: [
         'The flat profile wedding band at Vianisa features a flat outer surface while maintaining a curved (domed) inner surface, ensuring comfort fit. This profile offers a contemporary style that appeals to both men and women.',
       ],
+      className: '!mb-0',
     },
     {
       type: 'divider',
@@ -185,12 +203,17 @@ export default function Page() {
     {
       type: 'largeTitle',
       content: 'BEVELED EDGE',
+      tag: 'h3',
     },
     {
       type: 'text',
       content: [
         'A beveled edge adds depth and dimension to a traditional wedding band by angling the edges rather than leaving them perpendicular. Beveled wedding bands also feature a curved inner surface for maximum comfort. With endless customization options at Vianisa, you can choose different finishes or metals for beveled edges.',
       ],
+    },
+    {
+      type: 'space',
+      className: '!mb-0',
     },
     {
       type: 'image',
@@ -204,12 +227,16 @@ export default function Page() {
     {
       type: 'largeTitle',
       content: 'MILGRAIN EDGE',
+      tag: 'h3',
     },
     {
       type: 'text',
       content: [
         'The Milgrain edge showcases intricate details along the borders of the ring. This edge style has long been favored in wedding rings due to its unique craftsmanship. Like beveled edges, you have the',
       ],
+    },
+    {
+      type: 'space',
     },
     {
       type: 'image',
@@ -223,12 +250,14 @@ export default function Page() {
     {
       type: 'largeTitle',
       content: 'ROUND EDGE',
+      tag: 'h3',
     },
     {
       type: 'text',
       content: [
         'The rounded edge is a classic and popular choice for wedding rings. It features a smooth, rounded edge without any additional details. This soft and rounded look is versatile and can be paired with various finishes and metals to create your desired style. At Vianisa, we offer endless customization options for rounded edge wedding bands, allowing you to find the perfect ring that reflects your individuality.',
       ],
+      className: '!mb-0',
     },
     {
       type: 'image',
@@ -241,6 +270,10 @@ export default function Page() {
     },
     {
       type: 'divider',
+    },
+    {
+      type: 'space',
+      className: '!mb-0',
     },
     {
       type: 'xLargeTitle',
@@ -278,6 +311,9 @@ export default function Page() {
       },
     },
     {
+      type: 'space',
+    },
+    {
       type: 'text',
       content: [
         "Finding the right ring size is crucial for a comfortable and enjoyable daily wearing experience. It's important to ensure that your ring neither slips off your finger nor causes any discomfort due to being too tight. At Vianisa, we understand the significance of an accurate ring size, which is why we meticulously craft our rings in quarter sizes and even offer options up to an eighth of a size.",
@@ -301,12 +337,17 @@ export default function Page() {
     {
       type: 'largeTitle',
       content: 'YELLOW GOLD',
+      tag: 'h3',
     },
     {
       type: 'text',
       content: [
         'Yellow gold is a classic and timeless choice for wedding rings. Its warm and lustrous appearance never goes out of fashion.',
       ],
+    },
+    {
+      type: 'space',
+      className: '!mb-0',
     },
     {
       type: 'image',
@@ -320,6 +361,7 @@ export default function Page() {
     {
       type: 'largeTitle',
       content: 'ROSE GOLD',
+      tag: 'h3',
     },
     {
       type: 'text',
@@ -339,12 +381,17 @@ export default function Page() {
     {
       type: 'largeTitle',
       content: 'WHITE GOLD',
+      tag: 'h3',
     },
     {
       type: 'text',
       content: [
         'White gold, achieved through a mixture of yellow gold, zinc, nickel, and other metals, displays an elegant silver-white complexion. It radiates a noble and luminous tone, adding a touch of sophistication to your jewelry.',
       ],
+    },
+    {
+      type: 'space',
+      className: '!mb-0',
     },
     {
       type: 'image',
@@ -358,12 +405,16 @@ export default function Page() {
     {
       type: 'largeTitle',
       content: 'PLATINUM',
+      tag: 'h3',
     },
     {
       type: 'text',
       content: [
         'Platinum is a luxurious choice since it is rarer than other precious metals. It appears naturally white and is a very durable metal, perfect for pieces that require strength, such as stone set rings.',
       ],
+    },
+    {
+      type: 'space',
     },
     {
       type: 'image',
@@ -377,12 +428,17 @@ export default function Page() {
     {
       type: 'largeTitle',
       content: 'PALLADIUM',
+      tag: 'h3',
     },
     {
       type: 'text',
       content: [
         'Coming from the same family as platinum, palladium offers a naturally white finish. It shares many desirable characteristics with platinum but is lighter and more affordable. Palladium presents an elegant and modern alternative.',
       ],
+    },
+    {
+      type: 'space',
+      className: '!mb-0',
     },
     {
       type: 'image',
@@ -396,7 +452,7 @@ export default function Page() {
   ];
 
   return (
-    <BlogSchema title={'wedding ring guide'}>
+    <BlogSchema title="wedding ring guide">
       <BlogContent content={content} />
     </BlogSchema>
   );

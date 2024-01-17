@@ -1,7 +1,7 @@
-import {BlogContent, BlogSchema} from '~/components/Blogs';
 import {Link} from '@remix-run/react';
+import {BlogContent, BlogSchema} from '~/components/Blogs';
 
-export default function Page() {
+export default function Blog() {
   const content = [
     {
       type: 'title',
@@ -90,7 +90,7 @@ export default function Page() {
   return (
     <BlogSchema title="financing options with affirm and shoppay">
       <BlogContent content={content} />
-      <p className="font-body text-[13px]">
+      <p>
         For additional assistance, please visit:{' '}
         <Link
           to="https://www.affirm.com/help"

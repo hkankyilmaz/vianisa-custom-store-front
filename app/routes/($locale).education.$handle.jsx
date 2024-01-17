@@ -1,12 +1,12 @@
-import {json} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
+import {json} from '@shopify/remix-oxygen';
 import {
   BirthJewelryPage,
-  EngagementRingPage,
-  WeddingRingPage,
   DiamondComparisonPage,
+  EngagementRingPage,
   GemStoneComparisonPage,
   MeasurementPage,
+  WeddingRingPage,
 } from '~/pages/education';
 
 export const meta = ({params}) => {
@@ -25,7 +25,7 @@ export async function loader({params}) {
   return json({handle});
 }
 
-export default function Policy() {
+export default function Page() {
   const {handle} = useLoaderData();
   let education;
 
@@ -57,5 +57,6 @@ export default function Policy() {
     default:
       throw new Response('Not Found', {status: 404});
   }
+
   return education;
 }

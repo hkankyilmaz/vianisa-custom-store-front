@@ -1,6 +1,6 @@
+import containerQueriesPlugin from '@tailwindcss/container-queries';
 import formsPlugin from '@tailwindcss/forms';
 import typographyPlugin from '@tailwindcss/typography';
-import containerQueriesPlugin from '@tailwindcss/container-queries';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -15,6 +15,7 @@ export default {
       body_light: ['avenir-light', 'sans-serif'],
       title: ['zapHuman', 'sans-serif'],
       optima: ['optima', 'sans-serif'],
+      'optima-medium': ['optima-medium', 'sans-serif'],
     },
     extend: {
       transitionTimingFunction: {

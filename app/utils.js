@@ -1,7 +1,7 @@
 import {useLocation, useMatches} from '@remix-run/react';
 import {useMemo} from 'react';
 
-import {useLayoutEffect, useEffect} from 'react';
+import {useEffect, useLayoutEffect} from 'react';
 
 export function useVariantUrl(handle, selectedOptions) {
   const {pathname} = useLocation();
@@ -47,6 +47,10 @@ export function stripUrl(url) {
       : url;
 
   return newUrl;
+}
+
+export function trim(str) {
+  return str.replace(/\s+/g, ' ').trim();
 }
 
 export const useIsomorphicLayoutEffect =

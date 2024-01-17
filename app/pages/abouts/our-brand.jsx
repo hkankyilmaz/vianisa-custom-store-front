@@ -1,6 +1,6 @@
 import {BlogContent, BlogSchema} from '~/components/Blogs';
 
-export default function Page() {
+export default function Blog() {
   const content = [
     {
       type: 'text',
