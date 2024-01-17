@@ -66,8 +66,9 @@ html {
   overflow-x: hidden !important;
 }
 
-p {
-  font-family: 'avenir';
+p,
+li {
+  font-family: 'avenir-light';
   font-size: 13px;
 }
 

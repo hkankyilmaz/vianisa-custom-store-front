@@ -9,7 +9,6 @@ export function Footer({menu}) {
         'jewelry-care',
         'ring-size-conversion-chart',
         'lifetime-warranty',
-        'custom-made',
         'financing-options-with-affirm-and-shoppay',
       ],
     },
@@ -39,7 +38,7 @@ export function Footer({menu}) {
       title: 'policies',
       route: 'policies',
       children: [
-        'shipping-and-returns',
+        'free-shipping',
         'refund-policy',
         'terms-of-service',
         'privacy-policy',

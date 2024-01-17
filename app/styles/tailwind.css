@@ -4,27 +4,32 @@
 
 @font-face {
   font-family: 'Questrial';
-  src: url('../assets/Questrial.woff2');
+  src: url('../assets/fonts/Questrial.woff2');
 }
 
 @font-face {
   font-family: 'montserratmedium';
-  src: url('../assets/Montserrat-Medium.otf');
+  src: url('../assets/fonts/Montserrat-Medium.otf');
 }
 
 @font-face {
   font-family: 'playFair';
-  src: url('../assets/PlayfairDisplay-VariableFont_wght.ttf');
+  src: url('../assets/fonts/PlayfairDisplay-VariableFont_wght.ttf');
 }
 
 @font-face {
   font-family: 'optima';
-  src: url('../assets/Optima-Normal.ttf');
+  src: url('../assets/fonts/Optima-Normal.ttf');
+}
+
+@font-face {
+  font-family: 'optima-medium';
+  src: url('../assets/fonts/Optima-Medium.ttf');
 }
 
 @font-face {
   font-family: 'avenir';
-  src: url('../assets/AVENIR-MEDIUM.woff');
+  src: url('../assets/fonts/AVENIR-MEDIUM.woff');
 }
 
 @font-face {
@@ -80,18 +85,6 @@
 @font-face {
   font-family: 'avenir-roman';
   src: url('../assets/fonts/AVENIR-ROMAN.ttf');
-}
-
-@layer components {
-  .main_parag {
-    @apply flex flex-col text-left mb-5 max-sm:mx-5;
-  }
-  .birthguidetitle {
-    @apply font-optima mb-5;
-  }
-  .birthguidep {
-    @apply font-body_light mb-5 text-base max-sm:text-sm;
-  }
 }
 
 /*

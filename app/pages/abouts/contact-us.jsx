@@ -4,7 +4,7 @@ import {
   FloatingLabelTextArea,
 } from '~/components/Blogs';
 
-export default function Page() {
+export default function Blog() {
   return (
     <BlogSchema title="Contact" classNames={{body: 'max-w-[680px]'}}>
       <div className="flex flex-col gap-[15px]">

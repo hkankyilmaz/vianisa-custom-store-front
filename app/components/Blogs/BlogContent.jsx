@@ -1,5 +1,9 @@
 import {Divider} from '@mui/material';
+import {Link} from '@remix-run/react';
 import {Image} from '@shopify/hydrogen';
+import React from 'react';
+import {trim} from '~/utils';
+import Table from './Table';
 
 const NonBreakingSpace = '\u00A0';
 
@@ -16,6 +20,8 @@ const BlogContent = ({
     listItem: '',
     divider: '',
     space: '',
+    combinedTextWrapper: '',
+    link: '',
   },
 }) => {
   return (
@@ -23,40 +29,49 @@ const BlogContent = ({
       {content.map((item, i) => {
         if (item.type == 'title') {
           return (
-            <h3
+            <DynamicTitle
               key={i}
-              className={`font-optima font-semibold text-[13px] mb-[var(--blog-default-spacing)] ${
-                classNames.title
-              } ${item.className ?? ''}}`}
+              tag={item.tag ?? 'h2'}
+              className={trim(
+                `font-optima-medium text-[13px] mb-[var(--blog-default-spacing)] ${
+                  classNames.title
+                } ${item.className ?? ''}`,
+              )}
             >
               {item.content}
-            </h3>
+            </DynamicTitle>
           );
         }
 
         if (item.type == 'largeTitle') {
           return (
-            <h4
+            <DynamicTitle
               key={i}
-              className={`font-optima text-[16px] sm:text-[18px] uppercase mt-[2.2em] mb-[1.2em] ${
-                classNames.largeTitle
-              } ${item.className ?? ''}}`}
+              tag={item.tag ?? 'h2'}
+              className={trim(
+                `font-optima text-[16px] sm:text-[18px] uppercase mt-[2.2em] mb-[1.2em] ${
+                  classNames.largeTitle
+                } ${item.className ?? ''}`,
+              )}
             >
               {item.content}
-            </h4>
+            </DynamicTitle>
           );
         }
 
         if (item.type == 'xLargeTitle') {
           return (
-            <h3
+            <DynamicTitle
               key={i}
-              className={`font-optima text-[20px] uppercase mt-[2.2em] mb-[0.8em] ${
-                classNames.xLargeTitle
-              } ${item.className ?? ''}}`}
+              tag={item.tag ?? 'h2'}
+              className={trim(
+                `font-optima text-[20px] uppercase mt-[2.2em] mb-[0.8em] ${
+                  classNames.xLargeTitle
+                } ${item.className ?? ''}`,
+              )}
             >
               {item.content}
-            </h3>
+            </DynamicTitle>
           );
         }
 
@@ -64,20 +79,40 @@ const BlogContent = ({
           return (
             <ul
               key={i}
-              className={`ml-[30px] mb-[var(--blog-default-spacing)] ${
-                classNames.list
-              } ${item.classNames ? item.classNames.list ?? '' : ''}`}
+              className={trim(
+                `ml-[30px] mb-[var(--blog-default-spacing)] ${
+                  classNames.list
+                } ${item.classNames ? item.classNames.list ?? '' : ''}`,
+              )}
             >
-              {item.content.map((listItem, j) => (
-                <li
-                  key={`${i}-${j}`}
-                  className={`font-body text-[13px] py-[5px] ${
-                    classNames.listItem ?? ''
-                  }`}
-                >
-                  {listItem}
-                </li>
-              ))}
+              {item.content.map((listItem, j) => {
+                if (typeof listItem == 'object') {
+                  return (
+                    <li
+                      key={`${i}-${j}`}
+                      className={trim(
+                        `py-[5px] ${classNames.listItem ?? ''} ${
+                          item.classNames ? item.classNames.listItem ?? '' : ''
+                        }`,
+                      )}
+                    >
+                      <BlogContent content={[listItem]} />
+                    </li>
+                  );
+                }
+                return (
+                  <li
+                    key={`${i}-${j}`}
+                    className={trim(
+                      `py-[5px] ${classNames.listItem ?? ''} ${
+                        item.classNames ? item.classNames.listItem ?? '' : ''
+                      }`,
+                    )}
+                  >
+                    {listItem}
+                  </li>
+                );
+              })}
             </ul>
           );
         }
@@ -89,9 +124,11 @@ const BlogContent = ({
                 return (
                   <p
                     key={`${i}-${j}`}
-                    className={`font-body text-[13px] mb-[var(--blog-default-spacing)] ${
-                      classNames.text
-                    } ${item.className ?? ''}`}
+                    className={trim(
+                      `mb-[var(--blog-default-spacing)] ${classNames.text} ${
+                        item.className ?? ''
+                      }`,
+                    )}
                   >
                     {contentItem}
                   </p>
@@ -105,14 +142,19 @@ const BlogContent = ({
           return (
             <div
               key={i}
-              className={`flex flex-col items-center text-[13px] ${
-                classNames.imageWrapper
-              } ${item.classNames ? item.classNames.wrapper ?? '' : ''}`}
+              className={trim(
+                `flex flex-col items-center text-[13px] ${
+                  classNames.imageWrapper
+                } ${item.classNames ? item.classNames.wrapper ?? '' : ''}`,
+              )}
             >
               <Image
-                className={`my-[3em] ${classNames.image} ${
-                  item.className ?? ''
-                } ${item.classNames ? item.classNames.image ?? '' : ''}`}
+                key={`${i}-image`}
+                className={trim(
+                  `my-[3em] ${classNames.image} ${item.className ?? ''} ${
+                    item.classNames ? item.classNames.image ?? '' : ''
+                  }`,
+                )}
                 width={item.content.width}
                 height={item.content.height}
                 src={item.content.src}
@@ -126,7 +168,7 @@ const BlogContent = ({
           return (
             <Divider
               key={i}
-              className={`${classNames.divider} ${item.className ?? ''}`}
+              className={trim(`${classNames.divider} ${item.className ?? ''}`)}
             />
           );
         }
@@ -135,17 +177,86 @@ const BlogContent = ({
           return (
             <p
               key={i}
-              className={`mb-[var(--blog-default-spacing)] ${
-                classNames.space
-              } ${item.className ?? ''}`}
+              className={trim(
+                `mb-[var(--blog-default-spacing)] ${classNames.space} ${
+                  item.className ?? ''
+                }`,
+              )}
             >
               {NonBreakingSpace}
             </p>
           );
         }
+
+        if (item.type == 'combinedText') {
+          return (
+            <p
+              key={i}
+              className={trim(
+                `mb-[var(--blog-default-spacing)] ${
+                  classNames.combinedTextWrapper
+                } ${item.classNames ? item.classNames.wrapper ?? '' : ''}`,
+              )}
+            >
+              {item.content.map((contentItem, j) => {
+                if (typeof contentItem == 'object') {
+                  return (
+                    <BlogContent key={`${i}-${j}`} content={[contentItem]} />
+                  );
+                }
+                return (
+                  <span
+                    key={`${i}-${j}`}
+                    className={trim(
+                      `text-[13px] ${classNames.text} ${
+                        item.classNames ? item.classNames.text ?? '' : ''
+                      }`,
+                    )}
+                  >
+                    {contentItem}
+                  </span>
+                );
+              })}
+            </p>
+          );
+        }
+
+        if (item.type == 'link') {
+          return (
+            <Link
+              key={i}
+              to={item.content.href}
+              target={item.content.target ?? '_self'}
+              className={trim(
+                `mb-[var(--blog-default-spacing)] text-[13px] underline ${
+                  classNames.link
+                } ${item.className ?? ''}`,
+              )}
+            >
+              {item.content.text}
+            </Link>
+          );
+        }
+
+        if (item.type == 'table') {
+          return (
+            <Table
+              key={i}
+              columnTitles={item.content.columnTitles}
+              data={item.content.data}
+              cellAlign={item.content.cellAlign}
+              titleAlign={item.content.titleAlign}
+              classNames={item.content.classNames}
+            />
+          );
+        }
       })}
     </>
   );
+};
+
+const DynamicTitle = ({tag, children, ...props}) => {
+  return React.createElement(tag, props, children);
 };
 
 export default BlogContent;
