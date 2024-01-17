@@ -7,28 +7,24 @@ import {
   useSubmit,
 } from '@remix-run/react';
 import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
-import {json, redirect} from '@shopify/remix-oxygen';
 import {useRef, useState} from 'react';
+import {defer} from '@shopify/remix-oxygen';
 import {AiOutlineDown} from 'react-icons/ai';
-import useDefaultCollectionQuery from '~/hooks/useDefaultCollectionQuery';
-import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
 import useGenerateSearchQuery from '~/hooks/useGenerateSearchQuery';
-
+import useSearchDefaultQuery from '~/hooks/useSearchDefaultQuery';
 import gsap from 'gsap';
 import {CloseButton} from '~/components/Header/Drawer';
-
 import {
   FilterForm,
   GridChanger,
   LoadMoreButton,
-  PageHeader,
   ProductItem,
   SortForm,
 } from '~/components/Collection Page UI-Forms';
 
-export const meta = ({data}) => {
-  return [{title: `Hydrogen | ${data.collection.title} Collection`}];
-};
+// export const meta = ({data}) => {
+//   return [{title: `Hydrogen | ${data.collection.title} Collection`}];
+// };
 
 export async function loader({request, params, context}) {
   const jsonifyVariantOption = (name, value) => {
@@ -76,6 +72,7 @@ export async function loader({request, params, context}) {
     },
     {},
   );
+  const DEFAULT_SEARCH_QUERY = useSearchDefaultQuery();
 
   const SEARCH_QUERY = useGenerateSearchQuery(
     [...color, ...material],
@@ -84,7 +81,6 @@ export async function loader({request, params, context}) {
     sortKey,
     reverse,
   );
-  // const DEFAULT_COLLECTION_QUERY = useDefaultCollectionQuery();
 
   const {handle} = params;
   const {storefront} = context;
@@ -97,7 +93,19 @@ export async function loader({request, params, context}) {
       query: searchTerm,
       ...variables,
     },
+    cache: storefront.CacheLong(),
   });
+  const defaultPriceSearch = await storefront.query(DEFAULT_SEARCH_QUERY, {
+    variables: {
+      query: searchTerm,
+      ...variables,
+    },
+    cache: storefront.CacheLong(),
+  });
+
+  const defaultPriceRange = JSON.parse(
+    defaultPriceSearch.products.productFilters[0].values[0].input,
+  ).price;
 
   if (!data) {
     throw new Error('No search data returned from Shopify API');
@@ -112,11 +120,13 @@ export async function loader({request, params, context}) {
     totalResults,
   };
 
-  return defer({searchTerm, searchResults});
+  return defer({searchTerm, values, searchResults, defaultPriceRange});
 }
 
 function SearchPage() {
-  const {collection} = useLoaderData();
+  const {searchTerm, values, searchResults, defaultPriceRange} =
+    useLoaderData();
+  const collection = searchResults;
   const [grid, setGrid] = useState(true);
   let root_ = document.documentElement.style;
 
@@ -145,7 +155,7 @@ function SearchPage() {
 
   return (
     <div className="collection" key={collection.handle}>
-      <PageHeader collection={collection} />
+      <PageHeader searchTerm={searchTerm} collection={collection} />
       <div className="w-full max-sm:h-[44px] sm:h-[54px] border-y flex justify-between max-sm:flex-row-reverse items-center">
         <GridChanger setGrid={setGrid} grid={grid} />
 
@@ -157,7 +167,7 @@ function SearchPage() {
           <FilterButton openMobileFilter={openMobileFilter} />
         </div>
       </div>
-      <Pagination connection={collection.products}>
+      <Pagination connection={collection.results?.products}>
         {({nodes, isLoading, PreviousLink, NextLink}) => (
           <>
             <ProductsGrid
@@ -207,7 +217,8 @@ function FilterButton({openMobileFilter}) {
 }
 
 function ProductsGrid({products, grid, handle}) {
-  const {collection, values, defaultPriceRange} = useLoaderData();
+  const {defaultPriceRange, values, searchResults} = useLoaderData();
+  const collection = searchResults;
 
   const url = useLocation();
   const submit = useSubmit();
@@ -219,7 +230,7 @@ function ProductsGrid({products, grid, handle}) {
   const refsVertical = Array.from({length: 3}, () => useRef(null));
 
   const params = new URLSearchParams(url.search);
-  const filters = collection.products.filters;
+  const filters = collection.results.products.productFilters;
 
   const [openAccordion, setOpenAccordion] = useState(null);
   const [sliderPriceRange, setSliderPriceRange] = useState([
@@ -513,99 +524,17 @@ function ProductsGrid({products, grid, handle}) {
 
 export default SearchPage;
 
-const SEARCH_QUERY = `#graphql
-  fragment SearchProduct on Product {
-    __typename
-    handle
-    id
-    publishedAt
-    title
-    trackingParameters
-    vendor
-    variants(first: 1) {
-      nodes {
-        id
-        image {
-          url
-          altText
-          width
-          height
-        }
-        price {
-          amount
-          currencyCode
-        }
-        compareAtPrice {
-          amount
-          currencyCode
-        }
-        selectedOptions {
-          name
-          value
-        }
-        product {
-          handle
-          title
-        }
-      }
-    }
-  }
-  fragment SearchPage on Page {
-     __typename
-     handle
-    id
-    title
-    trackingParameters
-  }
-  fragment SearchArticle on Article {
-    __typename
-    handle
-    id
-    title
-    trackingParameters
-  }
-  query search(
-    $country: CountryCode
-    $endCursor: String
-    $first: Int
-    $language: LanguageCode
-    $last: Int
-    $query: String!
-    $startCursor: String
-  ) @inContext(country: $country, language: $language) {
-    products: search(
-      query: $query,
-      unavailableProducts: HIDE,
-      types: [PRODUCT],
-      first: $first,
-      sortKey: RELEVANCE,
-      last: $last,
-      before: $startCursor,
-      after: $endCursor
-    ) {
-      nodes {
-        ...on Product {
-          ...SearchProduct
-        }
-      }
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
-    }
-    pages: search(
-      query: $query,
-      types: [PAGE],
-      first: 10
-    ) {
-      nodes {
-        ...on Page {
-          ...SearchPage
-        }
-      }
-    }
-  
-  }
-`;
+function PageHeader({collection, searchTerm}) {
+  return (
+    <div className="my-[50px] px-20">
+      <h1 className="text-center text-[16px] uppercase tracking-[3.2px] font-body">
+        SEARCH
+      </h1>
+      <p className="flex justify-center">
+        <span className="lg:max-w-lg w-full text-center">
+          {collection.totalResults} results for "{searchTerm}"
+        </span>
+      </p>
+    </div>
+  );
+}

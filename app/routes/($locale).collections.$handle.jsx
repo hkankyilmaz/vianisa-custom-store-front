@@ -114,6 +114,7 @@ export async function loader({request, params, context}) {
 
 export default function Collection() {
   const {collection} = useLoaderData();
+  console.log(collection);
   const [grid, setGrid] = useState(true);
   let root_ = document.documentElement.style;
 
