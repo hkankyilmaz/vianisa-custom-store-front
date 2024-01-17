@@ -123,25 +123,51 @@ export default function EtsyReview({collection, className}) {
   ); */
   let stars = [1, 1, 1, 1, 1];
   return (
-    <div className="flex flex-col items-center ">
-      <div className="overflow-hidden mx-24 mt-24 " ref={emblaRef}>
-        <div className="flex gap-6">
-          {array.map((it, idx) => (
-            <ReviewItem
-              Image={it.Image}
-              Title={it.Title}
-              Star={it.Star}
-              Content={it.Content}
-              User={it.User}
-              User_link={it.User_link}
-              Date={it.Date}
-              Reviews_link={it.Reviews_link}
-              key={idx}
-            />
-          ))}
+    <div className="w-full flex flex-col items-center mt-24 md:px-24">
+      <div className="w-full flex justify-center items-start">
+        <button className="mt-56 h-0" onClick={scrollPrev}>
+          <svg
+            className="w-10 h-min cursor-pointer fill-zinc-700 hover:fill-zinc-500 dark:fill-white hover:dark:fill-gray-300 transition-colors md:mr-6"
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="-100 -960 660 960"
+            width="24"
+          >
+            <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z" />
+          </svg>
+        </button>
+
+        <div className="w-full overflow-hidden" ref={emblaRef}>
+          <div className="w-full flex max-md:gap-12 md:gap-6">
+            {array.map((it, idx) => (
+              <ReviewItem
+                Image={it.Image}
+                Title={it.Title}
+                Star={it.Star}
+                Content={it.Content}
+                User={it.User}
+                User_link={it.User_link}
+                Date={it.Date}
+                Reviews_link={it.Reviews_link}
+                key={idx}
+              />
+            ))}
+          </div>
         </div>
+
+        <button className="mt-56  h-0" onClick={scrollNext}>
+          <svg
+            className="w-10 h-min rotate-180 cursor-pointer fill-zinc-700 hover:fill-zinc-500 dark:fill-white hover:dark:fill-gray-300 transition-colors md:ml-6"
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            viewBox="-100 -960 660 960"
+            width="24"
+          >
+            <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z" />
+          </svg>
+        </button>
       </div>
-      <div className="flex gap-3 justify-center items-center mt-4">
+      <div className="etsy-footer flex gap-3 justify-center items-center mt-4">
         <a href="https://www.etsy.com/shop/vianisa#reviews">
           <img
             className="w-[50px] "
@@ -185,12 +211,6 @@ export default function EtsyReview({collection, className}) {
           </a>
         </div>
       </div>
-      {/* <button className="" onClick={scrollPrev}>
-        Prev
-      </button>
-      <button className="" onClick={scrollNext}>
-        Next
-      </button> */}
     </div>
   );
 }
@@ -210,7 +230,7 @@ function ReviewItem({
   let emptyStars = start2.filter((x) => x !== true);
   console.log(emptyStars);
   return (
-    <div className=" flex-[0_0_25%] min-w-0 first:ml-8">
+    <div className=" flex-[0_0_25%] min-w-[200px] first:ml-8">
       <div className="bg-[#fafafb] rounded-md mb-5 ">
         <div className="flex flex-row justify-between mt-3 py-3">
           <div className="flex justify-center gap-2">
