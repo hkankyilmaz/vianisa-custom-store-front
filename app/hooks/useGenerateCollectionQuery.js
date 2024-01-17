@@ -115,6 +115,7 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
       name
       values
     }
+    tags
     variants(first: 250) {
       nodes {
         image{

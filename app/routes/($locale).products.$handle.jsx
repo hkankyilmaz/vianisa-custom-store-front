@@ -1,6 +1,12 @@
 import {Suspense, useState, useEffect, useRef, useContext} from 'react';
 import {defer, redirect} from '@shopify/remix-oxygen';
-import {Await, Link, useLoaderData, useMatches} from '@remix-run/react';
+import {
+  Await,
+  Link,
+  useLoaderData,
+  useMatches,
+  useNavigate,
+} from '@remix-run/react';
 import _ from 'lodash';
 import EmblaCarousel from '~/components/Product Carausel Image Slider/Index';
 import DotCarousel from '~/components/Product Carausel Image Dot Slider/EmblaCarousel';
@@ -30,6 +36,7 @@ import gsap from 'gsap';
 import BasicBreadcrumbs from '../components/Breadcrumbs/Index';
 import {duration} from '@mui/material';
 import WishlistButton from '~/components/Wishlist Button/WishlistButton';
+import CaratOptions from '~/components/Product Carat Options/CaratOptions';
 
 export const meta = ({data}) => {
   return [{title: `${data.product?.title}`}];
@@ -449,16 +456,16 @@ function ViewPlanMain({price, className, close}) {
 }
 function ProductMain({selectedVariant, product, variants, cart}) {
   const [isOpenGemStoneOpt, setIsGemStoneOpt] = useState(false);
-  const ctArr = ['-1-50-ct', '-1-00-ct', '-2-00-ct'];
+  // const ctArr = ['-1-50-ct', '-1-00-ct', '-2-00-ct'];
   const {title, descriptionHtml, tags} = product;
   const matches = useMatches()[1].pathname;
   const modifiedStringwithCarat = product.handle.slice(0, -8);
-  const modifiedStringwithGemStone = _.includes(matches, 'moissanite')
-    ? _.replace(product.handle, 'moissanite', 'lab-grown-diamond')
-    : _.replace(product.handle, 'lab-grown-diamond', 'moissanite');
+
   const shipDtae = useCalculateShipDay(tags);
-  //const crtId = cart.getCartId();
-  //console.log(cart);
+  let carats = [];
+  if (tags.find((tag) => tag === 'Carat_Options_1_15_20')) {
+    carats = ['1', '1.5', '2'];
+  }
   useEffect(() => {
     setIsGemStoneOpt(false);
   }, [matches]);
@@ -469,9 +476,28 @@ function ProductMain({selectedVariant, product, variants, cart}) {
   function removeclick() {
     setviewOp(false);
   }
-  useEffect(() => {
-    // console.log(viewOp);
-  }, [viewOp]);
+  const navigate = useNavigate();
+
+  const handleSelectChange = (e) => {
+    /*  console.log(
+      'matches: ',
+      matches,
+      '\ntarget: ',
+      e.target.value,
+      '\nmos_url: ',
+      modifiedStringwithGemStone_mos,
+      '\nlab_url: ',
+      modifiedStringwithGemStone_lab,
+    ); */
+    e.target.value === 'moissanite'
+      ? navigate(matches.replace('lab-grown-diamond', 'moissanite'))
+      : navigate(matches.replace('moissanite', 'lab-grown-diamond'));
+  };
+  const stonetype = _.includes(matches, 'moissanite')
+    ? 'moissanite'
+    : 'lab-grown-diamond';
+  // console.log(matches, selectedValue);
+
   return (
     <>
       <div className="product-main-wrapper sm:flex sm:justify-center">
@@ -535,77 +561,34 @@ function ProductMain({selectedVariant, product, variants, cart}) {
             </button>
           </p>
 
-          {ctArr.some((item) => product.handle.includes(item)) ? (
-            <div className=" mb-6 flex justify-start items-center gap-[5px]">
-              <h5 className="h-full font-bold text-[13px] mr-5 flex justify-center items-center font-body text-[#2f2f2f] pt-[10px]">
-                Total Carat Weight:
-              </h5>
-              <div className="h-full flex justify-center items-center gap-[5px]">
-                <Link
-                  style={{
-                    backgroundColor: matches.includes('-1-00-ct')
-                      ? 'white'
-                      : '',
-                    border: matches.includes('-1-00-ct')
-                      ? '2px solid black'
-                      : '',
-                    color: matches.includes('-1-00-ct') ? 'black' : '',
-                    cursor: matches.includes('-1-00-ct') ? 'default' : '',
-                  }}
-                  prefetch="intent"
-                  className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
-                  to={`/products/${modifiedStringwithCarat}-1-00-ct`}
-                  preventScrollReset
-                >
-                  1.0ct
-                </Link>
-                <Link
-                  style={{
-                    backgroundColor: matches.includes('-1-50-ct')
-                      ? 'white'
-                      : '',
-                    border: matches.includes('-1-50-ct')
-                      ? '2px solid black'
-                      : '',
-                    color: matches.includes('-1-50-ct') ? 'black' : '',
-                    cursor: matches.includes('-1-50-ct') ? 'default' : '',
-                  }}
-                  className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
-                  prefetch="intent"
-                  to={`/products/${modifiedStringwithCarat}-1-50-ct`}
-                  preventScrollReset
-                >
-                  1.5ct
-                </Link>
-                <Link
-                  style={{
-                    backgroundColor: matches.includes('-2-00-ct')
-                      ? 'white'
-                      : '',
-                    border: matches.includes('-2-00-ct')
-                      ? '2px solid black'
-                      : '',
-                    color: matches.includes('-2-00-ct') ? 'black' : '',
-                    cursor: matches.includes('-2-00-ct') ? 'default' : '',
-                  }}
-                  className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
-                  prefetch="intent"
-                  to={`/products/${modifiedStringwithCarat}-2-00-ct`}
-                  preventScrollReset
-                >
-                  2.0ct
-                </Link>
-              </div>
-            </div>
+          {carats.length > 0 ? (
+            <CaratOptions
+              carats={carats}
+              matches={matches}
+              modifiedStringwithCarat={modifiedStringwithCarat}
+            />
           ) : undefined}
           <ProductDescription descriptionHtml={descriptionHtml} />
-          {_.includes(matches, 'moissanite') ||
-          _.includes(matches, 'lab-grown-diamond') ? (
+          {product.tags.find(
+            (tag) => tag === 'GemstoneOptions_LabDiamond_Moissanite',
+          ) ? (
             <ClickAwayListener onClickAway={() => setIsGemStoneOpt(false)}>
               <div className="relative mt-3 w-full text-[#595959] tracking-wide">
-                <select className="text-[#595959] font-body align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10">
-                  <option> Gemstone: Moissanite </option>
-                  <option> Gemstone: Lab Grown Diamond </option>
+                <select
+                  value={stonetype}
+                  onChange={handleSelectChange}
+                  className="text-[#595959] font-body align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10"
+                >
+                  <option value="moissanite">
+                    {/* <Link to={modifiedStringwithGemStone_mos}> */}
+                    Gemstone: Moissanite
+                    {/* </Link> */}
+                  </option>
+                  <option value="lab-grown-diamond">
+                    {/* <Link to={modifiedStringwithGemStone_lab}> */}
+                    Gemstone: Lab Grown Diamond
+                    {/* </Link> */}
+                  </option>
                 </select>
                 <AiOutlineDown className="absolute right-[15px] top-[14px] text-sm text-[#000] z-[-1]" />
               </div>
@@ -984,8 +967,10 @@ function ProductDescription({descriptionHtml}) {
         ></span>
       </p>
       <div
-        className="product-description-detail [&>div]:bg-[#f9fafb] pb-11 text-[13px] text-[#2f2f2f] leading-[19.5px] [&>p]:font-body"
-        dangerouslySetInnerHTML={{__html: descriptionHtml}}
+        className="product-description-detail  [&>div]:bg-[#f9fafb] pb-11 text-[13px] text-[#2f2f2f] leading-[19.5px] [&>p]:font-body"
+        dangerouslySetInnerHTML={{
+          __html: descriptionHtml.replace('absolute', ''),
+        }}
       />
     </div>
   );
