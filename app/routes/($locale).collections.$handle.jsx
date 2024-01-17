@@ -186,7 +186,7 @@ function SortButton({openMobileSort, closeMobileSort}) {
       </div>
       <span
         onClick={closeMobileSort}
-        className="sort-modal-overlay max-lg:bg-[#363636]/50 fixed left-0 top-0 bottom-0 right-0 z-[55]"
+        className="sort-modal-overlay max-lg:bg-[#363636]/50 fixed left-0 top-0 bottom-0 right-0 z-[55] lg:z-10"
       ></span>
     </>
   );
