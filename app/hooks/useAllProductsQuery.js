@@ -7,7 +7,7 @@ function useAllProductsQuery(
 ) {
   return `#graphql
  ${PRODUCT_ITEM_FRAGMENT}
-  query Collection(
+  query Product(
     $country: CountryCode
     $language: LanguageCode
     $first: Int
@@ -16,7 +16,6 @@ function useAllProductsQuery(
     $endCursor: String
     
   ) @inContext(country: $country, language: $language) {
-  
     products(
       first: $first
       last: $last
@@ -24,7 +23,6 @@ function useAllProductsQuery(
       after: $endCursor
       sortKey: ${sortKey ? sortKey : 'TITLE'}
       reverse: ${reverse ? reverse : 'false'}
-      
     ) {
       nodes {
         ...ProductItem

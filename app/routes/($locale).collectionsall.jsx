@@ -79,7 +79,7 @@ export async function loader({request, params, context}) {
   // const {handle} = params;
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
-    pageBy: 2,
+    pageBy: 12,
   });
 
   // if (!handle) {
@@ -102,7 +102,7 @@ export async function loader({request, params, context}) {
   // const defaultPriceRange = JSON.parse(
   //   defaultCollection.products.filters[0].values[0].input,
   // ).price;
-  const defaultPriceRange = {min: 0, max: 1471};
+  const defaultPriceRange = {min: 0, max: 9000};
   // if (!collection) {
   //   throw new Response(`Collection all not found`, {
   //     status: 404,
