@@ -173,7 +173,7 @@ export default function EtsyReview({collection, className}) {
             className="w-[50px] "
             src="https://cdn.etsy.reputon.com/img/img-logo-etsy.svg"
             alt=""
-            srcset=""
+            srcSet=""
           />
         </a>
         <div className="flex flex-col justify-start items-start">
@@ -228,7 +228,6 @@ function ReviewItem({
   const start2 = [...stars];
   let fullStars = stars.filter((x) => x === true);
   let emptyStars = start2.filter((x) => x !== true);
-  console.log(emptyStars);
   return (
     <div className=" flex-[0_0_25%] min-w-[200px] first:ml-8">
       <div className="bg-[#fafafb] rounded-md mb-5 ">
@@ -273,7 +272,7 @@ function ReviewItem({
               className="w-[30px] "
               src="https://cdn.etsy.reputon.com/img/img-logo-etsy.svg"
               alt=""
-              srcset=""
+              srcSet=""
             />
           </div>
         </div>
@@ -315,14 +314,12 @@ const TextWithToggle = ({text}) => {
   useEffect(() => {
     // Check if the text is taller than three lines initially
     const checkExpandable = () => {
-      if (textRef.current) {
-        setIsExpandable(
-          textRef.current.scrollHeight >
-            3.1 * parseFloat(getComputedStyle(textRef.current).lineHeight),
-        );
-      }
+      setIsExpandable(
+        textRef.current.scrollHeight >
+          3 * parseFloat(getComputedStyle(textRef.current).lineHeight) + 1,
+      );
     };
-    if (!isExpandable) {
+    if (isExpandable) {
       setIsExpanded(false); // Auto-expand if not expandable initially
     }
     checkExpandable();
@@ -342,12 +339,12 @@ const TextWithToggle = ({text}) => {
 
   return (
     <div>
-      <p
+      <div
         ref={textRef}
         className={`text-sm text-[#777] leading-[1.45] ${textClass} relative w-full`}
       >
         <div className={`${shadowClass}`}> {text}</div>
-      </p>
+      </div>
 
       {isExpandable ? (
         <button className="underline hover:no-underline" onClick={toggleText}>

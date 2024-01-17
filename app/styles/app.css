@@ -839,10 +839,10 @@ span._platinum {
 .white-shadow::after {
   content: '';
   position: absolute;
-  bottom: -5px;
+  bottom: 0px;
   left: 0;
   right: 0;
   width: 100%;
-  height: 25px;
-  background: linear-gradient(rgba(250, 250, 251, 0) 0%, #fafafb 80%);
+  height: 35px;
+  background: linear-gradient(rgba(250, 250, 251, 0) 50%, #fafafb 105%);
 }
