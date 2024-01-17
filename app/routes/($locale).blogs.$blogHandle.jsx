@@ -1,11 +1,10 @@
-import {json} from '@shopify/remix-oxygen';
 import {Link, useLoaderData} from '@remix-run/react';
-import {Image, Pagination, getPaginationVariables} from '@shopify/hydrogen';
+import {Image} from '@shopify/hydrogen';
+import {json} from '@shopify/remix-oxygen';
 import Conflict from '../pages/abouts/conflict-free-diamonds';
 import ContactUs from '../pages/abouts/contact-us';
 import OurBrand from '../pages/abouts/our-brand';
 import OurValues from '../pages/abouts/our-values';
-import ShipAndRet from '../pages/policy/shipping-and-returns';
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data.blog.title} blog`}];
 };
