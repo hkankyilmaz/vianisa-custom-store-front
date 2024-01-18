@@ -2,7 +2,15 @@ import React, {useCallback, useEffect, useState, useRef} from 'react';
 import PropTypes from 'prop-types';
 import './multiRangeSlider.css';
 
-const MultiRangeSlider = ({min, max, className}) => {
+const MultiRangeSlider = ({
+  min,
+  max,
+  value,
+  getSliderPriceRange,
+  setSliderPriceRange,
+  setInputPriceRange,
+  onChangeCommitted,
+}) => {
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
   const minValRef = useRef(min);
@@ -17,24 +25,24 @@ const MultiRangeSlider = ({min, max, className}) => {
 
   // Set width of the range to decrease from the left side
   useEffect(() => {
-    const minPercent = getPercent(minVal);
-    const maxPercent = getPercent(maxValRef.current);
+    const minPercent = getPercent(getSliderPriceRange[0]);
+    const maxPercent = getPercent(getSliderPriceRange[1]);
 
     if (range.current) {
       range.current.style.left = `${minPercent}%`;
       range.current.style.width = `${maxPercent - minPercent}%`;
     }
-  }, [minVal, getPercent]);
+  }, [getSliderPriceRange[0], getPercent]);
 
   // Set width of the range to decrease from the right side
   useEffect(() => {
-    const minPercent = getPercent(minValRef.current);
-    const maxPercent = getPercent(maxVal);
+    const minPercent = getPercent(getSliderPriceRange[0]);
+    const maxPercent = getPercent(getSliderPriceRange[1]);
 
     if (range.current) {
       range.current.style.width = `${maxPercent - minPercent}%`;
     }
-  }, [maxVal, getPercent]);
+  }, [getSliderPriceRange[1], getPercent]);
 
   return (
     <div className="container">
@@ -42,34 +50,42 @@ const MultiRangeSlider = ({min, max, className}) => {
         type="range"
         min={min}
         max={max}
-        value={minVal}
+        defaultValue={minVal}
+        value={getSliderPriceRange[0]}
         onChange={(event) => {
           const value = Math.min(Number(event.target.value), maxVal - 1);
+          const pre_price = getSliderPriceRange[1];
+          const newarray = [value, pre_price];
+          setSliderPriceRange(newarray);
+          setInputPriceRange(newarray);
           setMinVal(value);
           minValRef.current = value;
         }}
+        onMouseUp={onChangeCommitted}
         className={'thumb thumb--left'}
-        style={{zIndex: minVal > max - 100 && '5'} + {className}}
       />
       <input
         type="range"
         min={min}
         max={max}
-        value={maxVal}
+        defaultValue={maxVal}
+        value={getSliderPriceRange[1]}
         onChange={(event) => {
           const value = Math.max(Number(event.target.value), minVal + 1);
           setMaxVal(value);
           maxValRef.current = value;
+          const pre_price = getSliderPriceRange[0];
+          const newarray = [pre_price, value];
+          setSliderPriceRange(newarray);
+          setInputPriceRange(newarray);
         }}
+        onMouseUp={onChangeCommitted}
         className={'thumb thumb--right'}
-        style={{className}}
       />
 
       <div className="slider">
         <div className="slider__track" />
         <div ref={range} className="slider__range" />
-        {/* <div className="slider__left-value">{minVal}</div> */}
-        {/* <div className="slider__right-value">{maxVal}</div> */}
       </div>
     </div>
   );

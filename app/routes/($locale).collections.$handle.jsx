@@ -355,10 +355,17 @@ function ProductsGrid({products, grid, handle}) {
                   </p>
                   <Slider2
                     className={sliderClas}
+                    value={sliderPriceRange}
                     max={defaultPriceRange.max}
                     min={defaultPriceRange.min}
+                    getSliderPriceRange={sliderPriceRange}
+                    setSliderPriceRange={setSliderPriceRange}
+                    setInputPriceRange={setInputPriceRange}
+                    onChangeCommitted={() => {
+                      submit(formRef.current);
+                    }}
                   />
-                  {/*  <Slider
+                  {/* <Slider
                     className="max-w-[100%] mb-1"
                     sx={{color: 'gray'}}
                     size="small"
@@ -394,7 +401,7 @@ function ProductsGrid({products, grid, handle}) {
             </div>
             {filters.slice(1).map((filter, index) => (
               <div
-                className={`accordion__item max-sm:border-b border-[#e0e0e0]  ${
+                className={`accordion__item max-sm:border-b relative max-sm:bg-[#efefef] max-sm:z-10 border-[#e0e0e0] ${
                   openAccordion === index + 1 ? 'open' : ''
                 }`}
                 ref={(e) => (accordionRefs.current[index + 1] = e)}
