@@ -1,54 +1,62 @@
-import React from 'react';
-import {useNavigate} from '@remix-run/react';
+import {trim} from '~/utils';
 import {CloseButton} from '../Header/Drawer';
 
-function SortForm({closeMobileSort}) {
-  const navigate = useNavigate();
+const SortForm = ({closeMobileSort, update}) => {
+  const sortOptions = [
+    {
+      label: 'FEATURED',
+      value: 'COLLECTION_DEFAULT',
+      reversed: false,
+    },
+    {
+      label: 'BEST SELLING',
+      value: 'BEST_SELLING',
+      reversed: false,
+    },
+    {
+      label: 'ALPHABETICALLY, A-Z',
+      value: 'TITLE',
+      reversed: false,
+    },
+    {
+      label: 'ALPHABETICALLY, Z-A',
+      value: 'TITLE',
+      reversed: true,
+    },
+    {
+      label: 'PRICE, LOW TO HIGH',
+      value: 'PRICE',
+      reversed: false,
+    },
+    {
+      label: 'PRICE, HIGH TO LOW',
+      value: 'PRICE',
+      reversed: true,
+    },
+    {
+      label: 'DATE, OLD TO NEW',
+      value: 'CREATED',
+      reversed: false,
+    },
+    {
+      label: 'DATE, NEW TO OLD',
+      value: 'CREATED',
+      reversed: true,
+    },
+  ];
 
-  const handleClick = (sort, reverse) => {
-    let url = new URL(window.location.href);
-    let params = new URLSearchParams(url.search);
-
-    params.set('sortkey', sort);
-    params.set('reverse', reverse);
-
-    navigate(`?${params.toString()}`);
-    closeMobileSort();
-  };
   return (
     <>
       <div className="sort-modal-desktop modal-shadow translate-y-2 max-lg:hidden w-max z-20 rounded-md [&>p:hover]:underline cursor-[initial] [&>p]:mb-2 absolute top-[130px] right-0 h-auto">
         <div className=" rounded-xl flex justify-center items-center flex-col py-7 clip-path-filter bg-[#efefef] [&>p]:text-right">
-          <p
-            className="sort-btn"
-            onClick={() => handleClick('COLLECTION_DEFAULT', false)}
-          >
-            FEATURED
-          </p>
-          <p
-            className="sort-btn"
-            onClick={() => handleClick('BEST_SELLING', false)}
-          >
-            BEST SELLING
-          </p>
-          <p className="sort-btn" onClick={() => handleClick('TITLE', false)}>
-            ALPHABETICALLY, A-Z
-          </p>
-          <p className="sort-btn" onClick={() => handleClick('TITLE', true)}>
-            ALPHABETICALLY, Z-A
-          </p>
-          <p className="sort-btn" onClick={() => handleClick('PRICE', false)}>
-            PRICE, LOW TO HIGH
-          </p>
-          <p className="sort-btn" onClick={() => handleClick('PRICE', true)}>
-            PRICE, HIGH TO LOW
-          </p>
-          <p className="sort-btn" onClick={() => handleClick('CREATED', false)}>
-            DATE, OLD TO NEW
-          </p>
-          <p className="sort-btn" onClick={() => handleClick('CREATED', false)}>
-            DATE, NEW TO OLD
-          </p>
+          {sortOptions.map((option, index) => (
+            <SortInput
+              key={`desktop-${index}`}
+              {...option}
+              update={update}
+              closeSort={closeMobileSort}
+            />
+          ))}
         </div>
       </div>
       <div className="modal-shadow lg:hidden w-full z-[55] [&>p:hover]:underline cursor-[initial] [&>p]:mb-2 fixed left-0 right-0 bottom-0">
@@ -59,40 +67,41 @@ function SortForm({closeMobileSort}) {
             </div>
             SORT
           </header>
-          <p
-            className="sort-btn mt-[13px]"
-            onClick={() => handleClick('COLLECTION_DEFAULT', false)}
-          >
-            FEATURED
-          </p>
-          <p
-            className="sort-btn"
-            onClick={() => handleClick('BEST_SELLING', false)}
-          >
-            BEST SELLING
-          </p>
-          <p className="sort-btn" onClick={() => handleClick('TITLE', false)}>
-            ALPHABETICALLY, A-Z
-          </p>
-          <p className="sort-btn" onClick={() => handleClick('TITLE', true)}>
-            ALPHABETICALLY, Z-A
-          </p>
-          <p className="sort-btn" onClick={() => handleClick('PRICE', false)}>
-            PRICE, LOW TO HIGH
-          </p>
-          <p className="sort-btn" onClick={() => handleClick('PRICE', true)}>
-            PRICE, HIGH TO LOW
-          </p>
-          <p className="sort-btn" onClick={() => handleClick('CREATED', false)}>
-            DATE, OLD TO NEW
-          </p>
-          <p className="sort-btn" onClick={() => handleClick('CREATED', false)}>
-            DATE, NEW TO OLD
-          </p>
+          {sortOptions.map((option, index) => (
+            <SortInput
+              key={`mobile-${index}`}
+              {...option}
+              update={update}
+              closeSort={closeMobileSort}
+              className={index == 0 ? 'mt-[13px]' : ''}
+            />
+          ))}
         </div>
       </div>
     </>
   );
-}
+};
+
+const SortInput = ({
+  label,
+  value,
+  reversed,
+  update,
+  closeSort,
+  className = '',
+}) => {
+  const handleOnClick = () => {
+    update(value, reversed);
+    closeSort();
+  };
+
+  return (
+    <div>
+      <span className={trim(`sort-btn ${className}`)} onClick={handleOnClick}>
+        {label}
+      </span>
+    </div>
+  );
+};
 
 export default SortForm;
