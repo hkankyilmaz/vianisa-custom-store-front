@@ -68,7 +68,7 @@ export function ProductExtraInputTag({product, cardInfo}) {
         {inputObj.inputNumber == 1 && inputObj.inputType == 'text' ? (
           <div className="relative mb-3 h-[41.5px]">
             <input
-              className="w-full bg-transparent h-[41.5px] focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
+              className="w-full bg-transparent h-[41.5px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-3"
               data-labelonproduct={inputObj.labelOnProduct}
               data-name={inputObj.name}
               name={inputObj.labelOnProduct}
@@ -84,7 +84,7 @@ export function ProductExtraInputTag({product, cardInfo}) {
               data-name={inputObj.name}
               name={inputObj.labelOnProduct}
               onChange={cardInfo}
-              className=" w-full h-[41.5px] cursor-pointer bg-transparent focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
+              className=" w-full h-[41.5px] cursor-pointer bg-transparent focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-3"
             >
               <option value={null}> {inputObj.placeHolder} </option>
               {inputObj.options.delimeter

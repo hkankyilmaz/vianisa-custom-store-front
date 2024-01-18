@@ -378,28 +378,34 @@ function ReviewItem({
 
 const TextWithToggle = ({text}) => {
   const [isExpanded, setIsExpanded] = useState(false);
-
   const [isExpandable, setIsExpandable] = useState(false);
   const textRef = useRef(null);
 
   useEffect(() => {
     // Check if the text is taller than three lines initially
     const checkExpandable = () => {
-      setIsExpandable(
+      const newIsExpandable =
         textRef.current.scrollHeight >
-          3 * parseFloat(getComputedStyle(textRef.current).lineHeight) + 1,
-      );
+        3 * parseFloat(getComputedStyle(textRef.current).lineHeight) + 1;
+
+      if (newIsExpandable !== isExpandable) {
+        setIsExpandable(newIsExpandable);
+
+        // Auto-expand if not expandable initially
+        /* if (!newIsExpandable) {
+          setIsExpanded(true);
+        } */
+      }
     };
-    if (isExpandable) {
-      setIsExpanded(false); // Auto-expand if not expandable initially
-    }
+
     checkExpandable();
 
     window.addEventListener('resize', checkExpandable);
     return () => {
+      // Clean up state when component unmounts
       window.removeEventListener('resize', checkExpandable);
     };
-  }, [isExpandable]);
+  }, [isExpandable, text]);
 
   const toggleText = () => {
     setIsExpanded(!isExpanded);
