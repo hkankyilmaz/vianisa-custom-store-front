@@ -94,11 +94,6 @@ export default function EtsyReview({collection, className}) {
   // const [emblaRef, emblaApi] = useEmblaCarousel({loop: false});
   const [emblaRef, emblaApi] = useEmblaCarousel({loop: true}, [Autoplay()]);
 
-  useEffect(() => {
-    if (emblaApi) {
-      console.log(emblaApi.slideNodes()); // Access API
-    }
-  }, [emblaApi]);
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
   }, [emblaApi]);

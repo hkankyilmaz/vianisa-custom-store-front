@@ -100,14 +100,17 @@ function SearchAside({open, close}) {
   return (
     <div
       id="search-asides"
-      className={'absolute bg-slate-50 h-min z-50 block w-full ' + hid}
+      className={
+        'absolute bg-black bg-opacity-50 h-[calc(100vh-115px)] z-50 block w-full ' +
+        hid
+      }
       heading="SEARCH"
     >
-      <div className="predictive-searchs w-full ">
+      <div className="predictive-searchs  bg-white w-full ">
         <PredictiveSearchForm className="w-full">
           {({fetchResults, inputRef}) => (
             <div className="flex justify-around">
-              <div className="w-full flex pl-12 justify-center items-center border border-x-0 border-[#e0e0e0] ">
+              <div className="w-full flex pl-12 justify-center items-center border-b border-x-0 border-[#e0e0e0] ">
                 <svg
                   class="Icon Icon--search-desktop "
                   role="presentation"
@@ -133,14 +136,18 @@ function SearchAside({open, close}) {
                   placeholder="Search"
                   ref={inputRef}
                   autocomplete="off"
+                  id="search"
                   type="search"
-                  className="w-full border-0 bg-transparent py-5 px-5 focus:!border-[#e0e0e0] focus:!shadow-none focus:!shadow-transparent	"
+                  className="w-full border-0 bg-transparent py-5 px-5 focus:ring-0"
                 />
                 <button
                   class="w-3 h-3 mr-5"
                   data-action="close-search"
                   aria-label="Close search"
-                  onClick={() => close(false)}
+                  onClick={() => {
+                    close(false);
+                    document.documentElement.style.overflowY = 'auto';
+                  }}
                 >
                   <svg
                     class="Icon Icon--close "
@@ -399,7 +406,11 @@ function HeaderMenuMobileToggle() {
 
 function SearchToggle({searchbtn}) {
   return (
-    <a onClickCapture={searchbtn} className="cursor-pointer">
+    <a
+      onClick={() => (document.documentElement.style.overflowY = 'hidden')}
+      onClickCapture={searchbtn}
+      className="cursor-pointer"
+    >
       <svg
         role="presentation"
         className="w-[18px] h-[17px] sm:hidden"

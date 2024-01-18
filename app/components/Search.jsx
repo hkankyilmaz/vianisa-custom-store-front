@@ -2,13 +2,7 @@ import {Link, Form, useParams, useFetcher, useFetchers} from '@remix-run/react';
 import {Image, Money, Pagination} from '@shopify/hydrogen';
 import React, {useRef, useEffect} from 'react';
 
-export const NO_PREDICTIVE_SEARCH_RESULTS = [
-  {type: 'queries', items: []},
-  {type: 'products', items: []},
-  {type: 'collections', items: []},
-  {type: 'pages', items: []},
-  {type: 'articles', items: []},
-];
+export const NO_PREDICTIVE_SEARCH_RESULTS = [{type: 'products', items: []}];
 
 export function SearchForm({searchTerm}) {
   const inputRef = useRef(null);
@@ -59,29 +53,12 @@ export function SearchResults({results}) {
         keys.map((type) => {
           const resourceResults = results[type];
 
-          if (resourceResults.nodes[0]?.__typename === 'Page') {
-            const pageResults = resourceResults;
-            return resourceResults.nodes.length ? (
-              <SearchResultPageGrid key="pages" pages={pageResults} />
-            ) : null;
-          }
-
           if (resourceResults.nodes[0]?.__typename === 'Product') {
             const productResults = resourceResults;
             return resourceResults.nodes.length ? (
               <SearchResultsProductsGrid
                 key="products"
                 products={productResults}
-              />
-            ) : null;
-          }
-
-          if (resourceResults.nodes[0]?.__typename === 'Article') {
-            const articleResults = resourceResults;
-            return resourceResults.nodes.length ? (
-              <SearchResultArticleGrid
-                key="articles"
-                articles={articleResults}
               />
             ) : null;
           }
@@ -130,42 +107,6 @@ function SearchResultsProductsGrid({products}) {
   );
 }
 
-function SearchResultPageGrid({pages}) {
-  return (
-    <div className="search-result">
-      <h2>Pages</h2>
-      <div>
-        {pages?.nodes?.map((page) => (
-          <div className="search-results-item" key={page.id}>
-            <Link prefetch="intent" to={`/pages/${page.handle}`}>
-              {page.title}
-            </Link>
-          </div>
-        ))}
-      </div>
-      <br />
-    </div>
-  );
-}
-
-function SearchResultArticleGrid({articles}) {
-  return (
-    <div className="search-result">
-      <h2>Articles</h2>
-      <div>
-        {articles?.nodes?.map((article) => (
-          <div className="search-results-item" key={article.id}>
-            <Link prefetch="intent" to={`/blog/${article.handle}`}>
-              {article.title}
-            </Link>
-          </div>
-        ))}
-      </div>
-      <br />
-    </div>
-  );
-}
-
 export function NoSearchResults() {
   return <p>No results, try a different search.</p>;
 }
@@ -191,7 +132,7 @@ export function PredictiveSearchForm({
       : searchAction;
     const newSearchTerm = event.target.value || '';
     fetcher.submit(
-      {q: newSearchTerm, limit: '6'},
+      {q: newSearchTerm, limit: '3'},
       {method, action: localizedAction},
     );
   }
@@ -237,26 +178,28 @@ export function PredictiveSearchResults() {
   }
   return (
     <div className="predictive-search-results">
-      <div>
-        {results.map(({type, items}) => (
-          <PredictiveSearchResult
-            goToSearchResult={goToSearchResult}
-            items={items}
-            key={type}
-            searchTerm={searchTerm}
-            type={type}
-          />
-        ))}
-      </div>
-      {/* view all results /search?q=term */}
       {searchTerm.current && (
         <Link onClick={goToSearchResult} to={`/search?q=${searchTerm.current}`}>
-          <p>
-            View all results for <q>{searchTerm.current}</q>
-            &nbsp; →
-          </p>
+          <div className="flex justify-end pt-2 pr-10">
+            <span className="border-b border-b-black pb-1 pt-1 text-lg text-[#595959]">
+              View all
+            </span>
+          </div>
         </Link>
       )}
+      <div>
+        {results
+          .filter((i) => i.type == 'products')
+          .map(({type, items}) => (
+            <PredictiveSearchResult
+              goToSearchResult={goToSearchResult}
+              items={items}
+              key={type}
+              searchTerm={searchTerm}
+              type={type}
+            />
+          ))}
+      </div>
     </div>
   );
 }
@@ -266,24 +209,27 @@ function NoPredictiveSearchResults({searchTerm}) {
     return null;
   }
   return (
-    <p>
-      No results found for <q>{searchTerm.current}</q>
-    </p>
+    <div className="flex justify-start pt-2 pl-10 mb-3">
+      <span className=" border-b-black pb-1 pt-1 text-lg text-[#595959]">
+        No results found for <q>{searchTerm.current}</q>
+      </span>
+    </div>
   );
 }
 
 function PredictiveSearchResult({goToSearchResult, items, searchTerm, type}) {
   const isSuggestions = type === 'queries';
+  console.log(items);
   const categoryUrl = `/search?q=${
     searchTerm.current
   }&type=${pluralToSingularSearchType(type)}`;
 
   return (
-    <div className="predictive-search-result" key={type}>
+    <div className="predictive-search-result py-10" key={type}>
       <Link prefetch="intent" to={categoryUrl} onClick={goToSearchResult}>
-        <h5>{isSuggestions ? 'Suggestions' : type}</h5>
+        {/* <h5>{isSuggestions ? 'Suggestions' : type}</h5> */}
       </Link>
-      <ul>
+      <ul className="grid grid-cols-3 mx-10 gap-x-5">
         {items.map((item) => (
           <SearchResultItem
             goToSearchResult={goToSearchResult}
@@ -298,15 +244,10 @@ function PredictiveSearchResult({goToSearchResult, items, searchTerm, type}) {
 
 function SearchResultItem({goToSearchResult, item}) {
   return (
-    <li className="predictive-search-result-item" key={item.id}>
+    <li className="flex flex-col" key={item.id}>
       <Link onClick={goToSearchResult} to={item.url}>
         {item.image?.url && (
-          <Image
-            alt={item.image.altText ?? ''}
-            src={item.image.url}
-            width={50}
-            height={50}
-          />
+          <Image alt={item.image.altText ?? ''} src={item.image.url} />
         )}
         <div>
           {item.styledTitle ? (
