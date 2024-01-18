@@ -119,7 +119,7 @@ export async function loader({request, params, context}) {
 }
 
 export default function Collection() {
-  const {collection, values} = useLoaderData();
+  const {collection, values, defaultPriceRange} = useLoaderData();
 
   const submit = useSubmit();
 
@@ -181,10 +181,13 @@ export default function Collection() {
                 <FilterButton openMobileFilter={openMobileFilter} />
               </div>
             </div>
-            <Pagination connection={collection.products}>
-              {({nodes, isLoading, PreviousLink, NextLink}) => (
+            <Pagination connection={collection.collection.products}>
+              {({nodes, isLoading, NextLink}) => (
                 <>
                   <ProductsGrid
+                    defaultPriceRange={defaultPriceRange}
+                    values={values}
+                    collection={collection.collection}
                     grid={grid}
                     products={nodes}
                     handle={collection.handle}
@@ -238,8 +241,17 @@ function FilterButton({openMobileFilter}) {
   );
 }
 
-function ProductsGrid({products, grid, handle, sortValue, reversed}) {
-  const {collection, values, defaultPriceRange} = useLoaderData();
+function ProductsGrid({
+  products,
+  grid,
+  handle,
+  sortValue,
+  reversed,
+  collection,
+  values,
+  defaultPriceRange,
+}) {
+  //const {collection, values, defaultPriceRange} = useLoaderData();
 
   const url = useLocation();
   const submit = useSubmit();

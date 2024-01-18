@@ -92,7 +92,9 @@ export function Header({header, isLoggedIn, cart}) {
     </>
   );
 }
-function SearchAside() {
+function SearchAside({open, close}) {
+  let url = new URL(window.location.href);
+  let hid = open ? '' : 'hidden';
   return (
     <div
       id="search-asides"

@@ -48,7 +48,7 @@ const SortForm = ({closeMobileSort, update}) => {
   return (
     <>
       <div className="sort-modal-desktop modal-shadow translate-y-2 max-lg:hidden w-max z-20 rounded-md [&>p:hover]:underline cursor-[initial] [&>p]:mb-2 absolute top-[130px] right-0 h-auto">
-        <div className=" rounded-xl flex justify-center items-center flex-col py-7 clip-path-filter bg-[#efefef] [&>p]:text-right">
+        <div className="rounded-xl flex justify-center items-center flex-col py-7 clip-path-filter bg-[#efefef] [&>span]:text-right">
           {sortOptions.map((option, index) => (
             <SortInput
               key={`desktop-${index}`}
@@ -61,7 +61,7 @@ const SortForm = ({closeMobileSort, update}) => {
       </div>
       <div className="modal-shadow lg:hidden w-full z-[55] [&>p:hover]:underline cursor-[initial] [&>p]:mb-2 fixed left-0 right-0 bottom-0">
         <div className="sort-modal absolute z-60 bottom-0 right-0 left-0 flex justify-center h-min items-center flex-col pb-[18px] bg-[#efefef] ">
-          <header className="w-full text-center px-5 py-[13px]  text-[#2f2f2f] text-xl font-playfair tracking-[4px] font-bold border-b">
+          <header className="w-full text-center px-5 py-[13px]  text-[#2f2f2f] text-xl font-avenir-medium tracking-[4px] border-b">
             <div className="absolute left-[-10px]">
               <CloseButton onClick={() => closeMobileSort()} />
             </div>
@@ -96,11 +96,9 @@ const SortInput = ({
   };
 
   return (
-    <div>
-      <span className={trim(`sort-btn ${className}`)} onClick={handleOnClick}>
-        {label}
-      </span>
-    </div>
+    <span className={trim(`sort-btn ${className}`)} onClick={handleOnClick}>
+      {label}
+    </span>
   );
 };
 
