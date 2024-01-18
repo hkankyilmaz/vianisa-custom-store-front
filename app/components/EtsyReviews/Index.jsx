@@ -180,11 +180,6 @@ export default function EtsyReview({collection, className}) {
   const [shuffledArray, setShuffledArray] = useState([...array]);
   shuffledArray.sort(() => Math.random() - 0.5);
 
-  useEffect(() => {
-    if (emblaApi) {
-      // console.log(emblaApi.slideNodes()); // Access API
-    }
-  }, [emblaApi]);
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
   }, [emblaApi]);

@@ -96,14 +96,17 @@ function SearchAside() {
   return (
     <div
       id="search-asides"
-      className={'search-aside absolute bg-white h-min z-50 block w-full'}
+      className={
+        'absolute bg-black bg-opacity-50 h-[calc(100vh-115px)] z-50 block w-full ' +
+        hid
+      }
       heading="SEARCH"
     >
-      <div className="predictive-searchs w-full ">
+      <div className="predictive-searchs  bg-white w-full ">
         <PredictiveSearchForm className="w-full">
           {({fetchResults, inputRef}) => (
             <div className="flex justify-around">
-              <div className="w-full flex px-[50px] py-7 justify-center items-center  ">
+              <div className="w-full flex pl-12 justify-center items-center border-b border-x-0 border-[#e0e0e0] ">
                 <svg
                   className="Icon Icon--search-desktop w-[22px] h-[22px]"
                   role="presentation"
@@ -127,26 +130,18 @@ function SearchAside() {
                   onFocus={fetchResults}
                   placeholder="SEARCH..."
                   ref={inputRef}
-                  autoComplete="off"
+                  autocomplete="off"
+                  id="search"
                   type="search"
-                  className="w-full border-0 p-0 pl-5 bg-transparent focus:ring-0 focus:!border-[#e0e0e0] focus:!shadow-none focus:!shadow-transparent uppercase font-montserratMd text-[17px] text-[#2f2f2f] tracking-[3.4px]"
-                  autoFocus
+                  className="w-full border-0 bg-transparent py-5 px-5 focus:ring-0"
                 />
                 <button
                   className="w-4 h-4"
                   data-action="close-search"
                   aria-label="Close search"
                   onClick={() => {
-                    let root_ = document.documentElement.style;
-                    root_.setProperty('--search-overlay-opacity', '0');
-                    root_.setProperty('--search-overlay-visibility', 'hidden');
-                    root_.setProperty(
-                      '--search-aside-position',
-                      'translateY(-25px)',
-                    );
-                    root_.setProperty('--search-aside-visibility', 'hidden');
-                    root_.setProperty('--search-aside-opacity', '0');
-                    root_.overflowY = 'auto';
+                    close(false);
+                    document.documentElement.style.overflowY = 'auto';
                   }}
                 >
                   <svg
@@ -385,7 +380,7 @@ function HeaderCtas({isLoggedIn, cart, searchbtn}) {
       </NavLink>
       <SearchToggle searchbtn={searchbtn} />
       {/* <WishlistToggle /> */}
-      <CartToggle />
+      <CartToggle close={searchbtn} />
     </nav>
   );
 }
@@ -403,14 +398,7 @@ function SearchToggle({searchbtn}) {
 
   return (
     <a
-      onClick={() => {
-        root_.setProperty('--search-overlay-opacity', '1');
-        root_.setProperty('--search-overlay-visibility', 'visible');
-        root_.setProperty('--search-aside-position', 'translateY(0%)');
-        root_.setProperty('--search-aside-visibility', 'visible');
-        root_.setProperty('--search-aside-opacity', '1');
-        document.documentElement.style.overflowY = 'hidden';
-      }}
+      onClick={() => (document.documentElement.style.overflowY = 'hidden')}
       onClickCapture={searchbtn}
       className="cursor-pointer"
     >
@@ -496,12 +484,13 @@ function WishlistToggle() {
   );
 }
 
-function CartToggle() {
+function CartToggle({close}) {
   let root_ = document.documentElement.style;
   return (
     <a
       className="relative cursor-pointer"
       onClick={() => {
+        close();
         root_.setProperty('--cart-overlay-opacity', '1');
         root_.setProperty('--cart-overlay-visibility', 'visible');
         root_.setProperty('--cart-aside-position', 'translateX(0%)');
