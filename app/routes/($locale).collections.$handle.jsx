@@ -5,17 +5,18 @@ import {
   useLocation,
   useNavigate,
   useSubmit,
+  Await,
 } from '@remix-run/react';
 import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
-import {json, redirect} from '@shopify/remix-oxygen';
+import {Suspense} from 'react';
+import {json, redirect, defer} from '@shopify/remix-oxygen';
+import Spinner from '~/components/Spinner';
 import {useRef, useState} from 'react';
 import {AiOutlineDown} from 'react-icons/ai';
 import useDefaultCollectionQuery from '~/hooks/useDefaultCollectionQuery';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
-
 import gsap from 'gsap';
 import {CloseButton} from '~/components/Header/Drawer';
-
 import {
   FilterForm,
   GridChanger,
@@ -24,6 +25,9 @@ import {
   ProductItem,
   SortForm,
 } from '~/components/Collection Page UI-Forms';
+import styles from '../styles/Spinner.css';
+
+export const links = () => [{rel: 'stylesheet', href: styles}];
 
 export const meta = ({data}) => {
   return [{title: `Hydrogen | ${data.collection.title} Collection`}];
@@ -86,18 +90,20 @@ export async function loader({request, params, context}) {
     return redirect('/collections');
   }
 
-  const [{collection}, {collection: defaultCollection}] = await Promise.all([
-    storefront.query(COLLECTION_QUERY, {
-      variables: {handle, ...paginationVariables},
-      cache: storefront.CacheLong(),
-    }),
-    storefront.query(DEFAULT_COLLECTION_QUERY, {
+  const collection = storefront.query(COLLECTION_QUERY, {
+    variables: {handle, ...paginationVariables},
+    cache: storefront.CacheLong(),
+  });
+
+  const {collection: defaultCollection} = await storefront.query(
+    DEFAULT_COLLECTION_QUERY,
+    {
       variables: {
         handle: handle,
       },
       cache: storefront.CacheLong(),
-    }),
-  ]);
+    },
+  );
 
   const defaultPriceRange = JSON.parse(
     defaultCollection.products.filters[0].values[0].input,
@@ -109,11 +115,11 @@ export async function loader({request, params, context}) {
     });
   }
 
-  return json({collection, values, defaultPriceRange});
+  return defer({collection, values, defaultPriceRange});
 }
 
 export default function Collection() {
-  const {collection} = useLoaderData();
+  const {values, defaultPriceRange, collection} = useLoaderData();
   console.log(collection);
   const [grid, setGrid] = useState(true);
   let root_ = document.documentElement.style;
@@ -142,36 +148,46 @@ export default function Collection() {
   };
 
   return (
-    <div className="collection" key={collection.handle}>
-      <PageHeader collection={collection} />
-      <div className="w-full max-sm:h-[44px] sm:h-[54px] border-y flex justify-between max-sm:flex-row-reverse items-center">
-        <GridChanger setGrid={setGrid} grid={grid} />
+    <Suspense fallback={<Spinner />}>
+      <Await errorElement={<div>Oops!</div>} resolve={collection}>
+        {(collection) => (
+          <div className="collection" key={collection.collection.handle}>
+            <PageHeader collection={collection.collection} />
+            <div className="w-full max-sm:h-[44px] sm:h-[54px] border-y flex justify-between max-sm:flex-row-reverse items-center">
+              <GridChanger setGrid={setGrid} grid={grid} />
 
-        <div className="flex max-sm:grow max-sm:flex-row-reverse">
-          <SortButton
-            openMobileSort={openMobileSort}
-            closeMobileSort={closeMobileSort}
-          />
-          <FilterButton openMobileFilter={openMobileFilter} />
-        </div>
-      </div>
-      <Pagination connection={collection.products}>
-        {({nodes, isLoading, PreviousLink, NextLink}) => (
-          <>
-            <ProductsGrid
-              grid={grid}
-              products={nodes}
-              handle={collection.handle}
-            />
-            <br />
-            <NextLink className="flex justify-center w-full text-xl my-5">
-              <LoadMoreButton isLoading={isLoading} />
-            </NextLink>
-          </>
+              <div className="flex max-sm:grow max-sm:flex-row-reverse">
+                <SortButton
+                  openMobileSort={openMobileSort}
+                  closeMobileSort={closeMobileSort}
+                />
+                <FilterButton openMobileFilter={openMobileFilter} />
+              </div>
+            </div>
+
+            <Pagination connection={collection.collection.products}>
+              {({nodes, isLoading, NextLink}) => (
+                <>
+                  <ProductsGrid
+                    collection={collection.collection}
+                    values={values}
+                    defaultPriceRange={defaultPriceRange}
+                    grid={grid}
+                    products={nodes}
+                    handle={collection.handle}
+                  />
+                  <br />
+                  <NextLink className="flex justify-center w-full text-xl my-5">
+                    <LoadMoreButton isLoading={isLoading} />
+                  </NextLink>
+                </>
+              )}
+            </Pagination>
+            <SortForm closeMobileSort={closeMobileSort} />
+          </div>
         )}
-      </Pagination>
-      <SortForm closeMobileSort={closeMobileSort} />
-    </div>
+      </Await>
+    </Suspense>
   );
 }
 
@@ -204,8 +220,15 @@ function FilterButton({openMobileFilter}) {
   );
 }
 
-function ProductsGrid({products, grid, handle}) {
-  const {collection, values, defaultPriceRange} = useLoaderData();
+function ProductsGrid({
+  products,
+  grid,
+  handle,
+  values,
+  defaultPriceRange,
+  collection,
+}) {
+  //const {collection, values, defaultPriceRange} = useLoaderData();
 
   const url = useLocation();
   const submit = useSubmit();
