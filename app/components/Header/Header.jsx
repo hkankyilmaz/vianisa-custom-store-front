@@ -391,7 +391,7 @@ function HeaderCtas({isLoggedIn, cart, searchbtn}) {
       </NavLink>
       <SearchToggle searchbtn={searchbtn} />
       {/* <WishlistToggle /> */}
-      <CartToggle />
+      <CartToggle close={searchbtn} />
     </nav>
   );
 }
@@ -493,12 +493,13 @@ function WishlistToggle() {
   );
 }
 
-function CartToggle() {
+function CartToggle({close}) {
   let root_ = document.documentElement.style;
   return (
     <a
       className="relative cursor-pointer"
       onClick={() => {
+        close();
         root_.setProperty('--cart-overlay-opacity', '1');
         root_.setProperty('--cart-overlay-visibility', 'visible');
         root_.setProperty('--cart-aside-position', 'translateX(0%)');
