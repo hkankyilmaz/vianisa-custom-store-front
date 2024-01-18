@@ -66,7 +66,7 @@ export function ProductExtraInputTag({product, cardInfo}) {
     return resultTag.map((inputObj, index) => (
       <div key={index} className="text-[#595959] tracking-wide">
         {inputObj.inputNumber == 1 && inputObj.inputType == 'text' ? (
-          <div className="relative mb-3 h-[41.5px]">
+          <div className="relative mb-3 mt-3 h-[41.5px]">
             <input
               className="w-full bg-transparent h-[41.5px] focus:border-transparent text-[13px] focus:outline-none border-2 border-[#E5E7EB] z-3"
               data-labelonproduct={inputObj.labelOnProduct}
@@ -75,7 +75,7 @@ export function ProductExtraInputTag({product, cardInfo}) {
               onChange={cardInfo}
               placeholder={inputObj.placeHolder}
             />
-            <AiOutlineDown className="absolute right-4 first-letter:top-[50%] translate-y-[-50%] text-lg z-[-1]" />
+            {/* <AiOutlineDown className="absolute right-4 first-letter:top-[50%] translate-y-[-50%] text-lg z-[-1]" /> */}
           </div>
         ) : inputObj.inputNumber == 1 && inputObj.inputType == 'select' ? (
           <div className="relative my-3 h-[41.5px]">

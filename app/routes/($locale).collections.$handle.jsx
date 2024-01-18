@@ -12,7 +12,7 @@ import {useRef, useState} from 'react';
 import {AiOutlineDown} from 'react-icons/ai';
 import useDefaultCollectionQuery from '~/hooks/useDefaultCollectionQuery';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
-
+import Slider2 from '~/components/RangeSlider/RangeSlider';
 import gsap from 'gsap';
 import {CloseButton} from '~/components/Header/Drawer';
 
@@ -211,6 +211,7 @@ function ProductsGrid({products, grid, handle}) {
   const navigate = useNavigate();
 
   const formRef = useRef(null);
+
   const accordionRefs = useRef([]);
   const refsHorizontal = Array.from({length: 3}, () => useRef(null));
   const refsVertical = Array.from({length: 3}, () => useRef(null));
@@ -227,7 +228,7 @@ function ProductsGrid({products, grid, handle}) {
     parseInt(values.minPrice) || defaultPriceRange.min,
     parseInt(values.maxPrice) || defaultPriceRange.max,
   ]);
-
+  const [sliderClas, setSliderClas] = useState({});
   const getOptionValue = (option) => {
     return option.id.split('.').slice(-1)[0];
   };
@@ -278,6 +279,7 @@ function ProductsGrid({products, grid, handle}) {
           ease: 'power1.inOut',
         },
       );
+      setSliderClas({visibility: 'hidden'});
     } else {
       if (openAccordion !== null) {
         gsap.to(
@@ -301,6 +303,7 @@ function ProductsGrid({products, grid, handle}) {
           ease: 'power1.inOut',
         },
       );
+      setSliderClas({});
     }
   };
 
@@ -350,7 +353,12 @@ function ProductsGrid({products, grid, handle}) {
                   <p className="font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] mb-2 max-sm:hidden">
                     PRICE
                   </p>
-                  <Slider
+                  <Slider2
+                    className={sliderClas}
+                    max={defaultPriceRange.max}
+                    min={defaultPriceRange.min}
+                  />
+                  {/*  <Slider
                     className="max-w-[100%] mb-1"
                     sx={{color: 'gray'}}
                     size="small"
@@ -367,7 +375,8 @@ function ProductsGrid({products, grid, handle}) {
                     valueLabelDisplay="auto"
                     max={defaultPriceRange.max}
                     min={defaultPriceRange.min}
-                  />
+                  /> */}
+
                   <FilterForm.PriceInput
                     max={defaultPriceRange.max}
                     min={defaultPriceRange.min}
