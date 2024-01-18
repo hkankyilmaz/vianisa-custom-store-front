@@ -1,8 +1,6 @@
-import React, {useContext} from 'react';
-import {Await, Link, useLoaderData, useMatches} from '@remix-run/react';
-import {useSearchParams} from '@remix-run/react';
+import {Link, useLocation, useMatches} from '@remix-run/react';
+import {useContext} from 'react';
 import ProductOptionContext from '~/store/productOptionsContext';
-import {useLocation} from '@remix-run/react';
 
 function ProductModal() {
   const matches = useMatches();
@@ -24,7 +22,7 @@ function ProductModal() {
       ></div>
       <div className="absolute flex flex-col items-center bottom-0 z-[150] product-form-mobile h-min w-[100%] translate-y-[100%] bg-[#efefef]">
         <div className="value-list w-full h-full">
-          <header className="w-full text-center px-5 py-[13px]  text-[#2f2f2f] text-xl font-playfair tracking-[4px] font-bold">
+          <header className="w-full text-center px-5 py-[13px]  text-[#2f2f2f] text-xl font-avenir-medium tracking-[4px]">
             {value.option === 'Color' ? 'COLOR' : 'MATERIAL'}
           </header>
           {/* <button className=" text-[#2f2f2f] hover:underline text-center text-sm tracking-widest py-[10px] uppercase w-full active:bg-white select-none">

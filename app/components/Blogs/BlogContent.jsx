@@ -49,7 +49,7 @@ const BlogContent = ({
               key={i}
               tag={item.tag ?? 'h2'}
               className={trim(
-                `font-optima text-[16px] sm:text-[18px] uppercase mt-[2.2em] mb-[1.2em] ${
+                `font-optima-normal text-[16px] sm:text-[18px] uppercase mt-[2.2em] mb-[1.2em] ${
                   classNames.largeTitle
                 } ${item.className ?? ''}`,
               )}
@@ -65,7 +65,7 @@ const BlogContent = ({
               key={i}
               tag={item.tag ?? 'h2'}
               className={trim(
-                `font-optima text-[20px] uppercase mt-[2.2em] mb-[0.8em] ${
+                `font-optima-normal text-[20px] uppercase mt-[2.2em] mb-[0.8em] ${
                   classNames.xLargeTitle
                 } ${item.className ?? ''}`,
               )}

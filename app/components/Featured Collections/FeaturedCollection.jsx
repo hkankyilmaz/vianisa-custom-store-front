@@ -1,11 +1,10 @@
 'use client';
 
-import {useRef, useState, useEffect} from 'react';
-import {BsChevronRight, BsChevronLeft} from 'react-icons/bs';
-import {Image} from '@shopify/hydrogen';
 import {Link} from '@remix-run/react';
-import {Money} from '@shopify/hydrogen';
+import {Image, Money} from '@shopify/hydrogen';
 import {cubicBezier, motion, useAnimate, useMotionValue} from 'framer-motion';
+import {useEffect, useRef, useState} from 'react';
+import {BsChevronLeft, BsChevronRight} from 'react-icons/bs';
 
 function FeaturedCollection({data, showButton = false, className = ''}) {
   const items = data.collection?.products?.nodes.map((product, index) => (
@@ -18,10 +17,10 @@ function FeaturedCollection({data, showButton = false, className = ''}) {
 
   return (
     <section
-      className={`py-[50px] lg:py-[80px] font-montserratMd ${className}`}
+      className={`py-[50px] lg:py-[80px] font-avenir-medium ${className}`}
     >
-      <div className="mb-[40px] lg:mb-[70px] w-full">
-        <h2 className="text-[16px] !font-medium font-montserratMd sm:font-[sans-serif] tracking-[.2em] uppercase text-center text-[var(--heading-color)] -mt-[0.325em]">
+      <div className="mb-[40px] lg:mb-[20px] w-full">
+        <h2 className="text-[20px] md:text-[28px] font-optima-normal uppercase text-center text-[var(--heading-color)] px-6 sm:px-[50px] min-[1140px]:px-[80px]">
           {data.collection?.title}
         </h2>
       </div>
@@ -32,7 +31,7 @@ function FeaturedCollection({data, showButton = false, className = ''}) {
         <div className="mt-[80px] flex justify-center items-center">
           <Link
             to={constructUrl(data.collection?.title)}
-            className="inline-block text-[var(--feat-col-prod-btn-fg)] bg-[var(--feat-col-prod-btn-bg)] border border-solid border-[var(--feat-col-prod-btn-bg)] text-[11px] font-montserratMd uppercase tracking-[.2em] transition-all ease-css-ease duration-[.35s] hover:text-[var(--feat-col-prod-btn-fg-hover)] hover:bg-[var(--feat-col-prod-btn-bg-hover)] py-[14px] px-[28px] leading-[normal]"
+            className="inline-block text-[var(--feat-col-prod-btn-fg)] bg-[var(--feat-col-prod-btn-bg)] border border-solid border-[var(--feat-col-prod-btn-bg)] text-[11px] font-avenir-medium uppercase tracking-[.2em] transition-all ease-css-ease duration-[.35s] hover:text-[var(--feat-col-prod-btn-fg-hover)] hover:bg-[var(--feat-col-prod-btn-bg-hover)] py-[14px] px-[28px] leading-[normal]"
           >
             View all products
           </Link>
@@ -316,7 +315,7 @@ function Item({product, className = ''}) {
       }}
     >
       <div className="w-full relative overflow-hidden aspect-square h-auto flex items-center">
-        <div className="uppercase absolute top-1.5 left-2.5 my-1 py-0.5 px-1.5 tracking-[.2em] text-[var(--text-color-light)] font-montserratMd font-bold transition-[color] ease-css-ease-in-out duration-200 text-[8px] sm:text-[10px]">
+        <div className="uppercase absolute top-1.5 left-2.5 my-1 py-0.5 px-1.5 tracking-[.2em] text-[var(--text-color-light)] font-avenir-medium lg:font-avenir-medium transition-[color] ease-css-ease-in-out duration-200 text-[8px] sm:text-[10px]">
           on sale
         </div>
         <Image
@@ -342,10 +341,10 @@ function Item({product, className = ''}) {
           }}
         />
       </div>
-      <div className="uppercase text-left whitespace-normal tracking-[.2em] text-[var(--heading-color)] font-montserratMd font-bold text-[10px] mt-5 mb-1 transition-[color] ease-css-ease-in-out duration-200 sm:text-[11px]">
+      <div className="uppercase text-left whitespace-normal tracking-[.2em] text-[var(--heading-color)] font-avenir-medium text-[10px] mt-5 mb-1 transition-[color] ease-css-ease-in-out duration-200 sm:text-[11px]">
         {product?.title}
       </div>
-      <div className="tracking-[.2em] font-montserratMd font-bold transition-[color] ease-css-ease-in-out duration-200 text-[var(--heading-color)] text-[10px] sm:text-[11px]">
+      <div className="tracking-[.2em] font-avenir-medium transition-[color] ease-css-ease-in-out duration-200 text-[var(--heading-color)] text-[10px] sm:text-[11px]">
         {product.variants.nodes[0]?.compareAtPrice ? (
           <>
             <div className="flex gap-2.5">

@@ -102,7 +102,7 @@ export async function loader({request, params, context}) {
   const defaultPriceRange = JSON.parse(
     defaultCollection.products.filters[0].values[0].input,
   ).price;
-  console.log(defaultPriceRange);
+
   if (!collection) {
     throw new Response(`Collection ${handle} not found`, {
       status: 404,
@@ -199,7 +199,7 @@ function SortButton({openMobileSort, closeMobileSort}) {
     <>
       <div
         onClick={openMobileSort}
-        className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] "
+        className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-avenir-medium text-xs tracking-[2.4px] "
       >
         SORT
         <AiOutlineDown className=" text-xs ml-2 text-[#2f2f2f]" />
@@ -216,7 +216,7 @@ function FilterButton({openMobileFilter}) {
   return (
     <div
       onClick={openMobileFilter}
-      className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-montserratMd text-xs tracking-[2.4px] lg:hidden "
+      className="max-sm:h-[44px] sm:h-[54px] border-l flex max-sm:grow justify-center items-center relative cursor-pointer select-none max-sm:px-0 px-[45px] py-[18px] text-[#2f2f2f] font-avenir-medium text-xs tracking-[2.4px] lg:hidden "
     >
       FILTER
     </div>
@@ -337,7 +337,7 @@ function ProductsGrid({products, grid, handle, sortValue, reversed}) {
           method="get"
           className="filter-form-mobile max-lg:fixed right-0 top-0 bottom-0 max-sm:left-[65px] max-sm:w-auto  max-lg:bg-[#efefef] max-lg:z-[55] max-lg:w-[400px]"
         >
-          <header className="lg:hidden h-[60px] flex justify-center items-center font-playfair text-xl tracking-[4px] font-bold sm:mb-[35px] border-b border-[#e0e0e0]">
+          <header className="lg:hidden h-[60px] flex justify-center items-center font-avenir-medium text-xl tracking-[4px] sm:mb-[35px] border-b border-[#e0e0e0]">
             <span>FILTERS</span>
             <div className="absolute right-[30px]">
               <CloseButton onClick={() => closeMobileFilter()} />
@@ -354,7 +354,7 @@ function ProductsGrid({products, grid, handle, sortValue, reversed}) {
                 className="accordion__header px-6 py-5 cursor-pointer sm:hidden"
                 onClick={() => handleAccordionClick(0)}
               >
-                <p className=" relative accordion__name  font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px]">
+                <p className=" relative accordion__name  font-avenir-medium text-xs text-[#2f2f2f] tracking-[2.4px]">
                   PRICE
                   <span
                     ref={refsHorizontal[0]}
@@ -368,7 +368,7 @@ function ProductsGrid({products, grid, handle, sortValue, reversed}) {
               </div>
               <div className="accordion__details sm:!overflow-visible sm:!h-auto">
                 <div className="mb-8  max-lg:px-6">
-                  <p className="font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] mb-2 max-sm:hidden">
+                  <p className="font-avenir-medium text-xs text-[#2f2f2f] tracking-[2.4px] mb-2 max-sm:hidden">
                     PRICE
                   </p>
                   <Slider
@@ -416,7 +416,7 @@ function ProductsGrid({products, grid, handle, sortValue, reversed}) {
                   className="accordion__header px-6 py-5 cursor-pointer sm:hidden"
                   onClick={() => handleAccordionClick(index + 1)}
                 >
-                  <p className="relative accordion__name uppercase font-montserratMd text-[12px] text-[#2f2f2f] tracking-[2.4px]">
+                  <p className="relative accordion__name uppercase font-avenir-medium text-[12px] text-[#2f2f2f] tracking-[2.4px]">
                     {filter.label}
                     <span
                       ref={refsHorizontal[index + 1]}
@@ -430,13 +430,13 @@ function ProductsGrid({products, grid, handle, sortValue, reversed}) {
                 </div>
                 <div className="accordion__details sm:!h-auto">
                   <div className="mb-4  max-lg:px-6">
-                    <p className="mb-4 font-montserratMd text-[12px] text-[#2f2f2f] uppercase tracking-[2.4px] max-sm:hidden">
+                    <p className="mb-4 font-avenir-medium text-[12px] text-[#2f2f2f] uppercase tracking-[2.4px] max-sm:hidden">
                       {filter.label}
                     </p>
                     {filter.values.map((option) => (
                       <div
                         key={option.id}
-                        className="mb-3 font-questrial hover:underline hover:cursor-pointer text-[13px]"
+                        className="mb-3 font-avenir-light hover:underline hover:cursor-pointer text-[13px]"
                       >
                         <FilterForm.ColorOrMetarialInput
                           value={getOptionValue(option)}
@@ -463,7 +463,7 @@ function ProductsGrid({products, grid, handle, sortValue, reversed}) {
                 transition: 'all ease 0.35s',
               }}
               className="border flex items-center justify-center w-min h-full align-middle 
-            mt-14 px-7 py-[14px] text-[11px] font-bold font-montserratMd uppercase bg-black
+            mt-14 px-7 py-[14px] text-[11px] font-avenir-medium uppercase bg-black
             border-black tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-black"
               type="reset"
               onClick={() => {
@@ -487,7 +487,7 @@ function ProductsGrid({products, grid, handle, sortValue, reversed}) {
                 transition: 'all ease 0.35s',
               }}
               className="max-sm:w-[200px] border flex items-center justify-center align-middle max-sm:ml-5 ml-8
-              px-7 py-[14px] text-[11px] font-bold font-montserratMd uppercase bg-[#2f2f2f]
+              px-7 py-[14px] text-[11px] font-avenir-medium uppercase bg-[#2f2f2f]
             border-[#2f2f2f] tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-[#2f2f2f]"
               onClick={() => closeMobileFilter()}
             >

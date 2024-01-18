@@ -62,7 +62,7 @@ const Table = ({
                 <TableCell
                   key={j}
                   className={trim(
-                    `!text-xs !font-body_light !p-2.5 text-[var(--blog-text-color)] ${classNames.cell}`,
+                    `!text-xs !font-avenir-light !p-2.5 text-[var(--blog-text-color)] ${classNames.cell}`,
                   )}
                   align={cellAlign}
                 >

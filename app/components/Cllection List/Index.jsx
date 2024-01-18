@@ -1,9 +1,9 @@
 import {Link} from '@remix-run/react';
 
-import photo1 from '../../assets/1.webp';
-import photo2 from '../../assets/2.webp';
-import photo3 from '../../assets/3.webp';
-import photo4 from '../../assets/4.webp';
+import bracelets from '~/assets/images/bracelets.webp';
+import goldBands from '~/assets/images/gold-bands.webp';
+import moissaniteBands from '~/assets/images/moissanite-bands.webp';
+import moissaniteRings from '~/assets/images/moissanite-rings.webp';
 
 function CollectionList({
   className = '',
@@ -14,27 +14,27 @@ function CollectionList({
   const items = [
     {
       title: 'MOISSANITE ENGAGEMENT RINGS',
-      photo: photo1,
+      photo: moissaniteRings,
       to: 'collections/moissanite-engagement-rings',
     },
     {
       title: 'MOISSANITE BANDS',
-      photo: photo2,
+      photo: moissaniteBands,
       to: 'collections/moissanite-bands',
     },
     {
       title: 'PLAIN GOLD BANDS',
-      photo: photo3,
+      photo: goldBands,
       to: 'classic-wedding-bands',
     },
     {
       title: 'BRACELETS',
-      photo: photo4,
+      photo: bracelets,
       to: 'collections/bracelets',
     },
   ];
   return (
-    <div className={`mb-[100px] font-montserratMd w-full h-full ${className}`}>
+    <div className={`mb-[100px] font-avenir-medium w-full h-full ${className}`}>
       <div className="grid grid-cols-1 sm:grid-cols-2 m-3 sm:m-[15px]">
         {items.map((item, index) => (
           <Item key={index} {...item} className={classNames.item} />
@@ -55,8 +55,8 @@ function Item({title, photo, to, className = ''}) {
           src={photo}
         />
 
-        <div className="absolute left-0 bottom-6 px-6 sm:bottom-10 sm:px-10 min-[1140px]:bottom-[50px] min-[1140px]:px-[50px] flex flex-col gap-5 lg:gap-[30px] font-montserratMd z-10">
-          <h2 className="text-white -mt-[0.325em] !font-medium text-left text-[16px] sm:text-[21px] transition-[color] duration-200 ease-css-ease-in-out uppercase tracking-[.2em]">
+        <div className="absolute left-0 bottom-6 px-6 sm:bottom-10 sm:px-10 min-[1140px]:bottom-[50px] min-[1140px]:px-[50px] flex flex-col gap-5 lg:gap-[30px] font-avenir-medium z-10">
+          <h2 className="text-white -mt-[0.325em] text-left text-[16px] sm:text-[21px] transition-[color] duration-200 ease-css-ease-in-out uppercase tracking-[.2em]">
             {title}
           </h2>
           <button className="text-[11px] py-[14px] px-[28px] border border-solid border-white font-extrabold text-[var(--col-list-btn-fg)] bg-white hover:text-white hover:bg-transparent transition-all duration-[350ms] ease-css-ease uppercase tracking-[.2em] max-w-fit">

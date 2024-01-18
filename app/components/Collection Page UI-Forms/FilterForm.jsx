@@ -92,10 +92,10 @@ export function PriceInput({
 
   return (
     <div className="flex justify-between">
-      <div className="border border-[#e0e0e0] border-solid w-[100%] h-full px-[10px] py-[7px] text-[14px] flex justify-between items-center text-[#2f2f2f] font-questrial">
-        <span className="text-[14px] font-questrial">$</span>
+      <div className="border border-[#e0e0e0] border-solid w-[100%] h-full px-[10px] py-[7px] text-[14px] flex justify-between items-center text-[#2f2f2f] font-avenir-light">
+        <span className="text-[14px] font-avenir-light">$</span>
         <input
-          className="w-full text-[14px] font-questrial p-0 appearance-none text-end border-none bg-transparent focus:ring-0"
+          className="w-full text-[14px] font-avenir-light p-0 appearance-none text-end border-none bg-transparent focus:ring-0"
           name={value[0] == min && value[1] == max ? '' : 'minPrice'}
           type="number"
           inputMode="numeric"
@@ -109,10 +109,10 @@ export function PriceInput({
       <div className="flex justify-center text-center items-center mx-[15px] text-[#8c8c8c]">
         -
       </div>
-      <div className="border border-[#e0e0e0] border-solid w-[100%] h-full px-[10px] py-[7px] text-[14px] flex justify-between items-center text-[#2f2f2f] font-questrial">
-        <span className="text-[14px] font-questrial">$</span>
+      <div className="border border-[#e0e0e0] border-solid w-[100%] h-full px-[10px] py-[7px] text-[14px] flex justify-between items-center text-[#2f2f2f] font-avenir-light">
+        <span className="text-[14px] font-avenir-light">$</span>
         <input
-          className="w-full text-[14px] font-questrial p-0 appearance-none text-end border-none bg-transparent focus:ring-0"
+          className="w-full text-[14px] font-avenir-light p-0 appearance-none text-end border-none bg-transparent focus:ring-0"
           name={value[0] == min && value[1] == max ? '' : 'maxPrice'}
           type="number"
           inputMode="numeric"
@@ -134,7 +134,12 @@ export function ColorOrMetarialInput({
   submit,
   defaultChecked,
 }) {
-  const _value = value.split('-').join(' ');
+  const _value = value
+    .split('-')
+    .map((word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(' ');
   const [isChecked, setIsChecked] = useState(defaultChecked);
 
   const handleOnChange = (e) => {
@@ -156,10 +161,10 @@ export function ColorOrMetarialInput({
         />
         <span className={`${name == 'color' ? value : `_${value}`}`}></span>
         <label
-          className="uppercase w-full block"
+          className="w-full block"
           htmlFor={`${name == 'color' ? value : `_${value}`}`}
         >
-          {name == 'color' ? value : _value} ({count})
+          {_value} ({count})
         </label>
       </div>
     </>

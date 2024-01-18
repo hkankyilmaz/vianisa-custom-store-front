@@ -1,9 +1,7 @@
-import * as React from 'react';
 import {Link} from '@remix-run/react';
-import useEmblaCarousel from 'embla-carousel-react';
-import {useEffect, useState, useRef, useCallback} from 'react';
 import Autoplay from 'embla-carousel-autoplay';
-import {color} from 'framer-motion';
+import useEmblaCarousel from 'embla-carousel-react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 
 export default function EtsyReview({collection, className}) {
   let array = [
@@ -279,7 +277,7 @@ function ReviewItem({
         >
           {User}
         </Link>
-        {/* <p className="font-body_light text-sm">{User}</p> */}
+        {/* <p className="font-avenir-light text-sm">{User}</p> */}
         <p className="text-[13px] text-[#999]">{Date}</p>
       </div>
     </div>

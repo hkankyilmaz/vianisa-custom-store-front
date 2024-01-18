@@ -1,7 +1,7 @@
-import {useRef, useEffect, useState} from 'react';
-import {Link, useMatches} from '@remix-run/react';
+import {Link} from '@remix-run/react';
 import gsap from 'gsap';
 import CustomEase from 'gsap/CustomEase';
+import {useEffect, useRef, useState} from 'react';
 import useIsomorphicLayoutEffect, {stripUrl} from '~/utils';
 
 export function Drawer({
@@ -133,7 +133,7 @@ export function Drawer({
           ))}
           <Link
             to="/account"
-            className="text-[var(--drawer-text-color-light)] hover:text-[var(--drawer-text-color)] hover:underline w-full uppercase font-questrial text-[13px] font-normal block mt-[28px]"
+            className="text-[var(--drawer-text-color-light)] hover:text-[var(--drawer-text-color)] hover:underline w-full font-avenir-medium text-[13px] block mt-[28px]"
           >
             Account
           </Link>
@@ -260,7 +260,7 @@ const Collapsible = ({
     >
       <button
         ref={button}
-        className={`text-[var(--drawer-text-color)] text-xs leading-[18px] uppercase tracking-[.2em] w-full relative text-left cursor-pointer py-[20px] font-montserratMd font-bold collapsible ${
+        className={`text-[var(--drawer-text-color)] text-xs leading-[18px] uppercase tracking-widest w-full relative text-left cursor-pointer py-[20px] font-avenir-medium collapsible ${
           classNames['button'] ?? ''
         }`}
         aria-expanded={isExpanded}
@@ -299,7 +299,7 @@ const Collapsible = ({
                   <Link
                     to={stripUrl(subItem.url)}
                     onClick={onClose}
-                    className="text-[var(--drawer-text-color-light)] hover:text-[var(--drawer-text-color)] hover:underline w-full uppercase font-questrial text-[13px] font-normal block"
+                    className="text-[var(--drawer-text-color-light)] hover:text-[var(--drawer-text-color)] hover:underline w-full font-avenir-light text-[13px] block"
                   >
                     {subItem.title}
                   </Link>

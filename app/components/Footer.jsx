@@ -1,7 +1,7 @@
 import {Link, NavLink} from '@remix-run/react';
 
-export function Footer({menu}) {
-  let array = [
+export function Footer() {
+  const array = [
     {
       title: 'services',
       route: 'services',
@@ -52,8 +52,8 @@ export function Footer({menu}) {
       'Vianisa',
       '98 Cuttermill Road Suite #466',
       'Great Neck, NY 11021',
-      '<strong>PHONE:</strong> <a href="tel:0013235456545"><u>+1 (323) 545 65 45</u></a>',
-      '<strong>EMAIL:</strong> <a href="mailto:hello@vianisa.com" target="_blank"><u>hello@vianisa.com</u></a>',
+      '<strong>Phone:</strong> <a href="tel:0013235456545"><u>+1 (323) 545 65 45</u></a>',
+      '<strong>Email:</strong> <a href="mailto:hello@vianisa.com" target="_blank"><u>hello@vianisa.com</u></a>',
     ],
   };
 
@@ -66,7 +66,7 @@ export function Footer({menu}) {
               className="mb-0 sm:mb-[50px] px-0 sm:px-[25px] sm:flex-[1_1_50%] min-[1140px]:flex-[0_1_auto]"
               key={`1-${index}`}
             >
-              <p className="text-[var(--footer-heading-color)] text-[12px] tracking-[.2em] font-montserratMd font-bold transition-[color] duration-200 ease-css-ease-in-out mb-[20px]">
+              <p className="text-[var(--footer-heading-color)] text-[12px] tracking-[.2em] font-avenir-heavy transition-[color] duration-200 ease-css-ease-in-out mb-[20px]">
                 {item.title.toUpperCase()}
               </p>
               <ul className="flex flex-col items-start justify-center gap-3">
@@ -76,11 +76,16 @@ export function Footer({menu}) {
                       end
                       to={'/' + item.route + '/' + alt}
                       prefetch="intent"
-                      className="block w-full transition-all duration-200 ease-css-ease-in-out text-[var(--footer-link-color)] text-[13px] font-questrial hover:underline leading-[1.5]"
+                      className="block w-full transition-all duration-200 ease-css-ease-in-out text-[var(--footer-link-color)] text-[13px] lg:text-[15px] font-avenir-light hover:underline leading-[1.5]"
                     >
                       {alt == 'refund-policy'
-                        ? 'RETURN & EXCHANGE POLICY'
-                        : alt.split('-').join(' ').toUpperCase()}
+                        ? 'Return & Exchange Policy'
+                        : alt
+                            .split('-')
+                            .map(
+                              (word) => word[0].toUpperCase() + word.slice(1),
+                            )
+                            .join(' ')}
                     </NavLink>
                   </li>
                 ))}
@@ -88,13 +93,13 @@ export function Footer({menu}) {
             </nav>
           ))}
           <nav className="mb-0 sm:mb-[50px] px-0 sm:px-[25px] min-[1140px]:basis-[400px]">
-            <p className="text-[var(--footer-heading-color)] text-[12px] tracking-[.2em] font-montserratMd font-bold transition-[color] duration-200 ease-css-ease-in-out mb-[20px]">
+            <p className="text-[var(--footer-heading-color)] text-[12px] tracking-[.2em] font-avenir-heavy transition-[color] duration-200 ease-css-ease-in-out mb-[20px]">
               {contactInfo.title.toUpperCase()}
             </p>
             <ul className="flex flex-col items-start justify-center gap-[1.6em]">
               {contactInfo.items.map((item, index) => (
                 <li
-                  className="text-[var(--footer-text-color)] text-[13px] font-questrial"
+                  className="text-[var(--footer-text-color)] text-[13px] lg:text-[15px] font-avenir-light leading-4"
                   dangerouslySetInnerHTML={{__html: item}}
                   key={`3-${index}`}
                 ></li>
@@ -109,7 +114,7 @@ export function Footer({menu}) {
           <NavLink
             end
             to="/"
-            className="text-center text-[11px] uppercase tracking-[.2em] font-montserratMd font-bold transition-[color] duration-200 ease-css-ease-in-out text-[var(--footer-text-color)]"
+            className="text-center text-[11px] uppercase tracking-[.2em] font-avenir-heavy transition-[color] duration-200 ease-css-ease-in-out text-[var(--footer-text-color)]"
           >
             © Vianisa
           </NavLink>

@@ -1,7 +1,7 @@
-import React, {forwardRef, useEffect, useImperativeHandle} from 'react';
-import gsap from 'gsap';
-import useIsomorphicLayoutEffect from '~/utils';
 import {Link, useMatches} from '@remix-run/react';
+import gsap from 'gsap';
+import React, {forwardRef, useEffect, useImperativeHandle} from 'react';
+import useIsomorphicLayoutEffect from '~/utils';
 
 const MegaMenu = forwardRef((props, ref) => {
   const animateIsGoing = React.useRef({isGoing: false, first: true});
@@ -108,14 +108,14 @@ const MegaMenu = forwardRef((props, ref) => {
           <div className="flex flex-col items-start my-[20px] mx-[40px] !h-fit">
             <Link
               to={stripUrl(item.url)}
-              className="mb-[20px] font-extrabold cursor-pointer font-montserratMd text-[11px] tracking-[.2em] uppercase"
+              className="mb-[20px] cursor-pointer font-avenir-heavy text-[11px] tracking-[.2em] uppercase"
             >
               {item.title}
             </Link>
             <ul>
               {item.items.map((item) => (
                 <Link to={stripUrl(item.url)}>
-                  <li className="capitalize hover:underline font-questrial text-[13px] font-normal text-left mb-[12px] leading-[1.5]">
+                  <li className="capitalize hover:underline font-avenir-light text-[13px] text-left mb-[12px] leading-[1.5]">
                     {item.title}
                   </li>
                 </Link>
