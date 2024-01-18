@@ -37,6 +37,7 @@ import BasicBreadcrumbs from '../components/Breadcrumbs/Index';
 import {duration} from '@mui/material';
 import WishlistButton from '~/components/Wishlist Button/WishlistButton';
 import CaratOptions from '~/components/Product Carat Options/CaratOptions';
+import EtsyReview from '~/components/EtsyReviews/Index';
 
 export const meta = ({data}) => {
   return [{title: `${data.product?.title}`}];
@@ -173,6 +174,7 @@ export default function Product() {
         data={featuredCollectionTwo}
         title="YOU MAY ALSO LIKE"
       />
+      <EtsyReview />
     </>
   );
 }
