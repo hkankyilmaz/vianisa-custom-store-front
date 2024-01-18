@@ -9,8 +9,91 @@ export default function EtsyReview({collection, className}) {
   let array = [
     {
       Image:
+        'https://i.etsystatic.com/iap/0e16f0/5679463160/iap_640x640.5679463160_om7fmw41.jpg?version=0',
+      Star: 5,
+      Content: 'Beautiful ring and arrived very quickly!',
+      User: 'John',
+      User_link: 'https://www.etsy.com/people/ej9iihqo7lm9rtnt?ref=shop_review',
+      Date: 'Jan 16, 2024',
+      Reviews_link:
+        'https://www.etsy.com/listing/1255126452/minimalist-moissanite-engagement-ring?ref=shop_review',
+    },
+    {
+      Image:
+        'https://i.etsystatic.com/iap/e99841/5668622828/iap_300x300.5668622828_qykk6zqy.jpg?version=0',
+      Star: 5,
+      Content:
+        'Amazing! Beautiful! Gorgeous! Stunning and such a sparkler, ring sparkles in the box when you open it from a little spotlight. Perfect quality. Dan and the team are super responsive and I am so impressed with the ring. 10,000 thank yous!',
+      User: 'Kelly',
+      User_link: 'https://www.etsy.com/people/tcjdkeog?ref=shop_review',
+      Date: 'Jan 12, 2024',
+      Reviews_link:
+        'https://www.etsy.com/listing/1560408182/1-15-2-ct-marquise-shape-ring-moissanite?ref=shop_review',
+    },
+    {
+      Image:
+        'https://i.etsystatic.com/iap/947291/5713344607/iap_300x300.5713344607_dztz5zyc.jpg?version=0',
+      Star: 5,
+      Content:
+        'I absolutely LOVE this ring. It looks like it matches my engagement ring perfectly. So delicate and beautiful.',
+      User: 'Madison',
+      User_link: 'https://www.etsy.com/people/madisonanderson7?ref=shop_review',
+      Date: 'Jan 11, 2024',
+      Reviews_link:
+        'https://www.etsy.com/listing/1401934363/vintage-marquise-moissanite-wedding-band?ref=shop_review',
+    },
+    {
+      Image:
+        'https://i.etsystatic.com/iap/1d7663/5664868780/iap_300x300.5664868780_kjd7wzoi.jpg?version=0',
+      Star: 5,
+      Content:
+        'This ring is beautiful! I got this for when I want to wear a different style of engagement ring and it was well worth it. I opted for the cz stone and it is beautiful and great quality. Shipped in a week and arrived in a cute ring box. I would definitely buy from this seller again.',
+      User: 'Sarah',
+      User_link: 'https://www.etsy.com/people/sarahmedel?ref=shop_review',
+      Date: 'Jan 11, 2024',
+      Reviews_link:
+        'https://www.etsy.com/listing/1265733863/15-ct-emerald-cut-solitaire-moissanite?ref=shop_review',
+    },
+    {
+      Image:
+        'https://i.etsystatic.com/iap/97ec4b/5708710115/iap_300x300.5708710115_k8smhlw8.jpg?version=0',
+      Star: 5,
+      Content:
+        'The ring is absolutely beautiful! It matched my rose gold pink morganite ring perfect to make a beautiful wedding set! I collect wedding sets!!',
+      User: 'Tracie',
+      User_link: 'https://www.etsy.com/people/p5hotjun?ref=shop_review',
+      Date: 'Jan 10, 2024',
+      Reviews_link:
+        'https://www.etsy.com/listing/1266355095/half-eternity-moissanite-wedding-band?ref=shop_review',
+    },
+    {
+      Image:
+        'https://i.etsystatic.com/iap/dbb7a0/5702913789/iap_300x300.5702913789_pxlynkjn.jpg?version=0',
+      Star: 5,
+      Content:
+        'The item is absolutely stunning and I couldn’t be happier. The customer service is SUPERB!',
+      User: 'Krystal Vazquez',
+      User_link: 'https://www.etsy.com/people/wtm5zbg8okx2b0ld?ref=shop_review',
+      Date: 'Jan 8, 2024',
+      Reviews_link:
+        'https://www.etsy.com/listing/1251749152/marquise-accent-moissanite-engagement?ref=shop_review',
+    },
+    {
+      Image:
+        'https://i.etsystatic.com/iap/dd3d39/5614493728/iap_300x300.5614493728_iuhviafu.jpg?version=0',
+      Star: 5,
+      Content:
+        'Absolutely stunning ring! Excellent communication from the seller, fast shipping and prompt service. I actually bought 2 different rings to see which matched my engagement ring better - this is the one I ended up returning, but I was sad to send it back! It’s so beautiful! The return process was super simple and quick. Though the ring itself shipped from Turkey, the return was to a NY address which I was happy about. Overall I would highly recommend this ring and this seller, even though I didn’t end up keeping this ring myself. I will note if you have small hands/fingers (I am ring size 5) that the stones wrap halfway around your finger, not just sitting on top. Makes it look like a full eternity but I found it a little uncomfortable. But overall 10/10 experience and product.',
+      User: 'Danielle',
+      User_link: 'https://www.etsy.com/people/Delaks?ref=shop_review',
+      Date: 'Dec 22, 2023',
+      Reviews_link:
+        'https://www.etsy.com/listing/1401921605/baguette-and-double-round-wedding-ring?ref=shop_review',
+    },
+    {
+      Image:
         'https://i.etsystatic.com/iap/b8ef28/5692611241/iap_300x300.5692611241_gj3hhsxp.jpg?version=0',
-      Star: 4,
+      Star: 5,
       Content: 'Beautiful band stacked nicely with my engagement ring',
       User: 'Adian',
       User_link: 'https://www.etsy.com/people/adinarobello1?ref=shop_review',
@@ -94,6 +177,8 @@ export default function EtsyReview({collection, className}) {
   ];
   // const [emblaRef, emblaApi] = useEmblaCarousel({loop: false});
   const [emblaRef, emblaApi] = useEmblaCarousel({loop: true}, [Autoplay()]);
+  const [shuffledArray, setShuffledArray] = useState([...array]);
+  shuffledArray.sort(() => Math.random() - 0.5);
 
   useEffect(() => {
     if (emblaApi) {
@@ -107,20 +192,7 @@ export default function EtsyReview({collection, className}) {
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
-  /*
-  return (
-    <div className={className}>
-      {array.map((it) => (
-        <ReviewItem
-          Image={it.Image}
-          Title={it.Title}
-          Content={it.Content}
-          User={it.User}
-          Date={it.Date}
-        />
-      ))}
-    </div>
-  ); */
+
   let stars = [1, 1, 1, 1, 1];
   return (
     <div className="w-full flex flex-col items-center mt-24 md:px-24">
@@ -139,7 +211,7 @@ export default function EtsyReview({collection, className}) {
 
         <div className="w-full overflow-hidden" ref={emblaRef}>
           <div className="w-full flex max-md:gap-12 md:gap-6">
-            {array.map((it, idx) => (
+            {shuffledArray.map((it, idx) => (
               <ReviewItem
                 Image={it.Image}
                 Title={it.Title}
@@ -207,7 +279,7 @@ export default function EtsyReview({collection, className}) {
             href="https://www.etsy.com/shop/vianisa#reviews"
             className="text-xs text-[#666] hover:underline"
           >
-            1284 reviews
+            1289 reviews
           </a>
         </div>
       </div>
@@ -298,7 +370,6 @@ function ReviewItem({
         >
           {User}
         </Link>
-        {/* <p className="font-body_light text-sm">{User}</p> */}
         <p className="text-[13px] text-[#999]">{Date}</p>
       </div>
     </div>
