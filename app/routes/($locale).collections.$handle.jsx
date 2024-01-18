@@ -8,7 +8,7 @@ import {
 } from '@remix-run/react';
 import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
 import {json, redirect} from '@shopify/remix-oxygen';
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {AiOutlineDown} from 'react-icons/ai';
 import useDefaultCollectionQuery from '~/hooks/useDefaultCollectionQuery';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
@@ -113,9 +113,16 @@ export async function loader({request, params, context}) {
 }
 
 export default function Collection() {
-  const {collection} = useLoaderData();
+  const {collection, values} = useLoaderData();
+
+  const submit = useSubmit();
+
+  const {sortkey, reverse} = values;
+  const root_ = document.documentElement.style;
+
   const [grid, setGrid] = useState(true);
-  let root_ = document.documentElement.style;
+  const [reversed, setReversed] = useState(reverse || false);
+  const [sortValue, setSortValue] = useState(sortkey || 'COLLECTION_DEFAULT');
 
   const openMobileFilter = () => {
     root_.setProperty('--filter-container-visibility', 'visible');
@@ -134,11 +141,22 @@ export default function Collection() {
     root_.setProperty('--sort-modal-position', 'translateY(0%)');
     root_.overflowY = 'hidden';
   };
+
   const closeMobileSort = () => {
     root_.setProperty('--sort-modal-visibility', 'hidden');
     root_.setProperty('--sort-modal-position', 'translateY(100%)');
     root_.overflowY = 'auto';
   };
+
+  const updateSorting = (sortValue, reversed) => {
+    setSortValue(sortValue);
+    setReversed(reversed);
+  };
+
+  useEffect(() => {
+    const form = document.querySelector('#filter-form');
+    submit(form);
+  }, [sortValue, reversed]);
 
   return (
     <div className="collection" key={collection.handle}>
@@ -161,6 +179,8 @@ export default function Collection() {
               grid={grid}
               products={nodes}
               handle={collection.handle}
+              sortValue={sortValue}
+              reversed={reversed}
             />
             <br />
             <NextLink className="flex justify-center w-full text-xl my-5">
@@ -169,7 +189,7 @@ export default function Collection() {
           </>
         )}
       </Pagination>
-      <SortForm closeMobileSort={closeMobileSort} />
+      <SortForm closeMobileSort={closeMobileSort} update={updateSorting} />
     </div>
   );
 }
@@ -203,7 +223,7 @@ function FilterButton({openMobileFilter}) {
   );
 }
 
-function ProductsGrid({products, grid, handle}) {
+function ProductsGrid({products, grid, handle, sortValue, reversed}) {
   const {collection, values, defaultPriceRange} = useLoaderData();
 
   const url = useLocation();
@@ -312,6 +332,7 @@ function ProductsGrid({products, grid, handle}) {
           className="filter-modal-overlay max-lg:bg-[#363636]/50 fixed left-0 top-0 bottom-0 right-0 z-[55]"
         ></span>
         <Form
+          id="filter-form"
           ref={formRef}
           method="get"
           className="filter-form-mobile max-lg:fixed right-0 top-0 bottom-0 max-sm:left-[65px] max-sm:w-auto  max-lg:bg-[#efefef] max-lg:z-[55] max-lg:w-[400px]"
@@ -473,6 +494,16 @@ function ProductsGrid({products, grid, handle}) {
               SEE RESULTS
             </button>
           </div>
+          <input
+            type="hidden"
+            name={sortValue != 'COLLECTION_DEFAULT' ? 'sortkey' : undefined}
+            value={sortValue}
+          />
+          <input
+            type="hidden"
+            name={reversed ? 'reverse' : undefined}
+            value={reversed}
+          />
         </Form>
       </div>
       {grid ? (
