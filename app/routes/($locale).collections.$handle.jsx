@@ -27,6 +27,7 @@ import {
   SortForm,
 } from '~/components/Collection Page UI-Forms';
 import styles from '../styles/Spinner.css';
+import NotFound from '~/components/NotFound';
 
 export const links = () => [{rel: 'stylesheet', href: styles}];
 
@@ -167,7 +168,7 @@ export default function Collection() {
 
   return (
     <Suspense fallback={<Spinner />}>
-      <Await errorElement={<div>Oops!</div>} resolve={allPromise}>
+      <Await errorElement={<NotFound />} resolve={allPromise}>
         {(allPromise) => (
           <div className="collection" key={allPromise[0].collection.handle}>
             <PageHeader collection={allPromise[0].collection} />

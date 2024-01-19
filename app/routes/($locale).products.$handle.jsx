@@ -853,7 +853,7 @@ function ProductOptions({option}) {
             <span> {activeOption} </span>
             {isOpen ? (
               <div className="modal-shadow absolute z-10 right-[calc(100%+5px)] top-[50%] translate-y-[-50%] max-lg:hidden">
-                <div className="  rounded-xl h-full w-[390px] flex justify-center items-center flex-col clip-path bg-[#efefef]">
+                <div className="  rounded-xl h-full py-5 w-[390px] flex justify-center items-center flex-col clip-path bg-[#efefef]">
                   {option.values.length > 1
                     ? option.values.map(
                         ({value, isAvailable, isActive, to}) => {
