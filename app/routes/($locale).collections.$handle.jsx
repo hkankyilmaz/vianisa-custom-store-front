@@ -169,7 +169,7 @@ export default function Collection() {
 
   return (
     <Suspense fallback={<Spinner />}>
-      <Await errorElement={<div>Oops!</div>} resolve={allPromise}>
+      <Await resolve={allPromise}>
         {(allPromise) =>
           navigation.state == 'loading' ? (
             <Spinner />
