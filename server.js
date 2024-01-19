@@ -56,7 +56,12 @@ export default {
         setCartId: cartSetIdDefault(),
         cartQueryFragment: CART_QUERY_FRAGMENT,
       });
-
+      const cartview = createCartHandler({
+        storefront,
+        getCartId: cartGetIdDefault(request.headers),
+        setCartId: cartSetIdDefault(),
+        cartQueryFragment: CART_QUERY_FRAGMENT,
+      });
       /**
        * Create a Remix request handler and pass
        * Hydrogen's Storefront client to the loader context.
@@ -64,7 +69,14 @@ export default {
       const handleRequest = createRequestHandler({
         build: remixBuild,
         mode: process.env.NODE_ENV,
-        getLoadContext: () => ({session, storefront, cart, env, waitUntil}),
+        getLoadContext: () => ({
+          session,
+          storefront,
+          cart,
+          cartview,
+          env,
+          waitUntil,
+        }),
       });
 
       const response = await handleRequest(request);
