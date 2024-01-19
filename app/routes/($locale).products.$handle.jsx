@@ -670,7 +670,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
               )}
             </Await>
           </Suspense>
-          <div className="flex justify-center text-[#2f2f2f] text-[13px] font-body mt-3">
+          {/* <div className="flex justify-center text-[#2f2f2f] text-[13px] font-body mt-3">
             <button
               //href={'vianisa.com/c1/' + crtId}
               target="_self"
@@ -678,7 +678,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
             >
               More payment options
             </button>
-          </div>
+          </div> */}
           <div className="justify-center justify-items-center items-center	content-center	flex  flex-col mt-[10px] mb-[5px] font-body text-[#2f2f2f]">
             <div className="flex gap-1 justify-center	align-center items-center w-auto">
               <img
@@ -956,9 +956,7 @@ function AddToCartButton({analytics, children, disabled, lines, onClick}) {
     </CartForm>
   );
 }
-function MorePaymentsButton({analytics, children, disabled, lines, onClick}) {
-  const {card_view} = useLoaderData();
-
+function MorePaymentsButton({analytics, children, lines}) {
   return (
     <CartForm
       route="/cartview"
@@ -966,25 +964,20 @@ function MorePaymentsButton({analytics, children, disabled, lines, onClick}) {
       action={CartForm.ACTIONS.Create}
     >
       {(fetcher) => (
-        <>
+        <div className="flex justify-center text-[#2f2f2f] text-[13px] font-body mt-3">
           <input
             name="analytics"
             type="hidden"
             value={JSON.stringify(analytics)}
           />
           <button
-            className="border flex items-center justify-center w-full align-middle 
-            mt-[15px] px-2 py-3 h-auto text-[11px] font-bold uppercase bg-[#2f2f2f]
-          border-[#2f2f2f] tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-[#2f2f2f]"
-            style={{transition: 'all ease 150ms'}}
-            type="submit"
-            onClick={() => {}}
-            disabled={disabled ?? fetcher.state !== 'idle'}
+            //href={'vianisa.com/c1/' + crtId}
+            target="_self"
+            className="link-underline link-underline-black"
           >
             {children}
           </button>
-          <p>{fetcher?.state ?? 'ata'}</p>
-        </>
+        </div>
       )}
     </CartForm>
   );

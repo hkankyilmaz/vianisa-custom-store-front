@@ -47,7 +47,7 @@ export const tags = [
   },
   {
     inputNumber: 1,
-    tags: ['bracelet-length', 'io_braceletlength'],
+    tags: ['bracelet-length', 'io_braceletlength', 'IO_braceletlength'],
     placeHolder: 'Bracelet Size',
     name: 'braceletLength',
     inputType: 'select',
@@ -55,6 +55,7 @@ export const tags = [
     options: {
       range: [5, 8],
       delimeter: 0.5,
+      optionCount: 7,
     },
   },
   {
