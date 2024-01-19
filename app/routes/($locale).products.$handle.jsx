@@ -6,6 +6,7 @@ import {
   useLoaderData,
   useMatches,
   useNavigate,
+  useFetcher,
 } from '@remix-run/react';
 import _ from 'lodash';
 import EmblaCarousel from '~/components/Product Carausel Image Slider/Index';
@@ -16,7 +17,6 @@ import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import {AiOutlineDown} from 'react-icons/ai';
 import ProductModal from '~/components/Product Popover/ProductModal';
 import ProductOptionContext from '~/store/productOptionsContext';
-
 import {
   Image,
   Money,
@@ -37,6 +37,7 @@ import BasicBreadcrumbs from '../components/Breadcrumbs/Index';
 import {duration} from '@mui/material';
 import WishlistButton from '~/components/Wishlist Button/WishlistButton';
 import CaratOptions from '~/components/Product Carat Options/CaratOptions';
+import GoldOptions from '~/components/Product Gold Options/GoldOptions';
 import EtsyReview from '~/components/EtsyReviews/Index';
 
 export const meta = ({data}) => {
@@ -45,11 +46,11 @@ export const meta = ({data}) => {
 
 export async function loader({params, request, context}) {
   const {handle} = params;
-  const {storefront, session, cart} = context;
+  const {storefront, session, cart, cartview} = context;
   // console.log(cart.getCartId());
   // const {storefront} = context;
   let randomNumber = _.random(0, 1);
-
+  let card_view = await cartview.get();
   const selectedOptions = getSelectedProductOptions(request).filter(
     (option) =>
       // Filter out Shopify predictive search query params
@@ -100,7 +101,6 @@ export async function loader({params, request, context}) {
       return redirectToFirstVariant({product, request});
     }
   }
-
   // In order to show which variants are available in the UI, we need to query
   // all of them. But there might be a *lot*, so instead separate the variants
   // into it's own separate query that is deferred. So there's a brief moment
@@ -110,7 +110,7 @@ export async function loader({params, request, context}) {
     variables: {handle},
   });
 
-  return defer({product, variants, featuredCollectionTwo, cart});
+  return defer({product, variants, featuredCollectionTwo, cart, card_view});
 }
 
 function redirectToFirstVariant({product, request}) {
@@ -131,13 +131,15 @@ function redirectToFirstVariant({product, request}) {
 }
 
 export default function Product() {
-  const {product, variants, featuredCollectionTwo, cart} = useLoaderData();
+  const {product, variants, featuredCollectionTwo, cart, card_view} =
+    useLoaderData();
   const {selectedVariant} = product;
   const images = product.images.nodes;
   const imageByIndex = (index) => images[index % images.length];
   const OPTIONS = {};
   const SLIDE_COUNT = 8;
-
+  let navigate = new useNavigate();
+  // card_view ? navigate(card_view.checkoutUrl) : '';
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   return (
     <>
@@ -468,6 +470,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
   if (tags.find((tag) => tag === 'Carat_Options_1_15_20')) {
     carats = ['1', '1.5', '2'];
   }
+
   useEffect(() => {
     setIsGemStoneOpt(false);
   }, [matches]);
@@ -481,16 +484,6 @@ function ProductMain({selectedVariant, product, variants, cart}) {
   const navigate = useNavigate();
 
   const handleSelectChange = (e) => {
-    /*  console.log(
-      'matches: ',
-      matches,
-      '\ntarget: ',
-      e.target.value,
-      '\nmos_url: ',
-      modifiedStringwithGemStone_mos,
-      '\nlab_url: ',
-      modifiedStringwithGemStone_lab,
-    ); */
     e.target.value === 'moissanite'
       ? navigate(matches.replace('lab-grown-diamond', 'moissanite'))
       : navigate(matches.replace('moissanite', 'lab-grown-diamond'));
@@ -499,7 +492,21 @@ function ProductMain({selectedVariant, product, variants, cart}) {
     ? 'moissanite'
     : 'lab-grown-diamond';
   // console.log(matches, selectedValue);
-
+  let goldOps =
+    product.collections.nodes.find(
+      (coll) =>
+        coll.title === 'Birthstone Jewelry' ||
+        coll.title === 'Gold Vermeil Birthstone Jewelry',
+    ) && !product.tags.includes('only_solid_gold');
+  // console.log(
+  //   goldOps,
+  //   product.collections.nodes.find(
+  //     (coll) =>
+  //       coll.title === 'Birthstone Jewelry' ||
+  //       coll.title === 'Gold Vermeil Birthstone Jewelry',
+  //   ),
+  //   product.tags,
+  // );
   return (
     <>
       <div className="product-main-wrapper sm:flex sm:justify-center">
@@ -562,7 +569,14 @@ function ProductMain({selectedVariant, product, variants, cart}) {
               View sample plans
             </button>
           </p>
-
+          {goldOps ? (
+            <GoldOptions
+              types={['goldvermeil', 'solid']}
+              url={product.handle}
+            />
+          ) : (
+            ''
+          )}
           {carats.length > 0 ? (
             <CaratOptions
               carats={carats}
@@ -744,10 +758,6 @@ function ProductForm({product, selectedVariant, variants}) {
     }));
   }
 
-  let array = product.options
-    .map((option) => (option.values.length === 1 ? option : null))
-    .filter((x) => x !== null);
-  // setotherop(array);
   return (
     <div className="product-form border-[#bfbfbf] font-body">
       <div className=" gap-x-3 grid grid-cols-2 max-sm:flex flex-col gap-y-3 mt-[17px]">
@@ -797,6 +807,25 @@ function ProductForm({product, selectedVariant, variants}) {
         storeDomain="http://vianisa.myshopify.com"
         variantIds={selectedVariant ? [selectedVariant.id] : ''}
       />
+      <MorePaymentsButton
+        disabled={!selectedVariant || !selectedVariant.availableForSale}
+        onClick={() => {
+          // window.location.href = window.location.href + '#cart-aside';
+        }}
+        lines={
+          selectedVariant
+            ? [
+                {
+                  merchandiseId: selectedVariant.id,
+                  quantity: 1,
+                  attributes: objectToArray(size),
+                },
+              ]
+            : []
+        }
+      >
+        More Payments Options
+      </MorePaymentsButton>
     </div>
   );
 }
@@ -927,7 +956,39 @@ function AddToCartButton({analytics, children, disabled, lines, onClick}) {
     </CartForm>
   );
 }
+function MorePaymentsButton({analytics, children, disabled, lines, onClick}) {
+  const {card_view} = useLoaderData();
 
+  return (
+    <CartForm
+      route="/cartview"
+      inputs={{lines}}
+      action={CartForm.ACTIONS.Create}
+    >
+      {(fetcher) => (
+        <>
+          <input
+            name="analytics"
+            type="hidden"
+            value={JSON.stringify(analytics)}
+          />
+          <button
+            className="border flex items-center justify-center w-full align-middle 
+            mt-[15px] px-2 py-3 h-auto text-[11px] font-bold uppercase bg-[#2f2f2f]
+          border-[#2f2f2f] tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-[#2f2f2f]"
+            style={{transition: 'all ease 150ms'}}
+            type="submit"
+            onClick={() => {}}
+            disabled={disabled ?? fetcher.state !== 'idle'}
+          >
+            {children}
+          </button>
+          <p>{fetcher?.state ?? 'ata'}</p>
+        </>
+      )}
+    </CartForm>
+  );
+}
 function ProductDescription({descriptionHtml}) {
   const ref = useRef();
   const refHorizontal = useRef();
@@ -1108,6 +1169,11 @@ export const FEATURED_COLLECTION_QUERY = `#graphql
     
           nodes  {
           title
+          collections(first:250){
+            nodes{
+              title
+            }
+          }
           handle
           variants (first:1) {
             nodes {
