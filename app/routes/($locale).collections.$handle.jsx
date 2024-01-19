@@ -4,6 +4,7 @@ import {
   useLoaderData,
   useLocation,
   useNavigate,
+  useNavigation,
   useSubmit,
   Await,
 } from '@remix-run/react';
@@ -120,6 +121,7 @@ export async function loader({request, params, context}) {
 
 export default function Collection() {
   const {allPromise, values} = useLoaderData();
+  const navigation = useNavigation();
   console.log(allPromise);
 
   const submit = useSubmit();
@@ -168,51 +170,55 @@ export default function Collection() {
   return (
     <Suspense fallback={<Spinner />}>
       <Await errorElement={<div>Oops!</div>} resolve={allPromise}>
-        {(allPromise) => (
-          <div className="collection" key={allPromise[0].collection.handle}>
-            <PageHeader collection={allPromise[0].collection} />
-            <div className="w-full max-sm:h-[44px] sm:h-[54px] border-y flex justify-between max-sm:flex-row-reverse items-center">
-              <GridChanger setGrid={setGrid} grid={grid} />
+        {(allPromise) =>
+          navigation.state == 'loading' ? (
+            <Spinner />
+          ) : (
+            <div className="collection" key={allPromise[0].collection.handle}>
+              <PageHeader collection={allPromise[0].collection} />
+              <div className="w-full max-sm:h-[44px] sm:h-[54px] border-y flex justify-between max-sm:flex-row-reverse items-center">
+                <GridChanger setGrid={setGrid} grid={grid} />
 
-              <div className="flex max-sm:grow max-sm:flex-row-reverse">
-                <SortButton
-                  openMobileSort={openMobileSort}
-                  closeMobileSort={closeMobileSort}
-                />
-                <FilterButton openMobileFilter={openMobileFilter} />
-              </div>
-            </div>
-            <Pagination connection={allPromise[0].collection.products}>
-              {({nodes, isLoading, NextLink}) => (
-                <>
-                  <ProductsGrid
-                    defaultPriceRange={
-                      JSON.parse(
-                        allPromise[1].collection.products.filters[0].values[0]
-                          .input,
-                      ).price
-                    }
-                    values={values}
-                    collection={allPromise[0].collection}
-                    grid={grid}
-                    products={nodes}
-                    handle={allPromise[0].handle}
-                    sortValue={sortValue}
-                    reversed={reversed}
+                <div className="flex max-sm:grow max-sm:flex-row-reverse">
+                  <SortButton
+                    openMobileSort={openMobileSort}
+                    closeMobileSort={closeMobileSort}
                   />
-                  <br />
-                  <NextLink className="flex justify-center w-full text-xl my-5">
-                    <LoadMoreButton isLoading={isLoading} />
-                  </NextLink>
-                </>
-              )}
-            </Pagination>
-            <SortForm
-              closeMobileSort={closeMobileSort}
-              update={updateSorting}
-            />
-          </div>
-        )}
+                  <FilterButton openMobileFilter={openMobileFilter} />
+                </div>
+              </div>
+              <Pagination connection={allPromise[0].collection.products}>
+                {({nodes, isLoading, NextLink}) => (
+                  <>
+                    <ProductsGrid
+                      defaultPriceRange={
+                        JSON.parse(
+                          allPromise[1].collection.products.filters[0].values[0]
+                            .input,
+                        ).price
+                      }
+                      values={values}
+                      collection={allPromise[0].collection}
+                      grid={grid}
+                      products={nodes}
+                      handle={allPromise[0].handle}
+                      sortValue={sortValue}
+                      reversed={reversed}
+                    />
+                    <br />
+                    <NextLink className="flex justify-center w-full text-xl my-5">
+                      <LoadMoreButton isLoading={isLoading} />
+                    </NextLink>
+                  </>
+                )}
+              </Pagination>
+              <SortForm
+                closeMobileSort={closeMobileSort}
+                update={updateSorting}
+              />
+            </div>
+          )
+        }
       </Await>
     </Suspense>
   );
