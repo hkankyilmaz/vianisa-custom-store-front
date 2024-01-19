@@ -78,7 +78,7 @@ function CaratItem({name, matches, modifiedStringwithCarat}) {
         cursor: matches.includes(handle_) ? 'default' : '',
       }}
       prefetch="intent"
-      className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
+      className=" border-2 px-[10px] py-[17px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
       to={`/products/${modifiedStringwithCarat + handle_}`}
       preventScrollReset
     >

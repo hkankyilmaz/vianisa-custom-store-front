@@ -15,6 +15,7 @@ import {useRef, useState, useEffect} from 'react';
 import {AiOutlineDown} from 'react-icons/ai';
 import useDefaultCollectionQuery from '~/hooks/useDefaultCollectionQuery';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
+import Slider2 from '~/components/RangeSlider/RangeSlider';
 import gsap from 'gsap';
 import {CloseButton} from '~/components/Header/Drawer';
 import {
@@ -258,6 +259,7 @@ function ProductsGrid({
   const navigate = useNavigate();
 
   const formRef = useRef(null);
+
   const accordionRefs = useRef([]);
   const refsHorizontal = Array.from({length: 3}, () => useRef(null));
   const refsVertical = Array.from({length: 3}, () => useRef(null));
@@ -274,7 +276,7 @@ function ProductsGrid({
     parseInt(values.minPrice) || defaultPriceRange.min,
     parseInt(values.maxPrice) || defaultPriceRange.max,
   ]);
-
+  const [sliderClas, setSliderClas] = useState({});
   const getOptionValue = (option) => {
     return option.id.split('.').slice(-1)[0];
   };
@@ -325,6 +327,7 @@ function ProductsGrid({
           ease: 'power1.inOut',
         },
       );
+      setSliderClas({visibility: 'hidden'});
     } else {
       if (openAccordion !== null) {
         gsap.to(
@@ -348,6 +351,7 @@ function ProductsGrid({
           ease: 'power1.inOut',
         },
       );
+      setSliderClas({});
     }
   };
 
@@ -398,7 +402,19 @@ function ProductsGrid({
                   <p className="font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] mb-2 max-sm:hidden">
                     PRICE
                   </p>
-                  <Slider
+                  <Slider2
+                    className={sliderClas}
+                    value={sliderPriceRange}
+                    max={defaultPriceRange.max}
+                    min={defaultPriceRange.min}
+                    getSliderPriceRange={sliderPriceRange}
+                    setSliderPriceRange={setSliderPriceRange}
+                    setInputPriceRange={setInputPriceRange}
+                    onChangeCommitted={() => {
+                      submit(formRef.current);
+                    }}
+                  />
+                  {/* <Slider
                     className="max-w-[100%] mb-1"
                     sx={{color: 'gray'}}
                     size="small"
@@ -415,7 +431,8 @@ function ProductsGrid({
                     valueLabelDisplay="auto"
                     max={defaultPriceRange.max}
                     min={defaultPriceRange.min}
-                  />
+                  /> */}
+
                   <FilterForm.PriceInput
                     max={defaultPriceRange.max}
                     min={defaultPriceRange.min}
@@ -433,7 +450,7 @@ function ProductsGrid({
             </div>
             {filters.slice(1).map((filter, index) => (
               <div
-                className={`accordion__item max-sm:border-b border-[#e0e0e0]  ${
+                className={`accordion__item max-sm:border-b relative max-sm:bg-[#efefef] max-sm:z-10 border-[#e0e0e0] ${
                   openAccordion === index + 1 ? 'open' : ''
                 }`}
                 ref={(e) => (accordionRefs.current[index + 1] = e)}
