@@ -114,7 +114,7 @@ export function ProductExtraInputTag({product, cardInfo}) {
           <>
             {inputObj.inputs.map((inputObjSub, idx) =>
               inputObjSub.inputType == 'checkbox' ? (
-                <div key={idx} className="flex items-center">
+                <div key={idx} className="flex items-center mt-[15px]">
                   <input
                     data-labelonproduct={inputObjSub.labelOnProduct}
                     data-name={inputObj.name}

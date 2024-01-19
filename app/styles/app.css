@@ -851,7 +851,6 @@ span._platinum {
 /*range slider*/
 .container {
   position: relative;
-  min-height: 100px;
   height: auto;
   display: flex;
   align-items: center;

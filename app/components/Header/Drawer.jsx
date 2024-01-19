@@ -3,6 +3,7 @@ import {Link, useMatches} from '@remix-run/react';
 import gsap from 'gsap';
 import CustomEase from 'gsap/CustomEase';
 import useIsomorphicLayoutEffect, {stripUrl} from '~/utils';
+import {closeSearch} from './Header';
 
 export function Drawer({
   placement = 'left',
@@ -93,11 +94,7 @@ export function Drawer({
   useEffect(() => {
     drawer.current.setAttribute('data-open', isOpen);
     let root_ = document.documentElement.style;
-    root_.setProperty('--search-overlay-opacity', '0');
-    root_.setProperty('--search-overlay-visibility', 'hidden');
-    root_.setProperty('--search-aside-position', 'translateY(-25px)');
-    root_.setProperty('--search-aside-visibility', 'hidden');
-    root_.setProperty('--search-aside-opacity', '0');
+    closeSearch();
     if (isOpen) {
       root_.setProperty('--drawer-overlay-opacity', '1');
       root_.setProperty('--drawer-overlay-visibility', 'visible');

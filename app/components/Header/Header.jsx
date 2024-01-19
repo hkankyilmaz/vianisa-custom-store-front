@@ -62,14 +62,7 @@ export function Header({header, isLoggedIn, cart}) {
               Vianisa
             </span>
           </NavLink>
-          <HeaderCtas
-            isLoggedIn={isLoggedIn}
-            cart={cart}
-            searchbtn={() => {
-              setSearchbtn(!searchbtn);
-              console.log('input focus');
-            }}
-          />
+          <HeaderCtas isLoggedIn={isLoggedIn} />
         </div>
         <div className="uppercase w-full flex justify-center pt-2 pb-[7px] shadow-[rgb(34,34,34)_0px_0px_2px_0px] text-center font-questrial mb-[2px] max-xl:hidden z-20 relative">
           <HeaderMenu
@@ -88,26 +81,21 @@ export function Header({header, isLoggedIn, cart}) {
           />
         </div>
       </header>
-      <SearchAside open={searchbtn} close={setSearchbtn} />
+      <SearchAside />
     </>
   );
 }
-function SearchAside({open, close}) {
-  let url = new URL(window.location.href);
-  let hid = open ? '' : 'hidden';
+function SearchAside() {
   return (
     <div
       id="search-asides"
-      className={
-        'absolute bg-black bg-opacity-50 h-[calc(100vh-115px)] z-50 block w-full ' +
-        hid
-      }
+      className="search-aside z-50 block w-full"
       heading="SEARCH"
     >
       <div className="predictive-searchs  bg-white w-full ">
         <PredictiveSearchForm className="w-full">
           {({fetchResults, inputRef}) => (
-            <div className="flex justify-around">
+            <div className="flex justify-around xl:mt-[-2px]">
               <div className="w-full flex pl-12 justify-center items-center border-b border-x-0 border-[#e0e0e0] ">
                 <svg
                   className="Icon Icon--search-desktop w-[22px] h-[22px]"
@@ -138,12 +126,11 @@ function SearchAside({open, close}) {
                   className="w-full border-0 bg-transparent py-5 px-5 focus:ring-0"
                 />
                 <button
-                  className="w-4 h-4"
+                  className="w-4 h-4 mr-[50px]"
                   data-action="close-search"
                   aria-label="Close search"
                   onClick={() => {
-                    close(false);
-                    document.documentElement.style.overflowY = 'auto';
+                    closeSearch();
                   }}
                 >
                   <svg
@@ -350,7 +337,7 @@ function CustomLink({title, to, onClick, onHover, isHeaderHover}) {
   );
 }
 
-function HeaderCtas({isLoggedIn, cart, searchbtn}) {
+function HeaderCtas({isLoggedIn}) {
   return (
     <nav
       className="flex items-center gap-[18px] sm:gap-[25px] text-[#808080cc] flex-[1_0_0] justify-end"
@@ -380,9 +367,9 @@ function HeaderCtas({isLoggedIn, cart, searchbtn}) {
           </g>
         </svg>
       </NavLink>
-      <SearchToggle searchbtn={searchbtn} />
+      <SearchToggle />
       {/* <WishlistToggle /> */}
-      <CartToggle close={searchbtn} />
+      <CartToggle />
     </nav>
   );
 }
@@ -395,13 +382,17 @@ function HeaderMenuMobileToggle() {
   );
 }
 
-function SearchToggle({searchbtn}) {
+function SearchToggle() {
   let root_ = document.documentElement.style;
-
   return (
     <a
-      onClick={() => (document.documentElement.style.overflowY = 'hidden')}
-      onClickCapture={searchbtn}
+      onClick={() => {
+        if (root_.getPropertyValue('--search-aside-visibility') === 'hidden') {
+          openSearch();
+        } else {
+          closeSearch();
+        }
+      }}
       className="cursor-pointer"
     >
       <svg
@@ -486,22 +477,17 @@ function WishlistToggle() {
   );
 }
 
-function CartToggle({close}) {
+function CartToggle() {
   let root_ = document.documentElement.style;
   return (
     <a
       className="relative cursor-pointer"
       onClick={() => {
-        close();
         root_.setProperty('--cart-overlay-opacity', '1');
         root_.setProperty('--cart-overlay-visibility', 'visible');
         root_.setProperty('--cart-aside-position', 'translateX(0%)');
         root_.setProperty('--cart-aside-visibility', 'visible');
-        root_.setProperty('--search-overlay-opacity', '0');
-        root_.setProperty('--search-overlay-visibility', 'hidden');
-        root_.setProperty('--search-aside-position', 'translateY(-25px)');
-        root_.setProperty('--search-aside-visibility', 'hidden');
-        root_.setProperty('--search-aside-opacity', '0');
+        closeSearch();
         document.documentElement.style.overflowY = 'hidden';
       }}
     >
@@ -572,4 +558,23 @@ function activeLinkStyle({isActive, isPending}) {
     fontWeight: isActive ? 'bold' : '',
     color: isPending ? 'grey' : 'black',
   };
+}
+
+export function openSearch() {
+  let root_ = document.documentElement.style;
+  document.documentElement.style.overflowY = 'hidden';
+  root_.setProperty('--search-overlay-opacity', '1');
+  root_.setProperty('--search-overlay-visibility', 'visible');
+  root_.setProperty('--search-aside-position', 'translateY(0)');
+  root_.setProperty('--search-aside-visibility', 'visible');
+  root_.setProperty('--search-aside-opacity', '1');
+}
+export function closeSearch() {
+  let root_ = document.documentElement.style;
+  document.documentElement.style.overflowY = 'auto';
+  root_.setProperty('--search-overlay-opacity', '0');
+  root_.setProperty('--search-overlay-visibility', 'hidden');
+  root_.setProperty('--search-aside-position', 'translateY(-25px)');
+  root_.setProperty('--search-aside-visibility', 'hidden');
+  root_.setProperty('--search-aside-opacity', '0');
 }
