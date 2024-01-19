@@ -30,9 +30,9 @@ import styles from '../styles/Spinner.css';
 
 export const links = () => [{rel: 'stylesheet', href: styles}];
 
-export const meta = ({data}) => {
-  return [{title: `${data.collection.title} Collection`}];
-};
+// export const meta = ({data}) => {
+//   return [{title: `${data.collection.title} Collection`}];
+// };
 
 export async function loader({request, params, context}) {
   const jsonifyVariantOption = (name, value) => {
@@ -96,31 +96,31 @@ export async function loader({request, params, context}) {
     cache: storefront.CacheLong(),
   });
 
-  const {collection: defaultCollection} = await storefront.query(
-    DEFAULT_COLLECTION_QUERY,
-    {
-      variables: {
-        handle: handle,
-      },
-      cache: storefront.CacheLong(),
+  const defaultCollection = storefront.query(DEFAULT_COLLECTION_QUERY, {
+    variables: {
+      handle: handle,
     },
-  );
+    cache: storefront.CacheLong(),
+  });
 
-  const defaultPriceRange = JSON.parse(
-    defaultCollection.products.filters[0].values[0].input,
-  ).price;
-  console.log(defaultPriceRange);
+  const allPromise = Promise.all([collection, defaultCollection]);
+
+  // const defaultPriceRange = JSON.parse(
+  //   defaultCollection.products.filters[0].values[0].input,
+  // ).price;
+
   if (!collection) {
     throw new Response(`Collection ${handle} not found`, {
       status: 404,
     });
   }
 
-  return defer({collection, values, defaultPriceRange});
+  return defer({allPromise, values});
 }
 
 export default function Collection() {
-  const {collection, values, defaultPriceRange} = useLoaderData();
+  const {allPromise, values} = useLoaderData();
+  console.log(allPromise);
 
   const submit = useSubmit();
 
@@ -167,10 +167,10 @@ export default function Collection() {
 
   return (
     <Suspense fallback={<Spinner />}>
-      <Await errorElement={<div>Oops!</div>} resolve={collection}>
-        {(collection) => (
-          <div className="collection" key={collection.collection.handle}>
-            <PageHeader collection={collection.collection} />
+      <Await errorElement={<div>Oops!</div>} resolve={allPromise}>
+        {(allPromise) => (
+          <div className="collection" key={allPromise[0].collection.handle}>
+            <PageHeader collection={allPromise[0].collection} />
             <div className="w-full max-sm:h-[44px] sm:h-[54px] border-y flex justify-between max-sm:flex-row-reverse items-center">
               <GridChanger setGrid={setGrid} grid={grid} />
 
@@ -182,16 +182,21 @@ export default function Collection() {
                 <FilterButton openMobileFilter={openMobileFilter} />
               </div>
             </div>
-            <Pagination connection={collection.collection.products}>
+            <Pagination connection={allPromise[0].collection.products}>
               {({nodes, isLoading, NextLink}) => (
                 <>
                   <ProductsGrid
-                    defaultPriceRange={defaultPriceRange}
+                    defaultPriceRange={
+                      JSON.parse(
+                        allPromise[1].collection.products.filters[0].values[0]
+                          .input,
+                      ).price
+                    }
                     values={values}
-                    collection={collection.collection}
+                    collection={allPromise[0].collection}
                     grid={grid}
                     products={nodes}
-                    handle={collection.handle}
+                    handle={allPromise[0].handle}
                     sortValue={sortValue}
                     reversed={reversed}
                   />

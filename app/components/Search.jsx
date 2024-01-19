@@ -248,7 +248,11 @@ function SearchResultItem({goToSearchResult, item}) {
     <li className="flex flex-col" key={item.id}>
       <Link onClick={goToSearchResult} to={item.url}>
         {item.image?.url && (
-          <Image alt={item.image.altText ?? ''} src={item.image.url} />
+          <Image
+            loading="eager"
+            alt={item.image.altText ?? ''}
+            data={item.image}
+          />
         )}
         <div>
           {item.styledTitle ? (
