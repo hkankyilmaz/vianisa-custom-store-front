@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import dayjs from 'dayjs';
 import dayjsBusinessDays from 'dayjs-business-days';
 dayjs.extend(dayjsBusinessDays);
@@ -7,11 +6,11 @@ dayjs.extend(dayjsBusinessDays);
 function useCalculateShipDay(tags) {
   let now = dayjs().businessDaysAdd(2);
 
-  if (_.includes(tags, 'EngagamentRings')) {
+  if (tags.includes('EngagamentRings')) {
     now = now.businessDaysAdd(2);
-  } else if (_.includes(tags, 'filter_classic_wedding_band')) {
+  } else if (tags.includes('filter_classic_wedding_band')) {
     now = now.businessDaysAdd(1);
-  } else if (_.includes(tags, 'bridalSets')) {
+  } else if (tags.includes('bridalSets')) {
     now.businessDaysAdd(1);
   } else {
     now = now.businessDaysAdd(2);

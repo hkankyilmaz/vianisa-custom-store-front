@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {each, filter, find, includes, fill, bind} from 'lodash';
+// import {each, filter, find, includes, fill, bind} from 'lodash';
 import {tags} from '../../constant/sizes';
 import {AiOutlineDown} from 'react-icons/ai';
 import Checkbox from '@mui/material/Checkbox';
 
 export function ProductExtraInputType({product, cardInfo}) {
   const productType = product.productType.toLowerCase();
-  let resultType = find(tags, (i) => includes(i.productType, productType));
+  let resultType = tags.find((i) => i.productType?.includes(productType));
 
   if (resultType) {
     if (resultType?.inputNumber == 1) {
@@ -22,8 +22,9 @@ export function ProductExtraInputType({product, cardInfo}) {
             >
               <option value={null}> {resultType.placeHolder} </option>
               {resultType.options.delimeter
-                ? fill(Array(resultType.options.optionCount), '').map(
-                    (i, j) => (
+                ? Array(resultType.options.optionCount)
+                    .fill('')
+                    .map((i, j) => (
                       <option
                         key={j}
                         value={
@@ -35,8 +36,7 @@ export function ProductExtraInputType({product, cardInfo}) {
                         {resultType.options.range[0] +
                           j * resultType.options.delimeter}{' '}
                       </option>
-                    ),
-                  )
+                    ))
                 : undefined}
             </select>
             <AiOutlineDown className="absolute right-[15px] top-[14px] text-sm text-[#000] z-[-1]" />
@@ -50,16 +50,12 @@ export function ProductExtraInputType({product, cardInfo}) {
 export function ProductExtraInputTag({product, cardInfo}) {
   const productTags = product.tags;
   const [open, setopen] = useState(false);
-  console.log('productTags : ', productTags);
+  // console.log('productTags : ', productTags);
 
-  let resultTag = filter(tags, (i) => {
-    let res;
-    each(i.tags, (v) => {
-      res = includes(productTags, v);
-    });
-    return res;
+  let resultTag = tags.filter(function (obj) {
+    return obj.tags.some((tag) => productTags.includes(tag));
   });
-  console.log(resultTag);
+  // console.log(resultTag);
 
   // console.log('tag : ', resultTag);
 
@@ -89,19 +85,21 @@ export function ProductExtraInputTag({product, cardInfo}) {
             >
               <option value={null}> {inputObj.placeHolder} </option>
               {inputObj.options.delimeter
-                ? fill(Array(inputObj.options.optionCount), '').map((i, j) => (
-                    <option
-                      key={j}
-                      value={
-                        inputObj.options.range[0] +
-                        j * inputObj.options.delimeter
-                      }
-                    >
-                      Size{' '}
-                      {inputObj.options.range[0] +
-                        j * inputObj.options.delimeter}{' '}
-                    </option>
-                  ))
+                ? Array(inputObj.options.optionCount)
+                    .fill('')
+                    .map((i, j) => (
+                      <option
+                        key={j}
+                        value={
+                          inputObj.options.range[0] +
+                          j * inputObj.options.delimeter
+                        }
+                      >
+                        Size{' '}
+                        {inputObj.options.range[0] +
+                          j * inputObj.options.delimeter}{' '}
+                      </option>
+                    ))
                 : inputObj.options.map((i, j) => (
                     <option key={j} value={i}>
                       {' '}
@@ -142,8 +140,9 @@ export function ProductExtraInputTag({product, cardInfo}) {
                   >
                     <option value={null}> {inputObjSub.placeHolder} </option>
                     {inputObjSub.options.delimeter
-                      ? fill(Array(inputObjSub.options.optionCount), '').map(
-                          (i, j) => (
+                      ? Array(inputObjSub.options.optionCount)
+                          .fill('')
+                          .map((i, j) => (
                             <option
                               key={j}
                               value={
@@ -155,8 +154,7 @@ export function ProductExtraInputTag({product, cardInfo}) {
                               {inputObjSub.options.range[0] +
                                 j * inputObjSub.options.delimeter}{' '}
                             </option>
-                          ),
-                        )
+                          ))
                       : inputObjSub.options.map((i, j) => (
                           <option key={j} value={i}>
                             {' '}

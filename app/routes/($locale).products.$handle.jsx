@@ -8,7 +8,7 @@ import {
   useNavigate,
   useFetcher,
 } from '@remix-run/react';
-import _ from 'lodash';
+// import _ from 'lodash';
 import EmblaCarousel from '~/components/Product Carausel Image Slider/Index';
 import DotCarousel from '~/components/Product Carausel Image Dot Slider/EmblaCarousel';
 import {FcShipped} from 'react-icons/fc';
@@ -43,13 +43,16 @@ import EtsyReview from '~/components/EtsyReviews/Index';
 export const meta = ({data}) => {
   return [{title: `${data.product?.title}`}];
 };
-
+function randomNumber_(min, max) {
+  // 👇️ get number between min (inclusive) and max (inclusive)
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 export async function loader({params, request, context}) {
   const {handle} = params;
   const {storefront, session, cart, cartview} = context;
   // console.log(cart.getCartId());
   // const {storefront} = context;
-  let randomNumber = _.random(0, 1);
+  let randomNumber = randomNumber_(0, 1);
   let card_view = await cartview.get();
   const selectedOptions = getSelectedProductOptions(request).filter(
     (option) =>
@@ -467,6 +470,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
 
   const shipDtae = useCalculateShipDay(tags);
   let carats = [];
+  console.log(tags);
   if (tags.find((tag) => tag === 'Carat_Options_1_15_20')) {
     carats = ['1', '1.5', '2'];
   } else if (tags.find((tag) => tag === 'Carat_Options_1_15_20_30')) {
@@ -475,7 +479,10 @@ function ProductMain({selectedVariant, product, variants, cart}) {
     carats = ['0.1', '0.2', '0.3', '0.5'];
   } else if (tags.find((tag) => tag === 'OptionsCarat_025_050_100')) {
     carats = ['0.25', '0.5', '1'];
+  } else if (tags.find((tag) => tag === 'OptionsCarat_025_050_075_100')) {
+    carats = ['0.25', '0.5', '0.75', '1'];
   }
+
   useEffect(() => {
     setIsGemStoneOpt(false);
   }, [matches]);
@@ -493,7 +500,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
       ? navigate(matches.replace('lab-grown-diamond', 'moissanite'))
       : navigate(matches.replace('moissanite', 'lab-grown-diamond'));
   };
-  const stonetype = _.includes(matches, 'moissanite')
+  const stonetype = matches.includes('moissanite')
     ? 'moissanite'
     : 'lab-grown-diamond';
   // console.log(matches, selectedValue);
@@ -848,7 +855,7 @@ function ProductOptions({option}) {
   const [isOpen, setIsOpen] = useState(false);
   let activeOption =
     option.values.length > 1
-      ? _.find(option.values, {isActive: true}).value
+      ? option.values.find((value) => value.isActive === true).value
       : option.values[0];
   let root_ = document.documentElement.style;
 

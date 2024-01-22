@@ -3,7 +3,6 @@ import {Link} from '@remix-run/react';
 import useEmblaCarousel from 'embla-carousel-react';
 import {useEffect, useState, useCallback} from 'react';
 import Autoplay from 'embla-carousel-autoplay';
-import {matches} from 'lodash';
 
 export default function GoldOptions({types, matches, url}) {
   return (

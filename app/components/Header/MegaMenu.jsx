@@ -70,7 +70,6 @@ const MegaMenu = forwardRef((props, ref) => {
   const navElement = props.menu.items.filter(
     (item) => item.title === props.megaMenu.title,
   );
-
   useEffect(() => {
     if (!props.isHeaderHover) {
       props.setMegaMenu({...props.megaMenu, isOpen: false});
@@ -80,6 +79,7 @@ const MegaMenu = forwardRef((props, ref) => {
 
   const stripUrl = (url) => {
     const publicStoreDomain = root?.data?.publicStoreDomain;
+    console.log(publicStoreDomain);
     const newUrl =
       url.includes('myshopify.com') || url.includes(publicStoreDomain)
         ? new URL(url).pathname

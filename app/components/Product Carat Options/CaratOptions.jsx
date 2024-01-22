@@ -3,7 +3,6 @@ import {Link} from '@remix-run/react';
 import useEmblaCarousel from 'embla-carousel-react';
 import {useEffect, useState, useCallback} from 'react';
 import Autoplay from 'embla-carousel-autoplay';
-import {matches} from 'lodash';
 
 export default function CaratOptions({
   carats,
@@ -87,6 +86,9 @@ function CaratItem({name, matches, modifiedStringwithCarat}) {
   } else if (name === '0.25') {
     title = '0.25ct';
     handle_ = '-0-25-ct';
+  } else if (name === '0.75') {
+    title = '0.75ct';
+    handle_ = '-0-75-ct';
   }
   return (
     <Link
