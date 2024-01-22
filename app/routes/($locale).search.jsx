@@ -14,6 +14,7 @@ import {AiOutlineDown} from 'react-icons/ai';
 import useGenerateSearchQuery from '~/hooks/useGenerateSearchQuery';
 import useSearchDefaultQuery from '~/hooks/useSearchDefaultQuery';
 import gsap from 'gsap';
+import Slider2 from '~/components/RangeSlider/RangeSlider';
 import {CloseButton} from '~/components/Header/Drawer';
 import {
   FilterForm,
@@ -271,6 +272,8 @@ function ProductsGrid({
     parseInt(values.maxPrice) || defaultPriceRange.max,
   ]);
 
+  const [sliderClas, setSliderClas] = useState({});
+
   const getOptionValue = (option) => {
     return option.id.split('.').slice(-1)[0];
   };
@@ -325,6 +328,7 @@ function ProductsGrid({
           ease: 'power1.inOut',
         },
       );
+      setSliderClas({visibility: 'hidden'});
     } else {
       if (openAccordion !== null) {
         gsap.to(
@@ -398,23 +402,17 @@ function ProductsGrid({
                   <p className="font-montserratMd text-xs text-[#2f2f2f] tracking-[2.4px] mb-2 max-sm:hidden">
                     PRICE
                   </p>
-                  <Slider
-                    className="max-w-[100%] mb-1"
-                    sx={{color: 'gray'}}
-                    size="small"
+                  <Slider2
+                    className={sliderClas}
                     value={sliderPriceRange}
-                    onChange={(e, value) => {
-                      setSliderPriceRange(value);
-                      setInputPriceRange(value);
-                    }}
-                    onChangeCommitted={(e, value) => {
-                      setSliderPriceRange(value);
-                      setInputPriceRange(value);
-                      submit(formRef.current);
-                    }}
-                    valueLabelDisplay="auto"
                     max={defaultPriceRange.max}
                     min={defaultPriceRange.min}
+                    getSliderPriceRange={sliderPriceRange}
+                    setSliderPriceRange={setSliderPriceRange}
+                    setInputPriceRange={setInputPriceRange}
+                    onChangeCommitted={() => {
+                      submit(formRef.current);
+                    }}
                   />
                   <FilterForm.PriceInput
                     max={defaultPriceRange.max}
