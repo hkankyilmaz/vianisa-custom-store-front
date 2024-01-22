@@ -497,7 +497,7 @@ function ProductsGrid({
           <div className="max-lg:hidden">
             <button
               style={{
-                display: params.size > 0 ? 'block' : 'none',
+                display: params.size > 1 ? 'block' : 'none',
                 transition: 'all ease 0.35s',
               }}
               className="border flex items-center justify-center w-min h-full align-middle 
