@@ -1,4 +1,5 @@
 import Slider from '@mui/material/Slider';
+import {useEffect} from 'react';
 import {
   Form,
   useLoaderData,
@@ -82,8 +83,6 @@ export async function loader({request, params, context}) {
     reverse,
   );
 
-  console.log(SEARCH_QUERY);
-
   const {handle} = params;
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
@@ -126,9 +125,13 @@ export async function loader({request, params, context}) {
 }
 
 function SearchPage() {
-  const {searchTerm, searchResults} = useLoaderData();
+  const {searchTerm, searchResults, values} = useLoaderData();
   const collection = searchResults;
+  const {sortkey, reverse} = values;
+  const submit = useSubmit();
   const [grid, setGrid] = useState(true);
+  const [reversed, setReversed] = useState(reverse || false);
+  const [sortValue, setSortValue] = useState(sortkey || 'RELEVANCE');
   let root_ = document.documentElement.style;
 
   const openMobileFilter = () => {
@@ -154,6 +157,17 @@ function SearchPage() {
     root_.overflowY = 'auto';
   };
 
+  const updateSorting = (sortValue, reversed) => {
+    setSortValue(sortValue);
+    setReversed(reversed);
+  };
+
+  useEffect(() => {
+    const form = document.querySelector('#filter-form');
+    console.log(form);
+    submit(form);
+  }, [sortValue, reversed]);
+
   return (
     <div className="collection" key={collection.handle}>
       <PageHeader searchTerm={searchTerm} collection={collection} />
@@ -176,6 +190,8 @@ function SearchPage() {
               grid={grid}
               products={nodes}
               handle={collection.handle}
+              sortValue={sortValue}
+              reversed={reversed}
             />
             <br />
             <NextLink className="flex justify-center w-full text-xl my-5">
@@ -184,7 +200,11 @@ function SearchPage() {
           </>
         )}
       </Pagination>
-      <SortForm closeMobileSort={closeMobileSort} />
+      <SortForm
+        isSearchPage={true}
+        update={updateSorting}
+        closeMobileSort={closeMobileSort}
+      />
     </div>
   );
 }
@@ -218,7 +238,14 @@ function FilterButton({openMobileFilter}) {
   );
 }
 
-function ProductsGrid({products, grid, handle, searchTerm}) {
+function ProductsGrid({
+  products,
+  grid,
+  handle,
+  searchTerm,
+  sortValue,
+  reversed,
+}) {
   const {defaultPriceRange, values, searchResults} = useLoaderData();
   const collection = searchResults;
 
@@ -332,6 +359,7 @@ function ProductsGrid({products, grid, handle, searchTerm}) {
           className="filter-modal-overlay max-lg:bg-[#363636]/50 fixed left-0 top-0 bottom-0 right-0 z-10"
         ></span>
         <Form
+          id="filter-form"
           ref={formRef}
           method="get"
           className="filter-form-mobile max-lg:fixed right-0 top-0 bottom-0 max-sm:left-[65px] max-sm:w-auto  max-lg:bg-[#efefef] max-lg:z-10 max-lg:w-[400px]"
@@ -500,6 +528,16 @@ function ProductsGrid({products, grid, handle, searchTerm}) {
             >
               SEE RESULTS
             </button>
+            <input
+              type="hidden"
+              name={sortValue != 'RELEVANCE' ? 'sortkey' : undefined}
+              value={sortValue}
+            />
+            <input
+              type="hidden"
+              name={reversed ? 'reverse' : undefined}
+              value={reversed}
+            />
           </div>
         </Form>
       </div>

@@ -122,10 +122,7 @@ export async function loader({request, params, context}) {
 export default function Collection() {
   const {allPromise, values} = useLoaderData();
   const navigation = useNavigation();
-  console.log(allPromise);
-
   const submit = useSubmit();
-
   const {sortkey, reverse} = values;
   const root_ = document.documentElement.style;
 

@@ -1,49 +1,67 @@
 import {trim} from '~/utils';
 import {CloseButton} from '../Header/Drawer';
 
-const SortForm = ({closeMobileSort, update}) => {
-  const sortOptions = [
-    {
-      label: 'FEATURED',
-      value: 'COLLECTION_DEFAULT',
-      reversed: false,
-    },
-    {
-      label: 'BEST SELLING',
-      value: 'BEST_SELLING',
-      reversed: false,
-    },
-    {
-      label: 'ALPHABETICALLY, A-Z',
-      value: 'TITLE',
-      reversed: false,
-    },
-    {
-      label: 'ALPHABETICALLY, Z-A',
-      value: 'TITLE',
-      reversed: true,
-    },
-    {
-      label: 'PRICE, LOW TO HIGH',
-      value: 'PRICE',
-      reversed: false,
-    },
-    {
-      label: 'PRICE, HIGH TO LOW',
-      value: 'PRICE',
-      reversed: true,
-    },
-    {
-      label: 'DATE, OLD TO NEW',
-      value: 'CREATED',
-      reversed: false,
-    },
-    {
-      label: 'DATE, NEW TO OLD',
-      value: 'CREATED',
-      reversed: true,
-    },
-  ];
+const SortForm = ({closeMobileSort, update, isSearchPage}) => {
+  const sortOptions = !isSearchPage
+    ? [
+        {
+          label: 'FEATURED',
+          value: 'COLLECTION_DEFAULT',
+          reversed: false,
+        },
+        {
+          label: 'BEST SELLING',
+          value: 'BEST_SELLING',
+          reversed: false,
+        },
+        {
+          label: 'ALPHABETICALLY, A-Z',
+          value: 'TITLE',
+          reversed: false,
+        },
+        {
+          label: 'ALPHABETICALLY, Z-A',
+          value: 'TITLE',
+          reversed: true,
+        },
+        {
+          label: 'PRICE, LOW TO HIGH',
+          value: 'PRICE',
+          reversed: false,
+        },
+        {
+          label: 'PRICE, HIGH TO LOW',
+          value: 'PRICE',
+          reversed: true,
+        },
+        {
+          label: 'DATE, OLD TO NEW',
+          value: 'CREATED',
+          reversed: false,
+        },
+        {
+          label: 'DATE, NEW TO OLD',
+          value: 'CREATED',
+          reversed: true,
+        },
+      ]
+    : [
+        {
+          label: 'RELEVANCE',
+          value: 'RELEVANCE',
+          reversed: false,
+        },
+        {
+          label: 'PRICE, LOW TO HIGH',
+          value: 'PRICE',
+          reversed: false,
+        },
+        {
+          label: 'PRICE, HIGH TO LOW',
+          value: 'PRICE',
+          reversed: true,
+        },
+      ];
 
   return (
     <>
