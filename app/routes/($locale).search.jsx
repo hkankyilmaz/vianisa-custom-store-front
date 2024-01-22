@@ -82,6 +82,8 @@ export async function loader({request, params, context}) {
     reverse,
   );
 
+  console.log(SEARCH_QUERY);
+
   const {handle} = params;
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
@@ -124,8 +126,7 @@ export async function loader({request, params, context}) {
 }
 
 function SearchPage() {
-  const {searchTerm, values, searchResults, defaultPriceRange} =
-    useLoaderData();
+  const {searchTerm, searchResults} = useLoaderData();
   const collection = searchResults;
   const [grid, setGrid] = useState(true);
   let root_ = document.documentElement.style;
@@ -171,6 +172,7 @@ function SearchPage() {
         {({nodes, isLoading, PreviousLink, NextLink}) => (
           <>
             <ProductsGrid
+              searchTerm={searchTerm}
               grid={grid}
               products={nodes}
               handle={collection.handle}
@@ -216,7 +218,7 @@ function FilterButton({openMobileFilter}) {
   );
 }
 
-function ProductsGrid({products, grid, handle}) {
+function ProductsGrid({products, grid, handle, searchTerm}) {
   const {defaultPriceRange, values, searchResults} = useLoaderData();
   const collection = searchResults;
 
@@ -452,6 +454,14 @@ function ProductsGrid({products, grid, handle}) {
                 </div>
               </div>
             ))}
+            <input
+              className="hidden"
+              name="q"
+              id="mar"
+              value={searchTerm}
+              defaultChecked={true}
+              type="checkbox"
+            />
           </div>
           <div className="max-lg:hidden">
             <button

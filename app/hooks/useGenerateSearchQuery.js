@@ -42,16 +42,16 @@ function useGenerateSearchQuery(
       after: $endCursor,
       sortKey: ${sortKey ? sortKey : 'RELEVANCE'},
       reverse: ${reverse ? reverse : 'false'},
-      productFilters : { 
+      productFilters : [
         ${
           maxPrice && minPrice
-            ? ` price: { min: ${minPrice}, max: ${maxPrice} },`
+            ? ` {price: { min: ${minPrice}, max: ${maxPrice} }},`
             : ''
         }
         ${(() => {
           if (variantOptions && variantOptions.length > 0) {
-            const variantQuery = variantOptions.map((option) => {
-              return `variantOption: {name: "${
+            const variantQuery = variantOptions.map((option, i) => {
+              return `{ variantOption: {name: "${
                 option.name
               }", value: "${option.value
                 .split('-')
@@ -61,12 +61,12 @@ function useGenerateSearchQuery(
                 .filter((word) => {
                   return word !== '';
                 })
-                .join(' ')}"}`;
+                .join(' ')}"}}`;
             });
             return variantQuery.join(',');
-          } else return '';
-        })()}
-       }
+          } else return '{}';
+        })()}]
+       
     ) {
     
       nodes {
