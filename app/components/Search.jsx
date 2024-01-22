@@ -252,7 +252,6 @@ function PredictiveSearchResult({goToSearchResult, items, searchTerm, type}) {
 }
 
 function SearchResultItem({goToSearchResult, item}) {
-  console.log(item);
   return (
     <li className="flex flex-col" key={item.id}>
       <Link onClick={goToSearchResult} to={item.url}>
@@ -262,15 +261,14 @@ function SearchResultItem({goToSearchResult, item}) {
               <Image
                 className="max-sm:!w-[70px] max-sm:!h-[70px] transition-opacity opacity-100 hover:opacity-0"
                 loading="eager"
-                alt={item.image.altText ?? ''}
+                alt={item.image.nodes[0].altText ?? ''}
                 data={item.image.nodes[0]}
               />
               <Image
                 className="transition-opacity opacity-0 hover:opacity-100 absolute top-0"
                 loading={'eager'}
+                alt={item.image.nodes[1].altText ?? ''}
                 data={item.image.nodes[1]}
-                //alt={product.images.nodes[1].altText || product.title}
-                //data={product.images.nodes[1]}
               />
             </>
           )}
