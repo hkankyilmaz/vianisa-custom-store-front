@@ -110,10 +110,10 @@ export default function App() {
         <Layout {...data}>
           <Outlet />
         </Layout>
-        {/* <Script
+        <Script
           nonce={nonce}
           src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=YvBnBA"
-        /> */}
+        />
 
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
