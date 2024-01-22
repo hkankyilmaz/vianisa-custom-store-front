@@ -285,10 +285,10 @@ function ViewPlanMain({price, className, close}) {
                 <div className="flex justify-center items-end">
                   <b className="font-body_light text-[#121212B3] text-[18px]">
                     {price.currencyCode == 'USD' ? '$' : NULL}
-                    {price.amount / 4}
+                    {price.amount / 3}
                   </b>
                   <p className="font-body_light text-[#121212B3] text-[16px]">
-                    &nbsp;/ 1 month
+                    &nbsp;/ month
                   </p>
                 </div>
                 <p className="font-body_light  text-[#121212B3] text-[15px] bg-[#F0F2F4] py-[2px]">
