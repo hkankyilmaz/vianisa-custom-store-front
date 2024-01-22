@@ -35,6 +35,8 @@ function ProductModal() {
             {options[1]?.data?.product?.options[
               value.option === 'Color' ? 1 : 0
             ]?.values.map((value, isAvailable, isActive, to) => {
+              //console.log('to-BUG:', options);
+
               return (
                 <Link
                   className=" text-[#2f2f2f] hover:underline text-center text-sm tracking-widest py-[10px] uppercase w-full active:bg-white select-none"
