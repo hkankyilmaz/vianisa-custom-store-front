@@ -229,7 +229,6 @@ function NoPredictiveSearchResults({searchTerm}) {
 
 function PredictiveSearchResult({goToSearchResult, items, searchTerm, type}) {
   const isSuggestions = type === 'queries';
-  console.log(items);
   const categoryUrl = `/search?q=${
     searchTerm.current
   }&type=${pluralToSingularSearchType(type)}`;
@@ -239,7 +238,7 @@ function PredictiveSearchResult({goToSearchResult, items, searchTerm, type}) {
       <Link prefetch="intent" to={categoryUrl} onClick={goToSearchResult}>
         {/* <h5>{isSuggestions ? 'Suggestions' : type}</h5> */}
       </Link>
-      <ul className="grid grid-cols-3 gap-x-[100px]">
+      <ul className="grid grid-cols-3 max-sm:grid-cols-1 gap-x-[100px] max-xl:gap-x-[50px] max-sm:gap-y-[25px]">
         {items.map((item) => (
           <SearchResultItem
             goToSearchResult={goToSearchResult}
@@ -253,33 +252,46 @@ function PredictiveSearchResult({goToSearchResult, items, searchTerm, type}) {
 }
 
 function SearchResultItem({goToSearchResult, item}) {
+  console.log(item);
   return (
     <li className="flex flex-col" key={item.id}>
       <Link onClick={goToSearchResult} to={item.url}>
-        {item.image?.url && (
-          <Image
-            loading="eager"
-            alt={item.image.altText ?? ''}
-            data={item.image}
-          />
-        )}
-        <div className="mt-5">
-          {item.styledTitle ? (
-            <div
-              dangerouslySetInnerHTML={{
-                __html: item.styledTitle,
-              }}
-            />
-          ) : (
-            <p className="mb-1 uppercase tracking-[2.2px] text-[#2f2f2f] text-[11px] font-body">
-              {item.title}
-            </p>
+        <div className="max-sm:flex max-sm:flex-row gap-[25px] relative">
+          {item.image?.nodes[0].url && (
+            <>
+              <Image
+                className="max-sm:!w-[70px] max-sm:!h-[70px] transition-opacity opacity-100 hover:opacity-0"
+                loading="eager"
+                alt={item.image.altText ?? ''}
+                data={item.image.nodes[0]}
+              />
+              <Image
+                className="transition-opacity opacity-0 hover:opacity-100 absolute top-0"
+                loading={'eager'}
+                data={item.image.nodes[1]}
+                //alt={product.images.nodes[1].altText || product.title}
+                //data={product.images.nodes[1]}
+              />
+            </>
           )}
-          {item?.price && (
-            <p className="tracking-[2.2px] text-[#e22120] text-[11px] font-body">
-              <Money data={item.price} />
-            </p>
-          )}
+          <div className="sm:mt-5 max-sm:flex items-center max-sm:flex-col max-sm:items-start max-sm:justify-center">
+            {item.styledTitle ? (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: item.styledTitle,
+                }}
+              />
+            ) : (
+              <p className="sm:mb-1 uppercase tracking-[2.2px] text-[#2f2f2f] text-[11px] font-body">
+                {item.title}
+              </p>
+            )}
+            {item?.price && (
+              <p className="tracking-[2.2px] text-[#e22120] text-[11px] font-body">
+                <Money data={item.price} />
+              </p>
+            )}
+          </div>
         </div>
       </Link>
     </li>

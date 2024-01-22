@@ -120,7 +120,7 @@ function SearchAside() {
                   onFocus={fetchResults}
                   placeholder="SEARCH..."
                   ref={inputRef}
-                  autocomplete="off"
+                  autoComplete="off"
                   id="search"
                   type="search"
                   className="w-full border-0 bg-transparent focus:ring-0 p-0 pl-5 focus:!border-[#e0e0e0] focus:!shadow-none focus:!shadow-transparent uppercase font-montserratMd text-[17px] text-[#2f2f2f] tracking-[3.4px]"
