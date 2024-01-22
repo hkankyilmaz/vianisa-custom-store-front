@@ -285,10 +285,10 @@ function ViewPlanMain({price, className, close}) {
                 <div className="flex justify-center items-end">
                   <b className="font-body_light text-[#121212B3] text-[18px]">
                     {price.currencyCode == 'USD' ? '$' : NULL}
-                    {price.amount / 4}
+                    {price.amount / 3}
                   </b>
                   <p className="font-body_light text-[#121212B3] text-[16px]">
-                    &nbsp;/ 1 month
+                    &nbsp;/ month
                   </p>
                 </div>
                 <p className="font-body_light  text-[#121212B3] text-[15px] bg-[#F0F2F4] py-[2px]">
@@ -469,8 +469,13 @@ function ProductMain({selectedVariant, product, variants, cart}) {
   let carats = [];
   if (tags.find((tag) => tag === 'Carat_Options_1_15_20')) {
     carats = ['1', '1.5', '2'];
+  } else if (tags.find((tag) => tag === 'Carat_Options_1_15_20_30')) {
+    carats = ['1', '1.5', '2', '3'];
+  } else if (tags.find((tag) => tag === 'OptionsCarat_010_020_030_050')) {
+    carats = ['0.1', '0.2', '0.3', '0.5'];
+  } else if (tags.find((tag) => tag === 'OptionsCarat_025_050_100')) {
+    carats = ['0.25', '0.5', '1'];
   }
-
   useEffect(() => {
     setIsGemStoneOpt(false);
   }, [matches]);

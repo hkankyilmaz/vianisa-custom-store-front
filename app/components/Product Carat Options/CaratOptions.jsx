@@ -59,6 +59,7 @@ export default function CaratOptions({
 function CaratItem({name, matches, modifiedStringwithCarat}) {
   let title = '';
   let handle_ = '';
+
   if (name === '1') {
     title = '1.00ct';
     handle_ = '-1-00-ct';
@@ -68,6 +69,24 @@ function CaratItem({name, matches, modifiedStringwithCarat}) {
   } else if (name === '2') {
     title = '2.00ct';
     handle_ = '-2-00-ct';
+  } else if (name === '3') {
+    title = '3.00ct';
+    handle_ = '-3-00-ct';
+  } else if (name === '0.5') {
+    title = '0.50ct';
+    handle_ = '-0-50-ct';
+  } else if (name === '0.1') {
+    title = '0.10ct';
+    handle_ = '-0-10-ct';
+  } else if (name === '0.2') {
+    title = '0.20ct';
+    handle_ = '-0-20-ct';
+  } else if (name === '0.3') {
+    title = '0.30ct';
+    handle_ = '-0-30-ct';
+  } else if (name === '0.25') {
+    title = '0.25ct';
+    handle_ = '-0-25-ct';
   }
   return (
     <Link
