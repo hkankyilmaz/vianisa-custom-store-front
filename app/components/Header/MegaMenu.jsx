@@ -113,8 +113,8 @@ const MegaMenu = forwardRef((props, ref) => {
               {item.title}
             </Link>
             <ul>
-              {item.items.map((item) => (
-                <Link to={stripUrl(item.url)}>
+              {item.items.map((item, idx) => (
+                <Link key={idx} to={stripUrl(item.url)}>
                   <li className="capitalize hover:underline font-questrial text-[13px] font-normal text-left mb-[12px] leading-[1.5]">
                     {item.title}
                   </li>

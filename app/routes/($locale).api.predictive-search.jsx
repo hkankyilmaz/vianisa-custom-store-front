@@ -139,7 +139,8 @@ export function normalizePredictiveSearchResults(predictiveSearch, locale) {
           __typename: product.__typename,
           handle: product.handle,
           id: product.id,
-          image: product.variants?.nodes?.[0]?.image,
+          // image: product.variants?.nodes?.[0]?.image,
+          image: product.images,
           title: product.title,
           url: `${localePrefix}/products/${product.handle}${trackingParams}`,
           price: product.variants.nodes[0].price,
@@ -158,7 +159,7 @@ export function normalizePredictiveSearchResults(predictiveSearch, locale) {
           __typename: collection.__typename,
           handle: collection.handle,
           id: collection.id,
-          image: collection.image,
+          image: collection.images,
           title: collection.title,
           url: `${localePrefix}/collections/${collection.handle}${trackingParams}`,
         };
@@ -244,6 +245,15 @@ const PREDICTIVE_SEARCH_QUERY = `#graphql
     id
     title
     handle
+    images(first:2){
+      nodes{
+        id
+            altText
+            url
+            width
+            height
+      }
+    }
     trackingParameters
     variants(first: 1) {
       nodes {
@@ -253,7 +263,7 @@ const PREDICTIVE_SEARCH_QUERY = `#graphql
           altText
           width
           height
-        }
+        } 
         price {
           amount
           currencyCode
