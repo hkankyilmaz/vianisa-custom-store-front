@@ -180,13 +180,19 @@ export function PredictiveSearchResults() {
   return (
     <div className="predictive-search-results">
       {searchTerm.current && (
-        <Link onClick={goToSearchResult} to={`/search?q=${searchTerm.current}`}>
-          <div className="flex justify-end pt-2 pr-10">
-            <span className="border-b border-b-black pb-1 pt-1 text-lg text-[#595959]">
+        <div className="flex justify-between pb-[10px] mt-[70px] border-b border-x-0 border-[#e0e0e0] ">
+          <p className="tracking-[2.2px] text-[#2f2f2f] text-[11px] font-body">
+            RESULTS
+          </p>
+          <Link
+            onClick={goToSearchResult}
+            to={`/search?q=${searchTerm.current}`}
+          >
+            <p className="uppercase tracking-[2.2px] text-[#2f2f2f] text-[11px] font-body">
               View all
-            </span>
-          </div>
-        </Link>
+            </p>
+          </Link>
+        </div>
       )}
       <div>
         {results
@@ -210,8 +216,11 @@ function NoPredictiveSearchResults({searchTerm}) {
     return null;
   }
   return (
-    <div className="flex justify-start pt-2 pl-10 mb-3">
-      <span className=" border-b-black pb-1 pt-1 text-lg text-[#595959]">
+    <div className="flex flex-col justify-start mb-12 mt-[70px]">
+      <p className="pb-[10px] mb-[34px] border-b border-x-0 border-[#e0e0e0] tracking-[2.2px] text-[#2f2f2f] text-[11px] font-body">
+        PRODUCTS
+      </p>
+      <span className=" border-b-black pb-1 pt-1 text-[13px] text-[#595959]">
         No results found for <q>{searchTerm.current}</q>
       </span>
     </div>
@@ -230,7 +239,7 @@ function PredictiveSearchResult({goToSearchResult, items, searchTerm, type}) {
       <Link prefetch="intent" to={categoryUrl} onClick={goToSearchResult}>
         {/* <h5>{isSuggestions ? 'Suggestions' : type}</h5> */}
       </Link>
-      <ul className="grid grid-cols-3 mx-10 gap-x-5">
+      <ul className="grid grid-cols-3 gap-x-[100px]">
         {items.map((item) => (
           <SearchResultItem
             goToSearchResult={goToSearchResult}
@@ -254,7 +263,7 @@ function SearchResultItem({goToSearchResult, item}) {
             data={item.image}
           />
         )}
-        <div>
+        <div className="mt-5">
           {item.styledTitle ? (
             <div
               dangerouslySetInnerHTML={{
@@ -262,12 +271,14 @@ function SearchResultItem({goToSearchResult, item}) {
               }}
             />
           ) : (
-            <span>{item.title}</span>
+            <p className="mb-1 uppercase tracking-[2.2px] text-[#2f2f2f] text-[11px] font-body">
+              {item.title}
+            </p>
           )}
           {item?.price && (
-            <small>
+            <p className="tracking-[2.2px] text-[#e22120] text-[11px] font-body">
               <Money data={item.price} />
-            </small>
+            </p>
           )}
         </div>
       </Link>

@@ -89,14 +89,14 @@ function SearchAside() {
   return (
     <div
       id="search-asides"
-      className="search-aside z-50 block w-full"
+      className="search-aside z-50 block w-full py-7 px-[50px] xl:mt-[-2px]"
       heading="SEARCH"
     >
       <div className="predictive-searchs  bg-white w-full ">
         <PredictiveSearchForm className="w-full">
           {({fetchResults, inputRef}) => (
-            <div className="flex justify-around xl:mt-[-2px]">
-              <div className="w-full flex pl-12 justify-center items-center border-b border-x-0 border-[#e0e0e0] ">
+            <div className="flex justify-around ">
+              <div className="w-full flex justify-center items-center">
                 <svg
                   className="Icon Icon--search-desktop w-[22px] h-[22px]"
                   role="presentation"
@@ -123,10 +123,10 @@ function SearchAside() {
                   autocomplete="off"
                   id="search"
                   type="search"
-                  className="w-full border-0 bg-transparent py-5 px-5 focus:ring-0"
+                  className="w-full border-0 bg-transparent focus:ring-0 p-0 pl-5 focus:!border-[#e0e0e0] focus:!shadow-none focus:!shadow-transparent uppercase font-montserratMd text-[17px] text-[#2f2f2f] tracking-[3.4px]"
                 />
                 <button
-                  className="w-4 h-4 mr-[50px]"
+                  className="w-4 h-4"
                   data-action="close-search"
                   aria-label="Close search"
                   onClick={() => {
