@@ -45,7 +45,7 @@ const MultiRangeSlider = ({
   }, [getSliderPriceRange[1], getPercent]);
 
   return (
-    <div className="container">
+    <div className="container my-5">
       <input
         type="range"
         min={min}

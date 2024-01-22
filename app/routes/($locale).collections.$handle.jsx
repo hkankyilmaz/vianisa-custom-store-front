@@ -28,6 +28,7 @@ import {
   SortForm,
 } from '~/components/Collection Page UI-Forms';
 import styles from '../styles/Spinner.css';
+import NotFound from '~/components/NotFound';
 
 export const links = () => [{rel: 'stylesheet', href: styles}];
 
