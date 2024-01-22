@@ -1,5 +1,6 @@
 function useSearchDefaultQuery() {
   return `#graphql
+  ${PRODUCT_ITEM_FRAGMENT}
     query search(
       $country: CountryCode
       $endCursor: String
@@ -19,6 +20,9 @@ function useSearchDefaultQuery() {
         before: $startCursor,
         after: $endCursor,
       ) {
+        nodes {
+          ...ProductItem
+        }
         productFilters {
           id
           label
@@ -31,5 +35,13 @@ function useSearchDefaultQuery() {
     }
   `;
 }
+
+const PRODUCT_ITEM_FRAGMENT = `#graphql
+
+  fragment ProductItem on Product {
+    id
+
+  }
+`;
 
 export default useSearchDefaultQuery;

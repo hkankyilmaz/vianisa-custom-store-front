@@ -40,7 +40,8 @@ export async function loader({request, params, context}) {
 
   const url = new URL(request.url);
   const searchParams = url.searchParams;
-  const variables = getPaginationVariables(request, {pageBy: 8});
+  const variables = getPaginationVariables(request, {pageBy: 36});
+  const variablesForDefault = getPaginationVariables(request, {pageBy: 250});
   const searchTerm = String(searchParams.get('q') || '');
 
   if (!searchTerm) {
@@ -84,11 +85,7 @@ export async function loader({request, params, context}) {
     reverse,
   );
 
-  const {handle} = params;
   const {storefront} = context;
-  const paginationVariables = getPaginationVariables(request, {
-    pageBy: 48,
-  });
 
   const data = await context.storefront.query(SEARCH_QUERY, {
     variables: {
@@ -100,7 +97,7 @@ export async function loader({request, params, context}) {
   const defaultPriceSearch = await storefront.query(DEFAULT_SEARCH_QUERY, {
     variables: {
       query: searchTerm,
-      ...variables,
+      ...variablesForDefault,
     },
     cache: storefront.CacheLong(),
   });
@@ -122,11 +119,19 @@ export async function loader({request, params, context}) {
     totalResults,
   };
 
-  return defer({searchTerm, values, searchResults, defaultPriceRange});
+  return defer({
+    searchTerm,
+    values,
+    searchResults,
+    defaultPriceRange,
+    defaultPriceSearch,
+  });
 }
 
 function SearchPage() {
-  const {searchTerm, searchResults, values} = useLoaderData();
+  const {searchTerm, searchResults, values, defaultPriceSearch} =
+    useLoaderData();
+  console.log(defaultPriceSearch);
   const collection = searchResults;
   const {sortkey, reverse} = values;
   const submit = useSubmit();
@@ -171,7 +176,7 @@ function SearchPage() {
 
   return (
     <div className="collection" key={collection.handle}>
-      <PageHeader searchTerm={searchTerm} collection={collection} />
+      <PageHeader searchTerm={searchTerm} collection={defaultPriceSearch} />
       <div className="w-full max-sm:h-[44px] sm:h-[54px] border-y flex justify-between max-sm:flex-row-reverse items-center">
         <GridChanger setGrid={setGrid} grid={grid} />
 
@@ -508,7 +513,7 @@ function ProductsGrid({
                   defaultPriceRange.min,
                   defaultPriceRange.max,
                 ]);
-                navigate(`/collections/${handle}`);
+                navigate(`/search?q=${searchTerm}`);
               }}
             >
               Reset
@@ -578,7 +583,7 @@ function PageHeader({collection, searchTerm}) {
       </h1>
       <p className="flex justify-center">
         <span className="lg:max-w-lg w-full text-center">
-          {collection.totalResults} results for "{searchTerm}"
+          {collection.products.nodes.length} results for "{searchTerm}"
         </span>
       </p>
     </div>

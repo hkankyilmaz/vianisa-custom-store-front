@@ -199,7 +199,7 @@ export default function Collection() {
                       collection={allPromise[0].collection}
                       grid={grid}
                       products={nodes}
-                      handle={allPromise[0].handle}
+                      handle={allPromise[0].collection.handle}
                       sortValue={sortValue}
                       reversed={reversed}
                     />
