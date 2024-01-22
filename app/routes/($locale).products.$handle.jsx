@@ -886,6 +886,8 @@ function ProductOptions({option}) {
                   {option.values.length > 1
                     ? option.values.map(
                         ({value, isAvailable, isActive, to}) => {
+                          //console.log('to:', option);
+
                           return (
                             <Link
                               className=" text-[#2f2f2f] hover:underline text-center text-sm tracking-widest py-[10px] uppercase w-full active:bg-white select-none"

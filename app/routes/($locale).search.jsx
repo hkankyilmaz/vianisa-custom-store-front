@@ -360,13 +360,13 @@ function ProductsGrid({
       <div className="lg:min-w-[200px] lg:max-w-[200px]">
         <span
           onClick={() => closeMobileFilter()}
-          className="filter-modal-overlay max-lg:bg-[#363636]/50 fixed left-0 top-0 bottom-0 right-0 z-10"
+          className="filter-modal-overlay max-lg:bg-[#363636]/50 fixed left-0 top-0 bottom-0 right-0 z-[55]"
         ></span>
         <Form
           id="filter-form"
           ref={formRef}
           method="get"
-          className="filter-form-mobile max-lg:fixed right-0 top-0 bottom-0 max-sm:left-[65px] max-sm:w-auto  max-lg:bg-[#efefef] max-lg:z-10 max-lg:w-[400px]"
+          className="filter-form-mobile max-lg:fixed right-0 top-0 bottom-0 max-sm:left-[65px] max-sm:w-auto  max-lg:bg-[#efefef] max-lg:z-[56] max-lg:w-[400px]"
         >
           <header className="lg:hidden h-[60px] flex justify-center items-center font-playfair text-xl tracking-[4px] font-bold sm:mb-[35px] border-b border-[#e0e0e0]">
             <span>FILTERS</span>
