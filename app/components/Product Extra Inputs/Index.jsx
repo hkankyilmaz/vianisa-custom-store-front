@@ -50,15 +50,9 @@ export function ProductExtraInputType({product, cardInfo}) {
 export function ProductExtraInputTag({product, cardInfo}) {
   const productTags = product.tags;
   const [open, setopen] = useState(false);
-  // console.log('productTags : ', productTags);
-
   let resultTag = tags.filter(function (obj) {
     return obj.tags.some((tag) => productTags.includes(tag));
   });
-  // console.log(resultTag);
-
-  // console.log('tag : ', resultTag);
-
   if (resultTag) {
     return resultTag.map((inputObj, index) => (
       <div key={index} className="text-[#595959] tracking-wide">

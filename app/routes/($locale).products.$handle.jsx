@@ -779,11 +779,13 @@ function ProductForm({product, selectedVariant, variants}) {
           variants={variants}
         >
           {({option}) => (
-            <ProductOptions
-              product={product}
-              key={option.name}
-              option={option}
-            />
+            <>
+              <ProductOptions
+                product={product}
+                key={option.name}
+                option={option}
+              />
+            </>
           )}
         </VariantSelector>
         {product.options
@@ -898,7 +900,7 @@ function ProductOptions({option}) {
                   {option.values.length > 1
                     ? option.values.map(
                         ({value, isAvailable, isActive, to}) => {
-                          //console.log('to:', option);
+                          // console.log('to:', option);
 
                           return (
                             <Link
