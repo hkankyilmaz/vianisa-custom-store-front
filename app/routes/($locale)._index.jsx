@@ -8,7 +8,18 @@ import BannerSlider from '../components/Header/Slider';
 import EtsyList from '../components/EtsyReviews/Index';
 
 export const meta = () => {
-  return [{title: 'Hydrogen | Home'}];
+  return [
+    {title: 'Hydrogen | Home'},
+    {
+      property: 'og:title',
+      content: 'Jewelry Website',
+    },
+    {
+      name: 'description',
+      content:
+        'Our store includes products with Mozanite, lab diamond stones, 10,14,18 carat gold and platinum material options.',
+    },
+  ];
 };
 
 export async function loader({context}) {
