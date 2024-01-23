@@ -50,7 +50,7 @@ export function ProductExtraInputType({product, cardInfo}) {
 export function ProductExtraInputTag({product, cardInfo}) {
   const productTags = product.tags;
   const [open, setopen] = useState(false);
-  console.log('productTags : ', productTags);
+  //console.log('productTags : ', productTags);
 
   let resultTag = filter(tags, (i) => {
     let res;
@@ -59,7 +59,7 @@ export function ProductExtraInputTag({product, cardInfo}) {
     });
     return res;
   });
-  console.log(resultTag);
+  //console.log(resultTag);
 
   // console.log('tag : ', resultTag);
 
