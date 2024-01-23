@@ -79,7 +79,7 @@ const MegaMenu = forwardRef((props, ref) => {
 
   const stripUrl = (url) => {
     const publicStoreDomain = root?.data?.publicStoreDomain;
-    console.log(publicStoreDomain);
+    // console.log(publicStoreDomain);
     const newUrl =
       url.includes('myshopify.com') || url.includes(publicStoreDomain)
         ? new URL(url).pathname

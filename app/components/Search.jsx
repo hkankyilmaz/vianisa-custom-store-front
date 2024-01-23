@@ -1,4 +1,11 @@
-import {Link, Form, useParams, useFetcher, useFetchers} from '@remix-run/react';
+import {
+  Link,
+  Form,
+  useParams,
+  useFetcher,
+  useFetchers,
+  useNavigate,
+} from '@remix-run/react';
 import {Image, Money, Pagination} from '@shopify/hydrogen';
 import React, {useRef, useEffect} from 'react';
 
@@ -6,6 +13,7 @@ export const NO_PREDICTIVE_SEARCH_RESULTS = [{type: 'products', items: []}];
 
 export function SearchForm({searchTerm}) {
   const inputRef = useRef(null);
+  const navigate = useNavigate();
 
   // focus the input when cmd+k is pressed
   useEffect(() => {
@@ -17,6 +25,9 @@ export function SearchForm({searchTerm}) {
 
       if (event.key === 'Escape') {
         inputRef.current?.blur();
+      }
+      if (event.key === 'Enter') {
+        navigate('/search?q=' + inputRef.current.value);
       }
     }
 
@@ -34,7 +45,7 @@ export function SearchForm({searchTerm}) {
         name="q"
         placeholder="Search…"
         ref={inputRef}
-        type="search"
+        type="submit"
         autofocus
       />
       &nbsp;

@@ -12,13 +12,14 @@ export function ProductExtraInputType({product, cardInfo}) {
         return (
           <div className="relative w-full text-[#595959] tracking-wide mt-[10px] mb-[15px]">
             <select
+              defaultValue=" "
               data-labelonproduct={resultType.labelOnProduct}
               data-name={resultType.name}
               name={resultType.labelOnProduct.toUpperCase()}
               onChange={cardInfo}
               className="align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10"
             >
-              <option value={null}> {resultType.placeHolder} </option>
+              <option value={' '}>{resultType.placeHolder}</option>
               {resultType.options.delimeter
                 ? Array(resultType.options.optionCount)
                     .fill('')

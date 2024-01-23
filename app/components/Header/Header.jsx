@@ -1,4 +1,4 @@
-import {NavLink, useMatches} from '@remix-run/react';
+import {NavLink, useMatches, useNavigate} from '@remix-run/react';
 import {AnimatePresence, motion} from 'framer-motion';
 import React, {useEffect, useRef, useState} from 'react';
 import {
@@ -85,6 +85,8 @@ export function Header({header, isLoggedIn, cart}) {
   );
 }
 function SearchAside() {
+  const navigate = useNavigate();
+
   return (
     <div
       id="search-asides"
@@ -124,6 +126,11 @@ function SearchAside() {
                   type="search"
                   className="w-full border-0 p-0 pl-5 bg-transparent focus:ring-0 focus:!border-[#e0e0e0] focus:!shadow-none focus:!shadow-transparent uppercase font-avenir-medium text-[17px] text-[#2f2f2f] tracking-[3.4px]"
                   autoFocus
+                  onKeyDown={(e) =>
+                    e.key === 'Enter'
+                      ? navigate('/search?q=' + inputRef.current.value)
+                      : ''
+                  }
                 />
                 <button
                   className="w-4 h-4"

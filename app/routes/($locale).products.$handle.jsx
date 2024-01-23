@@ -137,7 +137,13 @@ export default function Product() {
   const {product, variants, featuredCollectionTwo, cart, card_view} =
     useLoaderData();
   const {selectedVariant} = product;
-  const images = product.images.nodes;
+  let fotos = [];
+  if (selectedVariant) {
+    fotos.push(selectedVariant.image);
+    fotos.push(product.images.nodes);
+  }
+  console.log(fotos);
+  const images = selectedVariant ? fotos : product.images.nodes;
   const imageByIndex = (index) => images[index % images.length];
   const OPTIONS = {};
   const SLIDE_COUNT = 8;
@@ -189,9 +195,9 @@ function ViewPlanMain({price, className, close}) {
   let faizharam =
     (Number(price.amount) * aylık_faiz * Math.pow(aylık_faiz + 1, ödeme_ay)) /
     (Math.pow(aylık_faiz + 1, ödeme_ay) - 1);
-  let yuvarlanmisSayi = Math.ceil(faizharam * 100) / 100;
-  let toplam_faiz = (yuvarlanmisSayi * 12 - Number(price.amount)).toFixed(2);
-  let geriodeme = (yuvarlanmisSayi * 12).toFixed(2);
+  let yuvarlanmisSayi = +(Math.ceil(faizharam * 100) / 100).toFixed(0);
+  let toplam_faiz = (yuvarlanmisSayi * 12 - Number(price.amount)).toFixed(0);
+  let geriodeme = (yuvarlanmisSayi * 12).toFixed(0);
 
   //se
   let aylık_faiz2 = 0.0125;
@@ -201,9 +207,9 @@ function ViewPlanMain({price, className, close}) {
       aylık_faiz2 *
       Math.pow(aylık_faiz2 + 1, ödeme_ay2)) /
     (Math.pow(aylık_faiz2 + 1, ödeme_ay2) - 1);
-  let yuvarlanmisSayi2 = Math.ceil(faizharam2 * 100) / 100;
-  let toplam_faiz2 = (yuvarlanmisSayi2 * 3 - Number(price.amount)).toFixed(2);
-  let geriodeme2 = (yuvarlanmisSayi2 * 3).toFixed(2);
+  let yuvarlanmisSayi2 = +(Math.ceil(faizharam2 * 100) / 100).toFixed(0);
+  let toplam_faiz2 = (yuvarlanmisSayi2 * 3 - Number(price.amount)).toFixed(0);
+  let geriodeme2 = (yuvarlanmisSayi2 * 3).toFixed(0);
 
   return (
     <div
@@ -250,7 +256,7 @@ function ViewPlanMain({price, className, close}) {
                 <div className="flex justify-center items-end">
                   <b className="font-body_light text-[#121212B3] text-[18px]">
                     {price.currencyCode == 'USD' ? '$' : NULL}
-                    {price.amount / 4}
+                    {(price.amount / 4).toFixed(0)}
                   </b>
                   <p className="font-body_light text-[#121212B3] text-[16px]">
                     &nbsp;/ 2 weeks
@@ -288,7 +294,7 @@ function ViewPlanMain({price, className, close}) {
                 <div className="flex justify-center items-end">
                   <b className="font-body_light text-[#121212B3] text-[18px]">
                     {price.currencyCode == 'USD' ? '$' : NULL}
-                    {price.amount / 3}
+                    {(geriodeme2 / 3).toFixed(0)}
                   </b>
                   <p className="font-body_light text-[#121212B3] text-[16px]">
                     &nbsp;/ month
@@ -327,7 +333,7 @@ function ViewPlanMain({price, className, close}) {
             <div className="flex justify-between mb-3">
               <div className="flex items-end">
                 <b className="font-body_light text-[#121212B3] text-[18px]">
-                  ${yuvarlanmisSayi}0
+                  ${yuvarlanmisSayi}
                 </b>
                 <p className="font-body_light text-[#121212B3] text-[16px]">
                   &nbsp;/ month
@@ -470,7 +476,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
 
   const shipDtae = useCalculateShipDay(tags);
   let carats = [];
-  console.log(tags);
+  // console.log(tags);
   if (tags.find((tag) => tag === 'Carat_Options_1_15_20')) {
     carats = ['1', '1.5', '2'];
   } else if (tags.find((tag) => tag === 'Carat_Options_1_15_20_30')) {
@@ -760,7 +766,7 @@ function ProductPrice({selectedVariant}) {
 function ProductForm({product, selectedVariant, variants}) {
   const [size, setsize] = useState({});
   function logs(event) {
-    // console.log(event.target.name + ' ' + event.target.value);
+    console.log(event.target.value, event.target.value === ' ');
     setsize({...size, [event.target.name]: event.target.value});
   }
   function objectToArray(obj) {
@@ -799,10 +805,22 @@ function ProductForm({product, selectedVariant, variants}) {
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}
         onClick={() => {
-          // window.location.href = window.location.href + '#cart-aside';
+          objectToArray(size)?.find(
+            (itt) =>
+              itt.key.toLowerCase() === 'size' ||
+              itt.key.toLowerCase() === 'lenght',
+          )?.value !== ' ' && objectToArray(size).length > 0
+            ? console.log(objectToArray(size))
+            : alert('Choose a size for the order');
         }}
         lines={
-          selectedVariant
+          selectedVariant &&
+          objectToArray(size)?.find(
+            (itt) =>
+              itt.key.toLowerCase() === 'size' ||
+              itt.key.toLowerCase() === 'lenght',
+          )?.value !== ' ' &&
+          objectToArray(size).length > 0
             ? [
                 {
                   merchandiseId: selectedVariant.id,
@@ -956,12 +974,14 @@ function AddToCartButton({analytics, children, disabled, lines, onClick}) {
             type="submit"
             onClick={() => {
               onClick();
-              let root_ = document.documentElement.style;
-              root_.setProperty('--cart-overlay-opacity', '1');
-              root_.setProperty('--cart-overlay-visibility', 'visible');
-              root_.setProperty('--cart-aside-position', 'translateX(0%)');
-              root_.setProperty('--cart-aside-visibility', 'visible');
-              document.documentElement.style.overflowY = 'hidden';
+              if (lines.length > 0) {
+                let root_ = document.documentElement.style;
+                root_.setProperty('--cart-overlay-opacity', '1');
+                root_.setProperty('--cart-overlay-visibility', 'visible');
+                root_.setProperty('--cart-aside-position', 'translateX(0%)');
+                root_.setProperty('--cart-aside-visibility', 'visible');
+                document.documentElement.style.overflowY = 'hidden';
+              }
             }}
             disabled={disabled ?? fetcher.state !== 'idle'}
           >
