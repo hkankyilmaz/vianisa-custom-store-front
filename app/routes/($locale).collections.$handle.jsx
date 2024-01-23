@@ -122,7 +122,6 @@ export async function loader({request, params, context}) {
 
 export default function Collection() {
   const {allPromise, values} = useLoaderData();
-  const navigation = useNavigation();
   const submit = useSubmit();
   const {sortkey, reverse} = values;
   const root_ = document.documentElement.style;
@@ -168,55 +167,51 @@ export default function Collection() {
   return (
     <Suspense fallback={<Spinner />}>
       <Await resolve={allPromise}>
-        {(allPromise) =>
-          navigation.state == 'loading' ? (
-            <Spinner />
-          ) : (
-            <div className="collection" key={allPromise[0].collection.handle}>
-              <PageHeader collection={allPromise[0].collection} />
-              <div className="w-full max-sm:h-[44px] sm:h-[54px] border-y flex justify-between max-sm:flex-row-reverse items-center">
-                <GridChanger setGrid={setGrid} grid={grid} />
+        {(allPromise) => (
+          <div className="collection" key={allPromise[0].collection.handle}>
+            <PageHeader collection={allPromise[0].collection} />
+            <div className="w-full max-sm:h-[44px] sm:h-[54px] border-y flex justify-between max-sm:flex-row-reverse items-center">
+              <GridChanger setGrid={setGrid} grid={grid} />
 
-                <div className="flex max-sm:grow max-sm:flex-row-reverse">
-                  <SortButton
-                    openMobileSort={openMobileSort}
-                    closeMobileSort={closeMobileSort}
-                  />
-                  <FilterButton openMobileFilter={openMobileFilter} />
-                </div>
+              <div className="flex max-sm:grow max-sm:flex-row-reverse">
+                <SortButton
+                  openMobileSort={openMobileSort}
+                  closeMobileSort={closeMobileSort}
+                />
+                <FilterButton openMobileFilter={openMobileFilter} />
               </div>
-              <Pagination connection={allPromise[0].collection.products}>
-                {({nodes, isLoading, NextLink}) => (
-                  <>
-                    <ProductsGrid
-                      defaultPriceRange={
-                        JSON.parse(
-                          allPromise[1].collection.products.filters[0].values[0]
-                            .input,
-                        ).price
-                      }
-                      values={values}
-                      collection={allPromise[0].collection}
-                      grid={grid}
-                      products={nodes}
-                      handle={allPromise[0].collection.handle}
-                      sortValue={sortValue}
-                      reversed={reversed}
-                    />
-                    <br />
-                    <NextLink className="flex justify-center w-full text-xl my-5">
-                      <LoadMoreButton isLoading={isLoading} />
-                    </NextLink>
-                  </>
-                )}
-              </Pagination>
-              <SortForm
-                closeMobileSort={closeMobileSort}
-                update={updateSorting}
-              />
             </div>
-          )
-        }
+            <Pagination connection={allPromise[0].collection.products}>
+              {({nodes, isLoading, NextLink}) => (
+                <>
+                  <ProductsGrid
+                    defaultPriceRange={
+                      JSON.parse(
+                        allPromise[1].collection.products.filters[0].values[0]
+                          .input,
+                      ).price
+                    }
+                    values={values}
+                    collection={allPromise[0].collection}
+                    grid={grid}
+                    products={nodes}
+                    handle={allPromise[0].collection.handle}
+                    sortValue={sortValue}
+                    reversed={reversed}
+                  />
+                  <br />
+                  <NextLink className="flex justify-center w-full text-xl my-5">
+                    <LoadMoreButton isLoading={isLoading} />
+                  </NextLink>
+                </>
+              )}
+            </Pagination>
+            <SortForm
+              closeMobileSort={closeMobileSort}
+              update={updateSorting}
+            />
+          </div>
+        )}
       </Await>
     </Suspense>
   );
@@ -302,6 +297,7 @@ function ProductsGrid({
     );
     root_.overflowY = 'auto';
   };
+  const navigation = useNavigation();
 
   const handleAccordionClick = (index) => {
     const refHorizontal = refsHorizontal[index];
@@ -559,7 +555,9 @@ function ProductsGrid({
           />
         </Form>
       </div>
-      {grid ? (
+      {navigation.state == 'loading' && navigation.formMethod === undefined ? (
+        <Spinner />
+      ) : grid ? (
         <div className="grid max-sm:grid-cols-2 max-[1139px]:grid-cols-3 grid-cols-4 max-sm:gap-x-[10px] max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
           {products.map((product, index) => {
             return (
