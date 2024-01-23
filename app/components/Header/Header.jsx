@@ -57,7 +57,7 @@ export function Header({header, isLoggedIn, cart}) {
         >
           <MenuToggle toggle={() => setIsDrawerOpen((prev) => !prev)} />
           <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-            <span className="text-xl not-italic tracking-[.2em] uppercase text-[var(--heading-color)] font-optima">
+            <span className="text-xl not-italic tracking-[.2em] uppercase text-[var(--heading-color)] font-playfair_org">
               Vianisa
             </span>
           </NavLink>

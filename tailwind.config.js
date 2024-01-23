@@ -8,6 +8,7 @@ export default {
   plugins: [formsPlugin, typographyPlugin, containerQueriesPlugin],
   theme: {
     fontFamily: {
+      playfair_org: ['Playfair Display', 'serif'],
       playfair: ['playfair', 'serif'],
       'avenir-medium': ['avenir-medium', 'sans-serif'],
       'avenir-light': ['avenir-light', 'sans-serif'],
