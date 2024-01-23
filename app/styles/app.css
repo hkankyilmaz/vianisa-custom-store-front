@@ -86,6 +86,11 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+strong {
+  font-family: 'avenir-heavy';
+  font-weight: 400;
+}
+
 /*
 * --------------------------------------------------
 * components/Aside

@@ -1,8 +1,4 @@
-import * as React from 'react';
 import {Link} from '@remix-run/react';
-import useEmblaCarousel from 'embla-carousel-react';
-import {useEffect, useState, useCallback} from 'react';
-import Autoplay from 'embla-carousel-autoplay';
 
 export default function CaratOptions({
   carats,
@@ -11,7 +7,7 @@ export default function CaratOptions({
 }) {
   return (
     <div className=" mb-6 flex justify-start items-center gap-[5px]">
-      <h5 className="h-full font-bold text-[13px] mr-5 flex justify-center items-center font-body text-[#2f2f2f] pt-[10px]">
+      <h5 className="h-full font-bold text-[13px] mr-5 flex justify-center items-center font-avenir-medium text-[#2f2f2f] pt-[10px]">
         Total Carat Weight:
       </h5>
       <div className="h-full flex justify-center items-center gap-[5px]">
@@ -23,34 +19,6 @@ export default function CaratOptions({
             key={carat}
           />
         ))}
-        {/*  <Link
-          style={{
-            backgroundColor: matches.includes('-1-50-ct') ? 'white' : '',
-            border: matches.includes('-1-50-ct') ? '2px solid black' : '',
-            color: matches.includes('-1-50-ct') ? 'black' : '',
-            cursor: matches.includes('-1-50-ct') ? 'default' : '',
-          }}
-          className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
-          prefetch="intent"
-          to={`/products/${modifiedStringwithCarat}-1-50-ct`}
-          preventScrollReset
-        >
-          1.5ct
-        </Link>
-        <Link
-          style={{
-            backgroundColor: matches.includes('-2-00-ct') ? 'white' : '',
-            border: matches.includes('-2-00-ct') ? '2px solid black' : '',
-            color: matches.includes('-2-00-ct') ? 'black' : '',
-            cursor: matches.includes('-2-00-ct') ? 'default' : '',
-          }}
-          className=" border-2 px-[12px] py-[15px] rounded-full hover:bg-[#DEA595] hover:text-white ease-linear duration-75 sm: text-[13px]"
-          prefetch="intent"
-          to={`/products/${modifiedStringwithCarat}-2-00-ct`}
-          preventScrollReset
-        >
-          2.0ct
-        </Link> */}
       </div>
     </div>
   );

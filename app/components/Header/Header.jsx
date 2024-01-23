@@ -1,13 +1,12 @@
-import React, {useEffect, useRef} from 'react';
-import {Await, NavLink, useMatches} from '@remix-run/react';
-import {Suspense, useState} from 'react';
-import MegaMenu from './MegaMenu';
-import {motion, AnimatePresence} from 'framer-motion';
-import Drawer from './Drawer';
+import {NavLink, useMatches} from '@remix-run/react';
+import {AnimatePresence, motion} from 'framer-motion';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   PredictiveSearchForm,
   PredictiveSearchResults,
 } from '~/components/Search';
+import Drawer from './Drawer';
+import MegaMenu from './MegaMenu';
 export function Header({header, isLoggedIn, cart}) {
   const ref = React.useRef();
   const [megaMenu, setMegaMenu] = useState({isOpen: false, title: 'none'});
@@ -58,13 +57,13 @@ export function Header({header, isLoggedIn, cart}) {
         >
           <MenuToggle toggle={() => setIsDrawerOpen((prev) => !prev)} />
           <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-            <span className="text-xl not-italic tracking-[.2em] uppercase text-[var(--heading-color)] font-bold font-playfair">
+            <span className="text-xl not-italic tracking-[.2em] uppercase text-[var(--heading-color)] font-playfair">
               Vianisa
             </span>
           </NavLink>
           <HeaderCtas isLoggedIn={isLoggedIn} />
         </div>
-        <div className="uppercase w-full flex justify-center pt-2 pb-[7px] shadow-[rgb(34,34,34)_0px_0px_2px_0px] text-center font-questrial mb-[2px] max-xl:hidden z-20 relative">
+        <div className="uppercase w-full flex justify-center pt-2 pb-[7px] shadow-[rgb(34,34,34)_0px_0px_2px_0px] text-center font-avenir-medium mb-[2px] max-xl:hidden z-20 relative">
           <HeaderMenu
             startAnimate={ref?.current?.startAnimate}
             setMegaMenu={setMegaMenu}
@@ -123,7 +122,8 @@ function SearchAside() {
                   autoComplete="off"
                   id="search"
                   type="search"
-                  className="w-full border-0 bg-transparent focus:ring-0 p-0 pl-5 focus:!border-[#e0e0e0] focus:!shadow-none focus:!shadow-transparent uppercase font-montserratMd text-[17px] text-[#2f2f2f] tracking-[3.4px]"
+                  className="w-full border-0 p-0 pl-5 bg-transparent focus:ring-0 focus:!border-[#e0e0e0] focus:!shadow-none focus:!shadow-transparent uppercase font-avenir-medium text-[17px] text-[#2f2f2f] tracking-[3.4px]"
+                  autoFocus
                 />
                 <button
                   className="w-4 h-4"
@@ -309,7 +309,7 @@ function CustomLink({title, to, onClick, onHover, isHeaderHover}) {
         onHover();
         setIsHover(true);
       }}
-      className="cursor-pointer tracking-[.2em] text-[11px] !text-[var(--heading-color)] font-montserratMd uppercase relative"
+      className="cursor-pointer tracking-[.2em] text-[11px] !text-[var(--heading-color)] font-avenir-medium uppercase relative"
       end
       onClick={onClick}
       prefetch="intent"
@@ -392,6 +392,12 @@ function SearchToggle() {
         } else {
           closeSearch();
         }
+        root_.setProperty('--search-overlay-opacity', '1');
+        root_.setProperty('--search-overlay-visibility', 'visible');
+        root_.setProperty('--search-aside-position', 'translateY(-2px)');
+        root_.setProperty('--search-aside-visibility', 'visible');
+        root_.setProperty('--search-aside-opacity', '1');
+        document.documentElement.style.overflowY = 'hidden';
       }}
       className="cursor-pointer"
     >

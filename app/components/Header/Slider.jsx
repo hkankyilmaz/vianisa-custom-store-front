@@ -1,9 +1,9 @@
 'use client';
 
-import React, {useCallback, useEffect, useState, useRef} from 'react';
-import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
-import {motion, useInView, useAnimation, Variant} from 'framer-motion';
+import useEmblaCarousel from 'embla-carousel-react';
+import {motion, useAnimation, useInView} from 'framer-motion';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 
 const SLIDE_DELAY = 4000;
 
@@ -134,12 +134,11 @@ const DotButton = ({children, ...restProps}) => {
 
 /*********************************************************/
 
-import image3 from '~/assets/banner-vianisa.webp';
+import bannerDesktop from '~/assets/images/banner-desktop.webp';
+import bannerMobile from '~/assets/images/banner-mobile.webp';
 
-import image3_mobile from '~/assets/banner-vianisa-mobile.webp';
-
-const imagesDesktop = [image3];
-const imagesMobile = [image3_mobile];
+const imagesDesktop = [bannerDesktop];
+const imagesMobile = [bannerMobile];
 
 const imageByIndex = (index, isMobile) =>
   isMobile ? imagesMobile[index] : imagesDesktop[index];

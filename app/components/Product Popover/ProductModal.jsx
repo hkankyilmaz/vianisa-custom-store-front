@@ -1,8 +1,6 @@
-import React, {useContext} from 'react';
-import {Await, Link, useLoaderData, useMatches} from '@remix-run/react';
-import {useSearchParams} from '@remix-run/react';
+import {Link, useLocation, useMatches} from '@remix-run/react';
+import {useContext} from 'react';
 import ProductOptionContext from '~/store/productOptionsContext';
-import {useLocation} from '@remix-run/react';
 
 function ProductModal() {
   const matches = useMatches();
@@ -26,41 +24,39 @@ function ProductModal() {
   });
 
   return (
-    <>
-      <div className="product-bar-container fixed w-full h-[100vh] z-50 flex flex-col justify-between items-center lg:hidden">
-        <div
-          onClick={() => handleClick()}
-          className="bg-[#363636]/50 w-[100%] h-full translate-y-[0%]"
-        ></div>
-        <div className="absolute flex flex-col items-center bottom-0 z-[150] product-form-mobile h-min w-[100%] translate-y-[100%] bg-[#efefef]">
-          <div className="value-list w-full h-full">
-            <header className="w-full text-center px-5 py-[13px]  text-[#2f2f2f] text-xl font-playfair tracking-[4px] font-bold">
-              {value.option === 'Color' ? 'COLOR' : 'MATERIAL'}
-            </header>
-            <div className="value-list w-full h-full flex flex-col py-[18px]">
-              {options[1]?.data?.product?.options[
-                value.option === 'Color' ? 1 : 0
-              ]?.values.map((value, idx) => {
-                return (
-                  <Link
-                    className=" text-[#2f2f2f] hover:underline text-center text-sm tracking-widest py-[10px] uppercase w-full active:bg-white select-none"
-                    key={value}
-                    id={''}
-                    prefetch="intent"
-                    preventScrollReset
-                    replace
-                    onClick={() => handleClick()}
-                    to={newUrls[idx].pathname + newUrls[idx].search}
-                  >
-                    {value}
-                  </Link>
-                );
-              })}
-            </div>
+    <div className="product-bar-container fixed w-full h-[100vh] z-50 flex flex-col justify-between items-center lg:hidden">
+      <div
+        onClick={() => handleClick()}
+        className="bg-[#363636]/50 w-[100%] h-full translate-y-[0%]"
+      ></div>
+      <div className="absolute flex flex-col items-center bottom-0 z-[150] product-form-mobile h-min w-[100%] translate-y-[100%] bg-[#efefef]">
+        <div className="value-list w-full h-full">
+          <header className="w-full text-center px-5 py-[13px]  text-[#2f2f2f] text-xl font-avenir-medium tracking-[4px]">
+            {value.option === 'Color' ? 'COLOR' : 'MATERIAL'}
+          </header>
+          <div className="value-list w-full h-full flex flex-col py-[18px]">
+            {options[1]?.data?.product?.options[
+              value.option === 'Color' ? 1 : 0
+            ]?.values.map((value, idx) => {
+              return (
+                <Link
+                  className=" text-[#2f2f2f] hover:underline text-center text-sm tracking-widest py-[10px] uppercase w-full active:bg-white select-none"
+                  key={value}
+                  id={''}
+                  prefetch="intent"
+                  preventScrollReset
+                  replace
+                  onClick={() => handleClick()}
+                  to={newUrls[idx].pathname + newUrls[idx].search}
+                >
+                  {value}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

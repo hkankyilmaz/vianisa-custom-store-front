@@ -8,13 +8,11 @@ export default {
   plugins: [formsPlugin, typographyPlugin, containerQueriesPlugin],
   theme: {
     fontFamily: {
-      montserratMd: ['montserratmedium', 'sans-serif'],
       playfair: ['playfair', 'serif'],
-      questrial: ['Questrial', 'sans-serif'],
-      body: ['avenir', 'sans-serif'],
-      body_light: ['avenir-light', 'sans-serif'],
-      title: ['zapHuman', 'sans-serif'],
-      optima: ['optima', 'sans-serif'],
+      'avenir-medium': ['avenir-medium', 'sans-serif'],
+      'avenir-light': ['avenir-light', 'sans-serif'],
+      'avenir-heavy': ['avenir-heavy', 'sans-serif'],
+      'optima-normal': ['optima-normal', 'sans-serif'],
       'optima-medium': ['optima-medium', 'sans-serif'],
     },
     extend: {

@@ -1,5 +1,5 @@
-import {CartForm, Image, Money} from '@shopify/hydrogen';
 import {Link} from '@remix-run/react';
+import {CartForm, Image, Money} from '@shopify/hydrogen';
 import {useVariantUrl} from '~/utils';
 
 export function CartMain({layout, cart}) {
@@ -78,11 +78,11 @@ function CartLineItem({layout, line}) {
             }
           }}
         >
-          <p className="uppercase whitespace-nowrap overflow-hidden text-ellipsis font-questrial font-semibold text-[12px] tracking-[2.2px] mb-[5px]">
+          <p className="uppercase whitespace-nowrap overflow-hidden text-ellipsis font-avenir-medium text-[11px] tracking-widest mb-[5px]">
             {product.title}
           </p>
         </Link>
-        <p className="uppercase font-questrial text-[12px] tracking-[2px]">
+        <p className="uppercase font-avenir-medium text-[10px] tracking-widest">
           {selectedOptions.map((option) => option.value).join(' / ')}
           {/*  {selectedOptions.map((option) => (
             <li key={option.name}>
@@ -117,11 +117,11 @@ function CartCheckoutActions({checkoutUrl, cost}) {
           {cost?.subtotalAmount?.amount ? (
             <>
               <Money
-                className="uppercase font-questrial text-[12px]"
+                className="uppercase font-avenir-medium text-[11px]"
                 data={cost?.subtotalAmount}
               />
               &nbsp;
-              <p className="font-questrial text-[12px]">USD</p>
+              <p className="font-avenir-medium text-[11px]">USD</p>
             </>
           ) : (
             '-'
@@ -143,9 +143,11 @@ export function CartSummary({cost, layout, children = null}) {
       <dl className="cart-subtotal">
         {/* <dt>Subtotal</dt> */}
         <div className="flex flex-col">
-          <p className="font-questrial text-[#2f2f2f]">Add Order Note</p>
+          <p className="font-avenir-light text-[13px] text-[#2f2f2f]">
+            Add Order Note
+          </p>
 
-          <p className="font-questrial text-[#2f2f2f] mt-1 mb-2">
+          <p className="font-avenir-light text-[13px] text-[#2f2f2f] mt-1 mb-2">
             Shipping & taxes calculated at checkout
           </p>
         </div>
@@ -170,7 +172,7 @@ function CartLineRemoveButton({lineIds}) {
       inputs={{lineIds}}
     >
       <button
-        className="uppercase font-questrial text-[10px] text-[#2f2f2f] tracking-[2px] link-underline link-underline-black "
+        className="uppercase font-avenir-medium text-[8px] text-[#2f2f2f] tracking-[2px] link-underline link-underline-black "
         type="submit"
       >
         Remove
@@ -188,7 +190,7 @@ function CartLineQuantity({line}) {
   return (
     <div className="flex flex-col">
       {attributes.map((attribute) => (
-        <small className="uppercase font-questrial text-[12px] italic tracking-[2px] mb-[4.5px]">
+        <small className="uppercase font-avenir-medium text-[10px] italic tracking-widest mb-[4.5px]">
           {attribute.key}: {attribute.value}
         </small>
       ))}
@@ -200,7 +202,7 @@ function CartLineQuantity({line}) {
         <div className="flex border ">
           <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
             <button
-              className="px-[14px] pr-[20px] py-[3px] text-xl font-montserratMd text-[#6a6a6a]"
+              className="px-[14px] pr-[20px] py-[3px] text-xl font-avenir-medium text-[#6a6a6a]"
               aria-label="Decrease quantity"
               disabled={quantity <= 1}
               name="decrease-quantity"
@@ -209,12 +211,12 @@ function CartLineQuantity({line}) {
               <span>&#8722; </span>
             </button>
           </CartLineUpdateButton>
-          <p className="font-questrial font-semibold text-[12px] flex justify-center items-center">
+          <p className="font-avenir-medium text-[12px] flex justify-center items-center">
             {quantity}
           </p>
           <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
             <button
-              className="px-[14px] pl-[20px] py-[3px] text-xl font-montserratMd text-[#6a6a6a]"
+              className="px-[14px] pl-[20px] py-[3px] text-xl font-avenir-medium text-[#6a6a6a]"
               aria-label="Increase quantity"
               name="increase-quantity"
               value={nextQuantity}
@@ -242,9 +244,9 @@ function CartLinePrice({line, priceType = 'regular', ...passthroughProps}) {
   }
 
   return (
-    <div className="tracking-[1px] leading-[8px]">
+    <div>
       <Money
-        className="uppercase font-questrial text-[12px]"
+        className="uppercase font-avenir-medium text-[10px] tracking-widest"
         withoutTrailingZeros
         {...passthroughProps}
         data={moneyV2}
@@ -257,7 +259,7 @@ export function CartEmpty({hidden = false, layout = 'aside'}) {
   return (
     <div hidden={hidden} className="h-full ">
       <div className="h-full flex items-center justify-center">
-        <p className="font-montserratMd text-[13px] tracking-[2.6px] text-[#2f2f2f]">
+        <p className="font-avenir-medium text-[13px] tracking-[2.6px] text-[#2f2f2f]">
           YOUR CART IS EMPTY
         </p>
       </div>

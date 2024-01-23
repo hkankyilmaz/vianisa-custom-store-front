@@ -1,9 +1,15 @@
-import React from 'react';
+import {trim} from '~/utils';
 
 function PageHeader({collection}) {
   return (
     <div className="my-[50px] px-20">
-      <h1 className="text-center text-[16px] uppercase tracking-[3.2px] font-body">
+      <h1
+        className={trim(
+          `text-center text-[25px] sm:text-[30px] font-optima-normal ${
+            collection.description ? 'mb-[0.83em]' : ''
+          }`,
+        )}
+      >
         {collection.title}
       </h1>
       <p className="flex justify-center">

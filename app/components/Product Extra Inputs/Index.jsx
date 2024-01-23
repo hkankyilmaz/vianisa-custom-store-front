@@ -1,8 +1,6 @@
-import React, {useState} from 'react';
-// import {each, filter, find, includes, fill, bind} from 'lodash';
-import {tags} from '../../constant/sizes';
+import {useState} from 'react';
 import {AiOutlineDown} from 'react-icons/ai';
-import Checkbox from '@mui/material/Checkbox';
+import {tags} from '../../constant/sizes';
 
 export function ProductExtraInputType({product, cardInfo}) {
   const productType = product.productType.toLowerCase();
@@ -118,7 +116,10 @@ export function ProductExtraInputTag({product, cardInfo}) {
                     onChange={() => setopen(!open)}
                     className="before:content[''] relative h-[18px] w-[18px] mr-2 cursor-pointer appearance-none focus:ring-0 focus:ring-offset-0	 rounded-sm border-2 border-blue-gray-200 before:absolute before:top-2/4 before:left-2/4 before:block before:h-4 before:w-4 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity  hover:before:opacity-10"
                   />
-                  <label className="font-body text-[13px]" htmlFor={'chck'}>
+                  <label
+                    className="font-avenir-medium text-[13px]"
+                    htmlFor={'chck'}
+                  >
                     {' '}
                     {inputObjSub.placeHolder}{' '}
                   </label>
