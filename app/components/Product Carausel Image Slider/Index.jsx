@@ -4,12 +4,13 @@ import {Thumb} from './CarouselThumbsButton';
 import {Image} from '@shopify/hydrogen';
 
 const EmblaCarousel = (props) => {
-  const {slides, options, imageByIndex} = props;
+  const {slides, options, imageByIndex, startIndex} = props;
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [emblaMainRef, emblaMainApi] = useEmblaCarousel(options);
   const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
     containScroll: 'keepSnaps',
     dragFree: true,
+    startIndex: startIndex,
   });
 
   const onThumbClick = useCallback(

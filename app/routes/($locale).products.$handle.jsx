@@ -112,8 +112,25 @@ export async function loader({params, request, context}) {
   const variants = storefront.query(VARIANTS_QUERY, {
     variables: {handle},
   });
+  const {selectedVariant} = product;
 
-  return defer({product, variants, featuredCollectionTwo, cart, card_view});
+  let selIndex = selectedVariant
+    ? product.images?.nodes?.findIndex((node) =>
+        node?.url?.includes(
+          selectedVariant.selectedOptions
+            ?.find((opt) => opt.name === 'Color')
+            .value.toUpperCase(),
+        ),
+      )
+    : 1;
+  return defer({
+    product,
+    variants,
+    featuredCollectionTwo,
+    cart,
+    card_view,
+    selIndex,
+  });
 }
 
 function redirectToFirstVariant({product, request}) {
@@ -134,16 +151,16 @@ function redirectToFirstVariant({product, request}) {
 }
 
 export default function Product() {
-  const {product, variants, featuredCollectionTwo, cart, card_view} =
+  const {product, variants, featuredCollectionTwo, cart, card_view, selIndex} =
     useLoaderData();
   const {selectedVariant} = product;
-  let fotos = [];
-  if (selectedVariant) {
-    fotos.push(selectedVariant.image);
-    fotos.push(product.images.nodes);
-  }
-  console.log(fotos);
-  const images = selectedVariant ? fotos : product.images.nodes;
+
+  console.log(
+    product.images.nodes,
+    selectedVariant.selectedOptions?.find((opt) => opt.name === 'Color'),
+    selIndex,
+  );
+  const images = product.images.nodes;
   const imageByIndex = (index) => images[index % images.length];
   const OPTIONS = {};
   const SLIDE_COUNT = 8;
@@ -164,6 +181,7 @@ export default function Product() {
           slides={SLIDES}
           options={OPTIONS}
           imageByIndex={imageByIndex}
+          startIndex={selIndex}
         />
 
         <div className="flex flex-wrap flex-col max-sm:mb-[28px] mb-[65px] lg:hidden">
