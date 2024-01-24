@@ -219,7 +219,11 @@ const Banner = ({
 
   return (
     <div className="flex-[0_0_100%] relative" ref={ref}>
-      <img className="block w-full h-full object-cover" src={imageSrc} />
+      <img
+        className="block w-full h-full object-cover"
+        alt="moissanite wedding ring"
+        src={imageSrc}
+      />
       <div
         className={`absolute z-10 w-1/2 inline-flex mx-8 ${hozirontalAlignment} ${verticalAlignment} ${textAlignment}`}
       >

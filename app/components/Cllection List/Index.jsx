@@ -53,6 +53,7 @@ function Item({title, photo, to, className = ''}) {
         <img
           className="w-full h-[500px] object-center object-cover duration-300 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-125 overflow-hidden"
           src={photo}
+          alt={title}
         />
 
         <div className="absolute left-0 bottom-6 px-6 sm:bottom-10 sm:px-10 min-[1140px]:bottom-[50px] min-[1140px]:px-[50px] flex flex-col gap-5 lg:gap-[30px] font-avenir-medium z-10">

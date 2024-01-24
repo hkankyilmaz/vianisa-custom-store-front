@@ -393,6 +393,7 @@ function SearchToggle() {
   let root_ = document.documentElement.style;
   return (
     <a
+      href="/"
       onClick={() => {
         if (root_.getPropertyValue('--search-aside-visibility') === 'hidden') {
           openSearch();
@@ -494,6 +495,7 @@ function CartToggle() {
   let root_ = document.documentElement.style;
   return (
     <a
+      href="/"
       className="relative cursor-pointer"
       onClick={() => {
         root_.setProperty('--cart-overlay-opacity', '1');
