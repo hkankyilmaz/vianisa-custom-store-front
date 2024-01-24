@@ -22,7 +22,7 @@ export async function action({request, context}) {
   if (!action) {
     throw new Error('No action provided');
   }
-  console.log(inputs);
+  //console.log(inputs);
   let status = 200;
   let result;
 
@@ -30,7 +30,7 @@ export async function action({request, context}) {
     case CartForm.ACTIONS.Create:
       delete inputs.analytics;
       result = await cartview.create(inputs);
-      console.log(result);
+      //console.log(result);
       break;
 
     default:
@@ -39,12 +39,12 @@ export async function action({request, context}) {
   const cartId = result.cart.id;
   const headers = cartview.setCartId(result.cart.id);
   const {cart: cartResult, errors} = result;
-  console.log('id: ', cartId, cartResult);
+  //console.log('id: ', cartId, cartResult);
   if (cartResult?.checkoutUrl) {
     return redirect(cartResult.checkoutUrl);
   }
 
-  console.log('id: ', cartId, cartResult);
+  //console.log('id: ', cartId, cartResult);
   const redirectTo = formData.get('redirectTo') ?? null;
   if (typeof redirectTo === 'string') {
     status = 303;

@@ -15,11 +15,11 @@ export const loader = async ({request, params, context: {storefront}}) => {
   });
  */
   if (!params.blogHandle) {
-    console.log('hata11');
+    //console.log('hata11');
 
     throw new Response(`blog not found`, {status: 404});
   }
-  console.log(params.blogHandle);
+  //console.log(params.blogHandle);
   const {blog} = await storefront.query(BLOGS_QUERY, {
     variables: {
       handle: params.blogHandle,

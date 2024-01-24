@@ -17,7 +17,7 @@ export async function action({request, context}) {
   ]);
 
   const {action, inputs} = CartForm.getFormInput(formData);
-  console.log(action, inputs);
+  //console.log(action, inputs);
   if (!action) {
     throw new Error('No action provided');
   }
