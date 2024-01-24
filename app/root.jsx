@@ -1,3 +1,4 @@
+'use client';
 import {
   Links,
   LiveReload,
@@ -18,7 +19,7 @@ import favicon from '../public/favicon.webp';
 import dotSliderStyles from './components/Product Carausel Image Dot Slider/embla.css';
 import appStyles from './styles/app.css';
 import tailwindCss from './styles/tailwind.css';
-
+import MessengerCustomerChat from './components/Facebook-Chat/FacebookChat';
 // This is important to avoid re-fetching root queries on sub-navigations
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
   // revalidate when a mutation is performed e.g add to cart, login...
@@ -114,7 +115,7 @@ export default function App() {
           nonce={nonce}
           src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=YvBnBA"
         />
-
+        <MessengerCustomerChat />
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
         <LiveReload nonce={nonce} />
