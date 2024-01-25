@@ -12,6 +12,7 @@ export function ProductExtraInputType({product, cardInfo}) {
         return (
           <div className="relative w-full text-[#595959] tracking-wide mt-[10px] mb-[15px]">
             <select
+              key={product.title}
               defaultValue=" "
               data-labelonproduct={resultType.labelOnProduct}
               data-name={resultType.name}

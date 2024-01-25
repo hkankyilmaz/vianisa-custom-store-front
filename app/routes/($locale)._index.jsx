@@ -9,7 +9,7 @@ import EtsyList from '../components/EtsyReviews/Index';
 
 export const meta = () => {
   return [
-    {title: 'Hydrogen | Home'},
+    {title: 'Vianisa'},
     {
       property: 'og:title',
       content: 'Jewelry Website',

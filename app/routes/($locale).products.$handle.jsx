@@ -113,16 +113,42 @@ export async function loader({params, request, context}) {
     variables: {handle},
   });
   const {selectedVariant} = product;
-
-  let selIndex = selectedVariant
-    ? product.images?.nodes?.findIndex((node) =>
-        node?.url?.includes(
-          selectedVariant.selectedOptions
-            ?.find((opt) => opt.name === 'Color')
-            .value.toUpperCase(),
-        ),
-      )
-    : 1;
+  const url = new URL(request.url);
+  // console.log(url.searchParams.getAll('Color').length);
+  let isColor = url.searchParams.getAll('Color').length;
+  let selIndex =
+    selectedVariant && isColor
+      ? product.images?.nodes?.findIndex((node) =>
+          node?.url?.includes(
+            selectedVariant.selectedOptions
+              ?.find((opt) => opt.name === 'Color')
+              .value?.toUpperCase(),
+          ) === false
+            ? node?.url?.includes(
+                '-' +
+                  selectedVariant.selectedOptions
+                    ?.find((opt) => opt.name === 'Color')
+                    .value?.toUpperCase()
+                    .charAt(0) +
+                  '.jpg',
+              )
+            : node?.url?.includes(
+                selectedVariant.selectedOptions
+                  ?.find((opt) => opt.name === 'Color')
+                  .value.toUpperCase(),
+              ),
+        )
+      : 0;
+  // selIndex = selIndex > 7 ? 0 : selIndex;
+  // console.log(
+  //   selIndex,
+  //   '-' +
+  //     selectedVariant.selectedOptions
+  //       ?.find((opt) => opt.name === 'Color')
+  //       .value.toUpperCase()
+  //       .charAt(0) +
+  //     '.jpg',
+  // );
   return defer({
     product,
     variants,
@@ -154,19 +180,17 @@ export default function Product() {
   const {product, variants, featuredCollectionTwo, cart, card_view, selIndex} =
     useLoaderData();
   const {selectedVariant} = product;
-
-  console.log(
-    product.images.nodes,
-    selectedVariant.selectedOptions?.find((opt) => opt.name === 'Color'),
-    selIndex,
-  );
+  // console.log(
+  //   selectedVariant.selectedOptions?.find((opt) => opt.name === 'Color'),
+  //   selIndex,
+  //   product.images.nodes.map((node) => node.url),
+  // );
   const images = product.images.nodes;
   const imageByIndex = (index) => images[index % images.length];
-  const OPTIONS = {};
-  const SLIDE_COUNT = 8;
-  let navigate = new useNavigate();
-  // card_view ? navigate(card_view.checkoutUrl) : '';
+  const OPTIONS = {startIndex: selIndex};
+  const SLIDE_COUNT = images.length;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
+  console.log(product.tags);
   return (
     <>
       <BasicBreadcrumbs
@@ -189,6 +213,7 @@ export default function Product() {
             slides={SLIDES}
             options={OPTIONS}
             imageByIndex={imageByIndex}
+            startIndex={selIndex}
           />
         </div>
 
@@ -226,8 +251,9 @@ function ViewPlanMain({price, className, close}) {
       Math.pow(aylık_faiz2 + 1, ödeme_ay2)) /
     (Math.pow(aylık_faiz2 + 1, ödeme_ay2) - 1);
   let yuvarlanmisSayi2 = +(Math.ceil(faizharam2 * 100) / 100).toFixed(0);
-  let toplam_faiz2 = (yuvarlanmisSayi2 * 3 - Number(price.amount)).toFixed(0);
-  let geriodeme2 = (yuvarlanmisSayi2 * 3).toFixed(0);
+  let yuvarlanmisSayi2_ = +(Math.ceil(faizharam2 * 100) / 100);
+  let toplam_faiz2 = (yuvarlanmisSayi2_ * 3 - Number(price.amount)).toFixed(0);
+  let geriodeme2 = (yuvarlanmisSayi2_ * 3).toFixed(0);
 
   return (
     <div
@@ -262,7 +288,7 @@ function ViewPlanMain({price, className, close}) {
             Sample plans for{' '}
             <b>
               {price.currencyCode == 'USD' ? '$' : NULL}
-              {price.amount}
+              {price.amount.split('.')[0]}
             </b>{' '}
             purchase
           </p>
@@ -294,14 +320,14 @@ function ViewPlanMain({price, className, close}) {
                 <div className="w-[80px] mr-3">
                   <p className="font-body_light text-[#121212B3]">Interest</p>
                   <p className="font-body_light text-[#121212B3] text-[18px]">
-                    $0.00
+                    $0
                   </p>
                 </div>
                 <div className="w-[80px] mr-3">
                   <p className="font-body_light text-[#121212B3]">Total</p>
                   <p className="font-body_light text-[#121212B3] text-[18px]">
                     {price.currencyCode == 'USD' ? '$' : NULL}
-                    {price.amount}
+                    {price.amount.split('.')[0]}
                   </p>
                 </div>
               </div>
@@ -491,7 +517,6 @@ function ProductMain({selectedVariant, product, variants, cart}) {
   const {title, descriptionHtml, tags} = product;
   const matches = useMatches()[1].pathname;
   const modifiedStringwithCarat = product.handle.slice(0, -8);
-
   const shipDtae = useCalculateShipDay(tags);
   let carats = [];
   // console.log(tags);
@@ -505,6 +530,8 @@ function ProductMain({selectedVariant, product, variants, cart}) {
     carats = ['0.25', '0.5', '1'];
   } else if (tags.find((tag) => tag === 'OptionsCarat_025_050_075_100')) {
     carats = ['0.25', '0.5', '0.75', '1'];
+  } else if (tags.find((tag) => tag === 'OptionsCarat_050_100_150_200')) {
+    carats = ['0.5', '1', '1.5', '2'];
   }
 
   useEffect(() => {
@@ -534,6 +561,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
         coll.title === 'Birthstone Jewelry' ||
         coll.title === 'Gold Vermeil Birthstone Jewelry',
     ) && !product.tags.includes('only_solid_gold');
+  console.log(product.collections);
   // console.log(
   //   goldOps,
   //   product.collections.nodes.find(
@@ -793,7 +821,6 @@ function ProductForm({product, selectedVariant, variants}) {
       value: obj[item],
     }));
   }
-
   return (
     <div className="product-form border-[#bfbfbf] font-body">
       <div className=" gap-x-3 grid grid-cols-2 max-sm:flex flex-col gap-y-3 mt-[17px]">
@@ -814,7 +841,7 @@ function ProductForm({product, selectedVariant, variants}) {
         </VariantSelector>
         {product.options
           .filter((option) => option.values.length === 1)
-          .map((dic) => (
+          .map((dic, idx) => (
             <ProductOptions product={product} key={dic.name} option={dic} />
           ))}
       </div>
@@ -909,6 +936,7 @@ function ProductOptions({option}) {
           key={option.name}
           onClick={() => {
             setIsOpen((prev) => !prev);
+            console.log(option);
             handleOptionsParam(option.name);
 
             if (window.innerWidth < 1024) {
@@ -1077,9 +1105,11 @@ function ProductDescription({descriptionHtml}) {
         ></span>
       </p>
       <div
-        className="product-description-detail  [&>div]:bg-[#f9fafb] pb-11 text-[13px] text-[#2f2f2f] leading-[19.5px] [&>p]:font-body"
+        className="product-description-detail bg-[#ffffff] [&>div]:bg-[#f9fafb] pb-11 text-[13px] text-[#2f2f2f] leading-[19.5px] [&>p]:font-body"
         dangerouslySetInnerHTML={{
-          __html: descriptionHtml.replace('absolute', ''),
+          __html: descriptionHtml
+            .replace('absolute', '')
+            .replace('background-color:', ''),
         }}
       />
     </div>

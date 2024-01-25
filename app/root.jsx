@@ -16,6 +16,7 @@ import {defer} from '@shopify/remix-oxygen';
 import NotFound from './components/NotFound';
 import {Layout} from '~/components/Layout';
 import favicon from '../public/favicon.webp';
+import favicon_ from '../public/v_harf.svg';
 import dotSliderStyles from './components/Product Carausel Image Dot Slider/embla.css';
 import appStyles from './styles/app.css';
 import tailwindCss from './styles/tailwind.css';
@@ -34,6 +35,17 @@ export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
 
   return false;
 };
+/* function isDarkModeEnabled() {
+  // Media query kullanarak tarayıcıdaki dark mode durumunu kontrol et
+  if (
+    window.matchMedia &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+  ) {
+    return favicon_; // Dark mode aktif
+  } else {
+    return favicon; // Dark mode aktif değil
+  }
+} */
 
 export function links() {
   return [

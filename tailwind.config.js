@@ -11,6 +11,7 @@ export default {
       playfair_org: ['Playfair Display', 'serif'],
       playfair: ['playfair', 'serif'],
       'avenir-medium': ['avenir-medium', 'sans-serif'],
+      aveternate: ['aveternate', 'sans-serif'],
       'avenir-light': ['avenir-light', 'sans-serif'],
       'avenir-heavy': ['avenir-heavy', 'sans-serif'],
       'optima-normal': ['optima-normal', 'sans-serif'],

@@ -10,14 +10,14 @@ export default async function handleRequest(
   remixContext,
 ) {
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
-    /* styleSrc: [
+    styleSrc: [
       'style-src',
       "'self'",
       'nonce-e6d7c44dd77fb8617082f7d40142ecf2',
       'https://static.klaviyo.com',
       'https://cdn.shopify.com',
       'https://shopify.com',
-    ], */
+    ],
 
     styleSrc: [
       "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; ",

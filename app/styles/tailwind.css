@@ -6,7 +6,10 @@
   font-family: 'avenir-black';
   src: url('../assets/fonts/avenir/Avenir-Black.ttf');
 }
-
+@font-face {
+  font-family: 'aveternate';
+  src: url('https://cdn.shopify.com/s/files/1/0484/1429/4167/files/aveternate-Regular_2877fc9c-fbe0-47c0-ab3b-67883510ba0e.ttf?v=1699889620');
+}
 @font-face {
   font-family: 'avenir-blackoblique';
   src: url('../assets/fonts/avenir/Avenir-BlackOblique.ttf');

@@ -42,7 +42,7 @@ export default function Recover() {
 
   return (
     <div className="account-recover">
-      <div>
+      <div className="flex flex-col items-center ">
         {action?.resetRequested ? (
           <>
             <h1>Request Sent.</h1>
@@ -55,24 +55,21 @@ export default function Recover() {
             <Link to="/account/login">Return to Login</Link>
           </>
         ) : (
-          <>
-            <h1>Forgot Password.</h1>
-            <p>
-              Enter the email address associated with your account to receive a
-              link to reset your password.
-            </p>
-            <br />
+          <div className="flex flex-col text-center items-center py-20 gap-5 w-96">
+            <h1>RECOVER PASSWORD</h1>
+            <p>Please enter your email:</p>
             <Form method="POST">
-              <fieldset>
-                <label htmlFor="email">Email</label>
+              <fieldset className="w-96">
+                {/* <label htmlFor="email">Email</label> */}
                 <input
-                  aria-label="Email address"
+                  aria-label="Email"
                   autoComplete="email"
                   // eslint-disable-next-line jsx-a11y/no-autofocus
                   autoFocus
+                  className="w-full"
                   id="email"
                   name="email"
-                  placeholder="Email address"
+                  placeholder="Email"
                   required
                   type="email"
                 />
@@ -86,15 +83,20 @@ export default function Recover() {
               ) : (
                 <br />
               )}
-              <button type="submit">Request Reset Link</button>
+              <button
+                className="w-full bg-black text-white py-1 border-black border duration-500 ease-in-out hover:bg-white hover:text-black"
+                type="submit"
+              >
+                Recover
+              </button>
             </Form>
             <div>
-              <br />
               <p>
-                <Link to="/account/login">Login →</Link>
+                Remember your password?
+                <Link to="/account/login"> Back to login</Link>
               </p>
             </div>
-          </>
+          </div>
         )}
       </div>
     </div>

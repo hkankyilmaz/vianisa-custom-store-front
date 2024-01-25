@@ -94,44 +94,56 @@ export default function Register() {
   const data = useActionData();
   const error = data?.error || null;
   return (
-    <div className="login">
-      <h1>Register.</h1>
+    <div className="flex flex-col py-20 text-center justify-center items-center w-auto px-12 gap-5">
+      <h1 className="font-avenir-light uppercase">Register</h1>
+      <p className="text-xs font-avenir-light">
+        Please fill in the information below:
+      </p>
       <Form method="POST">
         <fieldset>
-          <label htmlFor="email">Email address</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            placeholder="Email address"
-            aria-label="Email address"
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Password"
-            aria-label="Password"
-            minLength={8}
-            required
-          />
-          <label htmlFor="passwordConfirm">Re-enter password</label>
-          <input
-            id="passwordConfirm"
-            name="passwordConfirm"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Re-enter password"
-            aria-label="Re-enter password"
-            minLength={8}
-            required
-          />
+          <div className="mb-3 w-96">
+            {/* <label htmlFor="email">Email address</label> */}
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              className="w-full"
+              placeholder="Email address"
+              aria-label="Email address"
+              // eslint-disable-next-line jsx-a11y/no-autofocus
+              autoFocus
+            />
+          </div>
+          <div className="mb-3 w-96">
+            {/* <label htmlFor="password">Password</label> */}
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="Password"
+              aria-label="Password"
+              className="w-full"
+              minLength={8}
+              required
+            />
+          </div>
+          <div className=" w-96">
+            {/* <label htmlFor="passwordConfirm">Re-enter password</label> */}
+            <input
+              id="passwordConfirm"
+              name="passwordConfirm"
+              type="password"
+              autoComplete="current-password"
+              placeholder="Re-enter password"
+              aria-label="Re-enter password"
+              className="w-full"
+              minLength={8}
+              required
+            />
+          </div>
         </fieldset>
         {error ? (
           <p>
@@ -142,12 +154,14 @@ export default function Register() {
         ) : (
           <br />
         )}
-        <button type="submit">Register</button>
+        <button className="text-sm font-avenir-medium" type="submit">
+          CREATE MY ACCOUNT
+        </button>
       </Form>
-      <br />
+      {/* <br />
       <p>
         <Link to="/account/login">Login →</Link>
-      </p>
+      </p> */}
     </div>
   );
 }

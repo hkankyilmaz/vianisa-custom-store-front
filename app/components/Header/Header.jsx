@@ -56,7 +56,7 @@ export function Header({header, isLoggedIn, cart}) {
           }}
         >
           <MenuToggle toggle={() => setIsDrawerOpen((prev) => !prev)} />
-          <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
+          <NavLink prefetch="intent" to="/" style={activeLinkStyleHome} end>
             <span className="text-xl not-italic tracking-[.2em] uppercase text-[var(--heading-color)] font-playfair_org">
               Vianisa
             </span>
@@ -316,7 +316,7 @@ function CustomLink({title, to, onClick, onHover, isHeaderHover}) {
         onHover();
         setIsHover(true);
       }}
-      className="cursor-pointer tracking-[.2em] text-[11px] !text-[var(--heading-color)] font-avenir-medium uppercase relative"
+      className="cursor-pointer tracking-[.2em] text-[11px] font-bold !text-[var(--heading-color)] font-aveternate uppercase relative"
       end
       onClick={onClick}
       prefetch="intent"
@@ -572,7 +572,12 @@ function activeLinkStyle({isActive, isPending}) {
     color: isPending ? 'grey' : 'black',
   };
 }
-
+function activeLinkStyleHome({isActive, isPending}) {
+  return {
+    fontWeight: 'bold',
+    color: isPending ? 'grey' : 'black',
+  };
+}
 export function openSearch() {
   let root_ = document.documentElement.style;
   document.documentElement.style.overflowY = 'hidden';

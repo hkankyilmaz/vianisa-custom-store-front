@@ -63,33 +63,38 @@ export default function Login() {
   const error = data?.error || null;
 
   return (
-    <div className="login">
-      <h1>Sign in.</h1>
+    <div className=" flex flex-col justify-center items-center justify-items-center self-center py-28 gap-7">
+      <h1>LOGIN</h1>
+      <p>Please enter your e-mail and password:</p>
       <Form method="POST">
         <fieldset>
-          <label htmlFor="email">Email address</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            placeholder="Email address"
-            aria-label="Email address"
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Password"
-            aria-label="Password"
-            minLength={8}
-            required
-          />
+          <div className="flex flex-col w-96 mb-3">
+            {/* <label htmlFor="email">Email address</label> */}
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              placeholder="Email address"
+              aria-label="Email address"
+              // eslint-disable-next-line jsx-a11y/no-autofocus
+              autoFocus
+            />
+          </div>
+          <div className="flex flex-col w-96 mb-3">
+            {/* <label htmlFor="password">Password</label> */}
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="Password"
+              aria-label="Password"
+              minLength={8}
+              required
+            />
+          </div>
         </fieldset>
         {error ? (
           <p>
@@ -100,15 +105,22 @@ export default function Login() {
         ) : (
           <br />
         )}
-        <button type="submit">Sign in</button>
+        <button
+          className="bg-[#000000] border text-xs font-avenir-medium border-[#000000] text-white w-full py-1 hover:text-[#2f2f2f] hover:bg-transparent"
+          type="submit"
+        >
+          LOGIN
+        </button>
       </Form>
-      <br />
-      <div>
-        <p>
-          <Link to="/account/recover">Forgot password →</Link>
-        </p>
-        <p>
-          <Link to="/account/register">Register →</Link>
+      <div className="flex flex-col">
+        <Link className="font-avenir-light " to="/account/recover">
+          Forgot password
+        </Link>
+        <p className="font-avenir-light ">
+          Don't have an account?
+          <Link className="font-avenir-light " to="/account/register">
+            Create one
+          </Link>
         </p>
       </div>
     </div>
