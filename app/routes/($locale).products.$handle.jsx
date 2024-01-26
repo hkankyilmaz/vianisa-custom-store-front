@@ -821,6 +821,11 @@ function ProductForm({product, selectedVariant, variants}) {
       value: obj[item],
     }));
   }
+  function OptName(name) {
+    return product.options.findIndex((opt) => opt.name === name);
+  }
+
+  // console.log('s', product.options.length, 4 % 2, 5 % 2);
   return (
     <div className="product-form border-[#bfbfbf] font-body">
       <div className=" gap-x-3 grid grid-cols-2 max-sm:flex flex-col gap-y-3 mt-[17px]">
@@ -835,6 +840,10 @@ function ProductForm({product, selectedVariant, variants}) {
                 product={product}
                 key={option.name}
                 option={option}
+                w_full={
+                  OptName(option.name) === product.options.length - 1 &&
+                  OptName(option.name) % 2 === 0
+                }
               />
             </>
           )}
@@ -842,7 +851,9 @@ function ProductForm({product, selectedVariant, variants}) {
         {product.options
           .filter((option) => option.values.length === 1)
           .map((dic, idx) => (
-            <ProductOptions product={product} key={dic.name} option={dic} />
+            <>
+              <ProductOptions product={product} key={dic.name} option={dic} />
+            </>
           ))}
       </div>
       <ProductExtraInputType product={product} cardInfo={logs} />
@@ -907,7 +918,7 @@ function ProductForm({product, selectedVariant, variants}) {
   );
 }
 
-function ProductOptions({option}) {
+function ProductOptions({option, w_full}) {
   useEffect(() => {
     setIsOpen(false);
   }, [option]);
@@ -923,7 +934,10 @@ function ProductOptions({option}) {
       ? option.values.find((value) => value.isActive === true).value
       : option.values[0];
   let root_ = document.documentElement.style;
-
+  console.log(w_full);
+  let className_ = w_full
+    ? 'flex justify-between relative items-center px-[14px] py-[10px] text-[13px] border cursor-pointer text-[#595959] tracking-wide col-span-2 '
+    : 'flex justify-between relative items-center px-[14px] py-[10px] text-[13px] border cursor-pointer text-[#595959] tracking-wide ';
   return (
     <>
       <ClickAwayListener
@@ -932,7 +946,7 @@ function ProductOptions({option}) {
         }}
       >
         <div
-          className="flex justify-between relative items-center px-[14px] py-[10px]  text-[13px] border cursor-pointer text-[#595959] tracking-wide"
+          className={className_}
           key={option.name}
           onClick={() => {
             setIsOpen((prev) => !prev);
