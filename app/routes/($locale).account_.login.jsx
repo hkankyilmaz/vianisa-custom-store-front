@@ -125,9 +125,12 @@ export default function Login() {
           </button>
         </Form>
         <div className="flex flex-col">
-          <p className="font-avenir-light mt-6 mb-8">
-            Don't have an account?
-            <Link className="font-avenir-light " to="/account/register">
+          <p className="font-avenir-light text-[#2f2f2f] mt-6 mb-8">
+            Don't have an account?&nbsp;
+            <Link
+              className="font-avenir-light hover:underline"
+              to="/account/register"
+            >
               Create one
             </Link>
           </p>
