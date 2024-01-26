@@ -63,65 +63,75 @@ export default function Login() {
   const error = data?.error || null;
 
   return (
-    <div className=" flex flex-col justify-center items-center justify-items-center self-center py-28 gap-7">
-      <h1>LOGIN</h1>
-      <p>Please enter your e-mail and password:</p>
-      <Form method="POST">
-        <fieldset>
-          <div className="flex flex-col w-96 mb-3">
-            {/* <label htmlFor="email">Email address</label> */}
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              placeholder="Email address"
-              aria-label="Email address"
-              // eslint-disable-next-line jsx-a11y/no-autofocus
-              autoFocus
-            />
-          </div>
-          <div className="flex flex-col w-96 mb-3">
-            {/* <label htmlFor="password">Password</label> */}
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              placeholder="Password"
-              aria-label="Password"
-              minLength={8}
-              required
-            />
-          </div>
-        </fieldset>
-        {error ? (
-          <p>
-            <mark>
-              <small>{error}</small>
-            </mark>
-          </p>
-        ) : (
-          <br />
-        )}
-        <button
-          className="bg-[#000000] border text-xs font-avenir-medium border-[#000000] text-white w-full py-1 hover:text-[#2f2f2f] hover:bg-transparent"
-          type="submit"
-        >
+    <div className="w-full  my-[80px]">
+      <div className=" flex flex-col h-[60vh] justify-center items-center self-center px-6">
+        <h1 className="my-4 font-avenir-medium text-[19.5px] tracking-[1.95px] text-[#2f2f2f]">
           LOGIN
-        </button>
-      </Form>
-      <div className="flex flex-col">
-        <Link className="font-avenir-light " to="/account/recover">
-          Forgot password
-        </Link>
-        <p className="font-avenir-light ">
-          Don't have an account?
-          <Link className="font-avenir-light " to="/account/register">
-            Create one
-          </Link>
+        </h1>
+        <p className="mb-6 font-avenir-light text-[13px] text-[#2f2f2f]">
+          Please enter your e-mail and password:
         </p>
+        <Form method="POST" className="max-w-[400px] w-full ">
+          {error ? (
+            <div className="w-full bg-[#e4c4c4] text-[#cb2b2b] font-avenir-light text-[13px] py-[10px] px-5 mb-5">
+              {error}
+            </div>
+          ) : (
+            ''
+          )}
+          <fieldset>
+            <div className="flex flex-col w-full  mb-[15px]">
+              {/* <label htmlFor="email">Email address</label> */}
+              <input
+                className="w-full font-avenir-medium text-[13px] text-[#2f2f2f] border border-[#E5E7EB] ring-0 focus:ring-0 focus:border-[#2f2f2f] outline-none focus:outline-none transition-all"
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                placeholder="Email"
+                aria-label="Email address"
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus
+              />
+            </div>
+            <div className="relative flex flex-col w-full">
+              {/* <label htmlFor="password">Password</label> */}
+              <input
+                className="w-full font-avenir-medium text-[13px] text-[#2f2f2f] border border-[#E5E7EB] ring-0 focus:ring-0 focus:border-[#2f2f2f] outline-none focus:outline-none transition-all"
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                placeholder="Password"
+                aria-label="Password"
+                minLength={8}
+                required
+              />
+              <Link
+                className="absolute h-min right-3 top-[50%] translate-y-[-50%] hover:underline font-avenir-light text-[11px] text-[#2f2f2f] w-fit"
+                to="/account/recover"
+              >
+                Forgot password?
+              </Link>
+            </div>
+          </fieldset>
+
+          <button
+            className="bg-[#000000] border text-[11px] font-avenir-light font-bold tracking-[2.2px] border-[#000000] text-white w-full h-[45px] mt-5 hover:text-[#2f2f2f] hover:bg-transparent transition-all duration-[350ms] ease-css-ease"
+            type="submit"
+          >
+            LOGIN
+          </button>
+        </Form>
+        <div className="flex flex-col">
+          <p className="font-avenir-light mt-6 mb-8">
+            Don't have an account?
+            <Link className="font-avenir-light " to="/account/register">
+              Create one
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
