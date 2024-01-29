@@ -1,5 +1,4 @@
 import Slider from '@mui/material/Slider';
-import {useEffect} from 'react';
 import {
   Form,
   useLoaderData,
@@ -8,14 +7,10 @@ import {
   useSubmit,
 } from '@remix-run/react';
 import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
-import {useRef, useState} from 'react';
 import {defer} from '@shopify/remix-oxygen';
-import {AiOutlineDown} from 'react-icons/ai';
-import useGenerateSearchQuery from '~/hooks/useGenerateSearchQuery';
-import useSearchDefaultQuery from '~/hooks/useSearchDefaultQuery';
 import gsap from 'gsap';
-import Slider2 from '~/components/RangeSlider/RangeSlider';
-import {CloseButton} from '~/components/Header/Drawer';
+import {useEffect, useRef, useState} from 'react';
+import {AiOutlineDown} from 'react-icons/ai';
 import {
   FilterForm,
   GridChanger,
@@ -23,6 +18,10 @@ import {
   ProductItem,
   SortForm,
 } from '~/components/Collection Page UI-Forms';
+import {CloseButton} from '~/components/Header/Drawer';
+import Slider2 from '~/components/RangeSlider/RangeSlider';
+import useGenerateSearchQuery from '~/hooks/useGenerateSearchQuery';
+import useSearchDefaultQuery from '~/hooks/useSearchDefaultQuery';
 
 // export const meta = ({data}) => {
 //   return [{title: `Hydrogen | ${data.collection.title} Collection`}];
@@ -175,7 +174,7 @@ function SearchPage() {
   }, [sortValue, reversed]);
 
   return (
-    <div className="collection" key={collection.handle}>
+    <div className="collection" key={values.q}>
       <PageHeader searchTerm={searchTerm} collection={defaultPriceSearch} />
       <div className="w-full max-sm:h-[44px] sm:h-[54px] border-y flex justify-between max-sm:flex-row-reverse items-center">
         <GridChanger setGrid={setGrid} grid={grid} />
