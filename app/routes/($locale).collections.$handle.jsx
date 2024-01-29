@@ -12,6 +12,7 @@ import {defer, redirect} from '@shopify/remix-oxygen';
 import gsap from 'gsap';
 import {Suspense, useEffect, useRef, useState} from 'react';
 import {AiOutlineDown} from 'react-icons/ai';
+import spinner from '~/assets/gifs/spinner.gif';
 import {
   FilterForm,
   GridChanger,
@@ -203,7 +204,17 @@ export default function Collection() {
                   />
                   <br />
                   <NextLink className="flex justify-center w-full text-xl my-5">
-                    <LoadMoreButton isLoading={isLoading} />
+                    {isLoading ? (
+                      <img
+                        className="spinner-gif"
+                        src={spinner}
+                        alt="spinner"
+                        width={66}
+                        height={66}
+                      />
+                    ) : (
+                      <LoadMoreButton />
+                    )}
                   </NextLink>
                 </>
               )}
@@ -581,14 +592,14 @@ function ProductsGrid({
             })}
           </div>
         )}
-        {navigation.state === 'loading' &&
+        {/* {navigation.state === 'loading' &&
           navigation.formMethod === undefined && (
             <div className="w-full grid max-sm:grid-cols-2 max-[1139px]:grid-cols-3 grid-cols-4 max-sm:gap-x-[10px] max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
               {products.map((_, index) => {
                 return <CollectionSkeleton key={index} />;
               })}
             </div>
-          )}
+          )} */}
       </div>
     </div>
   );
