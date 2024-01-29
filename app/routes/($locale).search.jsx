@@ -131,7 +131,7 @@ export async function loader({request, params, context}) {
 function SearchPage() {
   const {searchTerm, searchResults, values, defaultPriceSearch} =
     useLoaderData();
-  console.log(defaultPriceSearch);
+  //console.log(defaultPriceSearch);
   const collection = searchResults;
   const {sortkey, reverse} = values;
   const submit = useSubmit();
@@ -170,7 +170,7 @@ function SearchPage() {
 
   useEffect(() => {
     const form = document.querySelector('#filter-form');
-    console.log(form);
+    //(form);
     submit(form);
   }, [sortValue, reversed]);
 

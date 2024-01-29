@@ -30,7 +30,7 @@ export default function ProductItem({product, loading}) {
             <>
               <Image
                 className="transition-opacity opacity-100 hover:opacity-0"
-                alt={selectedVariant.altText || product.title}
+                alt={selectedVariant?.altText || product?.title}
                 aspectRatio="4/3"
                 data={selectedVariant.image}
                 loading={loading}
@@ -38,7 +38,7 @@ export default function ProductItem({product, loading}) {
               />
               <Image
                 className="transition-opacity opacity-0 hover:opacity-100 absolute top-0 "
-                alt={product.images.nodes[1].altText || product.title}
+                alt={product.images.nodes[1]?.altText || product?.title}
                 aspectRatio="4/3"
                 data={product.images.nodes[1]}
                 loading={loading}
@@ -49,7 +49,7 @@ export default function ProductItem({product, loading}) {
             <>
               <Image
                 className="transition-opacity opacity-100 hover:opacity-0"
-                alt={product.featuredImage.altText || product.title}
+                alt={product.featuredImage?.altText || product?.title}
                 aspectRatio="4/3"
                 data={product.featuredImage}
                 loading={loading}
@@ -57,7 +57,7 @@ export default function ProductItem({product, loading}) {
               />
               <Image
                 className="transition-opacity opacity-0 hover:opacity-100 absolute top-0 "
-                alt={product.images.nodes[1].altText || product.title}
+                alt={product.images.nodes[1]?.altText || product?.title}
                 aspectRatio="4/3"
                 data={product.images.nodes[1]}
                 loading={loading}

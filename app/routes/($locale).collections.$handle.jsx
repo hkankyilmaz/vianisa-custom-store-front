@@ -1,4 +1,3 @@
-import Slider from '@mui/material/Slider';
 import {
   Form,
   useLoaderData,
@@ -30,7 +29,6 @@ import {
 import {CollectionSkeleton} from '~/components/Skeletons';
 
 import styles from '../styles/Spinner.css';
-import NotFound from '~/components/NotFound';
 
 export const links = () => [{rel: 'stylesheet', href: styles}];
 
@@ -157,13 +155,18 @@ export default function Collection() {
   };
 
   const updateSorting = (sortValue, reversed) => {
+    console.log('sortVal:', sortValue, ' reversed:', reversed);
     setSortValue(sortValue);
     setReversed(reversed);
   };
 
+  const [counter, setCounter] = useState(0);
   useEffect(() => {
+    console.log('contr', counter);
+    if (counter === 0) return;
     const form = document.querySelector('#filter-form');
     submit(form);
+    setCounter((prev) => prev++);
   }, [sortValue, reversed]);
 
   return (

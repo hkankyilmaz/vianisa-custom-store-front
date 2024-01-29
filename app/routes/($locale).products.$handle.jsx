@@ -180,10 +180,11 @@ export default function Product() {
   const {product, variants, featuredCollectionTwo, cart, card_view, selIndex} =
     useLoaderData();
   const {selectedVariant} = product;
+
   // console.log(
+  //   product.images.nodes,
   //   selectedVariant.selectedOptions?.find((opt) => opt.name === 'Color'),
   //   selIndex,
-  //   product.images.nodes.map((node) => node.url),
   // );
   const images = product.images.nodes;
   const imageByIndex = (index) => images[index % images.length];
@@ -812,7 +813,7 @@ function ProductPrice({selectedVariant}) {
 function ProductForm({product, selectedVariant, variants}) {
   const [size, setsize] = useState({});
   function logs(event) {
-    console.log(event.target.value, event.target.value === ' ');
+    //console.log(event.target.value, event.target.value === ' ');
     setsize({...size, [event.target.name]: event.target.value});
   }
   function objectToArray(obj) {

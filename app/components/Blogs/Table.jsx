@@ -28,7 +28,7 @@ const Table = ({
     row: '',
   },
 }) => {
-  console.log(cellAlign);
+  //console.log(cellAlign);
   return (
     <TableContainer className="overflow-scroll w-full">
       <MuiTable aria-label="customized table" className="w-full">
