@@ -1,23 +1,18 @@
 import {
+  Await,
   Form,
   useLoaderData,
   useLocation,
   useNavigate,
   useNavigation,
   useSubmit,
-  Await,
 } from '@remix-run/react';
 import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
-import {Suspense} from 'react';
-import {redirect, defer} from '@shopify/remix-oxygen';
-import Spinner from '~/components/Spinner';
-import {useRef, useState, useEffect} from 'react';
-import {AiOutlineDown} from 'react-icons/ai';
-import useDefaultCollectionQuery from '~/hooks/useDefaultCollectionQuery';
-import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
-import Slider2 from '~/components/RangeSlider/RangeSlider';
+import {defer, redirect} from '@shopify/remix-oxygen';
 import gsap from 'gsap';
-import {CloseButton} from '~/components/Header/Drawer';
+import {Suspense, useEffect, useRef, useState} from 'react';
+import {AiOutlineDown} from 'react-icons/ai';
+import spinner from '~/assets/gifs/spinner.gif';
 import {
   FilterForm,
   GridChanger,
@@ -26,15 +21,20 @@ import {
   ProductItem,
   SortForm,
 } from '~/components/Collection Page UI-Forms';
+import {CloseButton} from '~/components/Header/Drawer';
+import Slider2 from '~/components/RangeSlider/RangeSlider';
 import {CollectionSkeleton} from '~/components/Skeletons';
+import Spinner from '~/components/Spinner';
+import useDefaultCollectionQuery from '~/hooks/useDefaultCollectionQuery';
+import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
 
 import styles from '../styles/Spinner.css';
 
 export const links = () => [{rel: 'stylesheet', href: styles}];
 
-// export const meta = ({data}) => {
-//   return [{title: `${data.collection.title} Collection`}];
-// };
+export const meta = ({data}) => {
+  return [{title: `${data.defaultCollection.title} Collection`}];
+};
 
 export async function loader({request, params, context}) {
   const jsonifyVariantOption = (name, value) => {
@@ -93,38 +93,37 @@ export async function loader({request, params, context}) {
     return redirect('/collections');
   }
 
-  const collection = storefront.query(COLLECTION_QUERY, {
+  const collectionPromise = storefront.query(COLLECTION_QUERY, {
     variables: {handle, ...paginationVariables},
     cache: storefront.CacheLong(),
   });
 
-  const defaultCollection = storefront.query(DEFAULT_COLLECTION_QUERY, {
-    variables: {
-      handle: handle,
-    },
-    cache: storefront.CacheLong(),
-  });
+  const defaultCollection = (
+    await storefront.query(DEFAULT_COLLECTION_QUERY, {
+      variables: {
+        handle: handle,
+      },
+      cache: storefront.CacheLong(),
+    })
+  ).collection;
 
-  const allPromise = Promise.all([collection, defaultCollection]);
-
-  // const defaultPriceRange = JSON.parse(
-  //   defaultCollection.products.filters[0].values[0].input,
-  // ).price;
-
-  if (!collection) {
+  if (!collectionPromise) {
     throw new Response(`Collection ${handle} not found`, {
       status: 404,
     });
   }
 
-  return defer({allPromise, values});
+  return defer({collectionPromise, defaultCollection, values});
 }
 
 export default function Collection() {
-  const {allPromise, values} = useLoaderData();
   const submit = useSubmit();
+  const {collectionPromise, defaultCollection, values} = useLoaderData();
+
   const {sortkey, reverse} = values;
   const root_ = document.documentElement.style;
+
+  const [counter, setCounter] = useState(0);
 
   const [grid, setGrid] = useState(true);
   const [reversed, setReversed] = useState(reverse || false);
@@ -155,26 +154,26 @@ export default function Collection() {
   };
 
   const updateSorting = (sortValue, reversed) => {
-    console.log('sortVal:', sortValue, ' reversed:', reversed);
     setSortValue(sortValue);
     setReversed(reversed);
   };
 
-  const [counter, setCounter] = useState(0);
   useEffect(() => {
-    console.log('contr', counter);
-    if (counter === 0) return;
+    if (counter === 0) {
+      setCounter((prev) => ++prev);
+      return;
+    }
+
     const form = document.querySelector('#filter-form');
     submit(form);
-    setCounter((prev) => prev++);
   }, [sortValue, reversed]);
 
   return (
     <Suspense fallback={<Spinner />}>
-      <Await resolve={allPromise}>
-        {(allPromise) => (
-          <div className="collection" key={allPromise[0].collection.handle}>
-            <PageHeader collection={allPromise[0].collection} />
+      <Await resolve={collectionPromise}>
+        {(collectionPromise) => (
+          <div className="collection" key={collectionPromise.collection.handle}>
+            <PageHeader collection={collectionPromise.collection} />
             <div className="w-full max-sm:h-[44px] sm:h-[54px] border-y flex justify-between max-sm:flex-row-reverse items-center">
               <GridChanger setGrid={setGrid} grid={grid} />
 
@@ -186,27 +185,36 @@ export default function Collection() {
                 <FilterButton openMobileFilter={openMobileFilter} />
               </div>
             </div>
-            <Pagination connection={allPromise[0].collection.products}>
+            <Pagination connection={collectionPromise.collection.products}>
               {({nodes, isLoading, NextLink}) => (
                 <>
                   <ProductsGrid
                     defaultPriceRange={
                       JSON.parse(
-                        allPromise[1].collection.products.filters[0].values[0]
-                          .input,
+                        defaultCollection.products.filters[0].values[0].input,
                       ).price
                     }
                     values={values}
-                    collection={allPromise[0].collection}
+                    collection={collectionPromise.collection}
                     grid={grid}
                     products={nodes}
-                    handle={allPromise[0].collection.handle}
+                    handle={collectionPromise.collection.handle}
                     sortValue={sortValue}
                     reversed={reversed}
                   />
                   <br />
                   <NextLink className="flex justify-center w-full text-xl my-5">
-                    <LoadMoreButton isLoading={isLoading} />
+                    {isLoading ? (
+                      <img
+                        className="spinner-gif"
+                        src={spinner}
+                        alt="spinner"
+                        width={66}
+                        height={66}
+                      />
+                    ) : (
+                      <LoadMoreButton />
+                    )}
                   </NextLink>
                 </>
               )}
@@ -261,8 +269,6 @@ function ProductsGrid({
   values,
   defaultPriceRange,
 }) {
-  //const {collection, values, defaultPriceRange} = useLoaderData();
-
   const url = useLocation();
   const submit = useSubmit();
   const navigate = useNavigate();
@@ -285,7 +291,8 @@ function ProductsGrid({
     parseInt(values.minPrice) || defaultPriceRange.min,
     parseInt(values.maxPrice) || defaultPriceRange.max,
   ]);
-  const [sliderClas, setSliderClas] = useState({});
+  const [sliderClass, setSliderClass] = useState({});
+
   const getOptionValue = (option) => {
     return option.id.split('.').slice(-1)[0];
   };
@@ -337,7 +344,7 @@ function ProductsGrid({
           ease: 'power1.inOut',
         },
       );
-      setSliderClas({visibility: 'hidden'});
+      setSliderClass({visibility: 'hidden'});
     } else {
       if (openAccordion !== null) {
         gsap.to(
@@ -361,7 +368,7 @@ function ProductsGrid({
           ease: 'power1.inOut',
         },
       );
-      setSliderClas({});
+      setSliderClass({});
     }
   };
 
@@ -413,8 +420,7 @@ function ProductsGrid({
                     PRICE
                   </p>
                   <Slider2
-                    className={sliderClas}
-                    value={sliderPriceRange}
+                    className={sliderClass}
                     max={defaultPriceRange.max}
                     min={defaultPriceRange.min}
                     getSliderPriceRange={sliderPriceRange}
@@ -560,37 +566,41 @@ function ProductsGrid({
           />
         </Form>
       </div>
-      {navigation.state === 'loading' && navigation.formMethod === undefined ? (
-        <div className="w-full grid max-sm:grid-cols-2 max-[1139px]:grid-cols-3 grid-cols-4 max-sm:gap-x-[10px] max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
-          {products.map((product, index) => {
-            return <CollectionSkeleton />;
-          })}
-        </div>
-      ) : grid ? (
-        <div className="grid max-sm:grid-cols-2 max-[1139px]:grid-cols-3 grid-cols-4 max-sm:gap-x-[10px] max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
-          {products.map((product, index) => {
-            return (
-              <ProductItem
-                key={product.id}
-                product={product}
-                loading={index < 8 ? 'eager' : undefined}
-              />
-            );
-          })}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
-          {products.map((product, index) => {
-            return (
-              <ProductItem
-                key={product.id}
-                product={product}
-                loading={index < 8 ? 'eager' : undefined}
-              />
-            );
-          })}
-        </div>
-      )}
+      <div className="flex flex-col">
+        {grid ? (
+          <div className="grid max-sm:grid-cols-2 max-[1139px]:grid-cols-3 grid-cols-4 max-sm:gap-x-[10px] max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
+            {products.map((product, index) => {
+              return (
+                <ProductItem
+                  key={product.id}
+                  product={product}
+                  loading={index < 8 ? 'eager' : undefined}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
+            {products.map((product, index) => {
+              return (
+                <ProductItem
+                  key={product.id}
+                  product={product}
+                  loading={index < 8 ? 'eager' : undefined}
+                />
+              );
+            })}
+          </div>
+        )}
+        {/* {navigation.state === 'loading' &&
+          navigation.formMethod === undefined && (
+            <div className="w-full grid max-sm:grid-cols-2 max-[1139px]:grid-cols-3 grid-cols-4 max-sm:gap-x-[10px] max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
+              {products.map((_, index) => {
+                return <CollectionSkeleton key={index} />;
+              })}
+            </div>
+          )} */}
+      </div>
     </div>
   );
 }
