@@ -33,7 +33,10 @@ import styles from '../styles/Spinner.css';
 export const links = () => [{rel: 'stylesheet', href: styles}];
 
 export const handle = {
-  breadcrumb: "Hakan"
+  breadcrumb: {
+    first : "Home Page",
+    second : (param)=> 
+  }
 }
 
 export const meta = ({data}) => {
