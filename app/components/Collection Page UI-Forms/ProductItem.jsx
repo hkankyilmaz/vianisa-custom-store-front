@@ -8,7 +8,11 @@ export default function ProductItem({product, loading}) {
   let minPrice = params.get('minprice');
   let maxPrice = params.get('maxprice');
   let color = params.getAll('color');
+  let material = params.getAll('material');
   color = color[color.length - 1];
+  material = material[material.length - 1];
+  // console.log(color, material?.replace('-', ' '));
+
   let selectedVariant = color
     ? product.variants.nodes.find((variant) =>
         variant.selectedOptions.find(
@@ -16,8 +20,72 @@ export default function ProductItem({product, loading}) {
         ),
       )
     : null;
+  let variant = product.variants.nodes[0];
+  if (material !== 'platinum') {
+    if (material && color) {
+      console.log(1);
 
-  const variant = product.variants.nodes[0];
+      variant = product.variants.nodes
+        .filter((variant_) =>
+          variant_.selectedOptions.find(
+            (slOps) =>
+              slOps.name === 'Color' && slOps.value.toLowerCase() === color,
+          ),
+        )
+        .find((variant_) =>
+          variant_.selectedOptions.find(
+            (slOps) =>
+              slOps.name === 'Material' &&
+              slOps.value.toLowerCase() === material?.replace('-', ' '),
+          ),
+        );
+    } else if (material && !color) {
+      console.log(2);
+      console.log(product.variants.nodes);
+
+      variant = product.variants.nodes.find((variant_) =>
+        variant_.selectedOptions.find(
+          (slOps) =>
+            slOps.name === 'Material' &&
+            slOps.value.toLowerCase() === material?.replace('-', ' '),
+        ),
+      );
+    } else if (!material && color) {
+      console.log(3);
+      variant = product.variants.nodes.find((variant_) =>
+        variant_.selectedOptions.find(
+          (slOps) =>
+            slOps.name === 'Color' && slOps.value.toLowerCase() === color,
+        ),
+      );
+    }
+  } else {
+    console.log(product.variants.nodes.length);
+  }
+
+  /*  console.log(
+    product.variants.nodes.filter((variant_) =>
+      variant_.selectedOptions.find(
+        (slOps) =>
+          slOps.name === 'Color' && slOps.value.toLowerCase() === color,
+      ),
+    ),
+    product.variants.nodes
+      .filter((variant_) =>
+        variant_.selectedOptions.find(
+          (slOps) =>
+            slOps.name === 'Color' && slOps.value.toLowerCase() === color,
+        ),
+      )
+      .find((variant_) =>
+        variant_.selectedOptions.find(
+          (slOps) =>
+            slOps.name === 'Material' &&
+            slOps.value.toLowerCase() === material.replace('-', ' '),
+        ),
+      ),
+    material.replace('-', ' '),
+  ); */
   const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
   return (
     <Link className="" key={product.id} prefetch="intent" to={variantUrl}>
