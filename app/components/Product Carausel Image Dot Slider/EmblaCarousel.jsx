@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
+import { Image } from '@shopify/hydrogen';
 import useEmblaCarousel from 'embla-carousel-react';
 import {
   DotButton,
@@ -56,10 +57,11 @@ const DotCarousel = (props) => {
                 <div className="embla__slide__number">
                   <span>{index + 1}</span>
                 </div>
-                <img
+                <Image
                   className="embla__slide__img"
                   src={imageByIndex(index).url}
                   alt="Your alt text"
+                  loading='eager'
                 />
               </div>
             ))}
