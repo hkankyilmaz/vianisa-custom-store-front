@@ -32,6 +32,10 @@ import styles from '../styles/Spinner.css';
 
 export const links = () => [{rel: 'stylesheet', href: styles}];
 
+export const handle = {
+  breadcrumb: "Hakan"
+}
+
 export const meta = ({data}) => {
   return [{title: `${data.defaultCollection.title} Collection`}];
 };

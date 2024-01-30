@@ -1258,7 +1258,6 @@ export const FEATURED_COLLECTION_QUERY = `#graphql
       description
       title
       products (first:8 ) {
-    
           nodes  {
           title
           collections(first:250){
