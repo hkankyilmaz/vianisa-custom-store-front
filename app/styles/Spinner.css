@@ -20,7 +20,10 @@
 }
 
 .spinner__text {
-  font-size: 22px;
+  font-size: 18px;
+  font-family: 'avenir-medium';
+  color: #999999;
+  margin-top: 10px;
 }
 .spinner__lds-dual-ring:after {
   content: ' ';
