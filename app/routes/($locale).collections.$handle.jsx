@@ -22,8 +22,7 @@ import {
   SortForm,
 } from '~/components/Collection Page UI-Forms';
 import {CloseButton} from '~/components/Header/Drawer';
-import Slider2 from '~/components/RangeSlider/RangeSlider';
-import {CollectionSkeleton} from '~/components/Skeletons';
+import Slider from '~/components/RangeSlider/RangeSlider';
 import Spinner from '~/components/Spinner';
 import useDefaultCollectionQuery from '~/hooks/useDefaultCollectionQuery';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
@@ -201,6 +200,7 @@ export default function Collection() {
                     handle={collectionPromise.collection.handle}
                     sortValue={sortValue}
                     reversed={reversed}
+                    updateSorting={updateSorting}
                   />
                   <br />
                   <NextLink className="flex justify-center w-full text-xl my-5">
@@ -268,6 +268,7 @@ function ProductsGrid({
   collection,
   values,
   defaultPriceRange,
+  updateSorting,
 }) {
   const url = useLocation();
   const submit = useSubmit();
@@ -309,7 +310,6 @@ function ProductsGrid({
     );
     root_.overflowY = 'auto';
   };
-  const navigation = useNavigation();
 
   const handleAccordionClick = (index) => {
     const refHorizontal = refsHorizontal[index];
@@ -419,7 +419,7 @@ function ProductsGrid({
                   <p className="font-avenir-medium text-xs text-[#2f2f2f] tracking-[2.4px] mb-2 max-sm:hidden">
                     PRICE
                   </p>
-                  <Slider2
+                  <Slider
                     className={sliderClass}
                     max={defaultPriceRange.max}
                     min={defaultPriceRange.min}
@@ -495,7 +495,11 @@ function ProductsGrid({
                     </p>
                     {filter.values.map((option) => (
                       <div
-                        key={option.id}
+                        key={`${option.id}-${
+                          values[filter.label.toLowerCase()]?.includes(
+                            getOptionValue(option),
+                          ) ?? false
+                        }`}
                         className="mb-3 font-avenir-light hover:underline hover:cursor-pointer text-[13px]"
                       >
                         <FilterForm.ColorOrMetarialInput
@@ -536,6 +540,9 @@ function ProductsGrid({
                   defaultPriceRange.max,
                 ]);
                 navigate(`/collections/${handle}`);
+                setTimeout(() => {
+                  updateSorting('COLLECTION_DEFAULT', false);
+                }, 500);
               }}
             >
               Reset

@@ -23,7 +23,7 @@ export default function ProductItem({product, loading}) {
   let variant = product.variants.nodes[0];
   if (material !== 'platinum') {
     if (material && color) {
-      console.log(1);
+      // console.log(1);
 
       variant = product.variants.nodes
         .filter((variant_) =>
@@ -40,8 +40,8 @@ export default function ProductItem({product, loading}) {
           ),
         );
     } else if (material && !color) {
-      console.log(2);
-      console.log(product.variants.nodes);
+      // console.log(2);
+      // console.log(product.variants.nodes);
 
       variant = product.variants.nodes.find((variant_) =>
         variant_.selectedOptions.find(
@@ -51,7 +51,7 @@ export default function ProductItem({product, loading}) {
         ),
       );
     } else if (!material && color) {
-      console.log(3);
+      // console.log(3);
       variant = product.variants.nodes.find((variant_) =>
         variant_.selectedOptions.find(
           (slOps) =>
@@ -60,7 +60,7 @@ export default function ProductItem({product, loading}) {
       );
     }
   } else {
-    console.log(product.variants.nodes.length);
+    // console.log(product.variants.nodes.length);
   }
 
   /*  console.log(
