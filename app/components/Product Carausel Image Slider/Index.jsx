@@ -5,7 +5,6 @@ import {Image} from '@shopify/hydrogen';
 
 const EmblaCarousel = (props) => {
   const {slides, options, imageByIndex, startIndex} = props;
-  console.log(startIndex);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [emblaMainRef, emblaMainApi] = useEmblaCarousel(options);
   const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({

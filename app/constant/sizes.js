@@ -117,7 +117,7 @@ export const tags = [
   },
   {
     inputNumber: 1,
-    tags: ['single-birthstone', 'io_singlebirhtstone'],
+    tags: ['single-birthstone', 'io_singlebirhtstone', 'IO_singlebirhtstone'],
     placeHolder: 'Choose Birthstone',
     name: 'singleBirthstone',
     inputType: 'select',
@@ -142,7 +142,7 @@ export const tags = [
     tags: [
       'multiple-birthstone',
       'io_multiplebirthstone',
-      'io_multiplebirhtstone',
+      'IO_multiplebirthstone',
     ],
     placeHolder: 'Please Specify Each Birthstone from Left to Right',
     name: 'multipleBirthStone',

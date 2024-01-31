@@ -562,7 +562,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
         coll.title === 'Birthstone Jewelry' ||
         coll.title === 'Gold Vermeil Birthstone Jewelry',
     ) && !product.tags.includes('only_solid_gold');
-  console.log(product.collections);
+
   // console.log(
   //   goldOps,
   //   product.collections.nodes.find(
@@ -825,6 +825,11 @@ function ProductForm({product, selectedVariant, variants}) {
   function OptName(name) {
     return product.options.findIndex((opt) => opt.name === name);
   }
+  // let newarr_ = [...product.options];
+  product.options.sort(function (a, b) {
+    return b.values.length - a.values.length;
+  });
+  // console.log(newarr_);
 
   // console.log('s', product.options.length, 4 % 2, 5 % 2);
   return (
@@ -853,7 +858,15 @@ function ProductForm({product, selectedVariant, variants}) {
           .filter((option) => option.values.length === 1)
           .map((dic, idx) => (
             <>
-              <ProductOptions product={product} key={dic.name} option={dic} />
+              <ProductOptions
+                product={product}
+                key={dic.name}
+                option={dic}
+                w_full={
+                  OptName(dic.name) === product.options.length - 1 &&
+                  OptName(dic.name) % 2 === 0
+                }
+              />
             </>
           ))}
       </div>
@@ -935,7 +948,7 @@ function ProductOptions({option, w_full}) {
       ? option.values.find((value) => value.isActive === true).value
       : option.values[0];
   let root_ = document.documentElement.style;
-  console.log(w_full);
+  // console.log(w_full);
   let className_ = w_full
     ? 'flex justify-between relative items-center px-[14px] py-[10px] text-[13px] border cursor-pointer text-[#595959] tracking-wide col-span-2 '
     : 'flex justify-between relative items-center px-[14px] py-[10px] text-[13px] border cursor-pointer text-[#595959] tracking-wide ';
