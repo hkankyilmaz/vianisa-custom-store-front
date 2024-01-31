@@ -272,7 +272,7 @@ export default function EtsyReview({collection, className}) {
             href="https://www.etsy.com/shop/vianisa#reviews"
             className="text-xs text-[#666] hover:underline"
           >
-            1289 reviews
+            1334 reviews
           </a>
         </div>
       </div>
@@ -293,6 +293,63 @@ function ReviewItem({
   const start2 = [...stars];
   let fullStars = stars.filter((x) => x === true);
   let emptyStars = start2.filter((x) => x !== true);
+  const TextWithToggle = ({text}) => {
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [isExpandable, setIsExpandable] = useState(false);
+    const textRef = useRef(null);
+
+    useEffect(() => {
+      // Check if the text is taller than three lines initially
+      const checkExpandable = () => {
+        const newIsExpandable =
+          textRef.current.scrollHeight >
+          3 * parseFloat(getComputedStyle(textRef.current).lineHeight) + 1;
+
+        if (newIsExpandable !== isExpandable) {
+          setIsExpandable(newIsExpandable);
+
+          // Auto-expand if not expandable initially
+          /* if (!newIsExpandable) {
+            setIsExpanded(true);
+          } */
+        }
+      };
+
+      checkExpandable();
+
+      window.addEventListener('resize', checkExpandable);
+      return () => {
+        // Clean up state when component unmounts
+        window.removeEventListener('resize', checkExpandable);
+      };
+    }, [isExpandable, text]);
+
+    const toggleText = () => {
+      setIsExpanded(!isExpanded);
+    };
+
+    const textClass = isExpanded ? 'line-clamp-none' : 'line-clamp-3';
+    const shadowClass = isExpandable ? (isExpanded ? '' : 'white-shadow') : '';
+
+    return (
+      <div>
+        <div
+          ref={textRef}
+          className={`text-sm text-[#777] leading-[1.45] ${textClass} relative w-full`}
+        >
+          <div className={`${shadowClass}`}> {text}</div>
+        </div>
+
+        {isExpandable ? (
+          <button className="underline hover:no-underline" onClick={toggleText}>
+            {isExpanded ? 'Show less' : 'Show more'}
+          </button>
+        ) : (
+          ''
+        )}
+      </div>
+    );
+  };
   return (
     <div className=" flex-[0_0_25%] min-w-[200px] first:ml-8">
       <div className="bg-[#fafafb] rounded-md mb-5 ">
@@ -369,61 +426,3 @@ function ReviewItem({
     </div>
   );
 }
-
-const TextWithToggle = ({text}) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isExpandable, setIsExpandable] = useState(false);
-  const textRef = useRef(null);
-
-  useEffect(() => {
-    // Check if the text is taller than three lines initially
-    const checkExpandable = () => {
-      const newIsExpandable =
-        textRef.current.scrollHeight >
-        3 * parseFloat(getComputedStyle(textRef.current).lineHeight) + 1;
-
-      if (newIsExpandable !== isExpandable) {
-        setIsExpandable(newIsExpandable);
-
-        // Auto-expand if not expandable initially
-        /* if (!newIsExpandable) {
-          setIsExpanded(true);
-        } */
-      }
-    };
-
-    checkExpandable();
-
-    window.addEventListener('resize', checkExpandable);
-    return () => {
-      // Clean up state when component unmounts
-      window.removeEventListener('resize', checkExpandable);
-    };
-  }, [isExpandable, text]);
-
-  const toggleText = () => {
-    setIsExpanded(!isExpanded);
-  };
-
-  const textClass = isExpanded ? 'line-clamp-none' : 'line-clamp-3';
-  const shadowClass = isExpandable ? (isExpanded ? '' : 'white-shadow') : '';
-
-  return (
-    <div>
-      <div
-        ref={textRef}
-        className={`text-sm text-[#777] leading-[1.45] ${textClass} relative w-full`}
-      >
-        <div className={`${shadowClass}`}> {text}</div>
-      </div>
-
-      {isExpandable ? (
-        <button className="underline hover:no-underline" onClick={toggleText}>
-          {isExpanded ? 'Show less' : 'Show more'}
-        </button>
-      ) : (
-        ''
-      )}
-    </div>
-  );
-};
