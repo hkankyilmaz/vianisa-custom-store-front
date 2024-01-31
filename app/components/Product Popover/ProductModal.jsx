@@ -24,7 +24,7 @@ function ProductModal() {
   });
 
   return (
-    <div className="product-bar-container fixed w-full h-[100vh] z-50 flex flex-col justify-between items-center lg:hidden">
+    <div className="product-bar-container fixed w-full h-[100dvh] z-50 flex flex-col justify-between items-center lg:hidden">
       <div
         onClick={() => handleClick()}
         className="bg-[#363636]/50 w-[100%] h-full translate-y-[0%]"
