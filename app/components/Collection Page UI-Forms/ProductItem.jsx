@@ -89,7 +89,7 @@ export default function ProductItem({product, loading}) {
   const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
   return (
     <Link className="" key={product.id} prefetch="intent" to={variantUrl}>
-      <div className="font-avenir-medium max-sm:text-[8px] text-[10px] tracking-[2px] text-[#2f2f2f] max-lg:mb-0 mb-3 ml-4">
+      <div className="font-avenir-medium max-sm:text-[8px] text-[10px] tracking-[2px] text-[#2f2f2f] mb-3 md:mb-4">
         ON SALE
       </div>
       {product.featuredImage && (
