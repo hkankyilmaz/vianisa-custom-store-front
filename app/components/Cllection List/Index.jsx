@@ -25,7 +25,7 @@ function CollectionList({
     {
       title: 'PLAIN GOLD BANDS',
       photo: goldBands,
-      to: 'classic-wedding-bands',
+      to: 'collections/classic-wedding-bands',
     },
     {
       title: 'BRACELETS',
