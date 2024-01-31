@@ -129,6 +129,10 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
           amount
           currencyCode
         }
+        price {
+          amount
+          currencyCode
+        }
         selectedOptions {
           name
           value
