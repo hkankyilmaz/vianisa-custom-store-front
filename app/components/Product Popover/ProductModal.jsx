@@ -29,7 +29,7 @@ function ProductModal() {
         onClick={() => handleClick()}
         className="bg-[#363636]/50 w-[100%] h-full translate-y-[0%]"
       ></div>
-      <div className="absolute flex flex-col items-center bottom-0 z-[150] product-form-mobile h-min w-[100%] translate-y-[100%] bg-[#efefef]">
+      <div className="absolute flex flex-col items-center bottom-0 z-[150] product-form-mobile h-auto w-[100%] translate-y-[100%] bg-[#efefef]">
         <div className="value-list w-full h-full">
           <header className="w-full text-center px-5 py-[13px]  text-[#2f2f2f] text-xl font-avenir-medium tracking-[4px]">
             {value.option === 'Color' ? 'COLOR' : 'MATERIAL'}
