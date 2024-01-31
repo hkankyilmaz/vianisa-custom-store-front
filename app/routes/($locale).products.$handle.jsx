@@ -40,6 +40,13 @@ import CaratOptions from '~/components/Product Carat Options/CaratOptions';
 import GoldOptions from '~/components/Product Gold Options/GoldOptions';
 import EtsyReview from '~/components/EtsyReviews/Index';
 
+export const handle = {
+  breadcrumb: (match) =>
+    match.data.product.collections.nodes[0].title +
+    ' / ' +
+    match.data.product.title,
+};
+
 export const meta = ({data}) => {
   return [{title: `${data.product?.title}`}];
 };

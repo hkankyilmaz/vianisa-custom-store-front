@@ -33,11 +33,8 @@ import styles from '../styles/Spinner.css';
 export const links = () => [{rel: 'stylesheet', href: styles}];
 
 export const handle = {
-  breadcrumb: {
-    first : "Home Page",
-    second : (param)=> 
-  }
-}
+  breadcrumb: (match) => match.data.defaultCollection.title,
+};
 
 export const meta = ({data}) => {
   return [{title: `${data.defaultCollection.title} Collection`}];
