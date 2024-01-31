@@ -164,7 +164,7 @@ export function ProductExtraInputTag({product, cardInfo}) {
               ) : inputObjSub.inputType == 'text' && open ? (
                 <div key={idx} className="relative mt-[15px] h-[41.5px]">
                   <input
-                    className="placeholder-neutral-400 w-full text-[13px] px-[15px] py-[10px] bg-transparent h-[41.5px] focus:border-transparent focus:outline-none border border-[#E5E7EB] z-3"
+                    className="placeholder-neutral-400 w-full text-[13px] font-avenir-medium tracking-[.6px] px-[15px] py-[10px] bg-transparent h-[41.5px] focus:border-transparent focus:outline-none border border-[#E5E7EB] z-3"
                     data-labelonproduct={inputObjSub.labelOnProduct}
                     name={inputObjSub.labelOnProduct}
                     onChange={cardInfo}
