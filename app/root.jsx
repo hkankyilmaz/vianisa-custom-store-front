@@ -13,14 +13,14 @@ import {
 } from '@remix-run/react';
 import {Script, useNonce} from '@shopify/hydrogen';
 import {defer} from '@shopify/remix-oxygen';
-import NotFound from './components/NotFound';
 import {Layout} from '~/components/Layout';
 import favicon from '../public/favicon.webp';
 import favicon_ from '../public/v_harf.svg';
+import MessengerCustomerChat from './components/Facebook-Chat/FacebookChat';
+import NotFound from './components/NotFound';
 import dotSliderStyles from './components/Product Carausel Image Dot Slider/embla.css';
 import appStyles from './styles/app.css';
 import tailwindCss from './styles/tailwind.css';
-import MessengerCustomerChat from './components/Facebook-Chat/FacebookChat';
 // This is important to avoid re-fetching root queries on sub-navigations
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
   // revalidate when a mutation is performed e.g add to cart, login...
@@ -108,8 +108,12 @@ export async function loader({context}) {
 
 export default function App() {
   const nonce = useNonce();
-
   const data = useLoaderData();
+
+  String.prototype.capitalize = function () {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  };
+
   return (
     <html lang="en">
       <head>

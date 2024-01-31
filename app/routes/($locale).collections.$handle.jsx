@@ -27,6 +27,7 @@ import Spinner from '~/components/Spinner';
 import useDefaultCollectionQuery from '~/hooks/useDefaultCollectionQuery';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
 
+import {ProductContextProvider} from '~/store/productOptionsContext';
 import styles from '../styles/Spinner.css';
 
 export const links = () => [{rel: 'stylesheet', href: styles}];
@@ -164,7 +165,7 @@ export default function Collection() {
     }
 
     const form = document.querySelector('#filter-form');
-    submit(form);
+    submit(form, {preventScrollReset: true});
   }, [sortValue, reversed]);
 
   return (
@@ -298,6 +299,11 @@ function ProductsGrid({
     return option.id.split('.').slice(-1)[0];
   };
 
+  useEffect(() => {
+    console.log(values);
+    console.log(products);
+  }, [values, products]);
+
   const closeMobileFilter = () => {
     const root_ = document.documentElement.style;
     root_.setProperty('--filter-container-visibility', 'hidden');
@@ -373,7 +379,10 @@ function ProductsGrid({
   };
 
   return (
-    <div className="mt-[50px] flex max-lg:gap-0 max-[1139px]:gap-4 max-lg:m-0 max-[1139px]:ml-6 ml-[50px]">
+    <div
+      className="mt-[50px] flex max-lg:gap-0 max-[1139px]:gap-4 max-lg:m-0 max-[1139px]:ml-6 ml-[50px]"
+      key={JSON.stringify(values)}
+    >
       <div className="lg:min-w-[200px] lg:max-w-[200px]">
         <span
           onClick={() => closeMobileFilter()}
@@ -427,7 +436,9 @@ function ProductsGrid({
                     setSliderPriceRange={setSliderPriceRange}
                     setInputPriceRange={setInputPriceRange}
                     onChangeCommitted={() => {
-                      submit(formRef.current);
+                      submit(formRef.current, {
+                        preventScrollReset: true,
+                      });
                     }}
                   />
                   {/* <Slider
@@ -455,7 +466,9 @@ function ProductsGrid({
                     value={inputPriceRange}
                     setValue={setInputPriceRange}
                     setSliderValue={setSliderPriceRange}
-                    submit={() => submit(formRef.current)}
+                    submit={() =>
+                      submit(formRef.current, {preventScrollReset: true})
+                    }
                     searchParamsValue={[
                       values.minPrice ?? defaultPriceRange.min,
                       values.maxPrice ?? defaultPriceRange.max,
@@ -506,7 +519,9 @@ function ProductsGrid({
                           value={getOptionValue(option)}
                           name={filter.label.toLowerCase()}
                           count={option.count}
-                          submit={() => submit(formRef.current)}
+                          submit={() =>
+                            submit(formRef.current, {preventScrollReset: true})
+                          }
                           defaultChecked={
                             values[filter.label.toLowerCase()]?.includes(
                               getOptionValue(option),
@@ -582,9 +597,12 @@ function ProductsGrid({
                   key={product.id}
                   product={product}
                   loading={index < 8 ? 'eager' : undefined}
+                  color={values.color}
+                  material={values.material}
                 />
               );
             })}
+            {/* {JSON.stringify(products)} */}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
@@ -594,9 +612,12 @@ function ProductsGrid({
                   key={product.id}
                   product={product}
                   loading={index < 8 ? 'eager' : undefined}
+                  color={values.color}
+                  material={values.material}
                 />
               );
             })}
+            {/* {JSON.stringify(products)} */}
           </div>
         )}
         {/* {navigation.state === 'loading' &&
