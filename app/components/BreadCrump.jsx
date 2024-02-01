@@ -5,7 +5,7 @@ export function Title() {
   const matchs = useMatches().filter(Boolean);
 
   return (
-    <p className="my-3 font-avenir-light max-w-[1330px] mx-auto md:pl-[50px] [&>*]:text-[#999999]">
+    <p className="my-3 font-avenir-light max-w-[1330px] mx-auto ml-2 md:pl-[50px] [&>*]:text-[#999999]">
       {(() => {
         return (
           <>
