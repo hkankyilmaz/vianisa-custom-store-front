@@ -134,7 +134,7 @@ export function ColorOrMetarialInput({
   submit,
   defaultChecked,
 }) {
-  const _value = value
+  const value_ = value
     .split('-')
     .map((word) => {
       return word.charAt(0).toUpperCase() + word.slice(1);
@@ -151,20 +151,17 @@ export function ColorOrMetarialInput({
     <>
       <div className="relative">
         <input
-          className="hidden"
+          className="hidden color-material-input"
           type="checkbox"
-          id={name == 'color' ? value : `_${value}`}
+          id={`${name}-${value}`}
           name={name}
           value={value}
           onChange={handleOnChange}
           checked={isChecked}
         />
-        <span className={`${name == 'color' ? value : `_${value}`}`}></span>
-        <label
-          className="w-full block"
-          htmlFor={`${name == 'color' ? value : `_${value}`}`}
-        >
-          {_value} ({count})
+        <span className="color-material-dot"></span>
+        <label className="w-full block" htmlFor={`${name}-${value}`}>
+          {value_} ({count})
         </label>
       </div>
     </>
