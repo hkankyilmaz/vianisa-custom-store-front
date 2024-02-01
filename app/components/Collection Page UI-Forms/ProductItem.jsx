@@ -1,32 +1,66 @@
 import {Link} from '@remix-run/react';
 import {Image, Money} from '@shopify/hydrogen';
+import {useState} from 'react';
 import {useVariantUrl} from '~/utils';
 
 export default function ProductItem({product, color, material, loading}) {
-  const color_ = Array.isArray(color) ? color[color.length - 1] : color;
-  const material_ = Array.isArray(material)
-    ? material[material.length - 1]
-    : material;
+  const [variant] = useState(() => {
+    const color_ = color ? (Array.isArray(color) ? color : [color]) : [];
+    const material_ = material
+      ? Array.isArray(material)
+        ? material
+        : [material]
+      : [];
+    const variantOptions = [];
 
-  const variant =
-    product.variants.nodes.find((variant_) => {
-      const colorMatch = color_
-        ? variant_.selectedOptions.some(
-            (option) =>
-              option.name === 'Color' && option.value.toLowerCase() === color_,
-          )
-        : true;
+    if (color_.length && material_.length) {
+      for (let i = color_.length - 1; i >= 0; i--) {
+        for (let j = material_.length - 1; j >= 0; j--) {
+          variantOptions.push({
+            color: color_[i],
+            material: material_[j],
+          });
+        }
+      }
+    } else {
+      const singleAttribute = color_.length ? color_ : material_;
+      const key = color_.length ? 'color' : 'material';
 
-      const materialMatch = material_
-        ? variant_.selectedOptions.some(
-            (option) =>
-              option.name === 'Material' &&
-              option.value.toLowerCase() === material_.replace('-', ' '),
-          )
-        : true;
+      for (let i = singleAttribute.length - 1; i >= 0; i--) {
+        variantOptions.push({
+          [key]: singleAttribute[i],
+        });
+      }
+    }
 
-      return colorMatch && materialMatch;
-    }) ?? product.variants.nodes[0];
+    const variants = [
+      ...variantOptions.map((variantOption) => {
+        return product.variants.nodes.find((variant_) => {
+          const colorMatch = variantOption?.color
+            ? variant_.selectedOptions.some(
+                (option) =>
+                  option.name === 'Color' &&
+                  option.value.toLowerCase() === variantOption.color,
+              )
+            : true;
+
+          const materialMatch = variantOption?.material
+            ? variant_.selectedOptions.some(
+                (option) =>
+                  option.name === 'Material' &&
+                  option.value.toLowerCase() ===
+                    variantOption.material.replace('-', ' '),
+              )
+            : true;
+
+          return colorMatch && materialMatch;
+        });
+      }),
+      product.variants.nodes[0],
+    ];
+
+    return variants.filter(Boolean)[0];
+  });
 
   const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
 

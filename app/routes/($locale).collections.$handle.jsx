@@ -7,7 +7,7 @@ import {
   useNavigation,
   useSubmit,
 } from '@remix-run/react';
-import {Pagination, getPaginationVariables} from '@shopify/hydrogen';
+import {Image, Pagination, getPaginationVariables} from '@shopify/hydrogen';
 import {defer, redirect} from '@shopify/remix-oxygen';
 import gsap from 'gsap';
 import {Suspense, useEffect, useRef, useState} from 'react';
@@ -26,8 +26,6 @@ import Slider from '~/components/RangeSlider/RangeSlider';
 import Spinner from '~/components/Spinner';
 import useDefaultCollectionQuery from '~/hooks/useDefaultCollectionQuery';
 import useGenerateCollectionQuery from '~/hooks/useGenerateCollectionQuery';
-
-import {ProductContextProvider} from '~/store/productOptionsContext';
 import styles from '../styles/Spinner.css';
 
 export const links = () => [{rel: 'stylesheet', href: styles}];
@@ -127,6 +125,7 @@ export default function Collection() {
 
   const [grid, setGrid] = useState(true);
   const [reversed, setReversed] = useState(reverse || false);
+  const [productsLoading, setProductsLoading] = useState(true);
   const [sortValue, setSortValue] = useState(sortkey || 'COLLECTION_DEFAULT');
 
   const openMobileFilter = () => {
@@ -202,10 +201,12 @@ export default function Collection() {
                     sortValue={sortValue}
                     reversed={reversed}
                     updateSorting={updateSorting}
+                    productsLoading={productsLoading}
+                    setProductsLoading={setProductsLoading}
                   />
                   <br />
-                  <NextLink className="flex justify-center w-full text-xl my-5">
-                    {isLoading ? (
+                  {isLoading && !productsLoading ? (
+                    <div className="flex justify-center w-full my-5">
                       <img
                         className="spinner-gif"
                         src={spinner}
@@ -213,10 +214,12 @@ export default function Collection() {
                         width={66}
                         height={66}
                       />
-                    ) : (
+                    </div>
+                  ) : (
+                    <NextLink className="flex justify-center w-full text-xl my-5">
                       <LoadMoreButton />
-                    )}
-                  </NextLink>
+                    </NextLink>
+                  )}
                 </>
               )}
             </Pagination>
@@ -270,6 +273,8 @@ function ProductsGrid({
   values,
   defaultPriceRange,
   updateSorting,
+  productsLoading,
+  setProductsLoading,
 }) {
   const url = useLocation();
   const submit = useSubmit();
@@ -300,9 +305,8 @@ function ProductsGrid({
   };
 
   useEffect(() => {
-    console.log(values);
-    console.log(products);
-  }, [values, products]);
+    setProductsLoading(false);
+  }, [products]);
 
   const closeMobileFilter = () => {
     const root_ = document.documentElement.style;
@@ -378,9 +382,21 @@ function ProductsGrid({
     }
   };
 
+  const resetFilters = () => {
+    setSliderPriceRange([defaultPriceRange.min, defaultPriceRange.max]);
+    setInputPriceRange([defaultPriceRange.min, defaultPriceRange.max]);
+    setProductsLoading(true);
+    navigate(`/collections/${handle}`);
+    setTimeout(() => {
+      updateSorting('COLLECTION_DEFAULT', false);
+    }, 500);
+  };
+
   return (
     <div
-      className="mt-[50px] flex max-lg:gap-0 max-[1139px]:gap-4 max-lg:m-0 max-[1139px]:ml-6 ml-[50px]"
+      className={`mt-[50px] flex max-lg:gap-0 max-[1139px]:gap-4 max-lg:m-0 max-[1139px]:ml-6 ml-[50px] ${
+        productsLoading ? 'items-center' : ''
+      }`}
       key={JSON.stringify(values)}
     >
       <div className="lg:min-w-[200px] lg:max-w-[200px]">
@@ -400,7 +416,7 @@ function ProductsGrid({
               <CloseButton onClick={() => closeMobileFilter()} />
             </div>
           </header>
-          <div className="accordion__container ">
+          <div className="accordion__container relative">
             <div
               className={`accordion__item max-sm:border-b border-[#e0e0e0] ${
                 openAccordion === 0 ? 'open' : ''
@@ -436,39 +452,24 @@ function ProductsGrid({
                     setSliderPriceRange={setSliderPriceRange}
                     setInputPriceRange={setInputPriceRange}
                     onChangeCommitted={() => {
+                      setProductsLoading(true);
                       submit(formRef.current, {
                         preventScrollReset: true,
                       });
                     }}
                   />
-                  {/* <Slider
-                    className="max-w-[100%] mb-1"
-                    sx={{color: 'gray'}}
-                    size="small"
-                    value={sliderPriceRange}
-                    onChange={(e, value) => {
-                      setSliderPriceRange(value);
-                      setInputPriceRange(value);
-                    }}
-                    onChangeCommitted={(e, value) => {
-                      setSliderPriceRange(value);
-                      setInputPriceRange(value);
-                      submit(formRef.current);
-                    }}
-                    valueLabelDisplay="auto"
-                    max={defaultPriceRange.max}
-                    min={defaultPriceRange.min}
-                  /> */}
-
                   <FilterForm.PriceInput
                     max={defaultPriceRange.max}
                     min={defaultPriceRange.min}
                     value={inputPriceRange}
                     setValue={setInputPriceRange}
                     setSliderValue={setSliderPriceRange}
-                    submit={() =>
-                      submit(formRef.current, {preventScrollReset: true})
-                    }
+                    submit={() => {
+                      setProductsLoading(true);
+                      submit(formRef.current, {
+                        preventScrollReset: true,
+                      });
+                    }}
                     searchParamsValue={[
                       values.minPrice ?? defaultPriceRange.min,
                       values.maxPrice ?? defaultPriceRange.max,
@@ -519,9 +520,10 @@ function ProductsGrid({
                           value={getOptionValue(option)}
                           name={filter.label.toLowerCase()}
                           count={option.count}
-                          submit={() =>
-                            submit(formRef.current, {preventScrollReset: true})
-                          }
+                          submit={() => {
+                            setProductsLoading(true);
+                            submit(formRef.current, {preventScrollReset: true});
+                          }}
                           defaultChecked={
                             values[filter.label.toLowerCase()]?.includes(
                               getOptionValue(option),
@@ -534,8 +536,21 @@ function ProductsGrid({
                 </div>
               </div>
             ))}
+            <div className="max-lg:hidden absolute top-[calc(100%_+_56px)]">
+              <button
+                style={{
+                  display: params.size > 0 ? 'block' : 'none',
+                  transition: 'all ease 0.35s',
+                }}
+                className="border flex items-center justify-center w-min h-full align-middle px-7 py-[14px] text-[11px] font-avenir-medium uppercase bg-black border-black tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-black"
+                type="reset"
+                onClick={() => resetFilters()}
+              >
+                reset
+              </button>
+            </div>
           </div>
-          <div className="max-lg:hidden">
+          {/* <div className="max-lg:hidden">
             <button
               style={{
                 display: params.size > 0 ? 'block' : 'none',
@@ -545,24 +560,11 @@ function ProductsGrid({
             mt-14 px-7 py-[14px] text-[11px] font-avenir-medium uppercase bg-black
             border-black tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-black"
               type="reset"
-              onClick={() => {
-                setSliderPriceRange([
-                  defaultPriceRange.min,
-                  defaultPriceRange.max,
-                ]);
-                setInputPriceRange([
-                  defaultPriceRange.min,
-                  defaultPriceRange.max,
-                ]);
-                navigate(`/collections/${handle}`);
-                setTimeout(() => {
-                  updateSorting('COLLECTION_DEFAULT', false);
-                }, 500);
-              }}
+              onClick={() => resetFilters()}
             >
-              Reset
+              reset
             </button>
-          </div>
+          </div> */}
           <div className="lg:hidden px-[30px] py-6 see-result-button absolute bottom-0 left-0 right-0 border-t border-[#e0e0e0]">
             <button
               style={{
@@ -573,7 +575,7 @@ function ProductsGrid({
             border-[#2f2f2f] tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-[#2f2f2f]"
               onClick={() => closeMobileFilter()}
             >
-              SEE RESULTS
+              see results
             </button>
           </div>
           <input
@@ -588,47 +590,65 @@ function ProductsGrid({
           />
         </Form>
       </div>
-      <div className="flex flex-col w-full">
-        {grid ? (
-          <div className="grid max-sm:grid-cols-2 max-[1139px]:grid-cols-3 grid-cols-4 max-sm:gap-x-[10px] max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
-            {products.map((product, index) => {
-              return (
-                <ProductItem
-                  key={product.id}
-                  product={product}
-                  loading={index < 8 ? 'eager' : undefined}
-                  color={values.color}
-                  material={values.material}
-                />
-              );
-            })}
-            {/* {JSON.stringify(products)} */}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
-            {products.map((product, index) => {
-              return (
-                <ProductItem
-                  key={product.id}
-                  product={product}
-                  loading={index < 8 ? 'eager' : undefined}
-                  color={values.color}
-                  material={values.material}
-                />
-              );
-            })}
-            {/* {JSON.stringify(products)} */}
-          </div>
-        )}
-        {/* {navigation.state === 'loading' &&
-          navigation.formMethod === undefined && (
-            <div className="w-full grid max-sm:grid-cols-2 max-[1139px]:grid-cols-3 grid-cols-4 max-sm:gap-x-[10px] max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
-              {products.map((_, index) => {
-                return <CollectionSkeleton key={index} />;
+      {productsLoading ? (
+        <div className="w-full flex flex-col justify-center items-center">
+          <img
+            className="spinner-gif"
+            src={spinner}
+            alt="spinner"
+            width={66}
+            height={66}
+          />
+        </div>
+      ) : (
+        <div className="flex flex-col w-full">
+          {grid ? (
+            <div className="grid max-sm:grid-cols-2 max-[1139px]:grid-cols-3 grid-cols-4 max-sm:gap-x-[10px] max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
+              {products.map((product, index) => {
+                return (
+                  <ProductItem
+                    key={product.id}
+                    product={product}
+                    loading={index < 8 ? 'eager' : undefined}
+                    color={values.color}
+                    material={values.material}
+                  />
+                );
               })}
             </div>
-          )} */}
-      </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 max-[1139px]:gap-x-6 gap-x-[60px] max-[1139px]:gap-y-[50px] gap-y-[75px] pl-[60px] pr-[50px] max-sm:px-3 max-[1139px]:px-6 pb-4 pt-[10px] max-lg:pt-[60px]">
+              {products.map((product, index) => {
+                return (
+                  <ProductItem
+                    key={product.id}
+                    product={product}
+                    loading={index < 8 ? 'eager' : undefined}
+                    color={values.color}
+                    material={values.material}
+                  />
+                );
+              })}
+            </div>
+          )}
+          {products.length === 0 && !productsLoading && (
+            <div className="w-full h-full flex justify-center items-center text-center">
+              <div className="flex flex-col gap-9">
+                <h1 className="font-avenir-medium text-[20px] text-[#2f2f2f] uppercase tracking-widest">
+                  no product
+                </h1>
+                <button
+                  type="button"
+                  className="btn-primary capitalize"
+                  onClick={() => resetFilters()}
+                >
+                  reset filters
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
