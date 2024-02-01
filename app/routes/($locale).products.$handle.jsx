@@ -34,17 +34,22 @@ import {
 } from '../components/Product Extra Inputs/Index';
 import gsap from 'gsap';
 import BasicBreadcrumbs from '../components/Breadcrumbs/Index';
-import {duration} from '@mui/material';
+import {Title} from '~/components/BreadCrump';
 import WishlistButton from '~/components/Wishlist Button/WishlistButton';
 import CaratOptions from '~/components/Product Carat Options/CaratOptions';
 import GoldOptions from '~/components/Product Gold Options/GoldOptions';
 import EtsyReview from '~/components/EtsyReviews/Index';
 
 export const handle = {
-  breadcrumb: (match) =>
-    match.data.product.collections.nodes[0].title +
-    ' / ' +
-    match.data.product.title,
+  breadcrumb: (match) => {
+    const i = match.data.product.collections.nodes[0].handle;
+    const j = match.data.product.collections.nodes[0].title;
+    return (
+      <Link className="hover:underline" to={`/collection/${i}`}>
+        {j}
+      </Link>
+    );
+  },
 };
 
 export const meta = ({data}) => {
@@ -198,14 +203,9 @@ export default function Product() {
   const OPTIONS = {startIndex: selIndex};
   const SLIDE_COUNT = images.length;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
-  console.log(product.tags);
   return (
     <>
-      <BasicBreadcrumbs
-        className="product max-w-[1330px] pl-[50px] m-auto text-[13px] gap-x-2 mt-[15px] mb-[15px]"
-        product={null}
-      />
-
+      <Title />
       <div className="product max-w-[1330px] m-auto">
         {/* <ProductImage image={selectedVariant?.image} /> */}
 
@@ -569,7 +569,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
         coll.title === 'Birthstone Jewelry' ||
         coll.title === 'Gold Vermeil Birthstone Jewelry',
     ) && !product.tags.includes('only_solid_gold');
-  console.log(product.collections);
+
   // console.log(
   //   goldOps,
   //   product.collections.nodes.find(
@@ -942,7 +942,6 @@ function ProductOptions({option, w_full}) {
       ? option.values.find((value) => value.isActive === true).value
       : option.values[0];
   let root_ = document.documentElement.style;
-  console.log(w_full);
   let className_ = w_full
     ? 'flex justify-between relative items-center px-[14px] py-[10px] text-[13px] border cursor-pointer text-[#595959] tracking-wide col-span-2 '
     : 'flex justify-between relative items-center px-[14px] py-[10px] text-[13px] border cursor-pointer text-[#595959] tracking-wide ';
@@ -958,7 +957,6 @@ function ProductOptions({option, w_full}) {
           key={option.name}
           onClick={() => {
             setIsOpen((prev) => !prev);
-            console.log(option);
             handleOptionsParam(option.name);
 
             if (window.innerWidth < 1024) {

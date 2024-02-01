@@ -3,7 +3,6 @@ import {Suspense, useRef, useEffect, useState} from 'react';
 import {CartAside} from '~/components/CartAside';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header/Header';
-import { Title } from './BreadCrump';
 import {CartMain} from './Cart';
 import AnnouncementBar from './AnnouncementBar';
 import ProductModal from './Product Popover/ProductModal';
@@ -29,7 +28,6 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
               <AnnouncementBar />
               <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />
             </div>
-            <Title/>
             <main className="relative">{children}</main>
             <Suspense>
               <Await resolve={footer}>
