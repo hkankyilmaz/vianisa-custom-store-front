@@ -1,10 +1,9 @@
 import {Link} from '@remix-run/react';
 import {Image, Money} from '@shopify/hydrogen';
-import {useState} from 'react';
 import {useVariantUrl} from '~/utils';
 
 export default function ProductItem({product, color, material, loading}) {
-  const [variant] = useState(() => {
+  const variant = (() => {
     const color_ = color ? (Array.isArray(color) ? color : [color]) : [];
     const material_ = material
       ? Array.isArray(material)
@@ -60,7 +59,7 @@ export default function ProductItem({product, color, material, loading}) {
     ];
 
     return variants.filter(Boolean)[0];
-  });
+  })();
 
   const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
 
