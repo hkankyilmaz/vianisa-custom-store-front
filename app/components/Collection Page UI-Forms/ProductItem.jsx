@@ -3,32 +3,31 @@ import {Image, Money} from '@shopify/hydrogen';
 import {useVariantUrl} from '~/utils';
 
 export default function ProductItem({product, color, material, loading}) {
-  console.log(product);
   const color_ = Array.isArray(color) ? color[color.length - 1] : color;
   const material_ = Array.isArray(material)
     ? material[material.length - 1]
     : material;
 
-  const variant = product.variants.nodes.find((variant_) => {
-    const colorMatch = color_
-      ? variant_.selectedOptions.some(
-          (option) =>
-            option.name === 'Color' && option.value.toLowerCase() === color_,
-        )
-      : true;
+  const variant =
+    product.variants.nodes.find((variant_) => {
+      const colorMatch = color_
+        ? variant_.selectedOptions.some(
+            (option) =>
+              option.name === 'Color' && option.value.toLowerCase() === color_,
+          )
+        : true;
 
-    const materialMatch = material_
-      ? variant_.selectedOptions.some(
-          (option) =>
-            option.name === 'Material' &&
-            option.value.toLowerCase() === material_.replace('-', ' '),
-        )
-      : true;
+      const materialMatch = material_
+        ? variant_.selectedOptions.some(
+            (option) =>
+              option.name === 'Material' &&
+              option.value.toLowerCase() === material_.replace('-', ' '),
+          )
+        : true;
 
-    return colorMatch && materialMatch;
-  });
+      return colorMatch && materialMatch;
+    }) ?? product.variants.nodes[0];
 
-  // console.log(variant);
   const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
 
   return (
