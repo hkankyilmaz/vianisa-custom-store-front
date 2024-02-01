@@ -45,7 +45,7 @@ export const handle = {
     const i = match.data.product.collections.nodes[0].handle;
     const j = match.data.product.collections.nodes[0].title;
     return (
-      <Link className="hover:underline" to={`/collection/${i}`}>
+      <Link className="hover:underline" to={`/collections/${i}`}>
         {j}
       </Link>
     );
