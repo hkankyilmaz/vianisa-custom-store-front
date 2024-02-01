@@ -21,6 +21,11 @@ import dotSliderStyles from './components/Product Carausel Image Dot Slider/embl
 import appStyles from './styles/app.css';
 import tailwindCss from './styles/tailwind.css';
 import MessengerCustomerChat from './components/Facebook-Chat/FacebookChat';
+
+export const handle = {
+  breadcrumb: 'Home',
+};
+
 // This is important to avoid re-fetching root queries on sub-navigations
 export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
   // revalidate when a mutation is performed e.g add to cart, login...

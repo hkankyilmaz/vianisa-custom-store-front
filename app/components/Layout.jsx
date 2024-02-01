@@ -3,7 +3,6 @@ import {Suspense, useRef, useEffect, useState} from 'react';
 import {CartAside} from '~/components/CartAside';
 import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header/Header';
-
 import {CartMain} from './Cart';
 import AnnouncementBar from './AnnouncementBar';
 import ProductModal from './Product Popover/ProductModal';
