@@ -230,6 +230,9 @@ Product Image Carausel
   width: 100%;
   object-fit: cover;
 }
+.slider-product img {
+  aspect-ratio: 4/3;
+}
 .slider-product .embla__slide__number {
   width: 4.6rem;
   height: 4.6rem;
