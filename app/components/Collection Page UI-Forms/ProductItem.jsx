@@ -48,7 +48,7 @@ export default function ProductItem({product, color, material, loading}) {
                 (option) =>
                   option.name === 'Material' &&
                   option.value.toLowerCase() ===
-                    variantOption.material.replace('-', ' '),
+                    variantOption.material.split('-').join(' '),
               )
             : true;
 
@@ -60,7 +60,7 @@ export default function ProductItem({product, color, material, loading}) {
 
     return variants.filter(Boolean)[0];
   })();
-
+  console.log(variant);
   const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
 
   return (

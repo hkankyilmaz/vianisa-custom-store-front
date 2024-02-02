@@ -21,7 +21,6 @@ import NotFound from './components/NotFound';
 import dotSliderStyles from './components/Product Carausel Image Dot Slider/embla.css';
 import appStyles from './styles/app.css';
 import tailwindCss from './styles/tailwind.css';
-import MessengerCustomerChat from './components/Facebook-Chat/FacebookChat';
 
 export const handle = {
   breadcrumb: 'Home',
