@@ -133,6 +133,7 @@ export default function Collection() {
   const [sortValue, setSortValue] = useState(sortkey || 'COLLECTION_DEFAULT');
 
   const openMobileFilter = () => {
+    root_.setProperty('--filter-form-opacity', '1');
     root_.setProperty('--filter-container-visibility', 'visible');
     root_.setProperty('--filter-form-position', 'translateX(0%)');
     root_.setProperty('--see-result-button-position', 'translateY(0%)');
@@ -308,10 +309,6 @@ function ProductsGrid({
     return option.id.split('.').slice(-1)[0];
   };
 
-  useEffect(() => {
-    setProductsLoading(false);
-  }, [products]);
-
   const closeMobileFilter = () => {
     const root_ = document.documentElement.style;
     root_.setProperty('--filter-container-visibility', 'hidden');
@@ -396,6 +393,28 @@ function ProductsGrid({
     }, 500);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1024) {
+        document.documentElement.style.setProperty(
+          '--filter-form-opacity',
+          '0',
+        );
+        closeMobileFilter();
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    setProductsLoading(false);
+  }, [products]);
+
   return (
     <div
       className={`mt-[50px] flex max-lg:gap-0 max-[1139px]:gap-4 max-lg:m-0 max-[1139px]:ml-6 ml-[50px] ${
@@ -420,18 +439,18 @@ function ProductsGrid({
               <CloseButton onClick={() => closeMobileFilter()} />
             </div>
           </header>
-          <div className="accordion__container relative">
+          <div className="relative">
             <div
-              className={`accordion__item max-sm:border-b border-[#e0e0e0] ${
+              className={`max-sm:border-b border-[#e0e0e0] ${
                 openAccordion === 0 ? 'open' : ''
               }`}
               ref={(e) => (accordionRefs.current[0] = e)}
             >
               <div
-                className="accordion__header px-6 py-5 cursor-pointer sm:hidden"
+                className="px-6 py-5 cursor-pointer sm:hidden"
                 onClick={() => handleAccordionClick(0)}
               >
-                <p className=" relative accordion__name  font-avenir-medium text-xs text-[#2f2f2f] tracking-[2.4px]">
+                <p className=" relative font-avenir-medium text-xs text-[#2f2f2f] tracking-[2.4px]">
                   PRICE
                   <span
                     ref={refsHorizontal[0]}
@@ -484,17 +503,17 @@ function ProductsGrid({
             </div>
             {filters.slice(1).map((filter, index) => (
               <div
-                className={`accordion__item max-sm:border-b relative max-sm:bg-[#efefef] max-sm:z-10 border-[#e0e0e0] ${
+                className={`max-sm:border-b relative max-sm:bg-[#efefef] max-sm:z-10 border-[#e0e0e0] ${
                   openAccordion === index + 1 ? 'open' : ''
                 }`}
                 ref={(e) => (accordionRefs.current[index + 1] = e)}
                 key={`${filter.label}-${index}`}
               >
                 <div
-                  className="accordion__header px-6 py-5 cursor-pointer sm:hidden"
+                  className="px-6 py-5 cursor-pointer sm:hidden"
                   onClick={() => handleAccordionClick(index + 1)}
                 >
-                  <p className="relative accordion__name uppercase font-avenir-medium text-[12px] text-[#2f2f2f] tracking-[2.4px]">
+                  <p className="relative uppercase font-avenir-medium text-[12px] text-[#2f2f2f] tracking-[2.4px]">
                     {filter.label}
                     <span
                       ref={refsHorizontal[index + 1]}
@@ -554,21 +573,6 @@ function ProductsGrid({
               </button>
             </div>
           </div>
-          {/* <div className="max-lg:hidden">
-            <button
-              style={{
-                display: params.size > 0 ? 'block' : 'none',
-                transition: 'all ease 0.35s',
-              }}
-              className="border flex items-center justify-center w-min h-full align-middle 
-            mt-14 px-7 py-[14px] text-[11px] font-avenir-medium uppercase bg-black
-            border-black tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-black"
-              type="reset"
-              onClick={() => resetFilters()}
-            >
-              reset
-            </button>
-          </div> */}
           <div className="lg:hidden px-[30px] py-6 see-result-button absolute bottom-0 left-0 right-0 border-t border-[#e0e0e0]">
             <button
               style={{

@@ -29,7 +29,9 @@ export function Drawer({
   const drawerMain = useRef(null);
   const drawerHeader = useRef(null);
   const drawerFooter = useRef(null);
+
   const [ctx] = useState(gsap.context(() => {}));
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     gsap.registerPlugin(CustomEase);
@@ -84,6 +86,9 @@ export function Drawer({
     };
 
     document.addEventListener('mousedown', handleClickOutside);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
 
     return () => {
       ctx.revert();
@@ -111,7 +116,9 @@ export function Drawer({
   return (
     <>
       <div
-        className={`fixed bg-[var(--drawer-bg-color)] z-50 flex flex-col drawer ${placements[placement]} ${sizes[size]} ${className}`}
+        className={`fixed bg-[var(--drawer-bg-color)] z-50 flex flex-col ${
+          placements[placement]
+        } ${sizes[size]} ${className} ${isLoading ? 'invisible' : ''}`}
         aria-hidden={!isOpen}
         ref={drawer}
       >
