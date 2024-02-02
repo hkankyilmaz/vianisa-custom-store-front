@@ -37,6 +37,7 @@
   --product-options-form-position: translateY(100%);
   --filter-container-visibility: hidden;
   --filter-form-position: translateX(100%);
+  --filter-form-opacity: 0;
   --see-result-button-position: translateY(100%);
   --see-result-button-opacity: 0;
   --see-result-button-transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -224,48 +225,6 @@ aside li {
   &:target aside {
     transform: translateX(calc(var(--aside-width) * -1));
   }
-}
-
-/*
-* --------------------------------------------------
-* components/Header
-* --------------------------------------------------
-*/
-.header {
-  align-items: center;
-  width: 100vw;
-  background: #fff;
-  display: flex;
-  height: var(--header-height);
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
-.header-menu-mobile-toggle {
-  @media (min-width: 48em) {
-    display: none;
-  }
-}
-
-.header-menu-mobile {
-  display: flex;
-  flex-direction: column;
-  grid-gap: 1rem;
-}
-
-.header-menu-desktop {
-  display: none;
-  grid-gap: 1rem;
-  @media (min-width: 45em) {
-    display: flex;
-    grid-gap: 1rem;
-    margin-left: 3rem;
-  }
-}
-
-.header-menu-item {
-  cursor: pointer;
 }
 
 /*
@@ -757,6 +716,7 @@ span.color-material-dot {
 
 @media not all and (min-width: 1024px) {
   .filter-form-mobile {
+    opacity: var(--filter-form-opacity);
     transform: var(--filter-form-position);
     transition: transform 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
   }

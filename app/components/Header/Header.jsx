@@ -7,30 +7,15 @@ import {
 } from '~/components/Search';
 import Drawer from './Drawer';
 import MegaMenu from './MegaMenu';
-export function Header({header, isLoggedIn, cart}) {
+export function Header({header, isLoggedIn}) {
   const ref = React.useRef();
   const [megaMenu, setMegaMenu] = useState({isOpen: false, title: 'none'});
-  const [isMobile, setIsMobile] = useState(false);
-  const {shop, menu} = header;
-  const matches = useMatches()[1].pathname;
+  const {menu} = header;
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
-  const [searchbtn, setSearchbtn] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1024) {
-        setIsMobile(true);
-      } else {
-        setIsMobile(false);
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
     setMegaMenu({isOpen: false, title: 'none'});
-
-    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
@@ -43,7 +28,6 @@ export function Header({header, isLoggedIn, cart}) {
         <Drawer
           isOpen={isDrawerOpen}
           onClose={() => setIsDrawerOpen(false)}
-          className="peer"
           menu={menu}
         />
         <div
@@ -378,14 +362,6 @@ function HeaderCtas({isLoggedIn}) {
       {/* <WishlistToggle /> */}
       <CartToggle />
     </nav>
-  );
-}
-
-function HeaderMenuMobileToggle() {
-  return (
-    <a className="header-menu-mobile-toggle" href="#mobile-menu-aside">
-      <h3>☰</h3>
-    </a>
   );
 }
 
