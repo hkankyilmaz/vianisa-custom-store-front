@@ -703,26 +703,15 @@ input[type='search']::-webkit-search-cancel-button {
 
 /* Collection Filter */
 
-#rose:checked ~ label,
-#white:checked ~ label,
-#yellow:checked ~ label,
-#_10k-gold:checked ~ label,
-#_14k-gold:checked ~ label,
-#_18k-gold:checked ~ label,
-#_platinum:checked ~ label {
+.color-material-input:checked ~ label {
   text-decoration: underline;
 }
+
 form label {
   cursor: pointer;
 }
 
-span.rose,
-span.white,
-span.yellow,
-span._10k-gold,
-span._14k-gold,
-span._18k-gold,
-span._platinum {
+span.color-material-dot {
   opacity: 0;
   transition: all 0.2s ease-in-out;
 
@@ -732,13 +721,7 @@ span._platinum {
   }
 }
 
-#rose:checked ~ span.rose,
-#white:checked ~ span.white,
-#yellow:checked ~ span.yellow,
-#_10k-gold:checked ~ span._10k-gold,
-#_14k-gold:checked ~ span._14k-gold,
-#_18k-gold:checked ~ span._18k-gold,
-#_platinum:checked ~ span._platinum {
+.color-material-input:checked ~ span.color-material-dot {
   position: absolute;
   top: 6px;
   left: 0;
