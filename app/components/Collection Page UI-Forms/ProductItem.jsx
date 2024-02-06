@@ -60,8 +60,6 @@ export default function ProductItem({product, color, material, loading}) {
 
     return variants.filter(Boolean)[0];
   })();
-  console.log(variant);
-  console.log(product.images);
   const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
 
   return (
