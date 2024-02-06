@@ -61,6 +61,7 @@ export default function ProductItem({product, color, material, loading}) {
     return variants.filter(Boolean)[0];
   })();
   console.log(variant);
+  console.log(product.images);
   const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
 
   return (
@@ -82,7 +83,7 @@ export default function ProductItem({product, color, material, loading}) {
             className="transition-opacity opacity-0 hover:opacity-100 absolute top-0 "
             alt={product.images.nodes[1]?.altText || product?.title}
             aspectRatio="4/3"
-            data={product.images.nodes[1]}
+            data={variant.image.url == product.images.nodes[0].url ? product.images.nodes[1] : product.images.nodes[0] }
             loading={loading}
             sizes="(min-width: 45em) 400px, 100vw"
           />

@@ -668,56 +668,14 @@ function ProductMain({selectedVariant, product, variants, cart}) {
                   className="text-[#595959] font-body align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10"
                 >
                   <option value="moissanite">
-                    {/* <Link to={modifiedStringwithGemStone_mos}> */}
                     Gemstone: Moissanite
-                    {/* </Link> */}
                   </option>
                   <option value="lab-grown-diamond">
-                    {/* <Link to={modifiedStringwithGemStone_lab}> */}
                     Gemstone: Lab Grown Diamond
-                    {/* </Link> */}
                   </option>
                 </select>
                 <AiOutlineDown className="absolute right-[15px] top-[14px] text-sm text-[#000] z-[-1]" />
               </div>
-
-              {/* <div
-            onClick={() => setIsGemStoneOpt((prev) => !prev)}
-            className="relative flex justify-between items-center pr-[12.5px] pl-[15px] pt-[10px] pb-[10px] mt-3 mb-[15px] text-[13px] border-[1px] border-[#e0e0e0] cursor-pointer font-body"
-          >
-            <div>
-            
-            <span className="text-[#595959] tracking-wide">Gemstone</span>:
-            <span className="text-[#595959] tracking-wide">
-              {_.includes(matches, 'moissanite')
-                ? ' Moissanite'
-                : ' Lab Grown Diamond'}
-            </span>
-            </div>
-            <AiOutlineDown className="text-sm text-[#000]" />
-            {isOpenGemStoneOpt ? (
-              <div className="absolute rounded-xl px-24 py-12 shadow-2xl right-[calc(100%+5px)] top-[50%] translate-y-[-50%] grid grid-col-1 gap-2 clip-path bg-[#e5e7eb]">
-                {_.fill(Array(2), '').map((i, j) => (
-                  <Link
-                    className=" text-slate-600 hover:underline w-[200px] text-center text-lg font-bold uppercase"
-                    key={j}
-                    prefetch="intent"
-                    preventScrollReset
-                    replace
-                    to={`/products/${modifiedStringwithGemStone}`}
-                  >
-                    {_.includes(matches, 'moissanite') && j == 0
-                      ? 'Moissanite'
-                      : _.includes(matches, 'lab-grown-diamond') && j == 0
-                      ? 'Lab Grown Diamond'
-                      : !_.includes(matches, 'lab-grown-diamond') && j == 1
-                      ? 'Lab Grown Diamond'
-                      : 'Moissaniteee'}
-                  </Link>
-                ))}
-              </div>
-            ) : undefined}
-          </div> */}
             </ClickAwayListener>
           ) : undefined}
           <Suspense
@@ -742,15 +700,6 @@ function ProductMain({selectedVariant, product, variants, cart}) {
               )}
             </Await>
           </Suspense>
-          {/* <div className="flex justify-center text-[#2f2f2f] text-[13px] font-body mt-3">
-            <button
-              //href={'vianisa.com/c1/' + crtId}
-              target="_self"
-              className="link-underline link-underline-black"
-            >
-              More payment options
-            </button>
-          </div> */}
           <div className="justify-center justify-items-center items-center	content-center	flex  flex-col mt-[10px] mb-[5px] font-body text-[#2f2f2f]">
             <div className="flex gap-1 justify-center	align-center items-center w-auto">
               <img
@@ -760,20 +709,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
               />
               <p>For each purchase</p>
             </div>
-            {/* <div className="w-auto text-[13px]">
-              <a
-                href="/pages/plant-a-tree"
-                target="_blank"
-                className="underline"
-              >
-                Learn more
-              </a>
-            </div> */}
           </div>
-          {/* <div className="flex justify-center text-[5px]">
-          <WishlistButton />
-        </div> */}
-
           <div className="flex justify-center items-center my-[10px] text-[13px] font-body text-[#2f2f2f]">
             {/* <FcShipped className="text-5xl mr-3" /> */}
             <span className="">
