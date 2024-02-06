@@ -222,7 +222,7 @@ export default function Collection() {
                     </div>
                   ) : (
                     <NextLink className="flex justify-center w-full text-xl my-5">
-                      <LoadMoreButton />
+                      {!productsLoading ? <LoadMoreButton /> : undefined}
                     </NextLink>
                   )}
                 </>
