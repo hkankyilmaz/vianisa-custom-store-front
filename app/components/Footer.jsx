@@ -114,7 +114,7 @@ export function Footer() {
           <NavLink
             end
             to="/"
-            className="text-center text-[11px] uppercase tracking-[.2em] font-avenir-heavy transition-[color] duration-200 ease-css-ease-in-out text-[var(--footer-text-color)]"
+            className="md:text-center text-[11px] uppercase tracking-[.2em] font-avenir-heavy transition-[color] duration-200 ease-css-ease-in-out text-[var(--footer-text-color)]"
           >
             © Vianisa
           </NavLink>
