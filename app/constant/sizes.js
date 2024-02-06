@@ -24,7 +24,7 @@ export const labOrMos = {
 export const tags = [
   {
     inputNumber: 1,
-    tags: ['ring-size', 'io_ring size (2-14)'],
+    tags: ['ring-size', 'io_ring size (2-14)','IO_Ring Size (2-14)'],
     productType: [
       'engagement rings',
       'fashion rings',
