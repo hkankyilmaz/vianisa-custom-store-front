@@ -140,11 +140,11 @@ export default function App() {
           nonce={nonce}
           src="https://www.googletagmanager.com/gtag/js?id=G-RWSHT8YW9T"
         />
-        <script>
+        {/* <script>
           window.dataLayer = window.dataLayer || []; function gtag()
           {dataLayer.push(arguments)}
           gtag('js', new Date()); gtag('config', 'G-RWSHT8YW9T');
-        </script>
+        </script> */}
         <MessengerCustomerChat />
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
