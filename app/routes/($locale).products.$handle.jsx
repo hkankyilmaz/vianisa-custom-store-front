@@ -1058,7 +1058,7 @@ function ProductDescription({descriptionHtml}) {
   return (
     <div
       ref={ref}
-      className="h-[70px] max-lg:h-[58px] overflow-hidden border-y text-[var] text-xs font-medium tracking-wide"
+      className="h-[70px] max-lg:h-[58px] overflow-hidden border-y text-[var] text-xs font-medium tracking-wide hidden"
     >
       <p
         onClick={() => handleAnimate()}
