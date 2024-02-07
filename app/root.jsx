@@ -147,7 +147,7 @@ export default function App() {
           nonce={nonce}
           src="https://www.googletagmanager.com/gtag/js?id=G-RWSHT8YW9T"
         />
-        <Script nonce={nonce} src="./index.js" />
+        {/* <Script nonce={nonce} src="./index.js" /> */}
         {/* <script>
           
         </script> */}
