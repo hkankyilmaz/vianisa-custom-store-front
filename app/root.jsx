@@ -110,7 +110,14 @@ export async function loader({context}) {
     {headers},
   );
 }
-
+function as() {
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+  gtag('config', 'G-RWSHT8YW9T');
+}
 export default function App() {
   const nonce = useNonce();
   const data = useLoaderData();
@@ -140,10 +147,9 @@ export default function App() {
           nonce={nonce}
           src="https://www.googletagmanager.com/gtag/js?id=G-RWSHT8YW9T"
         />
+        <Script nonce={nonce} src="./index.js" />
         {/* <script>
-          window.dataLayer = window.dataLayer || []; function gtag()
-          {dataLayer.push(arguments)}
-          gtag('js', new Date()); gtag('config', 'G-RWSHT8YW9T');
+          
         </script> */}
         <MessengerCustomerChat />
         <ScrollRestoration nonce={nonce} />
