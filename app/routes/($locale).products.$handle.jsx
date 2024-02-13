@@ -79,20 +79,22 @@ export async function loader({params, request, context}) {
   }
 
   // await the query for the critical product data
+
+  const {product} = await storefront.query(PRODUCT_QUERY, {
+    variables: {handle, selectedOptions},
+  });
+
+  console.log( product.collections.nodes[0].handle)
+
   const featuredCollectionTwo = await storefront.query(
     FEATURED_COLLECTION_QUERY,
     {
       variables: {
-        handle: [
-          'lab-diamond-solitaire-pendants',
-          'three-stone-engagement-rings',
-        ][randomNumber],
+        handle: product.collections.nodes[0].handle
       },
     },
   );
-  const {product} = await storefront.query(PRODUCT_QUERY, {
-    variables: {handle, selectedOptions},
-  });
+
 
   const recommendedProducts = await storefront.query(RECOMMENDED_PRODUCTS_QUERY);
 
@@ -180,10 +182,10 @@ function redirectToFirstVariant({product, request}) {
 }
 
 export default function Product() {
-  const {product, variants, cart,selIndex,recommendedProducts} =
+  const {product, variants, cart,selIndex,featuredCollectionTwo} =
     useLoaderData();
   const {selectedVariant} = product;
-  console.log(recommendedProducts)
+  console.log(product)
 
   // console.log(
   //   product.images.nodes,
@@ -224,7 +226,7 @@ export default function Product() {
           cart={cart}
         />
       </div>
-      <FeaturedCollection title="You May Also Like" dataRecom={recommendedProducts} />
+      <FeaturedCollection title="You May Also Like" data={featuredCollectionTwo} />
       <EtsyReview />
     </>
   );
