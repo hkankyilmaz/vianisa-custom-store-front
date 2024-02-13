@@ -1,5 +1,6 @@
 'use client';
 
+import {Link} from '@remix-run/react';
 import Autoplay from 'embla-carousel-autoplay';
 import useEmblaCarousel from 'embla-carousel-react';
 import {motion, useAnimation, useInView} from 'framer-motion';
@@ -61,7 +62,34 @@ const EmblaCarousel = ({slides, options}) => {
             imageSrc={imageByIndex(index, isMobile)}
             positionAlign="left"
             key={index}
-          ></Banner>
+          >
+            <Banner.Header>
+              <h2 className="text-[33px] sm:text-[40px] tracking-wide optima-h1-normal leading-[40px] text-center">
+                Moments to Cherish
+              </h2>
+            </Banner.Header>
+            <Banner.Body>
+              <p className='class="text-[16px] sm:text-[21px] font-avenir-medium leading-[22px] sm:leading-[30px] mt-[10px] text-center"'>
+                Celebrating lifes's simple joys with timeless treasures, making
+                every <br />
+                interaction a moment to reemember
+              </p>
+            </Banner.Body>
+            <Banner.Footer>
+              <div className="flex">
+                <Link to={'/collections/engagement-rings'}>
+                  <div class="banner__button--mobile font-avenir-medium cursor-pointer text-black flex text-[14px] leading-[0] justify-center items-center w-[300px] h-[36px] border border-black mb-[10px]">
+                    <h2>Shop Engagement Rings </h2>
+                  </div>
+                </Link>
+                <Link to={'/collections/wedding-bands'}>
+                  <div class="banner__button--mobile font-avenir-medium cursor-pointer text-black flex text-[14px] leading-[0] justify-center items-center w-[300px] h-[36px] border border-black">
+                    <h2>Shop Wedding Bands</h2>
+                  </div>
+                </Link>
+              </div>
+            </Banner.Footer>
+          </Banner>
         ))}
       </div>
 
@@ -134,8 +162,8 @@ const DotButton = ({children, ...restProps}) => {
 
 /*********************************************************/
 
-import bannerDesktop from '~/assets/images/banner-desktop.webp';
-import bannerMobile from '~/assets/images/banner-mobile.webp';
+import bannerDesktop from '~/assets/images/banner-desktop.png';
+import bannerMobile from '~/assets/images/banner-mobile.png';
 
 const imagesDesktop = [bannerDesktop];
 const imagesMobile = [bannerMobile];
