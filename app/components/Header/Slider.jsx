@@ -41,7 +41,7 @@ const EmblaCarousel = ({slides, options}) => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 640) {
+      if (window.innerWidth < 1024) {
         setIsMobile(true);
       } else {
         setIsMobile(false);
@@ -62,30 +62,36 @@ const EmblaCarousel = ({slides, options}) => {
             imageSrc={imageByIndex(index, isMobile)}
             positionAlign="left"
             key={index}
+            once={slides.length === 1}
           >
             <Banner.Header>
-              <h2 className="text-[33px] sm:text-[40px] tracking-wide optima-h1-normal leading-[40px] text-center">
+              {' '}
+              {/* leading-[30px] tracking-wide */}
+              <h2 className="font-optima-medium text-[33px] sm:text-[40px] lg:text-[48px] text-center lg:text-left">
                 Moments to Cherish
               </h2>
             </Banner.Header>
             <Banner.Body>
-              <p className='class="text-[16px] sm:text-[21px] font-avenir-medium leading-[22px] sm:leading-[30px] mt-[10px] text-center"'>
-                Celebrating lifes's simple joys with timeless treasures, making
-                every <br />
-                interaction a moment to reemember
+              {' '}
+              {/* sm:text-[21px] leading-[22px] sm:leading-[30px] mt-[10px] */}
+              <p className="font-avenir-light text-[16px] text-center lg:text-left lg:mb-[25px]">
+                Celebrating life's simple joys with timeless treasures, making
+                every <br /> interaction a moment to remember.
               </p>
             </Banner.Body>
             <Banner.Footer>
-              <div className="flex">
-                <Link to={'/collections/engagement-rings'}>
-                  <div class="banner__button--mobile font-avenir-medium cursor-pointer text-black flex text-[14px] leading-[0] justify-center items-center w-[300px] h-[36px] border border-black mb-[10px]">
-                    <h2>Shop Engagement Rings </h2>
-                  </div>
+              <div className="flex gap-6 max-lg:hidden">
+                <Link
+                  to="/collections/engagement-rings"
+                  className="btn-primary btn-transparent font-avenir-light cursor-pointer !text-[14px] !capitalize !tracking-[normal] !py-1.5 !px-6"
+                >
+                  Shop Engagement Rings
                 </Link>
-                <Link to={'/collections/wedding-bands'}>
-                  <div class="banner__button--mobile font-avenir-medium cursor-pointer text-black flex text-[14px] leading-[0] justify-center items-center w-[300px] h-[36px] border border-black">
-                    <h2>Shop Wedding Bands</h2>
-                  </div>
+                <Link
+                  to="/collections/wedding-bands"
+                  className="btn-primary btn-transparent font-avenir-light cursor-pointer !text-[14px] !capitalize !tracking-[normal] !py-1.5 !px-6"
+                >
+                  <h2>Shop Wedding Bands</h2>
                 </Link>
               </div>
             </Banner.Footer>
@@ -184,15 +190,16 @@ const Banner = ({
   horizontalAlign = 'left',
   verticalAlign = 'center',
   textAlign = 'left',
+  once = false,
 }) => {
   const header = getChildrenOnDisplayName(children, 'Header');
   const body = getChildrenOnDisplayName(children, 'Body');
   const footer = getChildrenOnDisplayName(children, 'Footer');
   const ref = useRef(null);
   const controls = useAnimation();
-  const isInView = useInView(ref, {amount: 0.5});
+  const isInView = useInView(ref, {amount: 0.5, once: once});
 
-  const hozirontalAlignment = {
+  const horizontalAlignment = {
     left: 'left-0',
     center: 'left-1/2 -translate-x-1/2',
     right: 'right-0',
@@ -207,7 +214,7 @@ const Banner = ({
   const verticalAlignment = {
     top: 'top-0',
     center: 'top-1/2 -translate-y-1/2',
-    bottom: 'bottom-0',
+    bottom: 'bottom-[30px]',
   }[verticalAlign];
 
   const variants = {
@@ -231,9 +238,12 @@ const Banner = ({
     let timeout;
     const show = () => {
       controls.start('visible');
-      timeout = setTimeout(async () => {
-        controls.start('hidden');
-      }, SLIDE_DELAY - 500);
+
+      if (!once) {
+        timeout = setTimeout(async () => {
+          controls.start('hidden');
+        }, SLIDE_DELAY - 500);
+      }
     };
 
     if (isInView) {
@@ -242,7 +252,9 @@ const Banner = ({
       controls.start('hidden');
     }
 
-    return () => clearTimeout(timeout);
+    if (!once) {
+      return () => clearTimeout(timeout);
+    }
   }, [isInView]);
 
   return (
@@ -253,10 +265,10 @@ const Banner = ({
         src={imageSrc}
       />
       <div
-        className={`absolute z-10 w-1/2 inline-flex mx-8 ${hozirontalAlignment} ${verticalAlignment} ${textAlignment}`}
+        className={`absolute z-10 w-full lg:w-1/2 inline-flex lg:mx-8 ${horizontalAlignment} ${verticalAlignment} ${textAlignment}`}
       >
         <motion.div
-          className="w-full h-full flex flex-col gap-4"
+          className="w-full h-full flex flex-col max-lg:hidden"
           initial="hidden"
           animate={controls}
           variants={variants}

@@ -94,6 +94,14 @@ Core
   @apply text-[var(--btn-primary-bg)] bg-[var(--btn-primary-bg-hover)];
 }
 
+.btn-transparent {
+  @apply text-[#2f2f2f] bg-transparent border border-solid border-[#2f2f2f];
+}
+
+.btn-transparent:hover {
+  @apply text-white bg-[#2f2f2f];
+}
+
 /*
 ----------------------------------------- 
 Announcemed Bar 
