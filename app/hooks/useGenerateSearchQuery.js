@@ -43,29 +43,27 @@ function useGenerateSearchQuery(
       sortKey: ${sortKey ? sortKey : 'RELEVANCE'},
       reverse: ${reverse ? reverse : 'false'},
       productFilters : [
-        ${
-          maxPrice && minPrice
-            ? ` {price: { min: ${minPrice}, max: ${maxPrice} }},`
-            : ''
-        }
+        ${maxPrice && minPrice
+      ? ` {price: { min: ${minPrice}, max: ${maxPrice} }},`
+      : ''
+    }
         ${(() => {
-          if (variantOptions && variantOptions.length > 0) {
-            const variantQuery = variantOptions.map((option, i) => {
-              return `{ variantOption: {name: "${
-                option.name
-              }", value: "${option.value
-                .split('-')
-                .map((word) => {
-                  return word.charAt(0).toUpperCase() + word.slice(1);
-                })
-                .filter((word) => {
-                  return word !== '';
-                })
-                .join(' ')}"}}`;
-            });
-            return variantQuery.join(',');
-          } else return '{}';
-        })()}]
+      if (variantOptions && variantOptions.length > 0) {
+        const variantQuery = variantOptions.map((option, i) => {
+          return `{ variantOption: {name: "${option.name
+            }", value: "${option.value
+              .split('-')
+              .map((word) => {
+                return word.charAt(0).toUpperCase() + word.slice(1);
+              })
+              .filter((word) => {
+                return word !== '';
+              })
+              .join(' ')}"}}`;
+        });
+        return variantQuery.join(',');
+      } else return '{}';
+    })()}]
        
     ) {
     
@@ -156,6 +154,10 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
           url
           width
           height
+        }
+        price {
+          amount
+          currencyCode
         }
         compareAtPrice {
           amount
