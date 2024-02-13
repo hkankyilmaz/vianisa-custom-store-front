@@ -46,11 +46,12 @@ export default function Homepage() {
   const nonce = useNonce();
   return (
     <div className="home">
-      <BannerSlider />
+      <BannerSlider  />
       <FeaturedCollection data={data.featuredCollection} showButton />
       <CollectionList />
       <FeaturedCollection
         data={data.featuredCollectionTwo}
+        showButton
         className="!py-0 lg:!py-0"
       />
       <div className="my-10  flex flex-row text-center justify-center items-center">
