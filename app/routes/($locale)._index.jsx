@@ -33,7 +33,7 @@ export async function loader({context}) {
     FEATURED_COLLECTION_QUERY,
     {
       variables: {
-        handle: 'lab-diamond-solitaire-pendants',
+        handle: 'classic-wedding-bands',
       },
     },
   );
