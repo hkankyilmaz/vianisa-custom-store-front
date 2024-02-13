@@ -229,6 +229,34 @@ aside li {
 
 /*
 * --------------------------------------------------
+* components/Home Banner Slider
+* --------------------------------------------------
+*/
+
+@media (max-width: 1008px) {
+  #home-banner-container::after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-image: linear-gradient(
+      to top,
+      rgba(4, 4, 4, 0.8),
+      rgba(255, 0, 0, 0),
+      rgba(255, 0, 0, 0),
+      rgba(255, 0, 0, 0)
+    );
+  }
+
+  #home-banner-container > * {
+    z-index: 1;
+  }
+}
+
+/*
+* --------------------------------------------------
 * components/Cart
 * --------------------------------------------------
 */
@@ -370,8 +398,6 @@ input[type='search']::-webkit-search-cancel-button {
   max-height: 100%;
   object-fit: cover;
 }
-
-
 
 .recommended-product img {
   height: auto;

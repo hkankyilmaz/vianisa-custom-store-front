@@ -94,6 +94,10 @@ Core
   @apply text-[var(--btn-primary-bg)] bg-[var(--btn-primary-bg-hover)];
 }
 
+.banner__button--mobile {
+  @apply text-black hover:text-black transition-all duration-300;
+}
+
 .btn-transparent {
   @apply text-[#2f2f2f] bg-transparent border border-solid border-[#2f2f2f];
 }
