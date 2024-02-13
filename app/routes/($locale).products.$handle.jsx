@@ -6,9 +6,7 @@ import {
   useLoaderData,
   useMatches,
   useNavigate,
-  useFetcher,
 } from '@remix-run/react';
-// import _ from 'lodash';
 import EmblaCarousel from '~/components/Product Carausel Image Slider/Index';
 import DotCarousel from '~/components/Product Carausel Image Dot Slider/EmblaCarousel';
 import {FcShipped} from 'react-icons/fc';
@@ -33,7 +31,6 @@ import {
   ProductExtraInputTag,
 } from '../components/Product Extra Inputs/Index';
 import gsap from 'gsap';
-import BasicBreadcrumbs from '../components/Breadcrumbs/Index';
 import {Title} from '~/components/BreadCrump';
 import WishlistButton from '~/components/Wishlist Button/WishlistButton';
 import CaratOptions from '~/components/Product Carat Options/CaratOptions';
@@ -55,14 +52,10 @@ export const handle = {
 export const meta = ({data}) => {
   return [{title: `${data.product?.title}`}];
 };
-function randomNumber_(min, max) {
-  // 👇️ get number between min (inclusive) and max (inclusive)
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+
 export async function loader({params, request, context}) {
   const {handle} = params;
   const {storefront, session, cart, cartview} = context;
-  let randomNumber = randomNumber_(0, 1);
   let card_view = await cartview.get();
   const selectedOptions = getSelectedProductOptions(request).filter(
     (option) =>

@@ -56,3 +56,11 @@ export function trim(str) {
 export const useIsomorphicLayoutEffect =
   typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 export default useIsomorphicLayoutEffect;
+
+
+
+
+function randomNumber_(min, max) {
+  // 👇️ get number between min (inclusive) and max (inclusive)
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
