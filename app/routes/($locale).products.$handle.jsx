@@ -62,8 +62,6 @@ function randomNumber_(min, max) {
 export async function loader({params, request, context}) {
   const {handle} = params;
   const {storefront, session, cart, cartview} = context;
-  // console.log(cart.getCartId());
-  // const {storefront} = context;
   let randomNumber = randomNumber_(0, 1);
   let card_view = await cartview.get();
   const selectedOptions = getSelectedProductOptions(request).filter(
@@ -95,6 +93,8 @@ export async function loader({params, request, context}) {
   const {product} = await storefront.query(PRODUCT_QUERY, {
     variables: {handle, selectedOptions},
   });
+
+  const recommendedProducts = await storefront.query(RECOMMENDED_PRODUCTS_QUERY);
 
   if (!product?.id) {
     throw new Response(null, {status: 404});
@@ -151,16 +151,6 @@ export async function loader({params, request, context}) {
               ),
         )
       : 0;
-  // selIndex = selIndex > 7 ? 0 : selIndex;
-  // console.log(
-  //   selIndex,
-  //   '-' +
-  //     selectedVariant.selectedOptions
-  //       ?.find((opt) => opt.name === 'Color')
-  //       .value.toUpperCase()
-  //       .charAt(0) +
-  //     '.jpg',
-  // );
   return defer({
     product,
     variants,
@@ -168,6 +158,7 @@ export async function loader({params, request, context}) {
     cart,
     card_view,
     selIndex,
+    recommendedProducts
   });
 }
 
@@ -189,9 +180,10 @@ function redirectToFirstVariant({product, request}) {
 }
 
 export default function Product() {
-  const {product, variants, featuredCollectionTwo, cart, card_view, selIndex} =
+  const {product, variants, cart,selIndex,recommendedProducts} =
     useLoaderData();
   const {selectedVariant} = product;
+  console.log(recommendedProducts)
 
   // console.log(
   //   product.images.nodes,
@@ -232,10 +224,7 @@ export default function Product() {
           cart={cart}
         />
       </div>
-      <FeaturedCollection
-        data={featuredCollectionTwo}
-        title="YOU MAY ALSO LIKE"
-      />
+      <FeaturedCollection title="You May Also Like" dataRecom={recommendedProducts} />
       <EtsyReview />
     </>
   );
@@ -1257,6 +1246,37 @@ export const FEATURED_COLLECTION_QUERY = `#graphql
       
       }
     }
+    }
+  }
+`;
+
+const RECOMMENDED_PRODUCTS_QUERY = `#graphql
+  fragment RecommendedProduct on Product {
+    id
+    title
+    handle
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    images(first: 2) {
+      nodes {
+        id
+        url
+        altText
+        width
+        height
+      }
+    }
+  }
+  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+    products(first: 8, sortKey: UPDATED_AT, reverse: true) {
+      nodes {
+        ...RecommendedProduct
+      }
     }
   }
 `;

@@ -6,11 +6,22 @@ import {cubicBezier, motion, useAnimate, useMotionValue} from 'framer-motion';
 import {useEffect, useRef, useState} from 'react';
 import {BsChevronLeft, BsChevronRight} from 'react-icons/bs';
 
-function FeaturedCollection({data, showButton = false, className = ''}) {
-  const items = data.collection?.products?.nodes.map((product, index) => (
-    <Item product={product} key={index} />
-  ));
+function FeaturedCollection({data,dataRecom,title, showButton = false, className = ''}) {
 
+  let items;
+
+  if (dataRecom) {
+
+     items = dataRecom.products?.nodes.map((product, index) => (
+      <Item product={product} key={index} recom= {true} />
+    ));
+
+  } else {
+     items = data.collection?.products?.nodes.map((product, index) => (
+      <Item product={product} key={index} recom={false} />
+    ));
+  }
+  
   const constructUrl = (collection) => {
     return `/collections/${collection.toLowerCase().replace(/ /g, '-')}`;
   };
@@ -21,7 +32,7 @@ function FeaturedCollection({data, showButton = false, className = ''}) {
     >
       <div className="mb-[40px] lg:mb-[20px] w-full">
         <h2 className="text-[20px] md:text-[28px] font-optima-normal uppercase text-center text-[var(--heading-color)] px-6 sm:px-[50px] min-[1140px]:px-[80px]">
-          {data.collection?.title}
+          {title ? title : data.collection?.title}
         </h2>
       </div>
       <div className="lg:mx-[90px]">
@@ -298,7 +309,7 @@ const CarouselItemGroup = ({items, itemsPerGroup}) => {
 
 /*********************************************************/
 
-function Item({product, className = ''}) {
+function Item({product, className = '',recom}) {
   const [isDragging, setIsDragging] = useState(false);
 
   return (
@@ -345,25 +356,33 @@ function Item({product, className = ''}) {
         {product?.title}
       </div>
       <div className="tracking-[.2em] font-avenir-medium transition-[color] ease-css-ease-in-out duration-200 text-[var(--heading-color)] text-[10px] sm:text-[11px]">
-        {product.variants.nodes[0]?.compareAtPrice ? (
-          <>
-            <div className="flex gap-2.5">
-              {product.variants.nodes[0] ? (
-                <Money
-                  className="text-[var(--product-sale-price-color)]"
-                  data={product.variants.nodes[0].price}
-                />
-              ) : null}
-              <s>
-                <Money data={product.variants.nodes[0].compareAtPrice} />
-              </s>
-            </div>
-          </>
-        ) : (
-          product.variants.nodes[0]?.price && (
-            <Money data={selectedVariant?.price} />
-          )
-        )}
+        {(() => {
+            if (recom) return   <Money data={product.priceRange.minVariantPrice} />;
+            else {
+              return (
+                product.variants.nodes[0]?.compareAtPrice ? (
+                  <>
+                    <div className="flex gap-2.5">
+                      {product.variants.nodes[0] ? (
+                        <Money
+                          className="text-[var(--product-sale-price-color)]"
+                          data={product.variants.nodes[0].price}
+                        />
+                      ) : null}
+                      <s>
+                        <Money data={product.variants.nodes[0].compareAtPrice} />
+                      </s>
+                    </div>
+                  </>
+                ) : (
+                  product.variants.nodes[0]?.price && (
+                    <Money data={selectedVariant?.price} />
+                  )
+                )
+
+              )
+            }
+          })()}
       </div>
     </Link>
   );
