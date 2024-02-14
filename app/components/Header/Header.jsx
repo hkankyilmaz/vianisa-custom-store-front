@@ -31,7 +31,7 @@ export function Header({header, isLoggedIn}) {
           menu={menu}
         />
         <div
-          className="relative w-full flex justify-between items-center py-[15px] sm:py-[10px] px-[18px] sm:px-[30px]  shadow-[0_-1px_var(--header-border-color)_inset] z-10"
+          className="relative w-full flex justify-between items-center py-[15px] sm:py-[18px] px-[18px] sm:px-[30px]  shadow-[0_-1px_var(--header-border-color)_inset] z-10"
           onMouseEnter={() => {
             setIsHover(true);
           }}
@@ -41,7 +41,7 @@ export function Header({header, isLoggedIn}) {
         >
           <MenuToggle toggle={() => setIsDrawerOpen((prev) => !prev)} />
           <NavLink prefetch="intent" to="/" style={activeLinkStyleHome} end>
-            <span className="text-xl not-italic tracking-[.2em] uppercase text-[var(--heading-color)] font-playfair_org">
+            <span className="text-2xl not-italic tracking-[.2em] uppercase text-[var(--heading-color)] font-playfair_org">
               Vianisa
             </span>
           </NavLink>
