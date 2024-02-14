@@ -86,7 +86,7 @@ const EmblaCarousel = ({slides, options}) => {
             <Banner.Footer>
               <div className="flex gap-6 max-lg:hidden">
                 <Link
-                  to="/collections/engagement-rings"
+                  to="/collections/moissanite-engagement-rings"
                   className="btn-transparent font-avenir-light cursor-pointer !text-[14px] !capitalize !tracking-[normal] w-[202px] h-[36px] flex justify-center items-center leading-[0]"
                 >
                   Shop Engagement Rings
@@ -119,7 +119,7 @@ const EmblaCarousel = ({slides, options}) => {
         ))}
       </div>
       <div class="flex flex-col justify-center items-center mt-[29px] lg:hidden">
-        <a href="/collections/engagement-rings">
+        <a href="/collections/moissanite-engagement-rings">
           <div class="banner__button--mobile font-avenir-light cursor-pointer text-black flex text-[14px] leading-[0] justify-center items-center w-[300px] h-[36px] border border-black mb-[10px]">
             <h2>Shop Engagement Rings </h2>
           </div>
