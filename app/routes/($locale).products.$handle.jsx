@@ -745,6 +745,12 @@ function ProductForm({product, selectedVariant, variants}) {
     //console.log(event.target.value, event.target.value === ' ');
     setsize({...size, [event.target.name]: event.target.value});
   }
+
+  useEffect(() => {
+    if (product.productType.toLowerCase() === 'earrings') {
+      setsize({SIZE: 'STANDART'});
+    }
+  }, []);
   function objectToArray(obj) {
     return Object.keys(obj).map((item) => ({
       key: item,
@@ -804,9 +810,6 @@ function ProductForm({product, selectedVariant, variants}) {
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}
         onClick={() => {
-          if (product.productType.toLowerCase() == 'earrings') {
-            setsize({SIZE: 'STANDART'});
-          }
           objectToArray(size)?.find(
             (itt) =>
               itt.key.toLowerCase() === 'size' ||
