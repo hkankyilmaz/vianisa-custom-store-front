@@ -75,7 +75,7 @@ export default function ProductItem({product, color, material, loading}) {
             aspectRatio="4/3"
             data={variant.image}
             loading={loading}
-            sizes="(min-width: 45em) 400px, 100vw"
+            sizes="100vw"
           />
           <Image
             className="transition-opacity opacity-0 hover:opacity-100 absolute top-0 "
@@ -87,7 +87,7 @@ export default function ProductItem({product, color, material, loading}) {
                 : product.images.nodes[0]
             }
             loading={loading}
-            sizes="(min-width: 45em) 400px, 100vw"
+            sizes="100vw"
           />
         </div>
       )}
