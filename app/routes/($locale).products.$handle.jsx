@@ -77,19 +77,20 @@ export async function loader({params, request, context}) {
     variables: {handle, selectedOptions},
   });
 
-  console.log( product.collections.nodes[0].handle)
+  console.log(product.collections.nodes[0].handle);
 
   const featuredCollectionTwo = await storefront.query(
     FEATURED_COLLECTION_QUERY,
     {
       variables: {
-        handle: product.collections.nodes[0].handle
+        handle: product.collections.nodes[0].handle,
       },
     },
   );
 
-
-  const recommendedProducts = await storefront.query(RECOMMENDED_PRODUCTS_QUERY);
+  const recommendedProducts = await storefront.query(
+    RECOMMENDED_PRODUCTS_QUERY,
+  );
 
   if (!product?.id) {
     throw new Response(null, {status: 404});
@@ -153,7 +154,7 @@ export async function loader({params, request, context}) {
     cart,
     card_view,
     selIndex,
-    recommendedProducts
+    recommendedProducts,
   });
 }
 
@@ -175,10 +176,10 @@ function redirectToFirstVariant({product, request}) {
 }
 
 export default function Product() {
-  const {product, variants, cart,selIndex,featuredCollectionTwo} =
+  const {product, variants, cart, selIndex, featuredCollectionTwo} =
     useLoaderData();
   const {selectedVariant} = product;
-  console.log(product)
+  console.log(product);
 
   // console.log(
   //   product.images.nodes,
@@ -219,7 +220,10 @@ export default function Product() {
           cart={cart}
         />
       </div>
-      <FeaturedCollection title="You May Also Like" data={featuredCollectionTwo} />
+      <FeaturedCollection
+        title="You May Also Like"
+        data={featuredCollectionTwo}
+      />
       <EtsyReview />
     </>
   );
@@ -651,9 +655,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
                   onChange={handleSelectChange}
                   className="text-[#595959] font-body align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10"
                 >
-                  <option value="moissanite">
-                    Gemstone: Moissanite
-                  </option>
+                  <option value="moissanite">Gemstone: Moissanite</option>
                   <option value="lab-grown-diamond">
                     Gemstone: Lab Grown Diamond
                   </option>
@@ -802,6 +804,9 @@ function ProductForm({product, selectedVariant, variants}) {
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}
         onClick={() => {
+          if (product.productType.toLowerCase() == 'earrings') {
+            setsize({SIZE: 'STANDART'});
+          }
           objectToArray(size)?.find(
             (itt) =>
               itt.key.toLowerCase() === 'size' ||

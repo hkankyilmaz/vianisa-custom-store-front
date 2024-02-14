@@ -48,12 +48,15 @@ export function ProductExtraInputType({product, cardInfo}) {
 }
 
 export function ProductExtraInputTag({product, cardInfo}) {
+  const productType = product.productType.toLowerCase();
+  let resultType = tags.find((i) => i.productType?.includes(productType));
   const productTags = product.tags;
   const [open, setopen] = useState(false);
   let resultTag = tags.filter(function (obj) {
     return obj.tags.some((tag) => productTags.includes(tag));
   });
-  if (resultTag) {
+  //console.log(productTags, resultTag, resultType);
+  if (resultTag && !resultTag) {
     return resultTag.map((inputObj, index) => (
       <div key={index} className="text-[#595959] tracking-wide">
         {inputObj.inputNumber == 1 && inputObj.inputType == 'text' ? (
