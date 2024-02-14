@@ -30,7 +30,6 @@ export const tags = [
       'fashion rings',
       'moissanite wedding bands',
       'diamond wedding bands',
-      'classic wedding bands',
       'birthstone rings',
       'bridal sets',
       'simulated diamond engagement rings',

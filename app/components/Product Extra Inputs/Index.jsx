@@ -56,7 +56,7 @@ export function ProductExtraInputTag({product, cardInfo}) {
     return obj.tags.some((tag) => productTags.includes(tag));
   });
   //console.log(productTags, resultTag, resultType);
-  if (resultTag && !resultTag) {
+  if (resultTag) {
     return resultTag.map((inputObj, index) => (
       <div key={index} className="text-[#595959] tracking-wide">
         {inputObj.inputNumber == 1 && inputObj.inputType == 'text' ? (
