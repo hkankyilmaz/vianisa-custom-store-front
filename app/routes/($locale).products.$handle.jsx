@@ -179,6 +179,7 @@ export default function Product() {
   const {product, variants, cart, selIndex, featuredCollectionTwo} =
     useLoaderData();
   const {selectedVariant} = product;
+  console.log(featuredCollectionTwo);
   console.log(product);
 
   // console.log(
