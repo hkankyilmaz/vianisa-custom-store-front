@@ -516,7 +516,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
   const modifiedStringwithCarat = product.handle.slice(0, -8);
   const shipDtae = useCalculateShipDay(tags);
   let carats = [];
-  // console.log(tags);
+
   if (tags.find((tag) => tag === 'Carat_Options_1_15_20')) {
     carats = ['1', '1.5', '2'];
   } else if (tags.find((tag) => tag === 'Carat_Options_1_15_20_30')) {
@@ -645,7 +645,10 @@ function ProductMain({selectedVariant, product, variants, cart}) {
               modifiedStringwithCarat={modifiedStringwithCarat}
             />
           ) : undefined}
-          <ProductDescription descriptionHtml={descriptionHtml} />
+          <ProductDescription
+            descriptionHtml={descriptionHtml}
+            isHasDescription={tags.includes('description')}
+          />
           {product.tags.find(
             (tag) => tag === 'GemstoneOptions_LabDiamond_Moissanite',
           ) ? (
@@ -1027,7 +1030,7 @@ function MorePaymentsButton({analytics, children, lines}) {
     </CartForm>
   );
 }
-function ProductDescription({descriptionHtml}) {
+function ProductDescription({descriptionHtml, isHasDescription}) {
   const ref = useRef();
   const refHorizontal = useRef();
   const refVertical = useRef();
@@ -1051,7 +1054,8 @@ function ProductDescription({descriptionHtml}) {
   return (
     <div
       ref={ref}
-      className="h-[70px] max-lg:h-[58px] overflow-hidden border-y text-[var] text-xs font-medium tracking-wide hidden"
+      style={{display: isHasDescription ? '' : 'none'}}
+      className="h-[70px] max-lg:h-[58px] overflow-hidden border-y text-[var] text-xs font-medium tracking-wide"
     >
       <p
         onClick={() => handleAnimate()}
