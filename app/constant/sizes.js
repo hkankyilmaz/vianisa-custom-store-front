@@ -33,8 +33,6 @@ export const tags = [
     productType: [
       'engagement rings',
       'fashion rings',
-      'moissanite wedding bands',
-      'diamond wedding bands',
       'birthstone rings',
       'bridal sets',
       'simulated diamond engagement rings',
