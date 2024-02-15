@@ -12,6 +12,7 @@ export function ProductExtraInputType({product, cardInfo}) {
         return (
           <div className="relative w-full text-[#595959] tracking-wide mt-[10px] mb-[15px]">
             <select
+              data-required={resultType.required == 'true' ? 'true' : 'false'}
               key={product.title}
               defaultValue=" "
               data-labelonproduct={resultType.labelOnProduct}
@@ -78,6 +79,7 @@ export function ProductExtraInputTag({product, cardInfo}) {
         ) : inputObj.inputNumber == 1 && inputObj.inputType == 'select' ? (
           <div className="relative my-3 h-[41.5px]">
             <select
+              data-required={inputObj.required == 'true' ? 'true' : 'false'}
               data-labelonproduct={inputObj.labelOnProduct}
               data-name={inputObj.name}
               name={inputObj.labelOnProduct}

@@ -40,6 +40,7 @@ export const tags = [
     placeHolder: 'Choose Your Ring Size',
     name: 'ringSizes',
     inputType: 'select',
+    required: 'true',
     labelOnProduct: 'size',
     options: {
       range: [2, 14],
