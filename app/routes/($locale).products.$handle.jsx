@@ -1,5 +1,4 @@
-import {Suspense, useState, useEffect, useRef, useContext} from 'react';
-import {defer, redirect} from '@shopify/remix-oxygen';
+import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import {
   Await,
   Link,
@@ -7,35 +6,37 @@ import {
   useMatches,
   useNavigate,
 } from '@remix-run/react';
-import EmblaCarousel from '~/components/Product Carausel Image Slider/Index';
-import DotCarousel from '~/components/Product Carausel Image Dot Slider/EmblaCarousel';
-import {FcShipped} from 'react-icons/fc';
-import useCalculateShipDay from '~/hooks/useCalculateShipDay';
-import {ClickAwayListener} from '@mui/base/ClickAwayListener';
-import {AiOutlineDown} from 'react-icons/ai';
-import ProductModal from '~/components/Product Popover/ProductModal';
-import ProductOptionContext from '~/store/productOptionsContext';
 import {
+  CartForm,
   Image,
   Money,
-  VariantSelector,
-  getSelectedProductOptions,
-  CartForm,
   Script,
   ShopPayButton,
+  VariantSelector,
+  getSelectedProductOptions,
 } from '@shopify/hydrogen';
-import {getVariantUrl} from '~/utils';
-import FeaturedCollection from '~/components/Featured Collections/FeaturedCollection';
-import {
-  ProductExtraInputType,
-  ProductExtraInputTag,
-} from '../components/Product Extra Inputs/Index';
+import {defer, redirect} from '@shopify/remix-oxygen';
 import gsap from 'gsap';
+import {Suspense, useContext, useEffect, useRef, useState} from 'react';
+import {AiOutlineDown} from 'react-icons/ai';
+import {FcShipped} from 'react-icons/fc';
 import {Title} from '~/components/BreadCrump';
-import WishlistButton from '~/components/Wishlist Button/WishlistButton';
-import CaratOptions from '~/components/Product Carat Options/CaratOptions';
-import GoldOptions from '~/components/Product Gold Options/GoldOptions';
 import EtsyReview from '~/components/EtsyReviews/Index';
+import FeaturedCollection from '~/components/Featured Collections/FeaturedCollection';
+import CaratOptions from '~/components/Product Carat Options/CaratOptions';
+import DotCarousel from '~/components/Product Carausel Image Dot Slider/EmblaCarousel';
+import EmblaCarousel from '~/components/Product Carausel Image Slider/Index';
+import GoldOptions from '~/components/Product Gold Options/GoldOptions';
+import ProductModal from '~/components/Product Popover/ProductModal';
+import WishlistButton from '~/components/Wishlist Button/WishlistButton';
+import {tags} from '~/constant/sizes';
+import useCalculateShipDay from '~/hooks/useCalculateShipDay';
+import ProductOptionContext from '~/store/productOptionsContext';
+import {getVariantUrl} from '~/utils';
+import {
+  ProductExtraInputTag,
+  ProductExtraInputType,
+} from '../components/Product Extra Inputs/Index';
 
 export const handle = {
   breadcrumb: (match) => {
@@ -814,6 +815,14 @@ function ProductForm({product, selectedVariant, variants}) {
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}
         onClick={() => {
+          if (
+            !tags.find((i) =>
+              i.productType?.includes(product.productType.toLowerCase()),
+            )
+          ) {
+            return;
+          }
+
           objectToArray(size)?.find(
             (itt) =>
               itt.key.toLowerCase() === 'size' ||
@@ -829,7 +838,10 @@ function ProductForm({product, selectedVariant, variants}) {
               itt.key.toLowerCase() === 'size' ||
               itt.key.toLowerCase() === 'lenght',
           )?.value !== ' ' &&
-          objectToArray(size).length > 0
+          (objectToArray(size).length > 0 ||
+            !tags.find((i) =>
+              i.productType?.includes(product.productType.toLowerCase()),
+            ))
             ? [
                 {
                   merchandiseId: selectedVariant.id,
