@@ -746,6 +746,15 @@ function ProductPrice({selectedVariant}) {
 
 function ProductForm({product, selectedVariant, variants}) {
   const [size, setsize] = useState({});
+  const isPass = product.options.find(
+    (j) =>
+      j.name === 'Length' ||
+      j.name === 'Necklace Length' ||
+      j.name === 'Bracelet Length',
+  )
+    ? true
+    : false;
+
   function logs(event) {
     //console.log(event.target.value, event.target.value === ' ');
     setsize({...size, [event.target.name]: event.target.value});
@@ -815,14 +824,7 @@ function ProductForm({product, selectedVariant, variants}) {
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}
         onClick={() => {
-          if (
-            !tags.find((i) =>
-              i.productType?.includes(product.productType.toLowerCase()),
-            )
-          ) {
-            return;
-          }
-
+          if (isPass) return;
           objectToArray(size)?.find(
             (itt) =>
               itt.key.toLowerCase() === 'size' ||
@@ -838,10 +840,7 @@ function ProductForm({product, selectedVariant, variants}) {
               itt.key.toLowerCase() === 'size' ||
               itt.key.toLowerCase() === 'lenght',
           )?.value !== ' ' &&
-          (objectToArray(size).length > 0 ||
-            !tags.find((i) =>
-              i.productType?.includes(product.productType.toLowerCase()),
-            ))
+          (objectToArray(size).length > 0 || isPass)
             ? [
                 {
                   merchandiseId: selectedVariant.id,
