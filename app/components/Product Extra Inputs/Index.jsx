@@ -90,6 +90,7 @@ export function ProductExtraInputTag({product, cardInfo, show}) {
               onChange={cardInfo}
               placeholder={inputObj.placeHolder}
             />
+            <ErrorMessage title={inputObj?.errorText} show={show} />
             {/* <AiOutlineDown className="absolute right-4 first-letter:top-[50%] translate-y-[-50%] text-lg z-[-1]" /> */}
           </div>
         ) : inputObj.inputNumber == 1 && inputObj.inputType == 'select' ? (
