@@ -1,17 +1,32 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {AiOutlineDown} from 'react-icons/ai';
 import {tags} from '../../constant/sizes';
+import {MdError} from 'react-icons/md';
 
-export function ProductExtraInputType({product, cardInfo}) {
+export function ProductExtraInputType({product, cardInfo, show}) {
   const productType = product.productType.toLowerCase();
   let resultType = tags.find((i) => i.productType?.includes(productType));
+
+  useEffect(() => {
+    document.addEventListener(
+      'invalid',
+      function (e) {
+        e.preventDefault();
+      },
+      true,
+    );
+  });
 
   if (resultType) {
     if (resultType?.inputNumber == 1) {
       if (resultType.inputType == 'select') {
         return (
-          <div className="relative w-full text-[#595959] tracking-wide mt-[10px] mb-[15px]">
+          <div
+            id="typeExtraInputs"
+            className="relative w-full text-[#595959] tracking-wide mt-[10px] mb-[15px]"
+          >
             <select
+              required
               data-required={resultType.required == 'true' ? 'true' : 'false'}
               key={product.title}
               defaultValue=" "
@@ -21,7 +36,7 @@ export function ProductExtraInputType({product, cardInfo}) {
               onChange={cardInfo}
               className="align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10"
             >
-              <option value={' '}>{resultType.placeHolder}</option>
+              <option value={''}>{resultType.placeHolder}</option>
               {resultType.options.delimeter
                 ? Array(resultType.options.optionCount)
                     .fill('')
@@ -40,6 +55,7 @@ export function ProductExtraInputType({product, cardInfo}) {
                     ))
                 : undefined}
             </select>
+            <ErrorMessage title={resultType.errorText} show={show} />
             <AiOutlineDown className="absolute right-[15px] top-[14px] text-sm text-[#000] z-[-1]" />
           </div>
         );
@@ -48,26 +64,26 @@ export function ProductExtraInputType({product, cardInfo}) {
   }
 }
 
-export function ProductExtraInputTag({product, cardInfo}) {
+export function ProductExtraInputTag({product, cardInfo, show}) {
   const productType = product.productType.toLowerCase();
-  let resultType = tags.find((i) => i.productType?.includes(productType));
   const productTags = product.tags;
   const [open, setopen] = useState(false);
   let resultTag = tags.filter(function (obj) {
     return obj.tags.some((tag) => productTags.includes(tag));
   });
 
-  // console.log('tags', productTags);
-  // console.log('resultTag', resultTag);
-  // console.log('ResultType', resultType);
-
   if (resultTag) {
     return resultTag.map((inputObj, index) => (
-      <div key={index} className="text-[#595959] tracking-wide">
+      <div
+        id="TagExtraInputs"
+        key={index}
+        className="text-[#595959] tracking-wide"
+      >
         {inputObj.inputNumber == 1 && inputObj.inputType == 'text' ? (
-          <div className="relative mb-3 mt-3 h-[41.5px]">
+          <div className="relative mb-3 mt-3 ">
             <input
-              className="w-full bg-transparent h-[41.5px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-3"
+              required
+              className="w-full bg-transparent  focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-3"
               data-labelonproduct={inputObj.labelOnProduct}
               data-name={inputObj.name}
               name={inputObj.labelOnProduct}
@@ -77,16 +93,17 @@ export function ProductExtraInputTag({product, cardInfo}) {
             {/* <AiOutlineDown className="absolute right-4 first-letter:top-[50%] translate-y-[-50%] text-lg z-[-1]" /> */}
           </div>
         ) : inputObj.inputNumber == 1 && inputObj.inputType == 'select' ? (
-          <div className="relative my-3 h-[41.5px]">
+          <div className="relative my-3 ">
             <select
+              required
               data-required={inputObj.required == 'true' ? 'true' : 'false'}
               data-labelonproduct={inputObj.labelOnProduct}
               data-name={inputObj.name}
               name={inputObj.labelOnProduct}
               onChange={cardInfo}
-              className=" w-full h-[41.5px] cursor-pointer bg-transparent focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-3"
+              className=" w-full  cursor-pointer bg-transparent focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-3"
             >
-              <option value={null}> {inputObj.placeHolder} </option>
+              <option value="">{inputObj.placeHolder} </option>
               {inputObj.options.delimeter
                 ? Array(inputObj.options.optionCount)
                     .fill('')
@@ -110,7 +127,8 @@ export function ProductExtraInputTag({product, cardInfo}) {
                     </option>
                   ))}
             </select>
-            <AiOutlineDown className="absolute right-4 top-[50%] translate-y-[-50%] text-[13px] z-[-1]" />
+            <ErrorMessage title={inputObj?.errorText} show={show} />
+            <AiOutlineDown className="absolute right-4 top-[15px] text-[13px] z-[-1]" />
           </div>
         ) : (
           <>
@@ -136,15 +154,16 @@ export function ProductExtraInputTag({product, cardInfo}) {
                   </label>
                 </div>
               ) : inputObjSub.inputType == 'select' && open ? (
-                <div key={idx} className="relative mt-[15px] h-[41.5px]">
+                <div key={idx} className="relative mt-[15px] ">
                   <select
+                    required
                     data-labelonproduct={inputObjSub.labelOnProduct}
                     data-name={inputObjSub.name}
                     name={inputObjSub.labelOnProduct}
                     onChange={cardInfo}
-                    className=" w-full h-[41.5px] cursor-pointer bg-transparent  focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-3"
+                    className=" w-full  cursor-pointer bg-transparent  focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-3"
                   >
-                    <option value={null}> {inputObjSub.placeHolder} </option>
+                    <option value={''}> {inputObjSub.placeHolder} </option>
                     {inputObjSub.options.delimeter
                       ? Array(inputObjSub.options.optionCount)
                           .fill('')
@@ -168,18 +187,21 @@ export function ProductExtraInputTag({product, cardInfo}) {
                           </option>
                         ))}
                   </select>
-                  <AiOutlineDown className="absolute right-4 top-[50%] translate-y-[-50%] text-sm text-black z-[-1]" />
+                  <ErrorMessage title={inputObjSub?.errorText} show={show} />
+                  <AiOutlineDown className="absolute right-4 top-[15px] text-sm text-black z-[-1]" />
                 </div>
               ) : inputObjSub.inputType == 'text' && open ? (
-                <div key={idx} className="relative mt-[15px] h-[41.5px]">
+                <div key={idx} className="relative mt-[15px] ">
                   <input
-                    className="placeholder-neutral-400 w-full text-[13px] font-avenir-medium tracking-[.6px] px-[15px] py-[10px] bg-transparent h-[41.5px] focus:border-transparent focus:outline-none border border-[#E5E7EB] z-3"
+                    required
+                    className="placeholder-neutral-400 w-full text-[13px] font-avenir-medium tracking-[.6px] px-[15px] py-[10px] bg-transparent  focus:border-transparent focus:outline-none border border-[#E5E7EB] z-3"
                     data-labelonproduct={inputObjSub.labelOnProduct}
                     name={inputObjSub.labelOnProduct}
                     onChange={cardInfo}
                     data-name={inputObjSub.name}
                     placeholder={inputObjSub.placeHolder}
                   />
+                  <ErrorMessage title={inputObjSub?.errorText} show={show} />
                 </div>
               ) : undefined,
             )}
@@ -188,4 +210,16 @@ export function ProductExtraInputTag({product, cardInfo}) {
       </div>
     ));
   }
+}
+
+function ErrorMessage({show, title}) {
+  return (
+    <span className="text-xs pl-[15px] mt-2 text-red-300 flex items-center w-full">
+      {show ? (
+        <div className="flex">
+          <MdError /> <span className="ml-1 leading-[12px] "> {title} </span>
+        </div>
+      ) : undefined}
+    </span>
+  );
 }

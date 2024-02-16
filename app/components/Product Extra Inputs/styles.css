@@ -1,0 +1,37 @@
+::ng-deep #form .hide-validation-group .dx-overlay .dx-invalid-message-content {
+  display: none;
+}
+
+select:invalid {
+  box-shadow: none;
+}
+
+#typeExtraInputs select + span,
+#typeExtraInputs input + span {
+  display: none;
+}
+
+#TagExtraInputs select + span,
+#TagExtraInputs input + span {
+  display: none;
+}
+
+#typeExtraInputs select:invalid + span,
+#typeExtraInputs input:invalid + span {
+  display: inline-block;
+}
+
+#TagExtraInputs select:invalid + span,
+#TagExtraInputs input:invalid + span {
+  display: inline-block;
+}
+
+/* #typeExtraInputs select:valid + span,
+#typeExtraInputs input:valid + span {
+  display: initial;
+}
+
+#TagExtraInputs select:valid + span,
+#TagExtraInputs input:valid + span {
+  display: none;
+} */

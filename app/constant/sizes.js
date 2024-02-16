@@ -42,6 +42,7 @@ export const tags = [
     inputType: 'select',
     required: 'true',
     labelOnProduct: 'size',
+    errorText: 'Please Choose Ring Size',
     options: {
       range: [2, 14],
       delimeter: 0.25,
@@ -55,6 +56,7 @@ export const tags = [
     name: 'braceletLength',
     inputType: 'select',
     labelOnProduct: 'length',
+    errorText: 'Please Choose Bracelet Length',
     options: {
       range: [5, 8],
       delimeter: 0.5,
@@ -68,6 +70,7 @@ export const tags = [
     name: 'necklaceLenght',
     inputType: 'select',
     labelOnProduct: 'lenght',
+    errorText: 'Please Choose Necklaces Length',
     options: {
       range: [14, 20],
       delimeter: 1,
@@ -81,6 +84,7 @@ export const tags = [
     name: 'name',
     inputType: 'text',
     labelOnProduct: 'name',
+    errorText: 'Please Write Custom Name',
   },
   {
     inputNumber: 1,
@@ -89,6 +93,7 @@ export const tags = [
     name: 'initialLetter',
     inputType: 'select',
     labelOnProduct: 'letter',
+    errorText: 'Please Choose Letter',
     options: [
       'A',
       'B',
@@ -125,6 +130,7 @@ export const tags = [
     name: 'singleBirthstone',
     inputType: 'select',
     labelOnProduct: 'birthstone',
+    errorText: 'Please Choose Birthstone',
     options: [
       'Garnet (January)',
       'Amethyst (February)',
@@ -147,10 +153,12 @@ export const tags = [
       'io_multiplebirthstone',
       'IO_multiplebirthstone',
     ],
-    placeHolder: 'Please Specify Each Birthstone from Left to Right',
+    placeHolder:
+      'Please Specify Each Birthstone from Left to Right Refer to Image',
     name: 'multipleBirthStone',
     inputType: 'text',
     labelOnProduct: 'birthstone',
+    errorText: 'Please Choose Birthstones',
   },
   {
     inputNumber: 3,
@@ -168,6 +176,7 @@ export const tags = [
         name: 'font',
         inputType: 'select',
         labelOnProduct: 'Engraving Font',
+        errorText: 'Please Choose Engraving Font',
         options: [
           'Snell BT',
           'Monotype Corsiva',
@@ -183,6 +192,7 @@ export const tags = [
         name: 'text',
         inputType: 'text',
         labelOnProduct: 'Engraving Text',
+        errorText: 'Please Write Engraving Text',
       },
     ],
   },
@@ -203,6 +213,7 @@ export const tags = [
         name: 'second',
         inputType: 'select',
         labelOnProduct: 'Engraving Font for Engagement Ring',
+        errorText: 'Please Write Engraving Font',
         options: [
           'Snell BT',
           'Monotype Corsiva',
@@ -218,12 +229,14 @@ export const tags = [
         name: 'third',
         inputType: 'text',
         labelOnProduct: 'Engraving Text for Engagement Ring',
+        errorText: 'Please Write Engraving Text',
       },
       {
         placeHolder: 'Choose a Font for Wedding Band(Refer to Images)',
         name: 'fourth',
         inputType: 'select',
         labelOnProduct: 'Engraving Font for Wedding Band',
+        errorText: 'Please Choose Engraving Font',
         options: [
           'Snell BT',
           'Monotype Corsiva',
@@ -239,6 +252,7 @@ export const tags = [
         name: 'five',
         inputType: 'text',
         labelOnProduct: 'Engraving Text for Wedding Band',
+        errorText: 'Please Write Engraving Text',
       },
     ],
   },
@@ -258,6 +272,7 @@ export const tags = [
         name: 'second',
         inputType: 'select',
         labelOnProduct: 'Engraving Font',
+        errorText: 'Please Choose Engraving Font',
         options: [
           'F01 - Monotype Corsiva',
           'F02 - Times New Roman',
@@ -275,6 +290,7 @@ export const tags = [
         name: 'third',
         inputType: 'text',
         labelOnProduct: 'Engraving Letters',
+        errorText: 'Please Write Engraving Letters',
       },
     ],
   },
@@ -298,6 +314,7 @@ export const tags = [
         name: 'second',
         inputType: 'select',
         labelOnProduct: 'Engraving Font',
+        errorText: 'Please Choose Engraving Font',
         options: [
           'F01 - Monotype Corsiva',
           'F02 - Times New Roman',
@@ -315,6 +332,7 @@ export const tags = [
         name: 'third',
         inputType: 'text',
         labelOnProduct: 'Engraving Letters',
+        errorText: 'Please Write Engraving Letters',
       },
     ],
   },
@@ -326,6 +344,7 @@ export const tags = [
     name: 'outsideEngravingZodiac',
     inputType: 'select',
     labelOnProduct: 'Outside Zodiac Engraving',
+    errorText: 'Please Choose Outside Zodiac Engraving',
     options: [
       '1 - Aries',
       '2 - Taurus',

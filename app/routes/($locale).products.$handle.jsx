@@ -8,7 +8,6 @@ import {
 } from '@remix-run/react';
 import {
   CartForm,
-  Image,
   Money,
   Script,
   ShopPayButton,
@@ -19,7 +18,6 @@ import {defer, redirect} from '@shopify/remix-oxygen';
 import gsap from 'gsap';
 import {Suspense, useContext, useEffect, useRef, useState} from 'react';
 import {AiOutlineDown} from 'react-icons/ai';
-import {FcShipped} from 'react-icons/fc';
 import {Title} from '~/components/BreadCrump';
 import EtsyReview from '~/components/EtsyReviews/Index';
 import FeaturedCollection from '~/components/Featured Collections/FeaturedCollection';
@@ -27,9 +25,6 @@ import CaratOptions from '~/components/Product Carat Options/CaratOptions';
 import DotCarousel from '~/components/Product Carausel Image Dot Slider/EmblaCarousel';
 import EmblaCarousel from '~/components/Product Carausel Image Slider/Index';
 import GoldOptions from '~/components/Product Gold Options/GoldOptions';
-import ProductModal from '~/components/Product Popover/ProductModal';
-import WishlistButton from '~/components/Wishlist Button/WishlistButton';
-import {tags} from '~/constant/sizes';
 import useCalculateShipDay from '~/hooks/useCalculateShipDay';
 import ProductOptionContext from '~/store/productOptionsContext';
 import {getVariantUrl} from '~/utils';
@@ -37,6 +32,10 @@ import {
   ProductExtraInputTag,
   ProductExtraInputType,
 } from '../components/Product Extra Inputs/Index';
+
+import extraInputsStyles from '../components/Product Extra Inputs/styles.css';
+
+export const links = () => [{rel: 'stylesheet', href: extraInputsStyles}];
 
 export const handle = {
   breadcrumb: (match) => {
@@ -746,15 +745,6 @@ function ProductPrice({selectedVariant}) {
 
 function ProductForm({product, selectedVariant, variants}) {
   const [size, setsize] = useState({});
-  const isPass = product.options.find(
-    (j) =>
-      j.name === 'Length' ||
-      j.name === 'Necklace Length' ||
-      j.name === 'Bracelet Length',
-  )
-    ? true
-    : false;
-
   function logs(event) {
     //console.log(event.target.value, event.target.value === ' ');
     setsize({...size, [event.target.name]: event.target.value});
@@ -819,28 +809,12 @@ function ProductForm({product, selectedVariant, variants}) {
             </>
           ))}
       </div>
-      <ProductExtraInputType product={product} cardInfo={logs} />
-      <ProductExtraInputTag product={product} cardInfo={logs} />
       <AddToCartButton
+        logs={logs}
+        product={product}
         disabled={!selectedVariant || !selectedVariant.availableForSale}
-        onClick={() => {
-          if (isPass) return;
-          objectToArray(size)?.find(
-            (itt) =>
-              itt.key.toLowerCase() === 'size' ||
-              itt.key.toLowerCase() === 'lenght',
-          )?.value !== ' ' && objectToArray(size).length > 0
-            ? console.log(objectToArray(size))
-            : alert('Choose a size for the order');
-        }}
         lines={
-          selectedVariant &&
-          objectToArray(size)?.find(
-            (itt) =>
-              itt.key.toLowerCase() === 'size' ||
-              itt.key.toLowerCase() === 'lenght',
-          )?.value !== ' ' &&
-          (objectToArray(size).length > 0 || isPass)
+          selectedVariant
             ? [
                 {
                   merchandiseId: selectedVariant.id,
@@ -979,7 +953,24 @@ function ProductOptions({option, w_full}) {
   );
 }
 
-function AddToCartButton({analytics, children, disabled, lines, onClick}) {
+function AddToCartButton({analytics, disabled, lines, product, logs}) {
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+
+  useEffect(() => {
+    if (document.querySelector('[method="post"]'))
+      document
+        .querySelector('[method="post"]')
+        .addEventListener('submit', () => {
+          console.log('Deneme');
+          let root_ = document.documentElement.style;
+          root_.setProperty('--cart-overlay-opacity', '1');
+          root_.setProperty('--cart-overlay-visibility', 'visible');
+          root_.setProperty('--cart-aside-position', 'translateX(0%)');
+          root_.setProperty('--cart-aside-visibility', 'visible');
+          document.documentElement.style.overflowY = 'hidden';
+        });
+  });
+
   return (
     <CartForm route="/cart" inputs={{lines}} action={CartForm.ACTIONS.LinesAdd}>
       {(fetcher) => (
@@ -989,26 +980,26 @@ function AddToCartButton({analytics, children, disabled, lines, onClick}) {
             type="hidden"
             value={JSON.stringify(analytics)}
           />
+          <ProductExtraInputType
+            product={product}
+            cardInfo={logs}
+            show={showErrorMessage}
+          />
+          <ProductExtraInputTag
+            product={product}
+            cardInfo={logs}
+            show={showErrorMessage}
+          />
           <button
+            onClick={() => setShowErrorMessage(true)}
             className="border flex items-center justify-center w-full align-middle 
             mt-[15px] px-2 py-3 h-auto text-[11px] font-bold uppercase bg-[#2f2f2f]
           border-[#2f2f2f] tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-[#2f2f2f]"
             style={{transition: 'all ease 150ms'}}
             type="submit"
-            onClick={() => {
-              onClick();
-              if (lines.length > 0) {
-                let root_ = document.documentElement.style;
-                root_.setProperty('--cart-overlay-opacity', '1');
-                root_.setProperty('--cart-overlay-visibility', 'visible');
-                root_.setProperty('--cart-aside-position', 'translateX(0%)');
-                root_.setProperty('--cart-aside-visibility', 'visible');
-                document.documentElement.style.overflowY = 'hidden';
-              }
-            }}
             disabled={disabled ?? fetcher.state !== 'idle'}
           >
-            {children}
+            Add To Cart
           </button>
         </>
       )}
