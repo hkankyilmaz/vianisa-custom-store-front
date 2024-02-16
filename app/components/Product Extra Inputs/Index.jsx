@@ -22,6 +22,7 @@ export function ProductExtraInputType({product, cardInfo, show}) {
       if (resultType.inputType == 'select') {
         return (
           <div
+            style={{height: !show ? '41.5px' : 'auto'}}
             id="typeExtraInputs"
             className="relative w-full text-[#595959] tracking-wide mt-[10px] mb-[15px]"
           >
@@ -80,7 +81,10 @@ export function ProductExtraInputTag({product, cardInfo, show}) {
         className="text-[#595959] tracking-wide"
       >
         {inputObj.inputNumber == 1 && inputObj.inputType == 'text' ? (
-          <div className="relative mb-3 mt-3 ">
+          <div
+            style={{height: !show ? '41.5px' : 'auto'}}
+            className="relative mb-3 mt-3 "
+          >
             <input
               required
               className="w-full bg-transparent  focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-3"
@@ -94,7 +98,10 @@ export function ProductExtraInputTag({product, cardInfo, show}) {
             {/* <AiOutlineDown className="absolute right-4 first-letter:top-[50%] translate-y-[-50%] text-lg z-[-1]" /> */}
           </div>
         ) : inputObj.inputNumber == 1 && inputObj.inputType == 'select' ? (
-          <div className="relative my-3 ">
+          <div
+            style={{height: !show ? '41.5px' : 'auto'}}
+            className="relative my-3 "
+          >
             <select
               required
               data-required={inputObj.required == 'true' ? 'true' : 'false'}
@@ -135,7 +142,11 @@ export function ProductExtraInputTag({product, cardInfo, show}) {
           <>
             {inputObj.inputs.map((inputObjSub, idx) =>
               inputObjSub.inputType == 'checkbox' ? (
-                <div key={idx} className="flex items-center mt-[15px]">
+                <div
+                  style={{height: !show ? '41.5px' : 'auto'}}
+                  key={idx}
+                  className="flex items-center mt-[15px]"
+                >
                   <input
                     data-labelonproduct={inputObjSub.labelOnProduct}
                     data-name={inputObj.name}
@@ -155,7 +166,11 @@ export function ProductExtraInputTag({product, cardInfo, show}) {
                   </label>
                 </div>
               ) : inputObjSub.inputType == 'select' && open ? (
-                <div key={idx} className="relative mt-[15px] ">
+                <div
+                  style={{height: !show ? '41.5px' : 'auto'}}
+                  key={idx}
+                  className="relative mt-[15px] "
+                >
                   <select
                     required
                     data-labelonproduct={inputObjSub.labelOnProduct}
@@ -192,7 +207,11 @@ export function ProductExtraInputTag({product, cardInfo, show}) {
                   <AiOutlineDown className="absolute right-4 top-[15px] text-sm text-black z-[-1]" />
                 </div>
               ) : inputObjSub.inputType == 'text' && open ? (
-                <div key={idx} className="relative mt-[15px] ">
+                <div
+                  style={{height: !show ? '41.5px' : 'auto'}}
+                  key={idx}
+                  className="relative mt-[15px] "
+                >
                   <input
                     required
                     className="placeholder-neutral-400 w-full text-[13px] font-avenir-medium tracking-[.6px] px-[15px] py-[10px] bg-transparent  focus:border-transparent focus:outline-none border border-[#E5E7EB] z-3"

@@ -2,10 +2,6 @@
   display: none;
 }
 
-select:invalid {
-  box-shadow: none;
-}
-
 #typeExtraInputs select + span,
 #typeExtraInputs input + span {
   display: none;
@@ -29,13 +25,3 @@ select:invalid {
   display: inline-block;
   position: initial;
 }
-
-/* #typeExtraInputs select:valid + span,
-#typeExtraInputs input:valid + span {
-  display: none;
-}
-
-#TagExtraInputs select:valid + span,
-#TagExtraInputs input:valid + span {
-  display: none;
-} */
