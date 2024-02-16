@@ -21,11 +21,13 @@ select:invalid {
 #typeExtraInputs select:invalid + span,
 #typeExtraInputs input:invalid + span {
   display: inline-block;
+  position: initial;
 }
 
 #TagExtraInputs select:invalid + span,
 #TagExtraInputs input:invalid + span {
   display: inline-block;
+  position: initial;
 }
 
 /* #typeExtraInputs select:valid + span,
