@@ -9,11 +9,13 @@ select:invalid {
 #typeExtraInputs select + span,
 #typeExtraInputs input + span {
   display: none;
+  position: absolute;
 }
 
 #TagExtraInputs select + span,
 #TagExtraInputs input + span {
   display: none;
+  position: absolute;
 }
 
 #typeExtraInputs select:invalid + span,
@@ -28,7 +30,7 @@ select:invalid {
 
 /* #typeExtraInputs select:valid + span,
 #typeExtraInputs input:valid + span {
-  display: initial;
+  display: none;
 }
 
 #TagExtraInputs select:valid + span,
