@@ -16,7 +16,7 @@ export function CartMain({layout, cart}) {
       document.documentElement.style.overflowY = 'hidden';
     }
     setPreventOpenCartAside(true);
-  }, [cart.totalQuantity]);
+  }, [cart?.totalQuantity]);
 
   const linesCount = Boolean(cart?.lines?.nodes?.length || 0);
   const withDiscount =
