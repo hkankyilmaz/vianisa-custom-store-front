@@ -77,8 +77,6 @@ export async function loader({params, request, context}) {
     variables: {handle, selectedOptions},
   });
 
-  console.log(product.collections.nodes[0].handle);
-
   const featuredCollectionTwo = await storefront.query(
     FEATURED_COLLECTION_QUERY,
     {
@@ -179,8 +177,6 @@ export default function Product() {
   const {product, variants, cart, selIndex, featuredCollectionTwo} =
     useLoaderData();
   const {selectedVariant} = product;
-  console.log(featuredCollectionTwo);
-  console.log(product);
 
   // console.log(
   //   product.images.nodes,
@@ -955,21 +951,6 @@ function ProductOptions({option, w_full}) {
 
 function AddToCartButton({analytics, disabled, lines, product, logs}) {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
-
-  useEffect(() => {
-    if (document.querySelector('[method="post"]'))
-      document
-        .querySelector('[method="post"]')
-        .addEventListener('submit', () => {
-          console.log('Deneme');
-          let root_ = document.documentElement.style;
-          root_.setProperty('--cart-overlay-opacity', '1');
-          root_.setProperty('--cart-overlay-visibility', 'visible');
-          root_.setProperty('--cart-aside-position', 'translateX(0%)');
-          root_.setProperty('--cart-aside-visibility', 'visible');
-          document.documentElement.style.overflowY = 'hidden';
-        });
-  });
 
   return (
     <CartForm route="/cart" inputs={{lines}} action={CartForm.ACTIONS.LinesAdd}>

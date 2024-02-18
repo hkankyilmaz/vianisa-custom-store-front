@@ -1,8 +1,23 @@
 import {Link} from '@remix-run/react';
 import {CartForm, Image, Money} from '@shopify/hydrogen';
+import {useEffect, useState} from 'react';
 import {useVariantUrl} from '~/utils';
 
 export function CartMain({layout, cart}) {
+  const [preventOpenCartAside, setPreventOpenCartAside] = useState(false);
+
+  let root_ = document.documentElement.style;
+  useEffect(() => {
+    if (preventOpenCartAside) {
+      root_.setProperty('--cart-overlay-opacity', '1');
+      root_.setProperty('--cart-overlay-visibility', 'visible');
+      root_.setProperty('--cart-aside-position', 'translateX(0%)');
+      root_.setProperty('--cart-aside-visibility', 'visible');
+      document.documentElement.style.overflowY = 'hidden';
+    }
+    setPreventOpenCartAside(true);
+  }, [cart.totalQuantity]);
+
   const linesCount = Boolean(cart?.lines?.nodes?.length || 0);
   const withDiscount =
     cart &&
