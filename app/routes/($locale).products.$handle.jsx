@@ -34,6 +34,7 @@ import {
 } from '../components/Product Extra Inputs/Index';
 
 import extraInputsStyles from '../components/Product Extra Inputs/styles.css';
+import {LabMos} from '~/components/Product Lab-Mos/Index';
 
 export const links = () => [{rel: 'stylesheet', href: extraInputsStyles}];
 
@@ -636,6 +637,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
           ) : (
             ''
           )}
+
           {carats.length > 0 ? (
             <CaratOptions
               carats={carats}
@@ -643,6 +645,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
               modifiedStringwithCarat={modifiedStringwithCarat}
             />
           ) : undefined}
+          <LabMos tags={tags} url={product.handle} />
           <ProductDescription
             descriptionHtml={descriptionHtml}
             isHasDescription={tags.includes('description')}
