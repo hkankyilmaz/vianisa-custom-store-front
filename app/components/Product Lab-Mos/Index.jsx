@@ -6,14 +6,14 @@ import {useNavigate} from '@remix-run/react';
 
 export const LabMos = ({url, tags}) => {
 
-console.log(tags)
+  //console.log(tags)
 
   const isMoissanite = tags?.includes('Mos_to_Lab');
   const isLabDiamond = tags?.includes('Lab_to_Mos');
   const navigate = useNavigate();
 
 
-  console.log(`/products/${url.replace("moissanite","lab-grown-diamond")}`)
+  //console.log(`/products/${url.replace("moissanite","lab-grown-diamond")}`)
 
   const handleChange = (e)=> {
     navigate(e.target.value)
