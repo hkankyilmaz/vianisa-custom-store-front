@@ -1,6 +1,7 @@
 import {AiOutlineDown} from 'react-icons/ai';
 import {tags} from '~/constant/sizes';
 import {useNavigate} from '@remix-run/react';
+import { useState } from 'react';
 
 
 
@@ -13,10 +14,15 @@ export const LabMos = ({url, tags}) => {
   const navigate = useNavigate();
 
 
+  const [value, setValue] = useState("")
+
+
   //console.log(`/products/${url.replace("moissanite","lab-grown-diamond")}`)
 
   const handleChange = (e)=> {
     navigate(e.target.value)
+    setValue(e.target.value)
+    
   }
 
 
@@ -27,7 +33,7 @@ export const LabMos = ({url, tags}) => {
         id="typeExtraInputs"
         className="relative w-full text-[#595959] tracking-wide mt-[10px] mb-[15px]"
       >
-        <select onChange={handleChange} className="align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10">
+        <select value={value} onChange={handleChange} className="align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10">
           {isMoissanite ? (
             <>
               <option value={`/products/${url}`}>Moissanite</option>
