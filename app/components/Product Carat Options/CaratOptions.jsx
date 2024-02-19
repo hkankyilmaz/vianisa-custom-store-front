@@ -57,6 +57,9 @@ function CaratItem({name, matches, modifiedStringwithCarat}) {
   } else if (name === '0.75') {
     title = '0.75ct';
     handle_ = '-0-75-ct';
+  } else if (name === '2.5') {
+    title = '2.50ct';
+    handle_ = '-2-50-ct';
   }
   return (
     <Link
