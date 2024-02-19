@@ -645,11 +645,11 @@ function ProductMain({selectedVariant, product, variants, cart}) {
               modifiedStringwithCarat={modifiedStringwithCarat}
             />
           ) : undefined}
-          <LabMos tags={tags} url={product.handle} />
           <ProductDescription
             descriptionHtml={descriptionHtml}
             isHasDescription={tags.includes('description')}
           />
+          <LabMos tags={tags} url={product.handle} />
           {product.tags.find(
             (tag) => tag === 'GemstoneOptions_LabDiamond_Moissanite',
           ) ? (
