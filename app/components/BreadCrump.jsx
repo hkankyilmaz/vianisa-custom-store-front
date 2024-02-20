@@ -11,7 +11,7 @@ export function Title() {
           <>
             <Link className="hover:underline" to="/">
               Home
-            </Link>{' '}
+            </Link>
             &nbsp;<span>/</span>&nbsp;
             {matchs.map((match, idx) =>
               idx === 1 ? match?.handle?.breadcrumb(match) : undefined,
