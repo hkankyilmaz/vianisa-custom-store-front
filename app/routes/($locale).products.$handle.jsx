@@ -179,27 +179,21 @@ export default function Product() {
     useLoaderData();
   const {selectedVariant} = product;
 
-  // console.log(
-  //   product.images.nodes,
-  //   selectedVariant.selectedOptions?.find((opt) => opt.name === 'Color'),
-  //   selIndex,
-  // );
-  const images = product.images.nodes;
+  const images = [{...product.selectedVariant.image},...product.images.nodes] ;
   const imageByIndex = (index) => images[index % images.length];
   const OPTIONS = {startIndex: selIndex};
   const SLIDE_COUNT = images.length;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   return (
-    <>
+    <div key={product.selectedVariant.image.url} >
       <Title />
       <div className="product max-w-[1330px] m-auto">
-        {/* <ProductImage image={selectedVariant?.image} /> */}
 
         <EmblaCarousel
           slides={SLIDES}
           options={OPTIONS}
           imageByIndex={imageByIndex}
-          startIndex={selIndex}
+          startIndex={0}
         />
 
         <div className="flex flex-wrap flex-col max-sm:mb-[28px] mb-[65px] lg:hidden">
@@ -207,7 +201,7 @@ export default function Product() {
             slides={SLIDES}
             options={OPTIONS}
             imageByIndex={imageByIndex}
-            startIndex={selIndex}
+            startIndex={0}
           />
         </div>
 
@@ -223,7 +217,7 @@ export default function Product() {
         data={featuredCollectionTwo}
       />
       <EtsyReview />
-    </>
+    </div>
   );
 }
 function ViewPlanMain({price, className, close}) {
