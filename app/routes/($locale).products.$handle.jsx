@@ -34,7 +34,7 @@ import {
 } from '../components/Product Extra Inputs/Index';
 
 import extraInputsStyles from '../components/Product Extra Inputs/styles.css';
-import {LabMos} from '~/components/Product Lab-Mos/Index';
+import * as GemStones from "../components/Gemstones/index"
 
 export const links = () => [{rel: 'stylesheet', href: extraInputsStyles}];
 
@@ -649,7 +649,8 @@ function ProductMain({selectedVariant, product, variants, cart}) {
             descriptionHtml={descriptionHtml}
             isHasDescription={tags.includes('description')}
           />
-          <LabMos tags={tags} url={product.handle} />
+         <GemStones.LabMos tags={tags} url={product.handle} />
+         <GemStones.DiaMos tags={tags} url={product.handle} />
           {product.tags.find(
             (tag) => tag === 'GemstoneOptions_LabDiamond_Moissanite',
           ) ? (
