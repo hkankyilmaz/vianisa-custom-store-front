@@ -926,7 +926,7 @@ function ProductOptions({option, w_full}) {
                               prefetch="intent"
                               preventScrollReset
                               replace
-                              to={to}
+                              to={to.includes("Platinum") ? to.replace("Yellow","White").replace("Rose","White") : to}
                             >
                               {value}
                             </Link>
