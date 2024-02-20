@@ -119,40 +119,14 @@ export async function loader({params, request, context}) {
   const variants = storefront.query(VARIANTS_QUERY, {
     variables: {handle},
   });
-  const {selectedVariant} = product;
-  const url = new URL(request.url);
-  // console.log(url.searchParams.getAll('Color').length);
-  let isColor = url.searchParams.getAll('Color').length;
-  let selIndex =
-    selectedVariant && isColor
-      ? product.images?.nodes?.findIndex((node) =>
-          node?.url?.includes(
-            selectedVariant.selectedOptions
-              ?.find((opt) => opt.name === 'Color')
-              .value?.toUpperCase(),
-          ) === false
-            ? node?.url?.includes(
-                '-' +
-                  selectedVariant.selectedOptions
-                    ?.find((opt) => opt.name === 'Color')
-                    .value?.toUpperCase()
-                    .charAt(0) +
-                  '.jpg',
-              )
-            : node?.url?.includes(
-                selectedVariant.selectedOptions
-                  ?.find((opt) => opt.name === 'Color')
-                  .value.toUpperCase(),
-              ),
-        )
-      : 0;
+
+
   return defer({
     product,
     variants,
     featuredCollectionTwo,
     cart,
     card_view,
-    selIndex,
     recommendedProducts,
   });
 }
@@ -175,13 +149,13 @@ function redirectToFirstVariant({product, request}) {
 }
 
 export default function Product() {
-  const {product, variants, cart, selIndex, featuredCollectionTwo} =
+  const {product, variants, cart, featuredCollectionTwo} =
     useLoaderData();
   const {selectedVariant} = product;
 
   const images = [{...product.selectedVariant.image},...product.images.nodes] ;
   const imageByIndex = (index) => images[index % images.length];
-  const OPTIONS = {startIndex: selIndex};
+  const OPTIONS = {startIndex: 0};
   const SLIDE_COUNT = images.length;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   return (
