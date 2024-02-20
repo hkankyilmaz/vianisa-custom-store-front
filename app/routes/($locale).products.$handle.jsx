@@ -34,7 +34,7 @@ import {
 } from '../components/Product Extra Inputs/Index';
 
 import extraInputsStyles from '../components/Product Extra Inputs/styles.css';
-import * as GemStones from "../components/Gemstones/index"
+import * as GemStones from '../components/Gemstones/index';
 
 export const links = () => [{rel: 'stylesheet', href: extraInputsStyles}];
 
@@ -120,7 +120,6 @@ export async function loader({params, request, context}) {
     variables: {handle},
   });
 
-
   return defer({
     product,
     variants,
@@ -149,20 +148,18 @@ function redirectToFirstVariant({product, request}) {
 }
 
 export default function Product() {
-  const {product, variants, cart, featuredCollectionTwo} =
-    useLoaderData();
+  const {product, variants, cart, featuredCollectionTwo} = useLoaderData();
   const {selectedVariant} = product;
 
-  const images = [{...product.selectedVariant.image},...product.images.nodes] ;
+  const images = [{...product.selectedVariant.image}, ...product.images.nodes];
   const imageByIndex = (index) => images[index % images.length];
   const OPTIONS = {startIndex: 0};
   const SLIDE_COUNT = images.length;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
   return (
-    <div key={product.selectedVariant.image.url} >
+    <div key={product.selectedVariant.image.url}>
       <Title />
       <div className="product max-w-[1330px] m-auto">
-
         <EmblaCarousel
           slides={SLIDES}
           options={OPTIONS}
@@ -617,27 +614,8 @@ function ProductMain({selectedVariant, product, variants, cart}) {
             descriptionHtml={descriptionHtml}
             isHasDescription={tags.includes('description')}
           />
-         <GemStones.LabMos tags={tags} url={product.handle} />
-         <GemStones.DiaMos tags={tags} url={product.handle} />
-          {product.tags.find(
-            (tag) => tag === 'GemstoneOptions_LabDiamond_Moissanite',
-          ) ? (
-            <ClickAwayListener onClickAway={() => setIsGemStoneOpt(false)}>
-              <div className="relative mt-3 w-full text-[#595959] tracking-wide">
-                <select
-                  value={stonetype}
-                  onChange={handleSelectChange}
-                  className="text-[#595959] font-body align-middle leading-[19.5px] w-full h-[41.5px] cursor-pointer bg-transparent px-[15px] py-[10px] focus:border-transparent text-[13px] focus:outline-none border border-[#E5E7EB] z-10"
-                >
-                  <option value="moissanite">Gemstone: Moissanite</option>
-                  <option value="lab-grown-diamond">
-                    Gemstone: Lab Grown Diamond
-                  </option>
-                </select>
-                <AiOutlineDown className="absolute right-[15px] top-[14px] text-sm text-[#000] z-[-1]" />
-              </div>
-            </ClickAwayListener>
-          ) : undefined}
+          <GemStones.LabMos tags={tags} url={product.handle} />
+          <GemStones.DiaMos tags={tags} url={product.handle} />
           <Suspense
             fallback={
               <ProductForm
@@ -894,7 +872,13 @@ function ProductOptions({option, w_full}) {
                               prefetch="intent"
                               preventScrollReset
                               replace
-                              to={to.includes("Platinum") ? to.replace("Yellow","White").replace("Rose","White") : to}
+                              to={
+                                to.includes('Platinum')
+                                  ? to
+                                      .replace('Yellow', 'White')
+                                      .replace('Rose', 'White')
+                                  : to
+                              }
                             >
                               {value}
                             </Link>
