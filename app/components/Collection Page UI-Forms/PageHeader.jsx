@@ -2,7 +2,7 @@ import {trim} from '~/utils';
 
 function PageHeader({collection}) {
   return (
-    <div className="my-[50px] px-20">
+    <div className="my-[15px] md:my-[50px] px-20">
       <h1
         className={trim(
           `text-center text-[25px] sm:text-[30px] font-optima-normal ${
