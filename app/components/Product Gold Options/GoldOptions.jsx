@@ -1,8 +1,5 @@
 import * as React from 'react';
 import {Link} from '@remix-run/react';
-import useEmblaCarousel from 'embla-carousel-react';
-import {useEffect, useState, useCallback} from 'react';
-import Autoplay from 'embla-carousel-autoplay';
 
 export default function GoldOptions({types, matches, url}) {
   return (

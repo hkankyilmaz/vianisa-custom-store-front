@@ -25,6 +25,7 @@ import CaratOptions from '~/components/Product Carat Options/CaratOptions';
 import DotCarousel from '~/components/Product Carausel Image Dot Slider/EmblaCarousel';
 import EmblaCarousel from '~/components/Product Carausel Image Slider/Index';
 import GoldOptions from '~/components/Product Gold Options/GoldOptions';
+import GoldOptionSolidVermeil from '~/components/Product Gold Options/GoldOptionSolidVermeil';
 import useCalculateShipDay from '~/hooks/useCalculateShipDay';
 import ProductOptionContext from '~/store/productOptionsContext';
 import {getVariantUrl} from '~/utils';
@@ -582,7 +583,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
           ) : (
             ''
           )}
-
+          <GoldOptionSolidVermeil tags={tags} url={product.handle} />
           {carats.length > 0 ? (
             <CaratOptions
               carats={carats}
