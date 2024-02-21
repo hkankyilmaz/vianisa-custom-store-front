@@ -505,17 +505,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
   function removeclick() {
     setviewOp(false);
   }
-  const navigate = useNavigate();
 
-  const handleSelectChange = (e) => {
-    e.target.value === 'moissanite'
-      ? navigate(matches.replace('lab-grown-diamond', 'moissanite'))
-      : navigate(matches.replace('moissanite', 'lab-grown-diamond'));
-  };
-  const stonetype = matches.includes('moissanite')
-    ? 'moissanite'
-    : 'lab-grown-diamond';
-  // console.log(matches, selectedValue);
   let goldOps =
     product.collections.nodes.find(
       (coll) =>
@@ -523,15 +513,6 @@ function ProductMain({selectedVariant, product, variants, cart}) {
         coll.title === 'Gold Vermeil Birthstone Jewelry',
     ) && !product.tags.includes('only_solid_gold');
 
-  // console.log(
-  //   goldOps,
-  //   product.collections.nodes.find(
-  //     (coll) =>
-  //       coll.title === 'Birthstone Jewelry' ||
-  //       coll.title === 'Gold Vermeil Birthstone Jewelry',
-  //   ),
-  //   product.tags,
-  // );
   return (
     <>
       <div className="product-main-wrapper sm:flex sm:justify-center">
