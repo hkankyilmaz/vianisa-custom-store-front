@@ -300,7 +300,7 @@ const CarouselItem = ({item}) => {
 const CarouselItemGroup = ({items, itemsPerGroup}) => {
   return (
     <motion.div
-      className="grid min-w-[62%] sm:min-w-[48%] lg:min-w-full flex-1 max-lg:first-of-type:ml-[26%] max-sm:first-of-type:ml-[19%]"
+      className="grid min-w-[62%] max-md:h-[307px] sm:min-w-[48%] lg:min-w-full flex-1 max-lg:first-of-type:ml-[26%] max-sm:first-of-type:ml-[19%]"
       style={{gridTemplateColumns: `repeat(${itemsPerGroup}, minmax(0, 1fr))`}}
     >
       {items.map((item, index) => (
