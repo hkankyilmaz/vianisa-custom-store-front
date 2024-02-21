@@ -582,9 +582,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
               types={['goldvermeil', 'solid']}
               url={product.handle}
             />
-          ) : (
-            ''
-          )}
+          ) : undefined}
           <GoldOptionSolidVermeil tags={tags} url={product.handle} />
           {carats.length > 0 ? (
             <CaratOptions
