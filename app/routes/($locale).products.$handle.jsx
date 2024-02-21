@@ -472,7 +472,6 @@ function ViewPlanMain({price, className, close}) {
 }
 function ProductMain({selectedVariant, product, variants, cart}) {
   const [isOpenGemStoneOpt, setIsGemStoneOpt] = useState(false);
-  // const ctArr = ['-1-50-ct', '-1-00-ct', '-2-00-ct'];
   const {title, descriptionHtml, tags} = product;
   const matches = useMatches()[1].pathname;
   const modifiedStringwithCarat = product.handle.slice(0, -8);
