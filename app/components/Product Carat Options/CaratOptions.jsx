@@ -7,7 +7,7 @@ export default function CaratOptions({
 }) {
   return (
     <div className=" mb-6 flex justify-start items-center gap-[5px]">
-      <h5 className="h-full font-bold text-[13px] mr-5 flex justify-center items-center font-avenir-medium text-[#2f2f2f] pt-[10px]">
+      <h5 className="h-full font-bold text-[13px] md:mr-5 flex justify-center items-center font-avenir-medium text-[#2f2f2f] pt-[10px]">
         Total Carat Weight:
       </h5>
       <div className="h-full flex justify-center items-center gap-[5px]">
