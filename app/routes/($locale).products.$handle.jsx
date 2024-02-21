@@ -650,7 +650,7 @@ function ProductMain({selectedVariant, product, variants, cart}) {
           </div>
           <div className="flex justify-center items-center my-[10px] text-[13px] font-body text-[#2f2f2f]">
             {/* <FcShipped className="text-5xl mr-3" /> */}
-            <span className="">
+            <span className="max-md:text-[12px]">
               Order this item now and we will ship by{' '}
               <span className="font-bold">{shipDtae}</span>
             </span>{' '}

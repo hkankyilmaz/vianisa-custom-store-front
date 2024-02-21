@@ -42,7 +42,7 @@ function FeaturedCollection({
         <Carousel items={items} itemsPerGroup={4} />
       </div>
       {showButton && (
-        <div className="mt-[80px] flex justify-center items-center">
+        <div className="mt-[40px] flex justify-center items-center">
           <Link
             to={constructUrl(data.collection?.title)}
             className="inline-block text-[var(--feat-col-prod-btn-fg)] bg-[var(--feat-col-prod-btn-bg)] border border-solid border-[var(--feat-col-prod-btn-bg)] text-[11px] font-avenir-medium uppercase tracking-[.2em] transition-all ease-css-ease duration-[.35s] hover:text-[var(--feat-col-prod-btn-fg-hover)] hover:bg-[var(--feat-col-prod-btn-bg-hover)] py-[14px] px-[28px] leading-[normal]"
@@ -300,7 +300,7 @@ const CarouselItem = ({item}) => {
 const CarouselItemGroup = ({items, itemsPerGroup}) => {
   return (
     <motion.div
-      className="grid min-w-[62%] max-md:h-[307px] sm:min-w-[48%] lg:min-w-full flex-1 max-lg:first-of-type:ml-[26%] max-sm:first-of-type:ml-[19%]"
+      className="grid min-w-[62%] max-sm:h-[307px] sm:min-w-[48%] lg:min-w-full flex-1 max-lg:first-of-type:ml-[1%] max-sm:first-of-type:ml-[5%]"
       style={{gridTemplateColumns: `repeat(${itemsPerGroup}, minmax(0, 1fr))`}}
     >
       {items.map((item, index) => (
@@ -329,7 +329,7 @@ function Item({product, className = '', recom}) {
       }}
     >
       <div className="w-full relative overflow-hidden aspect-square h-auto flex items-center">
-        <div className="uppercase absolute top-1.5 left-2.5 my-1 py-0.5 px-1.5 tracking-[.2em] text-[var(--text-color-light)] font-avenir-medium lg:font-avenir-medium transition-[color] ease-css-ease-in-out duration-200 text-[8px] sm:text-[10px]">
+        <div className="uppercase absolute top-0 left-0.5 my-1 py-0.5 tracking-[.2em] text-[var(--text-color-light)] font-avenir-medium lg:font-avenir-medium transition-[color] ease-css-ease-in-out duration-200 text-[8px] sm:text-[10px]">
           on sale
         </div>
         <Image
@@ -355,7 +355,7 @@ function Item({product, className = '', recom}) {
           }}
         />
       </div>
-      <div className="uppercase text-left whitespace-normal tracking-[.2em] text-[var(--heading-color)] font-avenir-medium text-[10px] mt-5 mb-1 transition-[color] ease-css-ease-in-out duration-200 sm:text-[11px]">
+      <div className="uppercase text-left whitespace-normal tracking-[.2em] text-[var(--heading-color)] font-avenir-medium text-[10px] mb-1 transition-[color] ease-css-ease-in-out duration-200 sm:text-[11px]">
         {product?.title}
       </div>
       <div className="tracking-[.2em] font-avenir-medium transition-[color] ease-css-ease-in-out duration-200 text-[var(--heading-color)] text-[10px] sm:text-[11px]">
