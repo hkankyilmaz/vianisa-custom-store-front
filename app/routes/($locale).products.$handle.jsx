@@ -493,6 +493,8 @@ function ProductMain({selectedVariant, product, variants, cart}) {
     carats = ['0.5', '1', '1.5', '2'];
   } else if (tags.find((tag) => tag === 'Carat_Options_1_15_20_25')) {
     carats = ['1', '1.5', '2', '2.5'];
+  } else if (tags.find((tag) => tag === 'Carat_Options_15_20_25')) {
+    carats = ['1.5', '2', '2.5'];
   }
 
   useEffect(() => {
