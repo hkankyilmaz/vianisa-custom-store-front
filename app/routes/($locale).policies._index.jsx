@@ -20,7 +20,7 @@ export default function Policies() {
       <h1 className="underline">Policies</h1>
       <div>
         <fieldset>
-          <Link to={'/pagex/shipping-and-returns'}>Free Shipping</Link>
+          <Link to={'/policies/free-shipping'}>Free Shipping</Link>
         </fieldset>
         {policies.map((policy) => {
           if (!policy) return null;
