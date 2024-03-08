@@ -15,21 +15,16 @@ import {Script, useNonce} from '@shopify/hydrogen';
 import {defer} from '@shopify/remix-oxygen';
 import {Layout} from '~/components/Layout';
 import favicon from '../public/favicon.webp';
-import favicon_ from '../public/v_harf.svg';
+import {useEffect} from 'react';
 import MessengerCustomerChat from './components/Facebook-Chat/FacebookChat';
 import NotFound from './components/NotFound';
 import dotSliderStyles from './components/Product Carausel Image Dot Slider/embla.css';
 import appStyles from './styles/app.css';
 import tailwindCss from './styles/tailwind.css';
 import {useLocation} from '@remix-run/react';
-
+import * as gtag from '~/gtags.client';
 export const handle = {
   breadcrumb: 'Home',
-};
-
-// Load the GA tracking id from the .env
-export const loader = async () => {
-  return json({gaTrackingId: process.env.GA_TRACKING_ID});
 };
 
 // This is important to avoid re-fetching root queries on sub-navigations
@@ -46,17 +41,6 @@ export const shouldRevalidate = ({formMethod, currentUrl, nextUrl}) => {
 
   return false;
 };
-/* function isDarkModeEnabled() {
-  // Media query kullanarak tarayıcıdaki dark mode durumunu kontrol et
-  if (
-    window.matchMedia &&
-    window.matchMedia('(prefers-color-scheme: dark)').matches
-  ) {
-    return favicon_; // Dark mode aktif
-  } else {
-    return favicon; // Dark mode aktif değil
-  }
-} */
 
 export function links() {
   return [
@@ -76,15 +60,6 @@ export function links() {
 }
 //
 export async function loader({context}) {
-  const location = useLocation();
-  const {gaTrackingId} = useLoaderData();
-
-  useEffect(() => {
-    if (gaTrackingId?.length) {
-      gtag.pageview(location.pathname, gaTrackingId);
-    }
-  }, [location, gaTrackingId]);
-
   const {storefront, session, cart} = context;
   const customerAccessToken = await session.get('customerAccessToken');
   const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
@@ -121,6 +96,7 @@ export async function loader({context}) {
       header: await headerPromise,
       isLoggedIn,
       publicStoreDomain,
+      gaTrackingId: 'G-RWSHT8YW9T',
     },
     {headers},
   );
@@ -129,6 +105,15 @@ export async function loader({context}) {
 export default function App() {
   const nonce = useNonce();
   const data = useLoaderData();
+
+  const location = useLocation();
+  const {gaTrackingId} = useLoaderData();
+
+  useEffect(() => {
+    if (gaTrackingId?.length) {
+      gtag.pageview(location.pathname, gaTrackingId);
+    }
+  }, [location, gaTrackingId]);
 
   String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
