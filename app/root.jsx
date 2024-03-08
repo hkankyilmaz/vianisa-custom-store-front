@@ -74,7 +74,7 @@ export function links() {
     {rel: 'icon', type: 'image/webp', href: favicon},
   ];
 }
-
+//
 export async function loader({context}) {
   const location = useLocation();
   const {gaTrackingId} = useLoaderData();
