@@ -21,9 +21,15 @@ import NotFound from './components/NotFound';
 import dotSliderStyles from './components/Product Carausel Image Dot Slider/embla.css';
 import appStyles from './styles/app.css';
 import tailwindCss from './styles/tailwind.css';
+import {useLocation} from '@remix-run/react';
 
 export const handle = {
   breadcrumb: 'Home',
+};
+
+// Load the GA tracking id from the .env
+export const loader = async () => {
+  return json({gaTrackingId: process.env.GA_TRACKING_ID});
 };
 
 // This is important to avoid re-fetching root queries on sub-navigations
@@ -70,6 +76,15 @@ export function links() {
 }
 
 export async function loader({context}) {
+  const location = useLocation();
+  const {gaTrackingId} = useLoaderData();
+
+  useEffect(() => {
+    if (gaTrackingId?.length) {
+      gtag.pageview(location.pathname, gaTrackingId);
+    }
+  }, [location, gaTrackingId]);
+
   const {storefront, session, cart} = context;
   const customerAccessToken = await session.get('customerAccessToken');
   const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
@@ -110,14 +125,7 @@ export async function loader({context}) {
     {headers},
   );
 }
-function as() {
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-  gtag('js', new Date());
-  gtag('config', 'G-RWSHT8YW9T');
-}
+
 export default function App() {
   const nonce = useNonce();
   const data = useLoaderData();
@@ -136,6 +144,29 @@ export default function App() {
         <Links />
       </head>
       <body>
+        {process.env.NODE_ENV === 'development' || !gaTrackingId ? null : (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`}
+            />
+            <script
+              async
+              id="gtag-init"
+              dangerouslySetInnerHTML={{
+                __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', '${gaTrackingId}', {
+                  page_path: window.location.pathname,
+                });
+              `,
+              }}
+            />
+          </>
+        )}
         <Layout {...data}>
           <Outlet />
         </Layout>
@@ -143,14 +174,6 @@ export default function App() {
           nonce={nonce}
           src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=YvBnBA"
         />
-        <Script
-          nonce={nonce}
-          src="https://www.googletagmanager.com/gtag/js?id=G-RWSHT8YW9T"
-        />
-        {/* <Script nonce={nonce} src="./index.js" /> */}
-        {/* <script>
-          
-        </script> */}
         <MessengerCustomerChat />
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
