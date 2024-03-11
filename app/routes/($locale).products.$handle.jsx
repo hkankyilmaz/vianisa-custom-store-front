@@ -756,7 +756,6 @@ function ProductForm({product, selectedVariant, variants}) {
       >
         {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
       </AddToCartButton>
-
       <ShopPayButton
         className="mt-[20px] text-xs"
         width="100%"
@@ -911,93 +910,20 @@ function AddToCartButton({analytics, disabled, lines, product, logs}) {
             cardInfo={logs}
             show={showErrorMessage}
           />
-          <div className="flex mt-[15px]">
-            <button
-              onClick={() => setShowErrorMessage(true)}
-              className="border flex items-center justify-center w-full align-middle 
-             px-2 py-3 h-auto text-[11px] font-bold uppercase bg-[#2f2f2f]
+          <button
+            onClick={() => setShowErrorMessage(true)}
+            className="border flex items-center justify-center w-full align-middle 
+            mt-[15px] px-2 py-3 h-auto text-[11px] font-bold uppercase bg-[#2f2f2f]
           border-[#2f2f2f] tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-[#2f2f2f]"
-              style={{transition: 'all ease 150ms'}}
-              type="submit"
-              disabled={disabled ?? fetcher.state !== 'idle'}
-            >
-              Add To Cart
-            </button>
-            <WishlistButton
-              productId={product.id}
-              isInWishlist={product.isInWishlist}
-            />
-          </div>
+            style={{transition: 'all ease 150ms'}}
+            type="submit"
+            disabled={disabled ?? fetcher.state !== 'idle'}
+          >
+            Add To Cart
+          </button>
         </>
       )}
     </CartForm>
-  );
-}
-function WishlistButton({productId}) {
-  function addToWishlist(productId) {
-    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-    if (!wishlist.includes(productId)) {
-      wishlist.push(productId);
-      localStorage.setItem('wishlist', JSON.stringify(wishlist));
-      document.cookie = `wishlist=${JSON.stringify(wishlist)}; path=/;`;
-      setIsInWishlist(true);
-    }
-  }
-
-  function removeFromWishlist(productId) {
-    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-    wishlist = wishlist.filter((id) => id !== productId);
-    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-    document.cookie = `wishlist=${JSON.stringify(wishlist)}; path=/;`;
-    setIsInWishlist(false);
-  }
-
-  function getWishlist() {
-    return JSON.parse(localStorage.getItem('wishlist')) || [];
-  }
-
-  function handleToggle() {
-    if (isInWishlist) {
-      removeFromWishlist(productId);
-    } else {
-      addToWishlist(productId);
-    }
-  }
-
-  const [isInWishlist, setIsInWishlist] = useState();
-
-  useEffect(() => {
-    const wishlist = getWishlist();
-    setIsInWishlist(wishlist.includes(productId));
-  }, [productId]);
-
-  return (
-    <button
-      onClick={handleToggle}
-      style={{
-        padding: 15,
-        borderRadius: 999,
-        border: '1px solid #8c8c8c',
-        marginLeft: 10,
-        transition: 'all ease 150ms',
-      }}
-      className="hover:bg-[#fff0e7] hover:text-[#2f2f2f]"
-    >
-      <svg
-        fill={isInWishlist ? 'red' : 'none'}
-        style={{
-          transition: 'fill 0.3s ease',
-        }}
-        width="15"
-        height="15"
-        viewBox="0 0 24 24"
-        stroke="#000"
-        stroke-width="3"
-        stroke-linecap="round"
-      >
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-      </svg>
-    </button>
   );
 }
 function MorePaymentsButton({analytics, children, lines}) {
