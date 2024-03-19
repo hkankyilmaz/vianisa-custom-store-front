@@ -124,7 +124,23 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-
+        <script>
+          jdgm = window.jdgm || {};jdgm.SHOP_DOMAIN =
+          'vianisa.myshopify.com';jdgm.PLATFORM = 'shopify';jdgm.PUBLIC_TOKEN =
+          'j_u_RQfNICusgIMbNBKbQYJPx4U';
+        </script>
+        <script
+          data-cfasync="false"
+          type="text/javascript"
+          async
+          src="https://cdn.judge.me/widget_preloader.js"
+        ></script>
+        <script
+          data-cfasync="false"
+          type="text/javascript"
+          async
+          src="https://cdn1.judge.me/assets/installed.js"
+        ></script>
         <Meta />
         <Links />
       </head>
