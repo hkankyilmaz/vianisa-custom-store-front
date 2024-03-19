@@ -971,31 +971,17 @@ function AddToCartButton({analytics, disabled, lines, product, logs}) {
             className="border flex items-center justify-center w-full align-middle 
             mt-[15px] px-2 py-3 h-auto text-[11px] font-bold uppercase bg-[#2f2f2f]
           border-[#2f2f2f] tracking-[2.2px] text-white hover:bg-[#fff0e7] hover:text-[#2f2f2f]"
-<<<<<<< Updated upstream
             style={{transition: 'all ease 150ms'}}
             type="submit"
             disabled={disabled ?? fetcher.state !== 'idle'}
           >
             Add To Cart
           </button>
-=======
-              style={{transition: 'all ease 150ms'}}
-              type="submit"
-              disabled={disabled ?? fetcher.state !== 'idle'}
-            >
-              Add To Cart
-            </button>
-          </div>
->>>>>>> Stashed changes
         </>
       )}
     </CartForm>
   );
 }
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 function MorePaymentsButton({analytics, children, lines}) {
   return (
     <CartForm
