@@ -7,6 +7,7 @@ import {
 } from '~/components/Search';
 import Drawer from './Drawer';
 import MegaMenu from './MegaMenu';
+import {useWishlist} from '~/store/wishlistContext';
 export function Header({header, isLoggedIn}) {
   const ref = React.useRef();
   const [megaMenu, setMegaMenu] = useState({isOpen: false, title: 'none'});
@@ -329,6 +330,19 @@ function CustomLink({title, to, onClick, onHover, isHeaderHover}) {
 }
 
 function HeaderCtas({isLoggedIn}) {
+  const [wishlistCount, setWishlistCount] = useState(0);
+
+  // useEffect(() => {
+  //   const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+  //   setWishlistCount(wishlist.length);
+  // }, []);
+
+  const {wishlist} = useWishlist();
+
+  useEffect(() => {
+    setWishlistCount(wishlist.length);
+  }, [wishlist]);
+
   return (
     <nav
       className="flex items-center gap-[18px] sm:gap-[25px] text-[#808080cc] flex-[1_0_0] justify-end"
@@ -358,6 +372,49 @@ function HeaderCtas({isLoggedIn}) {
           </g>
         </svg>
       </NavLink>
+<<<<<<< Updated upstream
+=======
+      <NavLink
+        prefetch="intent"
+        to={`/wishlist`}
+        className="!text-[#808080cc] max-sm:hidden"
+        style={{...activeLinkStyle, position: 'relative'}}
+      >
+        <span
+          className="show-badge is-visible absolute top-0 right-0"
+          data-count={wishlistCount}
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: -4,
+            width: 8,
+            height: 8,
+            borderRadius: '100%',
+            backgroundColor: '#2f2f2f',
+            boxShadow: '0 0 0 2px white',
+            // transform: 'scale(0)',
+            transition: 'all .3s ease-in-out',
+            display: 'block',
+            transform: wishlistCount > 0 ? 'scale(1)' : 'scale(0)',
+          }}
+        ></span>
+        <svg
+          fill={'none'}
+          style={{
+            transition: 'fill 0.3s ease',
+          }}
+          width="23"
+          height="23"
+          viewBox="0 0 24 24"
+          stroke="#808080cc"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+      </NavLink>
+
+>>>>>>> Stashed changes
       <SearchToggle />
       {/* <WishlistToggle /> */}
       <CartToggle />
