@@ -36,6 +36,11 @@ import {
 
 import extraInputsStyles from '../components/Product Extra Inputs/styles.css';
 import * as GemStones from '../components/Gemstones/index';
+// import JudgemeReview from '~/components/JudgemeReviews/Index';
+import {JudgemeReviewWidget} from '@judgeme/shopify-hydrogen';
+import WishlistButton from '~/components/Wishlist Button/WishlistButton';
+
+const cheerio = require('cheerio');
 
 export const links = () => [{rel: 'stylesheet', href: extraInputsStyles}];
 
@@ -120,6 +125,40 @@ export async function loader({params, request, context}) {
   const variants = storefront.query(VARIANTS_QUERY, {
     variables: {handle},
   });
+  const apiUrl = `https://judge.me/api/v1/widgets/product_review?shop_domain=${context.env.PUBLIC_STORE_DOMAIN}&api_token=${context.env.PRIVATE_JUDGEME_API_TOKEN}&handle=${product.handle}`;
+
+  const res = await fetch(apiUrl);
+
+  const featuredReviews = await res.json();
+
+  // const $ = cheerio.load(featuredReviews.widget);
+
+  // const reviews = [];
+
+  // $('.jdgm-rev').each((index, element) => {
+  //   const review = {};
+
+  //   review.Verified = $(element).attr('data-verified-buyer') === 'true';
+  //   review.Title = $(element).find('.jdgm-rev__title').text();
+  //   // review.imageURL = $(element).find('.jdgm-rev__pics img').attr('src');
+  //   review.Image = $(element).find('.jdgm-rev__pic-link').attr('href');
+  //   review.Star = $(element).find('.jdgm-rev__rating').attr('data-score');
+  //   review.Content = $(element).find('.jdgm-rev__body').text();
+  //   review.User = $(element).find('.jdgm-rev__author').text();
+  //   const date = new Date(
+  //     $(element).find('.jdgm-rev__timestamp').attr('data-content'),
+  //   );
+  //   const formattedDate = date.toLocaleDateString('en-US', {
+  //     month: 'short',
+  //     day: 'numeric',
+  //     year: 'numeric',
+  //   });
+  //   review.Date = formattedDate;
+  //   review.Reviews_link = '#';
+  //   review.User_link = '#';
+
+  //   reviews.push(review);
+  // });
 
   return defer({
     product,
@@ -128,6 +167,8 @@ export async function loader({params, request, context}) {
     cart,
     card_view,
     recommendedProducts,
+    // reviews,
+    featuredReviews,
   });
 }
 
@@ -149,7 +190,9 @@ function redirectToFirstVariant({product, request}) {
 }
 
 export default function Product() {
-  const {product, variants, cart, featuredCollectionTwo} = useLoaderData();
+  const {product, variants, cart, featuredCollectionTwo, featuredReviews} =
+    useLoaderData();
+
   const {selectedVariant} = product;
 
   const images = [{...product.selectedVariant.image}, ...product.images.nodes];
@@ -166,6 +209,7 @@ export default function Product() {
           options={OPTIONS}
           imageByIndex={imageByIndex}
           startIndex={0}
+          product={product}
         />
 
         <div className="flex flex-wrap flex-col max-sm:mb-[28px] mb-[65px] lg:hidden">
@@ -174,6 +218,11 @@ export default function Product() {
             options={OPTIONS}
             imageByIndex={imageByIndex}
             startIndex={0}
+          />
+          <WishlistButton
+            productId={product.id}
+            isInWishlist={product.isInWishlist}
+            style={{right: 20, marginTop: 20}}
           />
         </div>
 
@@ -188,7 +237,19 @@ export default function Product() {
         title="You May Also Like"
         data={featuredCollectionTwo}
       />
-      <EtsyReview />
+      {/* <EtsyReview /> */}
+      {/* {reviews.length > 0 && ( */}
+      <div>
+        {/* <div className="mb-[40px] lg:mb-[20px] w-full">
+          <h2 className="text-[20px] md:text-[28px] font-optima-normal uppercase text-center text-[var(--heading-color)] px-6 sm:px-[50px] min-[1140px]:px-[80px]">
+            {'Reviews'}
+          </h2>
+        </div> */}
+        {/* <JudgemeReview collection={reviews} /> */}
+        <JudgemeReviewWidget id={product.id} />
+        {/* <div dangerouslySetInnerHTML={{__html: featuredReviews.widget}} /> */}
+      </div>
+      {/* )} */}
     </div>
   );
 }

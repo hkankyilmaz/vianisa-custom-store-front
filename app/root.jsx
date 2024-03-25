@@ -23,6 +23,8 @@ import appStyles from './styles/app.css';
 import tailwindCss from './styles/tailwind.css';
 import {useLocation} from '@remix-run/react';
 import * as gtag from '~/gtags.client';
+import {useJudgeme} from '@judgeme/shopify-hydrogen';
+import {Toaster} from 'react-hot-toast';
 export const handle = {
   breadcrumb: 'Home',
 };
@@ -97,6 +99,12 @@ export async function loader({context}) {
       isLoggedIn,
       publicStoreDomain,
       gaTrackingId: 'G-RWSHT8YW9T',
+      judgeme: {
+        shopDomain: context.env.JUDGEME_SHOP_DOMAIN,
+        publicToken: context.env.JUDGEME_PUBLIC_TOKEN,
+        cdnHost: context.env.JUDGEME_CDN_HOST,
+        delay: 500,
+      },
     },
     {headers},
   );
@@ -108,6 +116,10 @@ export default function App() {
 
   const location = useLocation();
   const {gaTrackingId} = useLoaderData();
+
+  console.log('ramansssss', data.judgeme);
+
+  useJudgeme(data.judgeme);
 
   useEffect(() => {
     if (gaTrackingId?.length) {
@@ -155,6 +167,7 @@ export default function App() {
         <Layout {...data}>
           <Outlet />
         </Layout>
+        <Toaster />
         <Script
           nonce={nonce}
           src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=YvBnBA"

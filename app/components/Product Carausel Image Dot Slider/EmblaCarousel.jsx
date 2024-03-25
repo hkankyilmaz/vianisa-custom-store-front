@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import { Image } from '@shopify/hydrogen';
+import {Image} from '@shopify/hydrogen';
 import useEmblaCarousel from 'embla-carousel-react';
 import {
   DotButton,
@@ -61,7 +61,7 @@ const DotCarousel = (props) => {
                   className="embla__slide__img"
                   src={imageByIndex(index).url}
                   alt="Your alt text"
-                  loading='eager'
+                  loading="eager"
                 />
               </div>
             ))}
@@ -72,21 +72,29 @@ const DotCarousel = (props) => {
       </div>
 
       <div className="embla__dots mt-5 h-7">
-        <PrevButton className="w-4 flex justify-center" onClick={scrollPrev} disabled={prevBtnDisabled} />
+        <PrevButton
+          className="w-4 flex justify-center"
+          onClick={scrollPrev}
+          disabled={prevBtnDisabled}
+        />
 
-        <div className='flex flex-wrap justify-center items-center max-[300px]:w-[50vw]'>
-        {scrollSnaps.map((_, index) => (
-          <DotButton
-          key={index}
-          onClick={() => scrollTo(index)}
-          className={'embla__dot w-3 h-3 max-sm:w-[10px] max-sm:h-[10px]'.concat(
-            index === selectedIndex ? ' embla__dot--selected' : '',
-            )}
+        <div className="flex flex-wrap justify-center items-center max-[300px]:w-[50vw]">
+          {scrollSnaps.map((_, index) => (
+            <DotButton
+              key={index}
+              onClick={() => scrollTo(index)}
+              className={'embla__dot w-3 h-3 max-sm:w-[10px] max-sm:h-[10px]'.concat(
+                index === selectedIndex ? ' embla__dot--selected' : '',
+              )}
             />
-            ))}
+          ))}
         </div>
-        
-        <NextButton className="w-4 flex justify-center" onClick={scrollNext} disabled={nextBtnDisabled} />
+
+        <NextButton
+          className="w-4 flex justify-center"
+          onClick={scrollNext}
+          disabled={nextBtnDisabled}
+        />
       </div>
     </>
   );

@@ -6,6 +6,7 @@ import FeaturedCollection from '~/components/Featured Collections/FeaturedCollec
 import CollectionList from '~/components/Cllection List/Index';
 import BannerSlider from '../components/Header/Slider';
 import EtsyList from '../components/EtsyReviews/Index';
+import JudgemeReview from '~/components/JudgemeReviews';
 
 export const meta = () => {
   return [
@@ -24,6 +25,7 @@ export const meta = () => {
 
 export async function loader({context}) {
   const {storefront} = context;
+
   const featuredCollection = await storefront.query(FEATURED_COLLECTION_QUERY, {
     variables: {
       handle: 'moissanite-engagement-rings',
@@ -37,16 +39,45 @@ export async function loader({context}) {
       },
     },
   );
+  // const apiUrl = `https://judge.me/api/v1/widgets/featured_carousel?shop_domain=${context.env.PUBLIC_STORE_DOMAIN}&api_token=${context.env.PUBLIC_JUDGEME_API_TOKEN}`;
+  const apiUrl = `https://judge.me/api/v1/reviews?shop_domain=${context.env.PUBLIC_STORE_DOMAIN}&api_token=${context.env.PRIVATE_JUDGEME_API_TOKEN}&rating=5&per_page=30`;
 
-  return defer({featuredCollection, featuredCollectionTwo});
+  const res = await fetch(apiUrl);
+
+  const featuredReviews = await res.json();
+
+  const reviews = featuredReviews.reviews.map((coll) => {
+    const date = new Date(coll.created_at);
+    const formattedDate = date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+
+    return {
+      Verified: coll.verified == 'buyer' || coll.verified == 'admin',
+      Title: coll.title,
+      Image: coll.pictures[0]?.urls.original,
+      Star: coll.rating,
+      Content: coll.body,
+      User: coll.reviewer.name,
+      User_link: '#',
+      Date: formattedDate,
+      Reviews_link: '#',
+    };
+  });
+
+  return defer({featuredCollection, featuredCollectionTwo, reviews});
 }
 
 export default function Homepage() {
   const data = useLoaderData();
+
   const nonce = useNonce();
+
   return (
     <div className="home">
-      <BannerSlider  />
+      <BannerSlider />
       <FeaturedCollection data={data.featuredCollection} showButton />
       <CollectionList />
       <FeaturedCollection
@@ -54,12 +85,35 @@ export default function Homepage() {
         showButton
         className="!py-0 lg:!py-0"
       />
-      <div className="my-10  flex flex-row text-center justify-center items-center">
+      {/* <div className="my-10  flex flex-row text-center justify-center items-center">
         <EtsyList className="grid  grid-cols-4  gap-4" />
+      </div> */}
+      <div style={{marginTop: 102}}>
+        <h2 className="text-[20px] md:text-[28px] font-optima-normal uppercase text-center text-[var(--heading-color)] px-6 sm:px-[50px] min-[1140px]:px-[80px]">
+          {'Our Reviews'}
+        </h2>
       </div>
+      <div className="my-10 mt-10 flex flex-row text-center justify-center items-center">
+        <JudgemeReview
+          className="grid  grid-cols-4  gap-4"
+          collection={data.reviews}
+        />
+      </div>
+      {/* <Suspense fallback={<div></div>}>
+        <Await resolve={data.featuredReviews}>
+          {(resolvedData) => (
+            // <div className="my-10  flex flex-row text-center justify-center items-center">
+            <div
+              dangerouslySetInnerHTML={{
+                __html: resolvedData.featured_carousel,
+              }}
+            />
+            // </div>
+          )}
+        </Await>
+      </Suspense> */}
       {/* <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} /> */}
-  
     </div>
   );
 }

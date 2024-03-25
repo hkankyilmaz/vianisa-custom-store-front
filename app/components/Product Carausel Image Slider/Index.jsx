@@ -2,9 +2,11 @@ import React, {useState, useEffect, useCallback} from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import {Thumb} from './CarouselThumbsButton';
 import {Image} from '@shopify/hydrogen';
+// import {useWishlist} from '~/store/wishlistContext';
+import WishlistButton from '../Wishlist Button/WishlistButton';
 
 const EmblaCarousel = (props) => {
-  const {slides, options, imageByIndex, startIndex} = props;
+  const {slides, options, imageByIndex, startIndex, product} = props;
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [emblaMainRef, emblaMainApi] = useEmblaCarousel(options);
   const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
@@ -36,7 +38,11 @@ const EmblaCarousel = (props) => {
 
   return (
     <div className="embla slider-product max-lg:hidden ml-[50px]">
-      <div className="embla__viewport" ref={emblaMainRef}>
+      <div
+        className="embla__viewport"
+        ref={emblaMainRef}
+        style={{position: 'relative'}}
+      >
         <div className="embla__container">
           {slides.map((index) => (
             <div className="embla__slide h-full" key={index}>
@@ -52,6 +58,11 @@ const EmblaCarousel = (props) => {
             </div>
           ))}
         </div>
+        <WishlistButton
+          productId={product.id}
+          isInWishlist={product.isInWishlist}
+          style={{top: 20, right: 20}}
+        />
       </div>
 
       <div className="embla-thumbs">
