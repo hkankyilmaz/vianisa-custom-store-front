@@ -40,8 +40,6 @@ import * as GemStones from '../components/Gemstones/index';
 import {JudgemeReviewWidget} from '@judgeme/shopify-hydrogen';
 import WishlistButton from '~/components/Wishlist Button/WishlistButton';
 
-const cheerio = require('cheerio');
-
 export const links = () => [{rel: 'stylesheet', href: extraInputsStyles}];
 
 export const handle = {
