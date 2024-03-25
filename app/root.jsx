@@ -118,6 +118,7 @@ export default function App() {
   const {gaTrackingId} = useLoaderData();
 
   console.log('ramansssss', data.judgeme);
+  console.log('ramansssss', data);
 
   useJudgeme(data.judgeme);
 
