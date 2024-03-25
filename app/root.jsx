@@ -117,9 +117,6 @@ export default function App() {
   const location = useLocation();
   const {gaTrackingId} = useLoaderData();
 
-  console.log('ramansssss', data.judgeme);
-  console.log('ramansssss', data);
-
   useJudgeme(data.judgeme);
 
   useEffect(() => {
