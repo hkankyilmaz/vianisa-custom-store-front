@@ -237,7 +237,7 @@ export default function Product() {
       />
       {/* <EtsyReview /> */}
       {/* {reviews.length > 0 && ( */}
-      <div>
+      <div className="font-avenir-medium">
         {/* <div className="mb-[40px] lg:mb-[20px] w-full">
           <h2 className="text-[20px] md:text-[28px] font-optima-normal uppercase text-center text-[var(--heading-color)] px-6 sm:px-[50px] min-[1140px]:px-[80px]">
             {'Reviews'}
