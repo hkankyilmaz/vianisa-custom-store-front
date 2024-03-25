@@ -46,7 +46,7 @@ export async function loader({context}) {
 
   const featuredReviews = await res.json();
 
-  const reviews = featuredReviews.reviews.map((coll) => {
+  const reviews = featuredReviews?.reviews.map((coll) => {
     const date = new Date(coll.created_at);
     const formattedDate = date.toLocaleDateString('en-US', {
       month: 'short',
