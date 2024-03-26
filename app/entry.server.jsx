@@ -17,8 +17,15 @@ export default async function handleRequest(
       'https://static.klaviyo.com',
       'https://cdn.shopify.com',
       'https://shopify.com',
+      'https://judge.me',
+      'https://api.judge.me',
     ],
-
+    connectSrc: [
+      "'self'",
+      'https://cdn.judge.me',
+      'https://cache.judge.me',
+      'https://judge.me',
+    ],
     styleSrc: [
       "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; ",
       "script-src * data: blob: 'unsafe-inline' 'unsafe-eval';",

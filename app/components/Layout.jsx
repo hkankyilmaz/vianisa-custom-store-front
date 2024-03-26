@@ -7,6 +7,7 @@ import {CartMain} from './Cart';
 import AnnouncementBar from './AnnouncementBar';
 import ProductModal from './Product Popover/ProductModal';
 import {ProductContextProvider} from '~/store/productOptionsContext';
+import {WishlistProvider} from '~/store/wishlistContext';
 
 export function Layout({cart, children = null, footer, header, isLoggedIn}) {
   const ref = useRef();
@@ -21,19 +22,21 @@ export function Layout({cart, children = null, footer, header, isLoggedIn}) {
       {isLoaded && (
         <>
           <ProductContextProvider>
-            <CartModal cart={cart} />
-            <SearchModal />
-            <ProductModal />
-            <div ref={ref}>
-              <AnnouncementBar />
-              <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />
-            </div>
-            <main className="relative">{children}</main>
-            <Suspense>
-              <Await resolve={footer}>
-                {(footer) => <Footer menu={footer.menu} />}
-              </Await>
-            </Suspense>
+            <WishlistProvider>
+              <CartModal cart={cart} />
+              <SearchModal />
+              <ProductModal />
+              <div ref={ref}>
+                <AnnouncementBar />
+                <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />
+              </div>
+              <main className="relative">{children}</main>
+              <Suspense>
+                <Await resolve={footer}>
+                  {(footer) => <Footer menu={footer.menu} />}
+                </Await>
+              </Suspense>
+            </WishlistProvider>
           </ProductContextProvider>
         </>
       )}
